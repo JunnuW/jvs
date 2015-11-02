@@ -1,0 +1,14 @@
+{
+  "name": "js-math-complex",
+  "homepage": "https://github.com/dankogai/js-math-complex",
+  "_release": "88706cac26",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "88706cac2605e3f0dc2a5e5162f8133865d53a07"
+  },
+  "_source": "git://github.com/dankogai/js-math-complex.git",
+  "_target": "*",
+  "_originalSource": "git://github.com/dankogai/js-math-complex.git",
+  "_direct": true
+}
