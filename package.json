@@ -24,7 +24,7 @@
     "npm": ">= 1.0.0"
   },
   "dependencies": {
-    "express": "~4.13.3"
+    "express": "~4.13.3",
     "async": "~1.5.0",
     "body-parser": "~1.10.2",
     "config": "~1.10.0",
