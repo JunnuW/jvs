@@ -1,22 +1,23 @@
 {
-  "name": "OpenShift-Sample-App",
-  "version": "1.0.0",
-  "description": "OpenShift Sample Application",
+  "name": "jvs-rockphys",
+  "version": "0.0.1",
+  "description": "JV's web page applications",
   "keywords": [
-    "OpenShift",
-    "Node.js",
-    "application",
-    "openshift"
+    "Physics rocks",
+    "Rocking physics",
+    "Rocket science",
+    "Thinnfilm optics",
+    "Quantum well spectral broadening"
   ],
   "author": {
-    "name": "OpenShift",
-    "email": "ramr@example.org",
-    "url": "http://www.openshift.com/"
+    "name": "Juha Viljanen",
+    "email": "juha.wiljanen@gmail.com",
+    "url": "http://jvs-rockphys.rhcloud.com/"
   },
-  "homepage": "http://www.openshift.com/",
+  "homepage": "http://jvs-rockphys.rhcloud.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/openshift/origin-server"
+    "url": "(Acer)C:\Users\Juha\jvs"
   },
 
   "engines": {
