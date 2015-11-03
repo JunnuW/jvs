@@ -1,18 +1,9 @@
 #!/bin/env node
 //  OpenShift sample Node application
-var express = require('express');
-var fs      = require('fs');
-var zapp = require('./zapp');
+//var express = require('express');
+//var fs      = require('fs');
+var app = require('./app');
 
-//  Set the needed environment variables:
-var ipAddress=process.env.OPENSHIFT_NODEJS_IP;
-var Port= process.env.OPENSHIFT_NODEJS_PORT || 3000;
-if (typeof ipAddress === "undefined") {
-    //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
-    //  allows us to run/test the app locally.
-    console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
-    ipAddress = "127.0.0.1";
-}
 
 // Removed 'SIGPIPE' from the list - bugz 852598.
 var signals =     ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
@@ -33,7 +24,10 @@ function terminator(sig){
     console.log('%s: Node server stopped.', Date(Date.now()) );
 }
 
-zapp.listen(Port, ipAddress, function() {
+/*var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);*/
+//app.listen(Port, ipAddress, function() {
+app.listen(app.port,app.ipaddress, function() {
     console.log('%s: Node server started on %s:%d ...',
-        Date(Date.now() ), ipAddress, Port);
+        Date(Date.now() ), app.ipaddress, app.port);
 });

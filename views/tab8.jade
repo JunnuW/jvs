@@ -1,0 +1,63 @@
+//-v-------------beginning of tabs-8 HTML---Materials editor---------------------------
+div(id="tabs-8")
+  table(class="ModForm1")
+    //-sarake jossa lambda-nk graafi ja materiaaliluettelo
+    col(style="width:60%")
+    //-sarake jossa lambda-nk taulukko
+    col(style="width:40%")
+    tr
+      //-Ekan rivin eka sarake:
+      td(class="editTabs")
+        div 
+          b(class="bblueText") Material Data:
+        button(id="btnOpenMat" class="ui-button ui-widget ui-state-default ui-corner-all " +
+        "ui-button-text-icon-primary" style="margin-right:10px")
+          span(class="ui-icon ui-icon-document")
+          span(class="ui-button-text") Browse files
+        button(id="btnSaveMat" class="ui-button ui-widget ui-state-default ui-corner-all " +
+        "ui-button-text-icon-primary" style="margin-right:40px")
+          span(class="ui-icon ui-icon-document")
+          span(class="ui-button-text") Save file
+        button(id="btnUseMat" class="ui-button ui-widget ui-state-default ui-corner-all" +
+        "ui-button-disabled ui-state-disabled ui-button-text-icon-primary" style="margin-right:10")
+          span(class="ui-icon ui-icon-plus")
+          span(class="ui-button-text") Add to applied materials
+        button(id="btnRmvMat" class="delete_row ui-button ui-widget ui-state-default ui-corner-all " +
+        "ui-button-disabled ui-state-disabled ui-button-text-icon-primary" style="margin-left:10px")
+          span(class="ui-button-icon-primary ui-icon ui-icon-trash")
+          span(class="ui-button-text") Remove from list
+      //-Ekan rivin toka sarake:
+      td(class="editTabs" style="padding-left:10px")
+        div  
+          b Edit Materials:  
+        button(id="btnAddMatRow" class="add_row ui-button ui-widget ui-state-default ui-corner-all ui-button-disabled " +
+        "ui-state-disabled ui-button-text-icon-primary")
+          span(class="ui-button-icon-primary ui-icon ui-icon-plus")
+          span(class="ui-button-text") Add Row..
+        button(id="btnDelMatRow" class="delete_row ui-button ui-widget ui-state-default ui-corner-all " +
+        "ui-button-disabled ui-state-disabled ui-button-text-icon-primary" style="margin-left:10px")
+          span(class="ui-button-icon-primary ui-icon ui-icon-trash")
+          span(class="ui-button-text") Remove Row
+    tr
+      //-Tokan rivin eka sarake:
+      td(class="editTabs")
+        div
+          label(class="bblueText labelOnInput")
+            span(id="EdiMaterLbl") File:
+            input(id="EdiMater" class="inputUnderLabel" type="text" value="" size="30%" style="font-size:10pt")
+          label(class="bblueText labelOnInput" style="margin-left:10px")
+            span(id="descMaterLbl") Descr:
+            input(id="descMater" class="inputUnderLabel" type="text" value="" size="50%" style="font-size:10pt")
+          //-hidden input for file name to open local file using HTML5 file API
+          input(type="file" id="matLocFiles" style="display:none" name="matLocFiles")
+        div(id="ResizeAble8" style="height:50%;width:100%;display:block;" class="ui-widget-content")
+          div(id="placeholder8" style="width:100%;height:400px;display:block;")
+        div
+          p(class="bblueText") List of applied materials:
+        div(id="MtrOptKontti" style="height:50%;width:100%;display:block;" class="ui-widget-content")
+          //table(cellpadding="0" cellspacing="0" border="0" class="display" id="matEditTabl")
+          table(id="matOpsTabl" class="display" cellpadding="0" cellspacing="0" border="1")
+      //-Tokan rivin toka sarake:
+      td(class="editTabs" style="padding:20px")
+        div(id="MatrlKontti" class="TabKontti")
+          table(id="matEditTabl" cellpadding="0" cellspacing="0" border="0" class="display")

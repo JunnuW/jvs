@@ -1,0 +1,42 @@
+//-doctype html
+//-html(lang="us")
+//-  head
+//-    meta(charset="utf-8"
+div(id="mongoDialForm")
+  form(id='frm-DirSel', role='form' )
+    fieldset
+      legend Directories available on:
+      button(id='btnUserDir', class='medium-btn', type='button') Private
+      button(id='btnPublDir', class='medium-btn', type='button') Public
+      button(id='btnLocDir', class='medium-btn', type='button') Local
+      br
+  br
+  form(id='frm-Login', role='form' )
+    fieldset
+      legend Login user required to acces private directories
+      label(for='username') Username:
+      input(id='mngUsrnm', type='text', name='username', maxlength='50', style='margin:5px', autofocus)
+      button(id='btnLogInni', class='medium-btn', type='button') Log in
+      br
+      label(for="password") Password:
+      input(id='mngPWD', type='password', name='password', maxlength='50', style='margin-left:10px')
+      br
+    br
+  form(id='frm-FileTree', role='form')
+    fieldset
+      legend(id='FilTreLege') Files available on server:
+      label(for="directoName") Directory:
+      br
+      input(type="text" id="directoName" length="150" style='margin:5px' size="60")
+      br
+      label(for="ServerFileName") Filename:
+      br
+      input(type="text" id="mongoFileName" length="150" style='margin:5px' size="60")
+      br
+      label(for="fileDesc") Description:
+      br
+      input(type="text" id="mongFileDesc" length="150" style='margin:5px' size="60")
+      br
+      br
+      b(id="mongoHd") Available subdirectories and files:
+      div(id="mongoTree")

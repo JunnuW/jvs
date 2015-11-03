@@ -1,0 +1,69 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
+    script(src='/bower_components/jquery/dist/jquery.min.js')
+    script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+    script(src='/bower_components/jquery-validation/dist/jquery.validate.js')
+    script(src='/bower_components/jqnotifybar/jquery.notifyBar.js')
+    link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
+  body
+    .navbar.navbar-inverse.navbar-static-top(role='navigation')
+      .container
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+            span.sr-only Toggle navigation
+            //-tehdään neljä päällekkäistä viivaa kun nav-bar menee liian kapeaksi
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          //-a.navbar-brand(href='/') Project name
+        .collapse.navbar-collapse
+          ul.nav.navbar-nav  
+            li.dropdown  
+              a(href='#' class='dropdown-toggle' data-toggle='dropdown') Services
+                b.caret 
+              ul.dropdown-menu  
+                li
+                  a(href='/') Home
+                  //- use: #{user.username} to show the username
+                if user!=null
+                  li
+                    a(href='/Logout') Logout
+                  li
+                    a(href='/pwdEdit') Change pwd
+                else
+                  li
+                    a(href='/login') Login
+                  li
+                    a(href='/signup') Signup
+            li.dropdown
+              a(href='#' class='dropdown-toggle' data-toggle='dropdown') Projects
+                b.caret 
+              ul.dropdown-menu  
+                li
+                  a(href='/RefleTran') Reflectance and transmittance of thin films
+                li
+                  a(href='/WaterRock') Water Rocket calculator (under construction)
+                li
+                  a(href='/BroadMod') Broadening model for quantum well diodes (under construction)
+                li
+                  a(href='/GasFlo') Gas flow in circular pipes (under construction)     
+          a.navbar-brand(href='/') Projects
+        //-gets messages from req.flash set in app.js
+    if messages
+      .container
+        if messages && messages.error
+          .alert.alert-danger
+            div= messages.error
+        if messages && messages.info
+          .alert.alert-info
+            div= messages.info
+        if messages && messages.success
+          .alert.alert-success
+            div= messages.success
+        block content
+          //-block content määritellään index.jade, login.jade, signup.jade, pwdEdit.jade, forgot.jade
+          //-sivuilta joille nämä asetukset periytyvät

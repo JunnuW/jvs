@@ -1,0 +1,208 @@
+/* @CHARSET "ISO-8859-1";*/
+    /*--------------------------------------------------*/
+body{font: 62.5% "Trebuchet MS", sans-serif; margin: 5px;}
+    .TF-calculus {margin-top: 1em;}
+    .bold{font-weight: bold;}
+ 
+table.display
+    .even.row_selected td {background-color: #B0BED9;}
+    .odd.row_selected td {background-color: #9FAFD1;}
+    .dataTables_info { padding-top: 0; }
+    .dataTables_paginate { padding-top: 0; }
+    .css_right { float: right; }
+    
+    /*#ServerFileName { color: #f00; text-align:right; }*/
+    /*.ui-spinner {position:relative; left: 50px;}*/
+    .ui-spinner {margin-left:1em;}
+    .invisible{display: none; }
+    .visible{display: inline-block; }
+    .indent { margin-left: 1em; }
+    .blueText { color:blue; }
+    .bblueText { color:blue; font-size: 15px; font-weight:bold; margin-bottom:10px; }
+    .bblueText1 { color: #1f02a9; font-size: 21px; font-weight:bold; white-space: pre; margin-left:1em;}
+    .bblueText2 { color:blue; font-size: 17px; font-weight:bold; position: relative;  left: 80px;  }
+    .bblueText3 { color: #1f02a9; font-size: 21px; font-weight:bold; white-space: pre; margin-left:3em;}
+    .bblueText4 { color:#1f02a9; font-size: 17px; font-weight:bold; white-space: pre; margin-left:1em;}
+    .spinner2 {margin-left:5em; margin-right: 5em;  width: 40px; white-space: pre;}
+    .posit80 {position: relative;  left: 80px; white-space: pre;}
+
+form .file {
+    display: block;
+    border: 1px solid #000;
+    width: 540px;
+    padding: 2px;
+    margin-bottom: 0.2em;
+    }
+
+/*.dialForm {
+    width: 250px;
+    height: 250px;
+    border-top: solid 1px #BBB;
+    border-left: solid 1px #BBB;
+    border-bottom: solid 1px #FFF;
+    border-right: solid 1px #FFF;
+    background: #FFF;
+    overflow: scroll;
+    padding: 15px;
+}*/
+    /*#samples1, #samples2 {
+      font-size: 80%;
+    }*/
+    
+    /*.ui-slider-range.ui-widget-header { background: #1C94C4;}
+    .ui-widget-content .slideClass { background: #006BB2; }*/
+
+	/*#CancelRead {
+      display:none;
+	}*/
+     
+    /*------------------------------------------------------------*/
+    /*#progress_bar {
+      margin: 10px;
+      padding: 2px;
+      border: 1px solid #f00;
+      font-size: 14px;*/
+      /*clear: both;*/
+      /*display:block;
+      }*/
+    /*#progress_bar.loading {*/
+      /*opacity: 1.0;*/
+      /*}*/
+    /*#progress_bar.percent {
+      display:block;
+      background-color:blue;
+      height: auto;
+      width:auto;
+      }*/
+
+/*#tabs-2 {height:250px; }*/
+	
+	#placeholder {
+        /* = varaa paikan graafille*/
+        /*margin-top:100px;*/
+        /*margin-bottom:50px;*/
+        /* width:auto;
+         height:auto;
+         float:right*/
+        /*margin-top:100px;*/
+        /*margin-left:200px;*/
+        /*margin-left:50px;*/
+    }
+    #mongoDialForm {
+        display:none;
+    }
+
+    .vakata-context {
+    /*Required for jsTree contextmenu plugin
+          otherwise contextmenu not visible:*/
+      z-index:999 !important;
+    }
+   /*------------------------------------------------------------*/
+  	.scroll  {
+   		overflow-y:scroll;
+   		width:42%;
+   		height:120px;
+	}
+		
+	.scroll2 {
+		overflow-y: scroll;
+		width:240px;
+		height: 120px;
+		}
+
+	td{font-family:Times; color:black; font-size:11pt; border-bottom:1px
+  		solid #fff;border-right:1px solid #fff;padding:1px 1px 0 }
+  		.ModForm1{text-align: left; width: 100%; border: 1px;}
+  		.editTabs{vertical-align:top; text-align: left; border: 1px solid white;}
+        .editTabs2{vertical-align:top; width: 50%; border: 1px solid blue; color:blue;font-size: 17px; font-weight:bold;}
+  		.setTabs{text-align: left; width: 50%; border: 1px;background-color:#FFD700;}
+  		.TabKontti{text-align: left; width: 80%; border: 1px;}
+  		.leftis{text-align: left}
+  					
+	/*#modTab1{width: 300px; border: 1px; border-color: #006BB2;}*/
+						
+	tr {background-color:#F8FBFF}
+		.TablRow{ margin: 4px; cursor:pointer;}    
+        .highlight { background:yellow; }
+
+	pre {display: inline-block;	font-size:13pt; white-space: pre;}
+
+    /*}*/
+	
+	/*.seleBoxi {width: 95%;font-size:75% !important;}*/
+	/*ilman !important:ia k�ytt�� jquery widgettien oletusfontteja*/
+.button {
+    background-color: #000000;
+    color: #FFFFFF;
+    float: right;
+    padding: 10px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+/* to place button to the right on the jq dialog:*/
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+    float: none !important;
+}
+/* without '!important' definition is ineffective while it can be overwritten by jquery's css*/
+.big-btn-left {
+    width: 90px;
+    height: 40px;
+    float: left;
+}
+
+.big-btn {
+    width: 90px;
+    height: 40px;
+    float:right;
+}
+
+.medium-btn-left {
+    width: 120px;
+    height: 30px;
+    float: left;
+}
+
+.medium-btn-right {
+    width: 120px;
+    height: 30px;
+    float: right;
+}
+
+/* button formatting in dialog form for directory selection: */
+.medium-btn {
+    width: 120px;
+    height: 30px;
+    float: right;
+    margin-right: 30px;
+}
+/* not in use */
+.small-btn {
+    width: 50px;
+    height: 20px;
+}
+/* text input box formatting for filenames on Tabs-7 and tabs-8: */
+.tinputti {
+    width:70%;
+    maxlength:100;
+    margin:5px;
+}
+
+.labelOnInput {
+    display:inline-block;
+}
+
+.inputUnderLabel{
+    display:block;
+}
+
+.selectUnderLabel{
+    display:block;
+    width:160px;
+    margin-right:10px;
+}
+
+@page {
+    size: A3 landscape;
+}

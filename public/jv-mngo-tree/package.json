@@ -1,0 +1,32 @@
+{
+  "name": "jv-mngo-tree",
+  "description": "Save and read mongodb documents in a directory tree structure",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "author": {
+    "name": "Juha Viljanen"
+  },
+  "version": "0.0.1",
+  "keywords": [
+    "mongodb",
+    "directory",
+    "tree",
+    "structure"
+  ],
+ "dependencies" : {
+  },
+  "bugs": {
+    "url": "juha.wiljanen@gmail.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+  },
+  "maintainers": [
+    {
+      "name": "juha viljanen",
+      "email": "juha.wiljanen@gmail.com"
+    }
+  ]
+}

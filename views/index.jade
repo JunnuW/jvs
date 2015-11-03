@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  h1= title
+  p
+    if user
+      b #{user.username}
+      |  : Welcome Rock.Phys.
+      | #{token}
+    else
+      | Welcome to Rock.Phys.
+    br
+    br
+    | This is a programming exercise with Javascript, Jquery, Node.js, HTML5, CSS, Jade
+    br
+    br
+    | These apps run readily in standard web browsers without any need to program installation or deployment steps,
+    | regardless of your operation systems (Win,OSX,Unix or Linux).
+    br
+    br
+    | All nontrivial projects need to read and save some data, either locally or on the server.
+    | Browser access to local user files has traditionally been prevented for safety reasons, but has recently become available through HTML5 file API.
+    br
+    br
+    | Using Node.js, also the server side operations can be done through javascript,
+    | which eliminates the need to add PHP or ASP to the list above,
+    | and these 'Desktop application' have been coded using merely javascript.
+    -node_url="http://en.wikipedia.org/wiki/Node.js"
+    a(href="#{node_url}")    Node Wiki!!
+    br
+    | Node.js runtime system fits nicely and scales up well for applications, where the major part of data processing is performed locally in the browser at the client pc. 
+    -another_url="http://www.javaworld.com/article/2079190/scripting-jvm-languages/6-things-you-should-know-about-node-js.html"
+    a(href="#{another_url}")  More about Node.js
+
+//-script(type='text/javascript').

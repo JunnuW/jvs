@@ -1,0 +1,70 @@
+//-Films stack view and edit
+div(id="tabs-6")
+  table(class="ModForm1")
+    //-sarake jossa materiaalipakka:
+    col(style="width:40%")
+    //-sarake jossa spektraali graafi:
+    col(style="width:60%")
+    tr
+      //-Ekan rivin eka sarake:
+      td(class="editTabs")
+        div
+          b(class="bblueText") Thin film stack:
+        button(id="btnReadLstack" class="ui-button ui-widget ui-state-default ui-corner-all " +
+        "ui-button-text-icon-primary" style="margin-right:10px")
+          span(class="ui-icon ui-icon-document")
+          span(class="ui-button-text") Open file
+        button(id="btnReadSstack" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary")
+          span(class="ui-icon ui-icon-document")
+          span(class="ui-button-text") Save file
+        div
+          label(for="stackTargs" class="bblueText labelOnInput")
+            span(id="stackTargsLbl") Spectral target:
+            select(id="stackTargs" class="selectUnderLabel" style="font-size:14px")
+          input(id="ediStack" class="text" type="url" name="ediStack" value="")
+        div(id="StackKontti")
+          table(id="StackEdit" class="display")
+            //-display class tekee taulukossa jokatoisen  rivin eriväriseksi
+            //-kalvopakka alustetaan koodissa: createStackTable
+        div
+          b   
+        div
+          button(id="btnAddFilm" class="add_row ui-button ui-widget ui-state-default ui-corner-all ui-button-disabled ui-state-disabled ui-button-text-icon-primary")
+            span(class="ui-button-icon-primary ui-icon ui-icon-plus")
+            span(class="ui-button-text") Add Film..
+          button(id="btnDelFilm" class="delete_row ui-button ui-widget ui-state-default ui-corner-all ui-button-disabled ui-state-disabled ui-button-text-icon-primary")
+            span(class="ui-button-icon-primary ui-icon ui-icon-trash")
+            span(class="ui-button-text") Remove Film
+      //-Ekan rivin toka sarake:
+      td(class="editTabs" style="padding-left:10px")
+        div
+          label(for="setStack" class="bblueText" id="stackModeLbl") Graph mode:  
+          input(type="radio" id="setStack" name="graphMode" value="StackRT" checked="checked")
+          b(id="StackRTb")   Stack Reflectance
+          pre   
+          input(type="radio" id="setFilm" name="graphMode" value="FilmNK" )
+          b(id="StackNKb")   Selected layer n & k  
+            //pre Single film n & k
+          //b(id="stackMode" class="bblueText") Stack spectrum for reflectance 
+        div(id="ResizeAble6" style="height:50%;width:100%;display:block;" class="ui-widget-content")
+          div(id="placeholder6" style="width:100%;height:400px;display:block;")
+        br
+        div(id="adjustThs" class="ui-widget-content" display="inline")
+          label(for="tuneSpin" class="bblueText") Thickn.Incr[%]
+          input(id="tuneSpin" style="width:30px")
+          button(id="repTune" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary")
+            span(class="ui-button-icon-primary ui-icon ui-icon-refresh")
+            span(class="ui-button-text") Add Incr.
+          button(id="reveTune" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary")
+            span(class="ui-button-icon-primary ui-icon ui-icon-arrowreturnthick-1-n")
+            span(class="ui-button-text") Revert
+          button(id="autoTune" class="ui-button ui-widget ui-state-default " +
+          "ui-corner-all ui-button-text-icon-primary" style="margin-right:5px")
+            span(class="ui-button-icon-primary ui-icon ui-icon-carat-2-e-w")
+            span(class="ui-button-text") AutoTune
+          label(for="tuneDif" class="bblueText" style="margin-right:3px")
+            span(style="margin-right:3px") Diff.Ave:
+          input(id="tuneDif" name="tuneDif" style="width:60px" value="Average")
+          label(for="tuneVar" class="bblueText" style="margin-left:3px")
+            span(style="margin-right:3px") Diff.Var:
+          input(id="tuneVar" name="tuneVar" style="width:60px" value="Variance")

@@ -1,0 +1,87 @@
+extends layout
+
+block content
+  form(id='signupForm' method='POST' role="form" action='/signup')
+    //- POST-method in this form is prevented by: 'event.preventDefault();' on a
+    //- javascript line below. POST-method is replaced by '$(document).submit(function()'
+    //- This is required to perform a pre checking of input values,
+    //- before the form is submitted and also to have a callback function
+    //- after the POST-method for the obtaining and sessionStorage saving of the user token,
+    //- on the browser side. This callback being 'impossible' with the original POST-method
+    legend Signup
+    .form-group
+      label(for='username') Username
+      input.form-control(type='text', id='username', name='username', autofocus)
+    .form-group
+      label(for='email') Email (won't be published or used in advertising)
+      input.form-control(name='email', id='email', type='email')
+    .form-group
+      label(for='password') Password
+      input.form-control(id='password', type='password', name='password')
+    .form-group
+      label(for='confirm') Confirm Password
+      input.form-control(id='confirm', type='password', name='confirm')
+    button.btn.btn-primary(type='submit') Signup
+
+  script(type='text/javascript').
+    /*$("#signupForm").validate({
+      rules:{
+        username:{required:true, minlength:2},
+        email:{required:true, email:true},
+        password:{required:true},
+        confirm: {equalTo: "#password"}
+        },
+      messages:{
+        username:"required, please give at least two characters",
+        email:"required, please give a valid email address, (needed in case you lose your password)",
+        password:"required, will be hashed and is recoverable only through the above given email address",
+        confirm:"required, retype your password exactly"
+      }
+    });*/
+    $(document).submit(function (event) {
+      sForm = $("#signupForm");
+      sForm.validate({
+        rules: {
+          username: {required: true, minlength: 2},
+          email: {required: true, email: true},
+          password: {required: true},
+          confirm: {equalTo: "#password"}
+        },
+        messages: {
+          username: "required, please give at least two characters",
+          email: "required, please give a valid email address, (needed in case you lose your password)",
+          password: "required, will be hashed and is recoverable only through the above given email address",
+          confirm: "required, retype your password exactly"
+        }
+      });
+      if (!sForm.valid()) return;
+        var postData = $('#signupForm').serializeArray();
+        var formURL = $('#signupForm').attr("action");
+        var location = window.location.href; //gets the present browsing position
+        var n = location.lastIndexOf('/signup');
+        location = location.slice(0, n); //address to signup form
+        // Assign handlers immediately after making the request,
+        // and remember the jqxhr object for this request
+        var jqxhr = $.post(formURL, postData, function(data, textStatus, jqXHR){
+          if (data.token != null) {//if signup successful:
+            //signup complete and logged in with new credentials
+            var accessToken = data.token;
+            window.sessionStorage.setItem('RTFuser', data.user.username);
+            window.sessionStorage.setItem('RTFtoken', accessToken);
+            location = location + '/'; //continues to index page
+            //console.log('location: '+location);
+            window.location.replace(location); //no possibility to use back in browsing
+          }else{//signup was unsuccessful
+            var respStr=data.responseStr;
+            location = location + '/signup/?info='+respStr;//direct user back to signup page
+            window.location.replace(location); //no possibility to use back in browsing
+          }
+        })
+          /*.done(function (data, textStatus, jqXHR) {
+            console.log("done second success data: "+JSON.stringify(data));
+          })*/
+           .fail(function (data, textStatus, jqXHR) {
+             console.log("fail error data: "+JSON.stringify(data));
+           })
+      event.preventDefault(); //default post command is replaced by the code above
+    });
