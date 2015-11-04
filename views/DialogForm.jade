@@ -1,0 +1,13 @@
+div(id="DialogForm")
+  form(id='fileOwner')
+    br
+    button(id='publFil' type='button') Public Files
+    button(id='userFil' type='button') User Files
+    br
+  form(id='srvFileTree' method='post')
+    br
+    input(type="text" id="ServerFileName" maxlength="50")
+    input(type="text" id="SrvrFilePath" maxlength="50" class='invisible')
+    br
+    b(id="DialogHd") Available files:
+    div(id="FileTree" class="dialForm")

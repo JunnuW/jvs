@@ -24,7 +24,7 @@ var session = require('express-session'); //Session cookies
 //var errorHandler = require('express-error-handler');
 var mngoTree=require('jv-mngo-tree');
 //seuraavat kolme jqueryFileTree-tÃ¤ varten:
-var util = require('util');
+// var util = require('util');
 //var fs = require('fs'); //npm install varoittaa tämän oleva core moduli
 var requestIp = require('request-ip'); //for finding request client's ip
 //var http = require('http');
