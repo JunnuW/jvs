@@ -68,9 +68,9 @@ app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 
 var url;
 if (process.env.OPENSHIFT_MONGODB_DB_URL) {
-    url = process.env.OPENSHIFT_MONGODB_DB_URL +"rock-bottom";
-    //url = process.env.OPENSHIFT_MONGODB_DB_URL +
-    //process.env.OPENSHIFT_APP_NAME;
+    //url = process.env.OPENSHIFT_MONGODB_DB_URL +"rock-bottom";
+    url = process.env.OPENSHIFT_MONGODB_DB_URL +
+    process.env.OPENSHIFT_APP_NAME;
 }else{
     url = 'localhost:27017/rock-bottom';
 }
