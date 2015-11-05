@@ -12,7 +12,7 @@
  * script(src='/bower_components/jquery/dist/jquery.min.js')
  *
  * The function is included in the web-page html file through head section line:
- * script(src='/RefTran/js/JV-TFRCalc.js')
+ * script(src='/RefTran/js/jv-tfrcalc.js')
  * The script runs automatically after the HTML5 document has been loaded and parsed ready
  * on the browser. In automatic execution it is equivalent to
  * (=shorthand) to '$(document).ready(function(){xxx})'.
