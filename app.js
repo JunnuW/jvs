@@ -5,8 +5,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');//logs requests to the console to what is happening
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');//gets parameters from POST requests
-var urlEncodedParser = bodyParser.urlencoded({extended:true,type:'application/x-www-form-urlencoded'
-    ,parameterLimit:9,limit:'100kb' });
+var urlEncodedParser = bodyParser.urlencoded({extended:true,type:
+    'application/x-www-form-urlencoded',parameterLimit:9,limit:'100kb' });
 var jsonParser = bodyParser.json();
 var mongoose = require('mongoose');// get an instance of mongoose to use mongoose.Schema
 var nodemailer = require('nodemailer');
@@ -22,7 +22,7 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 var session = require('express-session'); //Session cookies
 //var errorHandler = require('express-error-handler');
-var mngoTree=require('./jv-mngo-tree');
+//var mngoTree=require('./jv-mngo-tree');
 //seuraavat kolme jqueryFileTree-tÃ¤ varten:
 // var util = require('util');
 //var fs = require('fs'); //npm install varoittaa tämän oleva core moduli
