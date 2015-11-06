@@ -18,11 +18,11 @@
   "homepage": "http://jvs-rockphys.rhcloud.com/",
   "private": true,
   "ignore": [
-    //"**/.*",
-    //"node_modules",
-    //"bower_components",
-    //"test",
-    //"tests"
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
   ],
   "dependencies": {
     "Flot": "flot#~0.8.3",
