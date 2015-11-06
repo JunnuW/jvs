@@ -2,7 +2,7 @@
 /**
  * File created by jv on 17.2.2015.
  */
-"use strict";
+//"use strict";
 function sendData(data) {
     //post without jquery interactions, but
     //this function is not used, kept for future needs
