@@ -3,7 +3,7 @@
  * File created by jv on 17.2.2015.
  */
 "use strict";
-/*function sendData(data) {
+function sendData(data) {
     //post without jquery interactions, but
     //this function is not used, kept for future needs
     var XHR = new XMLHttpRequest();
@@ -38,7 +38,7 @@
     //XHR.setRequestHeader('Content-Length', urlEncodedData.length);
     // And finally, We send our data.
     XHR.send(urlEncodedData);
-}*/
+}
 
 /**
  * Function Fill matrlArr with data from mongodb
