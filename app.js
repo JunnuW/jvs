@@ -22,7 +22,7 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 var session = require('express-session'); //Session cookies
 //var errorHandler = require('express-error-handler');
-var mngoTree=require('jv-mngo-tree');
+var mngoTree=require('./jv-mngo-tree');
 //seuraavat kolme jqueryFileTree-tÃ¤ varten:
 // var util = require('util');
 //var fs = require('fs'); //npm install varoittaa tämän oleva core moduli
