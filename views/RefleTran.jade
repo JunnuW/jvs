@@ -3,8 +3,13 @@ html(lang="us")
   head
     meta(charset="utf-8")
     title "OTF - R &amp; T Calculator"
-    script(src='/bower_components/jquery/dist/jquery.min.js')
+    //script if (window.File && window.FileReader && window.FileList && window.Blob){console.log('Great Success: The File APIs are fully supported in your browser. see: http://caniuse.com/#feat=fileapi');}
+    //  |else{alert('HTML5 - File APIs are not fully supported in this browser. See: http://caniuse.com/#feat=fileapi');}
+    //src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js')
+    //script(src='/bower_components/jquery/dist/jquery.min.js')
     script(src='/bower_components/jquery-ui/jquery-ui.js')
+    script(src='/bower_components/jeditable/jquery.jeditable.js')
     link(rel='stylesheet', href='/bower_components/jquery-ui/themes/start/jquery-ui.min.css')
     script(src='/public/js/jv-tfrcalc.js')
     link(rel='stylesheet', href='/public/css/jv-tfrcalc.css')
@@ -13,7 +18,6 @@ html(lang="us")
     script(src='/bower_components/flot/jquery.flot.selection.js')
     script(src='/bower_components/flot-axislabels/jquery.flot.axislabels.js')
     script(src='/bower_components/datatables/media/js/jquery.dataTables.min.js')
-    script(src='/bower_components/jeditable/jquery.jeditable.js')
     //-script(src='/bower_components/jquery-validate/dist/jquery.validate.min.js')
     script(src='/bower_components/js-math-complex/math-complex.min.js')
     script(src='/bower_components/jstree/dist/jstree.min.js')
@@ -32,24 +36,22 @@ html(lang="us")
     //-link(rel='stylesheet', href='/bower_components/jquery-file-tree/dist/css/jqueryFileTree.min.css', media="screen")
     //-tarkastetaan että selain tukee File APIa, siirrä seuraava rivi if silmukkaan, antaa ilmoituksen onnistumisesta
     //-alert('Great Success: The File APIs are fully supported in this browser. see: http://caniuse.com/#feat=fileapi');
-    script if (window.File && window.FileReader && window.FileList && window.Blob){console.log('Great Success: The File APIs are fully supported in your browser. see: http://caniuse.com/#feat=fileapi');}
-      |else{alert('HTML5 - File APIs are not fully supported in this browser. See: http://caniuse.com/#feat=fileapi');}
   body
     div(id="tabs")
       ul
         li
-          a(id="intro",href="#tabs-1") Instructionsh
+          a(id="intro",href="#tabs-1") Instructions
         li
-          a(id="Settings",href="#tabs-2") Calculation Settings Selector
+          a(id="Settings",href="#tabs-2") Calculation Settings Editor
         li
           a(id="Stack",href="#tabs-6") Film Structure Editor
         li
           a(id="Targets",href="#tabs-7") Spectral Targets Editor
         li
           a(id="Materials",href="#tabs-8") Materials Data Editor
-      //-include ./tab1.jade
-      //-include ./tab2.jade
-      //-include ./tab6.jade
-      //-include ./tab7.jade
-      //-include ./tab8.jade
-    //-include ./mongoDialForm.jade
+      include ./tab1.jade
+      include ./tab2.jade
+      include ./tab6.jade
+      include ./tab7.jade
+      include ./tab8.jade
+    include ./mongoDialForm.jade

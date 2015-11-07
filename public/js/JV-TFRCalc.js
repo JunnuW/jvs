@@ -19,7 +19,8 @@
  * This procedure is necessary because, premature script execution is useless and erroneous on elements that
  * have not yet been parsed and available for script interactions.
 */
-jQuery(function () {
+jQuery(document).ready(function(){
+//jQuery(function () {
     console.log('running jv-tfrcalc');
     //get user name from server:
     //var huuhaa="jj";
@@ -991,6 +992,9 @@ jQuery(function () {
         }
     });
 
+    buildMongoDial(); //creates dialogform for saving to mongodb
+    DFmngo=$('#mongoDialForm'); //dialogform
+
     //Tabs-7 and Tabs-8 Button handler for 'File open'
     $('#btnOpenTarg, #btnOpenMat').click(function () {
         //console.log('klikattu: '+this.id);
@@ -1355,8 +1359,8 @@ function isNumeric(value) {
         }
     });
 
-    buildMongoDial(); //creates dialogform for saving to mongodb
-    DFmngo=$('#mongoDialForm'); //dialogform
+    //buildMongoDial(); //creates dialogform for saving to mongodb
+    //DFmngo=$('#mongoDialForm'); //dialogform
 
     //ilman seuraavaa funktiota reflektanssi/transmissio sekeä n-k-Graafit eivät
     //skaalaudu oikein sivun kokoa muutettaessa

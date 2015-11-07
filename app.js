@@ -358,6 +358,17 @@ app.get('/index', function(req, res) {
     console.log('app.get/index');
 });
 
+/* GET tabX page. */
+app.get('/tabX', function(req, res) {
+    console.log('app.get/tabX');
+    res.render('tabX', {
+        title: 'Rock-Phys signup',
+        user: req.user
+        //,infos: req.flash('error')
+        //infos välittää virheilmoituksen layout sivulle
+    });
+});
+
 /* GET signup page */
 app.get('/signup', function(req, res) {
     //console.log('req.url: '+req.url);
