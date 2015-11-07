@@ -20,6 +20,7 @@
  * have not yet been parsed and available for script interactions.
 */
 $(function () {
+    console.log('running jv-tfrcalc');
     //get user name from server:
     //var huuhaa="jj";
 

@@ -775,12 +775,12 @@ if (app.get('env') === 'development') {
  next();
  });*/
 
-app.use(function(req, res){
+/*app.use(function(req, res){
     console.log('ei löydy');
     //if post or get url is not found:
     res.status(404);
     res.end();
-});
+});*/
 
 /*if ('development' == app.get('env')) {
  app.use(errorHandler());
