@@ -19,7 +19,7 @@
  * This procedure is necessary because, premature script execution is useless and erroneous on elements that
  * have not yet been parsed and available for script interactions.
 */
-$(function () {
+jQuery(function () {
     console.log('running jv-tfrcalc');
     //get user name from server:
     //var huuhaa="jj";
@@ -45,7 +45,7 @@ $(function () {
     matrlArr = splitToArr(matrlStr);
     //Initialize Tabs- ui on the web-page:
     //var tabs = $("#tabs").tabs({heightStyle: "fill"});
-    $("#tabs").tabs({
+    jQuery("#tabs").tabs({
         //tabs panel täyttää koko näytön korkeuden:
         heightStyle: "fill",
         //seuraava päivittää graafit ja taulukot kun tabsia klikataan:
