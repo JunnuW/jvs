@@ -776,6 +776,7 @@ if (app.get('env') === 'development') {
  });*/
 
 app.use(function(req, res){
+    console.log('ei löydy');
     //if post or get url is not found:
     res.status(404);
     res.end();
