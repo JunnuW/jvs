@@ -359,7 +359,6 @@ jQuery(document).ready(function(){
 
     //Tabs-6: tehdään toinen sarake editoitavaksi select-option rakenteen kanssa:
     oStackTable.on('dblclick', 'td:nth-child(2)', function (evt) {
-
         if ($(this)[0].editing) {
             //without this checking editable function may be triggered twice
             //This results in error message: "too much recursion"

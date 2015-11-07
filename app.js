@@ -362,8 +362,7 @@ app.get('/index', function(req, res) {
 app.get('/tabX', function(req, res) {
     console.log('app.get/tabX');
     res.render('tabX', {
-        title: 'Rock-Phys signup',
-        user: req.user
+        user: (req.user)  //false
         //,infos: req.flash('error')
         //infos välittää virheilmoituksen layout sivulle
     });
@@ -400,7 +399,7 @@ app.get('/RefleTran', function (req, res) {
     //without login; req.user==undefined
     res.render('RefleTran', {
         user: req.user
-    })
+    });
 });
 
 app.post('/login',function(req,res){
