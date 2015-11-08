@@ -61,7 +61,6 @@ $(function() {
     var targStr = "nm\tR\t'sample data'\r\n500\t55.0\r\n510\t54.0\r\n520\t55.0";
     var targtFileNme;
     var theta0;        //complex incidence angle
-
  alert('huuhaa');
 //jQuery(document).ready(function(){
 //jQuery(function () {
