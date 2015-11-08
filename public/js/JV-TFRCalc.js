@@ -19,7 +19,51 @@
  * This procedure is necessary because, premature script execution is useless and erroneous on elements that
  * have not yet been parsed and available for script interactions.
 */
-jQuery(document).ready(function(){
+$(function() {
+    // Variable declarations:
+    var aTreeData;   //Data object holding directory tree JSON data from mongo database
+    var backR;       //true or false back reflection included or not
+    var dirUser='Publ'; //server directory user default
+    var DFmngo;
+    var frontR;         //true or false front reflection included or not
+    var locReader = new FileReader();
+    var matrlArr=[];    //first row: [nm|um|eV, n, k]
+    var matrlFileNme;
+//to initialize material string with some n and k values to show in table and graph:
+    var matrlStr = "nm\tn\tk\r\n500\t1.0\t0.0\r\n510\t1.5\t0.2\r\n520\t1.2\t0.4";
+    var matOpt = [];    //materials to be used in calculations, including their nk-tables,
+    var nkPlot;         //Graph for n&k Data
+    var oMatOptTable = {};
+    var oMatTable={};   //objekti, materiaalilista dataTables widgettiä varten
+    var oStackTable = {};
+    var oTargOptTable = {};
+    var otargTable = {};  //objekti, targettilista dataTables widgettiä varten
+    var polaris;          //porization direction 'TE' (s) or 'TM' (p)
+//var resTarg = [,]; //Array for calculation result and target
+    var RorT = 'R';    //Spectrum type R (=default) for reflectance T for transmittance
+    var rowInd1 = 0;
+    var RTPlot;        //Graph for R&T Data
+    var selctdNde={};   //selected node in jsTree
+    var spArra=[,,];   //spectral points array for calculations and display
+    var spNum=201;     //number of spectral points
+    var spectOpts = [];//list of selected target or measured spectra
+    var spStart=400;   //first spectral point in calculations
+    var spStop=1000;   //last spectral point in calculations
+    var spUnit='nm';   //käytössä oleva spektrin yksikkö (nm oletus),
+//initialize film stack to have only substrate and cover materials:
+//refractive index data is added as n- and k-vectors to the end of each stack line:
+    var stackArr = [['Cover','DblClick to edit!','bulk','no'],['Substr.','DblClick to edit!','bulk','no']];
+//ToDo: siirrä stackArr:in alustus document ready funktioon:
+    var stackPL;       //Graph for stack R|T or film nk
+    var userName = 'No login'; // after login obtained from web-server
+    var targArr = [];
+//initialize target string with some R% values to show in table and graph:
+    var targStr = "nm\tR\t'sample data'\r\n500\t55.0\r\n510\t54.0\r\n520\t55.0";
+    var targtFileNme;
+    var theta0;        //complex incidence angle
+
+ alert('huuhaa');
+//jQuery(document).ready(function(){
 //jQuery(function () {
     console.log('running jv-tfrcalc');
     //get user name from server:
@@ -46,6 +90,7 @@ jQuery(document).ready(function(){
     matrlArr = splitToArr(matrlStr);
     //Initialize Tabs- ui on the web-page:
     //var tabs = $("#tabs").tabs({heightStyle: "fill"});
+    //$("#tabsiX2").tabs();
     jQuery("#tabs").tabs({
         //tabs panel täyttää koko näytön korkeuden:
         heightStyle: "fill",
@@ -82,10 +127,10 @@ jQuery(document).ready(function(){
 
             }
         }
-
     });
     //Set datatables jquery widget defaults:
     //observe: dataTables uses jquery interface, but DataTables applies it's own interface 
+    /* Tämä
     $.extend($.fn.dataTable.defaults, {
         "bPaginate": true,
         "bLengthChange": true,
@@ -677,12 +722,12 @@ jQuery(document).ready(function(){
             // interface freeze out during the iteration process
             setTimeout(function(tunePrcnt,calliBacki){
                 //tunPrcnt=tunePrcnt;
-                /*var currentdate = new Date();
-                var startAt = "iter2Start: "
-                    + currentdate.getHours() + ":"
-                    + currentdate.getMinutes() + ":"
-                    + currentdate.getSeconds();
-                console.log(startAt);*/
+                //var currentdate = new Date();
+                //var startAt = "iter2Start: "
+                //    + currentdate.getHours() + ":"
+                //    + currentdate.getMinutes() + ":"
+                //    + currentdate.getSeconds();
+                //console.log(startAt);
                 calliBacki(tunePrcnt);
             },10,tunePrcnt,iter2); //callback name is given here: 'iter2' and
             // tunePrcnt is the parameter passed to that callback function
@@ -756,12 +801,12 @@ jQuery(document).ready(function(){
                      //console.log('targ edited : '+original);
                      //console.log('targ edited is numeric: '+isNumeric(original));
                      return isNumeric(original);
-      	             /* if (isNumeric(original)) {
-      	                 return true;
-      	             } else {
-      	                 //input.css('background-color','#c00').css('color', '#fff');
-      	                 return false;
-      	             }*/
+      	             // if (isNumeric(original)) {
+      	             //    return true;
+      	             //} else {
+      	                 ////input.css('background-color','#c00').css('color', '#fff');
+      	             //    return false;
+      	             //}
       	         },
       	         "callback": function (value, settings) {
       	             //kelpuutetun uuden arvon prosessointi:
@@ -781,16 +826,16 @@ jQuery(document).ready(function(){
     });
 
     //Tabs-7 tehdään paikalliseen tiedostojen tallennukseen click handler:
-    /*$("#btnLclTSave").click(function () {
-        var seivString;
-        var failneim = $('#ediTarge').val();
-        alert('Save file name: '+failneim);
-        //ToDo: build saveString from target data
-        //ToDo: take filename proposal from inputput box 
-        seivString = 'Hellot worldit';
-        failneim = 'huihai.txt';
-        seiv_loucal(failneim, seivString);
-    });*/
+    //$("#btnLclTSave").click(function () {
+    //    var seivString;
+    //    var failneim = $('#ediTarge').val();
+    //    alert('Save file name: '+failneim);
+    //    //ToDo: build saveString from target data
+    //    //ToDo: take filename proposal from inputput box
+    //    seivString = 'Hellot worldit';
+    //    failneim = 'huihai.txt';
+    //    seiv_loucal(failneim, seivString);
+    //});
 
     //Tabs-7: Click handler for 'delete row' in target or measurement data 
     $('#btnDelTargRow').click(function () {
@@ -960,7 +1005,7 @@ jQuery(document).ready(function(){
         $(this).dblclick();
     });
     //Code for tabs-7 ended above
-    //**********************************************************************************  
+    // **********************************************************************************
 
     //Tabs-8 set default n & k values for table and graph init. jotakin mitä näyttää alussa:
     matrlFileNme = '';
@@ -968,12 +1013,13 @@ jQuery(document).ready(function(){
     nkPlot = plotNK(matrlArr, 8);
     createMatEditTable(); //Voisi olla parempi funktion nimi; luodaan oMatTable
     oMatTable.fnClearTable();
-    oMatTable.fnAddData(matrlArr.slice(1));
+    oMatTable.fnAddData(matrlArr.slice(1));*/
 
     /* lisätään click handler riveille 
     * Jotta handler toimii myös jäljestä lisättyjen rivien kanssa
     * pitää käyttää .on('click',.....) tyyliä, kuten alla.
     *  [.click(function(    )] tyyli ei toimi ajon aikana lisättyjen kanssa.*/
+    /* Tämä
     oMatTable.on('click', 'td', function (evt) {
         rowInd1 = oMatTable.fnGetPosition($(this).closest('tr')[0]);
         if ($(this).closest('tr').hasClass('row_selected')) {
@@ -1356,88 +1402,44 @@ function isNumeric(value) {
                .removeClass("ui-state-disabled");
             }
         }
-    });
+    });*/
 
     //buildMongoDial(); //creates dialogform for saving to mongodb
     //DFmngo=$('#mongoDialForm'); //dialogform
 
     //ilman seuraavaa funktiota reflektanssi/transmissio sekeä n-k-Graafit eivät
     //skaalaudu oikein sivun kokoa muutettaessa
+    /*Tämä
     $(window).resize(function () {
         // redraw the graphs in the resized divs:
         RTPlot = plotRT(targArr, 7);
         nkPlot = plotNK(matrlArr, 8);
         stackPL = plotNK(matrlArr, 8);
         //ToDo:check resize-scaling in stack plot
-    });
+    });*/
     //--------------------------------------------------------------------------------  
-});                                     //***********End of Document ready function*********
-
-// Variable declarations:
-var aTreeData;   //Data object holding directory tree JSON data from mongo database
-var backR;       //true or false back reflection included or not
-var dirUser='Publ'; //server directory user default
-var DFmngo;
-var frontR;         //true or false front reflection included or not
-var locReader = new FileReader();
-var matrlArr=[];    //first row: [nm|um|eV, n, k]
-var matrlFileNme;
-//to initialize material string with some n and k values to show in table and graph:
-var matrlStr = "nm\tn\tk\r\n500\t1.0\t0.0\r\n510\t1.5\t0.2\r\n520\t1.2\t0.4";
-var matOpt = [];    //materials to be used in calculations, including their nk-tables,
-var nkPlot;         //Graph for n&k Data
-var oMatOptTable = {};
-var oMatTable={};   //objekti, materiaalilista dataTables widgettiä varten
-var oStackTable = {};
-var oTargOptTable = {};
-var otargTable = {};  //objekti, targettilista dataTables widgettiä varten
-var polaris;          //porization direction 'TE' (s) or 'TM' (p)
-//var resTarg = [,]; //Array for calculation result and target
-var RorT = 'R';    //Spectrum type R (=default) for reflectance T for transmittance
-var rowInd1 = 0;
-var RTPlot;        //Graph for R&T Data
-var selctdNde={};   //selected node in jsTree
-var spArra=[,,];   //spectral points array for calculations and display
-var spNum=201;     //number of spectral points
-var spectOpts = [];//list of selected target or measured spectra
-var spStart=400;   //first spectral point in calculations
-var spStop=1000;   //last spectral point in calculations
-var spUnit='nm';   //käytössä oleva spektrin yksikkö (nm oletus),
-//initialize film stack to have only substrate and cover materials:
-//refractive index data is added as n- and k-vectors to the end of each stack line:
-var stackArr = [['Cover','DblClick to edit!','bulk','no'],['Substr.','DblClick to edit!','bulk','no']];
-//ToDo: siirrä stackArr:in alustus document ready funktioon:
-var stackPL;       //Graph for stack R|T or film nk
-var userName = 'No login'; // after login obtained from web-server
-var targArr = [];
-//initialize target string with some R% values to show in table and graph:
-var targStr = "nm\tR\t'sample data'\r\n500\t55.0\r\n510\t54.0\r\n520\t55.0";
-var targtFileNme;
-var theta0;        //complex incidence angle
+});
+// ***********End of Document ready function*********
 
 /**
  * Function to add a R- or T-spectrum to the targets menu
  * @function
  * @param fileName (text) giving the filename on server or on local drive
  * @param nickName (text) giving the name to be used on the targets menu
- * @param ownr (text) indicates the data file location: local, library or under user name on server
+ * @param ownr (text) indicates the data file location: local or under publ or user name on server
  * @param rawArr (array) Spectral data of the reflectance or transmittance target
+ *
  */
-function addTo_specOpts(fileName, nickName, ownr, rawArr) {
- /*File:	fileName with path
-  *Name:	short name for use in calculations
-  *Data:	numeric data in array in format:
-  *[[],[],[],....]
-  *On first line: [(Unit:nm, um or eV),(R or T),(% or abs)]
-  */
+/* Tämä function addTo_specOpts(fileName, nickName, ownr, rawArr) {
   var tempObj = {
-    File: fileName,
-    Name: nickName,
-    Owner: ownr,
-    Data: rawArr
+    File: fileName, //fileName with path
+    Name: nickName, //short name for use in calculations
+    Owner: ownr,    //local, publ or userName
+    Data: rawArr    //numeric data in array in format: [[],[],[],....]
+    // On first line: [(Unit:nm, um or eV),(R or T),(% or abs)]
   };
   spectOpts.push(tempObj);
-}
+}*/
 
 //Add material to menu list of materials
 /**
@@ -1449,7 +1451,7 @@ function addTo_specOpts(fileName, nickName, ownr, rawArr) {
  * @param rawArr (array) spectral nk-data for the material
  * On array first line: [(Unit:nm, um or eV),'n','k']
  */
-function addTo_matOpt(fileName, nickName, ownr, rawArr) {
+/* Tämäfunction addTo_matOpt(fileName, nickName, ownr, rawArr) {
         var tempObj = {
             File: fileName,
             //Filename with path for server files
@@ -1483,7 +1485,7 @@ function EnDisButt(enDis, Butto) {
     $(Butto).removeAttr("disabled");
     $(Butto).removeClass('ui-button-disabled ui-state-disabled');
   }
-}
+}*/
 
 /**
  * Function to calculate reflectivity at a surface with 
@@ -1493,13 +1495,13 @@ function EnDisButt(enDis, Butto) {
  * @param Nexit (Complex) complex refractive index of exiting material
  * @return Rprcnt (number) reflectance in percents of intensity
  */
-function reflCalc(Nincid,Nexit){
+/* Tämäfunction reflCalc(Nincid,Nexit){
   var x = Nincid.sub(Nexit);//substracts two complex numbers
   var y = Nincid.add(Nexit);//adds two complex numbers
   var z=x.divBy(y);//divides two complex numbers
   var Rprcnt = 100*z.mult(Complex.conj(z));
   return Rprcnt.abs();
-}
+}*/
 
 /**
  * Function builds a comlex refracrive index 
@@ -1508,12 +1510,12 @@ function reflCalc(Nincid,Nexit){
  * @param (number) k - extinction index
  * @return (Complex) N - complex refractive index
  */
-function complN(n,k){
+/* Tämäfunction complN(n,k){
   var N = Math.Complex(n,k);
   return N;
-}
+}*/
 
-function matrixMult() {
+/* Tämäfunction matrixMult() {
   //theta0 is the complex incidence angle
   //polaris equals either "TE" or "TM"
   var k = stackArr.length; //number of material layers
@@ -1616,7 +1618,7 @@ function matrixMult() {
       }
     } //calculated either R% or T% into spArra
   } //wavelengths loop ends
-}
+}*/
 
 /*tällä rakenteella voi lisätä omia funktioita jqueryyn:
 (function($){
