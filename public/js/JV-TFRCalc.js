@@ -33,7 +33,7 @@ jQuery(document).ready(function(){
     if (cookies.length<1) console.log('no cookies');*/
 
     //RTFtoken and RTFuser have possibly been set earlier in login (see login.jade):
-    if (window.sessionStorage.getItem('RTFtoken')&&window.sessionStorage.getItem('RTFtoken').length>0){
+    if (window.sessionStorage.getItem('RTFtoken') && window.sessionStorage.getItem('RTFtoken').length>0){
        userName=window.sessionStorage.getItem('RTFuser');
     }else{
        userName='No login';
