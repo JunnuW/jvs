@@ -386,23 +386,25 @@ app.get('/signup', function(req, res) {
     }
 });
 
+/* GET tabX page. */
+app.get('/tabX', function(req, res) {
+    console.log('app.get/tabX');
+    res.render('tabX', {
+        //user: (req.user)  //false
+        //,infos: req.flash('error')
+        //infos välittää virheilmoituksen layout sivulle
+    });
+});
+
 app.get('/RefleTran', function (req, res) {
-    console.log('app.get/RefleTran' );
+    console.log('app.get/RefleTran');
     //without login; req.user==undefined
     res.render('RefleTran', {
         user: (req.user)
     });
 });
 
-/* GET tabX page. */
-app.get('/tabX', function(req, res) {
-    console.log('app.get/tabX');
-    res.render('tabX', {
-        user: (req.user)  //false
-        //,infos: req.flash('error')
-        //infos välittää virheilmoituksen layout sivulle
-    });
-});
+
 
 app.post('/login',function(req,res){
     console.log("app.post('/login') req.headers: "+JSON.stringify(req.headers));

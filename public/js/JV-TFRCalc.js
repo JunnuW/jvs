@@ -20,6 +20,7 @@
  * have not yet been parsed and available for script interactions.
 */
 $(function() {
+    alert('jv-tfrcalc.js');
     // Variable declarations:
     /* Tämä var aTreeData;   //Data object holding directory tree JSON data from mongo database
     var backR;       //true or false back reflection included or not
