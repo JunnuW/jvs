@@ -85,9 +85,11 @@ $(function() {
     console.log('username: '+userName);
 
     //Set default calculation unit and mode into spArra's header (spectral array)
+    /* Tämä
     spArra.push([spUnit, RorT, '']);
     targArr = splitToArr(targStr);
-    matrlArr = splitToArr(matrlStr);
+    matrlArr = splitToArr(matrlStr);*/
+
     //Initialize Tabs- ui on the web-page:
     //var tabs = $("#tabs").tabs({heightStyle: "fill"});
     //$("#tabsiX2").tabs();
