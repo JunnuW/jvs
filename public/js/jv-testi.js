@@ -7,7 +7,6 @@
             uName='No login';
         }
         console.log('username: '+uName);
-
         $( "#tabsiX" ).tabs();
     });
 
