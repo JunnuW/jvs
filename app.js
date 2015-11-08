@@ -387,10 +387,10 @@ app.get('/signup', function(req, res) {
 });
 
 app.get('/RefleTran', function (req, res) {
-    console.log("app.get(/RefleTran) ");
+    console.log('app.get/RefleTran' );
     //without login; req.user==undefined
     res.render('RefleTran', {
-        user: req.user
+        user: (req.user)
     });
 });
 
