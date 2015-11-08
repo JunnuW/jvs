@@ -21,7 +21,7 @@
 */
 $(function() {
     // Variable declarations:
-    var aTreeData;   //Data object holding directory tree JSON data from mongo database
+    /* Tämä var aTreeData;   //Data object holding directory tree JSON data from mongo database
     var backR;       //true or false back reflection included or not
     var dirUser='Publ'; //server directory user default
     var DFmngo;
@@ -61,7 +61,7 @@ $(function() {
     var targStr = "nm\tR\t'sample data'\r\n500\t55.0\r\n510\t54.0\r\n520\t55.0";
     var targtFileNme;
     var theta0;        //complex incidence angle
- alert('huuhaa');
+ alert('huuhaa');*/
 //jQuery(document).ready(function(){
 //jQuery(function () {
     console.log('running jv-tfrcalc');
@@ -76,12 +76,12 @@ $(function() {
     if (cookies.length<1) console.log('no cookies');*/
 
     //RTFtoken and RTFuser have possibly been set earlier in login (see login.jade):
-    if (window.sessionStorage.getItem('RTFtoken') && window.sessionStorage.getItem('RTFtoken').length>0){
+    /*if (window.sessionStorage.getItem('RTFtoken') && window.sessionStorage.getItem('RTFtoken').length>0){
        userName=window.sessionStorage.getItem('RTFuser');
     }else{
        userName='No login';
-    }
-    console.log('username: '+userName);
+    }*/
+    //console.log('username: '+userName);
 
     //Set default calculation unit and mode into spArra's header (spectral array)
     /* Tämä
