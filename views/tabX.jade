@@ -33,16 +33,21 @@ html(lang="us")
     div(id="tabsiX")
       ul
         li
-          a(id='hh1',href="#huuhaa1") huuhaa1
+          a(id='hh1',href="#tabX-1") huuhaa1
         li
-          a(id='hh2',href="#huuhaa2") huuhaa2
+          a(id='hh2',href="#tabX-2") huuhaa2
         li
-          a(id='hh3',href="#huuhaa3") huuhaa3
+          a(id='hh3',href="#tabX-3") huuhaa3
         li
-          a(id='hh4',href="#huuhaa4") huuhaa4
+          a(id='hh4',href="#tabX-4") huuhaa4
         li
-          a(id='hh5',href="#huuhaa5") huuhaa5
-
+          a(id='hh5',href="#tabX-5") huuhaa5
+      include tabX1.jade
+      include tabX2.jade
+      include tabX3.jade
+      include tabX4.jade
+      include tabX5.jade
+    //-div
       div(id="huuhaa1")
         p
           b Step 1:
