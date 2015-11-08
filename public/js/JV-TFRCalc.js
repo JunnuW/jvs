@@ -93,9 +93,9 @@ $(function() {
     //$("#tabsiX2").tabs();
     jQuery("#tabs").tabs({
         //tabs panel täyttää koko näytön korkeuden:
-        heightStyle: "fill",
+        heightStyle: "fill"
         //seuraava päivittää graafit ja taulukot kun tabsia klikataan:
-        activate: function (event, ui) {
+        /*activate: function (event, ui) {
             var poisTab=ui.oldTab.index();
             var exitTab=$("#tabs").find("ul>li a").eq(poisTab).attr('id'); //exitoivan tabsin id
             if (exitTab=="Settings"){//now leaving settings tabs values need to be updated
@@ -126,7 +126,7 @@ $(function() {
             if (selecTab == "Stack") {
 
             }
-        }
+        }*/
     });
     //Set datatables jquery widget defaults:
     //observe: dataTables uses jquery interface, but DataTables applies it's own interface 
