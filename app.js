@@ -358,15 +358,7 @@ app.get('/index', function(req, res) {
     console.log('app.get/index');
 });
 
-/* GET tabX page. */
-app.get('/tabX', function(req, res) {
-    console.log('app.get/tabX');
-    res.render('tabX', {
-        user: (req.user)  //false
-        //,infos: req.flash('error')
-        //infos välittää virheilmoituksen layout sivulle
-    });
-});
+
 
 /* GET signup page */
 app.get('/signup', function(req, res) {
@@ -395,10 +387,20 @@ app.get('/signup', function(req, res) {
 });
 
 app.get('/RefleTran', function (req, res) {
-    console.log("app.get('/RefleTran') req.user: ",req.user);
+    console.log("app.get(/RefleTran) ");
     //without login; req.user==undefined
     res.render('RefleTran', {
         user: req.user
+    });
+});
+
+/* GET tabX page. */
+app.get('/tabX', function(req, res) {
+    console.log('app.get/tabX');
+    res.render('tabX', {
+        user: (req.user)  //false
+        //,infos: req.flash('error')
+        //infos välittää virheilmoituksen layout sivulle
     });
 });
 
