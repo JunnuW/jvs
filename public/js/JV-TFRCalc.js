@@ -33,6 +33,7 @@
 
 $(function() {
     alert('jv-tfrcalc toimii');
+
     // Variable declarations:
     /* Tämä var aTreeData;   //Data object holding directory tree JSON data from mongo database
     var backR;       //true or false back reflection included or not
@@ -105,7 +106,8 @@ $(function() {
     //Initialize Tabs- ui on the web-page:
     //var tabs = $("#tabs").tabs({heightStyle: "fill"});
     //$("#tabsiX2").tabs();
-   jQuery("#tabs").tabs({
+    $( "#tabs" ).tabs();
+   //tämäjQuery("#tabs").tabs({
         //tabs panel täyttää koko näytön korkeuden:
         //TämäheightStyle: "fill"
         //seuraava päivittää graafit ja taulukot kun tabsia klikataan:
@@ -141,7 +143,7 @@ $(function() {
 
             }
         }*/
-   });
+   //Tämä});
     //Set datatables jquery widget defaults:
     //observe: dataTables uses jquery interface, but DataTables applies it's own interface 
     /* Tämä

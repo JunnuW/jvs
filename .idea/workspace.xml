@@ -25,7 +25,7 @@
         <entry file="file://$PROJECT_DIR$/public/js/jv-testi.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+              <caret line="10" column="13" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -74,8 +74,8 @@
       <file leaf-file-name="jv-tfrcalc.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/jv-tfrcalc.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.20987654">
-              <caret line="106" column="27" selection-start-line="106" selection-start-column="27" selection-end-line="106" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.74814814">
+              <caret line="108" column="13" selection-start-line="108" selection-start-column="13" selection-end-line="108" selection-end-column="13" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -840,15 +840,15 @@
     <entry file="file://$PROJECT_DIR$/public/js/jv-testi.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/jv-tfrcalc.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20987654">
-          <caret line="106" column="27" selection-start-line="106" selection-start-column="27" selection-end-line="106" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.74814814">
+          <caret line="108" column="13" selection-start-line="108" selection-start-column="13" selection-end-line="108" selection-end-column="13" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
