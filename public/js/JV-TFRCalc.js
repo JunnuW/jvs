@@ -19,21 +19,9 @@
  * This procedure is necessary because, premature script execution is useless and erroneous on elements that
  * have not yet been parsed and available for script interactions.
 */
-/*$(function() {
-    alert('jv-testi toimii');
-    var uName;
-    if (window.sessionStorage.getItem('RTFtoken') && window.sessionStorage.getItem('RTFtoken').length>0){
-        userName=window.sessionStorage.getItem('RTFuser');
-    }else{
-        uName='No login';
-    }
-    console.log('username: '+uName);
-    $( "#tabsiX" ).tabs();
-});*/
 
 $(function() {
     alert('jv-tfrcalc toimii');
-
     // Variable declarations:
     /* Tämä var aTreeData;   //Data object holding directory tree JSON data from mongo database
     var backR;       //true or false back reflection included or not
@@ -106,7 +94,7 @@ $(function() {
     //Initialize Tabs- ui on the web-page:
     //var tabs = $("#tabs").tabs({heightStyle: "fill"});
     //$("#tabsiX2").tabs();
-    $( "#tabs" ).tabs();
+    $( "#tabis" ).tabs();
    //tämäjQuery("#tabs").tabs({
         //tabs panel täyttää koko näytön korkeuden:
         //TämäheightStyle: "fill"
