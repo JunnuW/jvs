@@ -70,8 +70,50 @@
             uName='No login';
         }
         console.log('username: '+uName);
-        $( "#tabis" ).tabs();
-    });
+
+        //Set default calculation unit and mode into spArra's header (spectral array)
+         spArra.push([spUnit, RorT, '']);
+         targArr = splitToArr(targStr);
+         matrlArr = splitToArr(matrlStr);
+
+        $( "#tabis" ).tabs({
+            //tabs panel täyttää koko näytön korkeuden:
+            heightStyle: "fill",
+            //seuraava päivittää graafin ja taulukot kun tabsia klikataan:
+            activate: function (event, ui) {
+                var poisTab=ui.oldTab.index();
+                var exitTab=$("#tabs").find("ul>li a").eq(poisTab).attr('id'); //exitoivan tabsin id
+                if (exitTab=="Settings"){//now leaving settings tabs values need to be updated
+                    //alert("exiting settings");
+                    var tmpAng=$("#incAng").spinner("value")*Math.PI/180;//get incidence angle from spinner
+                    theta0=Math.Complex(tmpAng,0); //assumes loss free cover material
+                    buildSpArray(); // updates spectral wavelengths grid
+                    updNKspArra(); //updates nk-values in materials stack
+                    updTargSpArra();//updates target values
+                    updRTspArra();//updates calculated values
+                    updGraph();
+                }
+                //var nextTab =ui.newPanel.attr('id'); //antaa aktivoituvan tabsin href:in
+                var nextTab = ui.newTab.index(); //antaa aktivoidun tabs:in indeksin ul:ssä
+                var selecTab = $("#tabs").find("ul>li a").eq(nextTab).attr('id'); //aktivoidun tabsin id
+                //var selecTab = $("#tabs ul>li a").eq(nextTab).attr('id');
+                if (selecTab == "Targets") {
+                    //RorT = targArr[0][1];
+                    plotRT(targArr, 7);
+                    //$("p").css({ "color": "blue", "font-size": "1.2em"}).text("Text changed!");
+                    $('#targEditTabl').find('th:eq(0)').text("Wavel. [" + targArr[0][0] + "]")
+                        .find('th:eq(1)').text(targArr[0][1] +  " %-value");
+                    //settings tabs:in muutokset piirettiin Targets tabsiin
+                }
+                if (selecTab == "Materials") {
+                    nkPlot = plotNK(matrlArr, 8);
+                }
+                if (selecTab == "Stack") {
+
+                }
+            }
+        });
+    });//**End of document ready  jQuery  function
 
 
 

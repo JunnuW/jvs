@@ -93,13 +93,11 @@ $(function() {
 
     //Initialize Tabs- ui on the web-page:
     //var tabs = $("#tabs").tabs({heightStyle: "fill"});
-    //$("#tabsiX2").tabs();
-    $( "#tabis" ).tabs();
-   //tämäjQuery("#tabs").tabs({
+   jQuery("#tabs").tabs({
         //tabs panel täyttää koko näytön korkeuden:
-        //TämäheightStyle: "fill"
+        heightStyle: "fill",
         //seuraava päivittää graafit ja taulukot kun tabsia klikataan:
-        /*activate: function (event, ui) {
+        activate: function (event, ui) {
             var poisTab=ui.oldTab.index();
             var exitTab=$("#tabs").find("ul>li a").eq(poisTab).attr('id'); //exitoivan tabsin id
             if (exitTab=="Settings"){//now leaving settings tabs values need to be updated
@@ -130,8 +128,8 @@ $(function() {
             if (selecTab == "Stack") {
 
             }
-        }*/
-   //Tämä});
+        }
+   });
     //Set datatables jquery widget defaults:
     //observe: dataTables uses jquery interface, but DataTables applies it's own interface 
     /* Tämä
