@@ -17,6 +17,7 @@ function buildSpArray(){
     spArra=[];//grid reset
     var startV=spStart;
     var stopV=spStop;
+    console.log('startV: ',startV,' stopV: ',stopV);
     spArra.push([spUnit,RorT,'']); //first element has the unit. nm, um or eV
     if (spUnit=='eV'){
         if (spStart>0) startV=1239.8/spStart; //spinner start value in eV, converted to nm start value

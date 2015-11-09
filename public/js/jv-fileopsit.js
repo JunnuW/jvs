@@ -862,8 +862,8 @@ var buildMongoDial=function(){
             "select_node":true
         }
     });
-
-    aTree.on("change.jstree rename_node.jstree delete_node.jstree " +
+    //aTree.on("change.jstree rename_node.jstree delete_node.jstree " +
+    $('#mongoTree').on("change.jstree rename_node.jstree delete_node.jstree " +
     "deselect_all.jstree select_node.jstree", function (e, data) {
         //console.log("jstree-changed: "+Object.keys(data));
         //responds: action,node,selected,event,instance copy_node.jstree move_node.jstree

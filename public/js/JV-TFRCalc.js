@@ -130,9 +130,9 @@ $(function() {
             }
         }
    });
+
     //Set datatables jquery widget defaults:
-    //observe: dataTables uses jquery interface, but DataTables applies it's own interface 
-    /* Tämä
+    //observe: dataTables uses jquery interface, but DataTables applies it's own interface
     $.extend($.fn.dataTable.defaults, {
         "bPaginate": true,
         "bLengthChange": true,
@@ -1015,13 +1015,12 @@ $(function() {
     nkPlot = plotNK(matrlArr, 8);
     createMatEditTable(); //Voisi olla parempi funktion nimi; luodaan oMatTable
     oMatTable.fnClearTable();
-    oMatTable.fnAddData(matrlArr.slice(1));*/
+    oMatTable.fnAddData(matrlArr.slice(1));
 
     /* lisätään click handler riveille 
     * Jotta handler toimii myös jäljestä lisättyjen rivien kanssa
     * pitää käyttää .on('click',.....) tyyliä, kuten alla.
     *  [.click(function(    )] tyyli ei toimi ajon aikana lisättyjen kanssa.*/
-    /* Tämä
     oMatTable.on('click', 'td', function (evt) {
         rowInd1 = oMatTable.fnGetPosition($(this).closest('tr')[0]);
         if ($(this).closest('tr').hasClass('row_selected')) {
@@ -1404,7 +1403,7 @@ function isNumeric(value) {
                .removeClass("ui-state-disabled");
             }
         }
-    });*/
+    });
 
     //buildMongoDial(); //creates dialogform for saving to mongodb
     //DFmngo=$('#mongoDialForm'); //dialogform
@@ -1432,7 +1431,7 @@ function isNumeric(value) {
  * @param rawArr (array) Spectral data of the reflectance or transmittance target
  *
  */
-/* Tämä function addTo_specOpts(fileName, nickName, ownr, rawArr) {
+function addTo_specOpts(fileName, nickName, ownr, rawArr) {
   var tempObj = {
     File: fileName, //fileName with path
     Name: nickName, //short name for use in calculations
@@ -1441,7 +1440,7 @@ function isNumeric(value) {
     // On first line: [(Unit:nm, um or eV),(R or T),(% or abs)]
   };
   spectOpts.push(tempObj);
-}*/
+}
 
 //Add material to menu list of materials
 /**
@@ -1453,7 +1452,7 @@ function isNumeric(value) {
  * @param rawArr (array) spectral nk-data for the material
  * On array first line: [(Unit:nm, um or eV),'n','k']
  */
-/* Tämäfunction addTo_matOpt(fileName, nickName, ownr, rawArr) {
+function addTo_matOpt(fileName, nickName, ownr, rawArr) {
         var tempObj = {
             File: fileName,
             //Filename with path for server files
@@ -1487,7 +1486,7 @@ function EnDisButt(enDis, Butto) {
     $(Butto).removeAttr("disabled");
     $(Butto).removeClass('ui-button-disabled ui-state-disabled');
   }
-}*/
+}
 
 /**
  * Function to calculate reflectivity at a surface with 
@@ -1497,13 +1496,13 @@ function EnDisButt(enDis, Butto) {
  * @param Nexit (Complex) complex refractive index of exiting material
  * @return Rprcnt (number) reflectance in percents of intensity
  */
-/* Tämäfunction reflCalc(Nincid,Nexit){
+function reflCalc(Nincid,Nexit){
   var x = Nincid.sub(Nexit);//substracts two complex numbers
   var y = Nincid.add(Nexit);//adds two complex numbers
   var z=x.divBy(y);//divides two complex numbers
   var Rprcnt = 100*z.mult(Complex.conj(z));
   return Rprcnt.abs();
-}*/
+}
 
 /**
  * Function builds a comlex refracrive index 
@@ -1512,12 +1511,12 @@ function EnDisButt(enDis, Butto) {
  * @param (number) k - extinction index
  * @return (Complex) N - complex refractive index
  */
-/* Tämäfunction complN(n,k){
+function complN(n,k){
   var N = Math.Complex(n,k);
   return N;
-}*/
+}
 
-/* Tämäfunction matrixMult() {
+function matrixMult() {
   //theta0 is the complex incidence angle
   //polaris equals either "TE" or "TM"
   var k = stackArr.length; //number of material layers
@@ -1620,7 +1619,7 @@ function EnDisButt(enDis, Butto) {
       }
     } //calculated either R% or T% into spArra
   } //wavelengths loop ends
-}*/
+}
 
 /*tällä rakenteella voi lisätä omia funktioita jqueryyn:
 (function($){
