@@ -1,58 +1,40 @@
 doctype html
 html(lang="us")
   head
-    //meta(charset="utf-8")
+    meta(charset="utf-8")
     ////title "OTF - R &amp; T Calculator"
-    ////script if (window.File && window.FileReader && window.FileList && window.Blob){console.log('Great Success: The File APIs are fully supported in your browser. see: http://caniuse.com/#feat=fileapi');}
-    ////  |else{alert('HTML5 - File APIs are not fully supported in this browser. See: http://caniuse.com/#feat=fileapi');}
-    ////src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    ////script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js')
+    script if (window.File && window.FileReader && window.FileList && window.Blob){console.log('Great Success: The File APIs are fully supported in your browser. see: http://caniuse.com/#feat=fileapi');}
+     |else{alert('HTML5 - File APIs are not fully supported in this browser. See: http://caniuse.com/#feat=fileapi');}
+    //script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js')
     script(src='/bower_components/jquery/dist/jquery.min.js')
     script(src='/bower_components/jquery-ui/jquery-ui.js')
     script(src='/bower_components/jeditable/jquery.jeditable.js')
     link(rel='stylesheet', href='/bower_components/jquery-ui/themes/start/jquery-ui.min.css')
     script(src='/public/js/jv-tfrcalci.js')
-    //link(rel='stylesheet', href='/public/css/jv-tfrcalc.css')
-    //script(src='/bower_components/flot/jquery.flot.js')
-    //script(src='/bower_components/flot/jquery.flot.crosshair.js')
-    //script(src='/bower_components/flot/jquery.flot.selection.js')
-    //script(src='/bower_components/flot-axislabels/jquery.flot.axislabels.js')
-    //script(src='/bower_components/datatables/media/js/jquery.dataTables.min.js')
-    ////-script(src='/bower_components/jquery-validate/dist/jquery.validate.min.js')
-    //script(src='/bower_components/js-math-complex/math-complex.min.js')
-    //script(src='/bower_components/jstree/dist/jstree.min.js')
-    //script(src='/public/js/jv-fileops.js')
-    //script(src='/public/js/repeatedclick.js')
-    ////-repeated click needed for spinner controls on settings and file-stack tabs
-    //script(src='/js/jv-tablandplot.js')
-    //script(src='/bower_components/jqnotifybar/jquery.notifyBar.js')
-    //link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
-    //script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
-    //link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
-    //link(rel='stylesheet', href='/css/jv-tfrcalc.css')
-    //link(rel='stylesheet', href='/bower_components/jstree/dist/themes/default/style.min.css')
-    //link(rel='stylesheet', href='/bower_components/datatables/media/css/jquery.dataTables.min.css')
-    ////-link(rel='stylesheet', href='/bower_components/jquery-file-tree/dist/css/jqueryFileTree.min.css', media="screen")
-    ////-tarkastetaan että selain tukee File APIa, siirrä seuraava rivi if silmukkaan, antaa ilmoituksen onnistumisesta
-    ////-alert('Great Success: The File APIs are fully supported in this browser. see: http://caniuse.com/#feat=fileapi');
+    link(rel='stylesheet', href='/public/css/jv-tfrcalc.css')
+    script(src='/bower_components/flot/jquery.flot.js')
+    script(src='/bower_components/flot/jquery.flot.crosshair.js')
+    script(src='/bower_components/flot/jquery.flot.selection.js')
+    script(src='/bower_components/flot-axislabels/jquery.flot.axislabels.js')
+    script(src='/bower_components/datatables/media/js/jquery.dataTables.min.js')
+    //-script(src='/bower_components/jquery-validate/dist/jquery.validate.min.js')
+    script(src='/bower_components/js-math-complex/math-complex.min.js')
+    script(src='/bower_components/jstree/dist/jstree.min.js')
+    script(src='/public/js/jv-fileops.js')
+    script(src='/public/js/repeatedclick.js')
+    //-repeated click needed for spinner controls on settings and file-stack tabs
+    script(src='/js/jv-tablandplot.js')
+    script(src='/bower_components/jqnotifybar/jquery.notifyBar.js')
+    link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
+    script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+    link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/jv-tfrcalc.css')
+    link(rel='stylesheet', href='/bower_components/jstree/dist/themes/default/style.min.css')
+    link(rel='stylesheet', href='/bower_components/datatables/media/css/jquery.dataTables.min.css')
+    //-link(rel='stylesheet', href='/bower_components/jquery-file-tree/dist/css/jqueryFileTree.min.css', media="screen")
+    //-tarkastetaan että selain tukee File APIa, siirrä seuraava rivi if silmukkaan, antaa ilmoituksen onnistumisesta
+    //-alert('Great Success: The File APIs are fully supported in this browser. see: http://caniuse.com/#feat=fileapi');
   body
-    //div(id="tabsiX2")
-      ul
-        li
-          a(id='hh1',href="#tabX-1") huuhaa1
-        li
-          a(id='hh2',href="#tabX-2") huuhaa2
-        li
-          a(id='hh3',href="#tabX-3") huuhaa3
-        li
-          a(id='hh4',href="#tabX-4") huuhaa4
-        li
-          a(id='hh5',href="#tabX-5") huuhaa5
-      include tabX1.jade
-      include tabX2.jade
-      include tabX3.jade
-      include tabX4.jade
-      include tabX5.jade
     div(id="tabis")
       ul
         li
@@ -70,4 +52,4 @@ html(lang="us")
       include tab6.jade
       include tab7.jade
       include tab8.jade
-    //include mongoDialForm.jade
+    include mongoDialForm.jade
