@@ -3,7 +3,6 @@
 body{font: 62.5% "Trebuchet MS", sans-serif; margin: 5px;}
     .TF-calculus {margin-top: 1em;}
     .bold{font-weight: bold;}
- 
 table.display
     .even.row_selected td {background-color: #B0BED9;}
     .odd.row_selected td {background-color: #9FAFD1;}

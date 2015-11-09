@@ -7,6 +7,7 @@
  /**
  * Spectral wavelength points array creator
  * @function
+ *
  */
 function buildSpArray(){
     //Calculations is always are done in nm units and array has uniform grid
