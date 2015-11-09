@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\Juha\jvs\public\js\JV-FileOps.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/RefleTran.jade" afterPath="$PROJECT_DIR$/views/RefleTran.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/jv-fileopsit.js" afterPath="$PROJECT_DIR$/public/js/jv-fileopsit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/jv-tablandplot.js" afterPath="$PROJECT_DIR$/public/js/jv-tablandplot.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/jv-tfrcalc.css" afterPath="$PROJECT_DIR$/public/css/jv-tfrcalc.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/jv-tablandplotit.js" />
+      <change type="DELETED" beforePath="C:\Users\Juha\jvs\public\js\JV-TablAndPlot.js" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\Juha\jvs\views\RefleTran.jade" afterPath="$PROJECT_DIR$/views/refletrans.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.jade" afterPath="$PROJECT_DIR$/views/layout.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/tabX.jade" afterPath="$PROJECT_DIR$/views/tabX.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -39,11 +39,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.5506173">
+              <caret line="401" column="30" selection-start-line="401" selection-start-column="30" selection-end-line="401" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="layout.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/layout.jade">
+          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="399" column="35" selection-start-line="399" selection-start-column="35" selection-end-line="399" selection-end-column="35" />
+              <caret line="56" column="43" selection-start-line="56" selection-start-column="43" selection-end-line="56" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -54,16 +64,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-1.5">
               <caret line="3" column="2" selection-start-line="3" selection-start-column="2" selection-end-line="3" selection-end-column="2" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RefleTran.jade" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/RefleTran.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0755712">
-              <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -99,8 +99,8 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jv-tablandplot.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/jv-tablandplot.js">
+      <file leaf-file-name="jv-tablandplotit.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/jv-tablandplotit.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-4.0">
               <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
@@ -149,14 +149,12 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/bower.json" />
-        <option value="$PROJECT_DIR$/views/layout.jade" />
         <option value="$PROJECT_DIR$/views/index.jade" />
         <option value="$PROJECT_DIR$/views/tabX5.jade" />
         <option value="$PROJECT_DIR$/views/tabX4.jade" />
         <option value="$PROJECT_DIR$/views/tabX3.jade" />
         <option value="$PROJECT_DIR$/views/tabX2.jade" />
         <option value="$PROJECT_DIR$/views/tabX1.jade" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/public/js/jv-testi.js" />
         <option value="$PROJECT_DIR$/views/tabX.jade" />
         <option value="$PROJECT_DIR$/public/js/jv-tfrcalc.js" />
@@ -166,6 +164,8 @@
         <option value="$PROJECT_DIR$/public/js/jv-tablandplot.js" />
         <option value="$PROJECT_DIR$/public/js/jv-fileopsit.js" />
         <option value="$PROJECT_DIR$/views/RefleTran.jade" />
+        <option value="$PROJECT_DIR$/views/layout.jade" />
+        <option value="$PROJECT_DIR$/app.js" />
       </list>
     </option>
   </component>
@@ -267,24 +267,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jvs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jvs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -414,7 +396,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32861635" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25786164" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25786164" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32861635" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2087994" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3899371" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -738,14 +720,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3220339">
-          <caret line="55" column="65" selection-start-line="55" selection-start-column="65" selection-end-line="55" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/login.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.2352943">
@@ -802,14 +776,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="399" column="35" selection-start-line="399" selection-start-column="35" selection-end-line="399" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/jv-testi.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -842,7 +808,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/jv-tablandplot.js">
+    <entry file="file://$PROJECT_DIR$/public/js/jv-tablandplotit.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.0">
           <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
@@ -862,6 +828,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/views/refletrans.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6115993">
+          <caret line="23" column="45" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/jv-fileopsit.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.5">
@@ -870,10 +844,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/RefleTran.jade">
+    <entry file="file://$PROJECT_DIR$/views/layout.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0755712">
-          <caret line="36" column="6" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="56" column="43" selection-start-line="56" selection-start-column="43" selection-end-line="56" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5506173">
+          <caret line="401" column="30" selection-start-line="401" selection-start-column="30" selection-end-line="401" selection-end-column="30" />
           <folding />
         </state>
       </provider>

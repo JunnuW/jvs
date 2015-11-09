@@ -396,10 +396,10 @@ app.get('/tabX', function(req, res) {
     });
 });
 
-app.get('/RefleTran', function (req, res) {
-    console.log('app.get/RefleTran');
+app.get('/refletrans', function (req, res) {
+    console.log('app.get/refletrans');
     //without login; req.user==undefined
-    res.render('RefleTran', {
+    res.render('refletrans', {
         user: (req.user)
     });
 });
