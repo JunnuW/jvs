@@ -497,13 +497,13 @@ app.post('/signup', function (req, res) {
 });
 
 app.post('/auth/*', function(req,res){
-        console.log('post auth: ',req.url, ' req.body: ',req.body);
-        console.log(' req.user: ',req.user);
+        //console.log('post auth: ',req.url, ' req.body: ',req.body);
+        //console.log(' req.user: ',req.user);
         var urli=req.url;
         urli=urli.slice(5);
         if (req.body.rtftoken){
             //private directory selected or admin user login as Publ
-            console.log('directory: ',req.body.userNme);
+            //console.log('directory: ',req.body.userNme);
             valFileOps(req,res);
         }else{
             //user does not have admin rights:

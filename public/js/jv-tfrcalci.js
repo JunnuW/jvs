@@ -1330,9 +1330,9 @@ $(function() {
                     if (!selected_file) return;
                     matrlFileNme = selected_file.name;
                     $("#EdiMaterLbl").text("Local File: ");
-                    console.log('this.value: '+this.value);
+                    //console.log('this.value: '+this.value);
                     $('#EdiMater').val(this.value);
-                    console.log('matrlFileNme: '+matrlFileNme);
+                    //console.log('matrlFileNme: '+matrlFileNme);
                     $('#')
                     $('#EdiMater').val(this.value);
                     break;

@@ -350,7 +350,7 @@ function mongoSave(saveUrl,flNme) {
         dJson = toJsonArr(datColl, flNme, [], $('#mongFileDesc').val());
     }
     else {
-        console.log('arrSave.length: ' + arrSave.length);
+        //console.log('arrSave.length: ' + arrSave.length);
         dJson = toJsonArr(datColl, flNme, arrSave, $('#mongFileDesc').val());
         //dJson=toJsonArr(userName,datColl,flNme,[["nm","n","k"],[400,1.5,0.1],[420,1.51,0.05]],$('#mongFileDesc').val());
         //dJson=toJsonArr(userName,datColl,flNme,[["nm","R (or T)","% (or Abs)"],[500,55],[510,54]],[520,55]],$('#mongFileDesc').val());
@@ -362,7 +362,7 @@ function mongoSave(saveUrl,flNme) {
         .done(function (datas) {
             //successfull saving responds "saving OK" otherwise an error message
             if (datas) {
-                console.log('saving response: ' + datas);
+                //console.log('saving response: ' + datas);
                 if (datas == "saving OK" || datas.indexOf('updated') > -1) {
                     $('#btn-mngOpenSave').text("Save current data");//return original caption
                     matrlArr[0][3]=$('#mongFileDesc').val();
@@ -418,7 +418,7 @@ function pickCollection(){
 function saveToMngoDb(mngFileN){
     //it is necessary to check, if the filename already exists:
     var datColl=pickCollection();
-    console.log('checking if file exists: '+mngFileN);
+    //console.log('checking if file exists: '+mngFileN);
         var saveUserFile = $.post('/auth/checkOneUserF',{
             userNme: userName,
             //chooses between materials or targets data files
