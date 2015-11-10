@@ -60,18 +60,8 @@ exports.obtainOne=function(req,res){
         if (!err && docum) {
             //Reading was successful, convert to string:
             docRes = (toRes=='wholeDoc')? JSON.stringify(docum) : docum.description;
-            /*if (toRes=='all'){
-             var docRes = JSON.stringify(docum); //document converted to string for transmission to client
-             }
-             else {
-             var docRes = JSON.stringify(docum.description); //description converted to string
-             }*/
             res.writeHead(200, {'content-type': 'text/plain' });
-            //res.write(resp);
-            //res.write(JSON.stringify(resp));
-            //res.end();
             res.write('DocumentOK :'+docRes);
-            //res.status(200);
             res.end();
             //message.type = 'notificatication'
         }

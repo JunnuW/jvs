@@ -386,16 +386,6 @@ app.get('/signup', function(req, res) {
     }
 });
 
-/* GET tabX page. */
-/*app.get('/tabX', function(req, res) {
-    console.log('app.get/tabX');
-    res.render('tabX', {
-        //user: (req.user)  //false
-        //,infos: req.flash('error')
-        //infos välittää virheilmoituksen layout sivulle
-    });
-});*/
-
 app.get('/refletrans', function (req, res) {
     console.log('app.get/refletrans');
     //without login; req.user==undefined
