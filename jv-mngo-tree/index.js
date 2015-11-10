@@ -66,8 +66,12 @@ exports.obtainOne=function(req,res){
              else {
              var docRes = JSON.stringify(docum.description); //description converted to string
              }*/
+            res.writeHead(200, {'content-type': 'text/plain' });
+            //res.write(resp);
+            //res.write(JSON.stringify(resp));
+            //res.end();
             res.write('DocumentOK :'+docRes);
-            res.status(200);
+            //res.status(200);
             res.end();
             //message.type = 'notificatication'
         }

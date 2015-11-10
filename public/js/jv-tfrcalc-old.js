@@ -12,7 +12,7 @@
  * script(src='/bower_components/jquery/dist/jquery.min.js')
  *
  * The function is included in the web-page html file through head section line:
- * script(src='/RefTran/js/jv-tfrcalc.js')
+ * script(src='/RefTran/js/jv-tfrcalc-old.js')
  * The script runs automatically after the HTML5 document has been loaded and parsed ready
  * on the browser. In automatic execution it is equivalent to
  * (=shorthand) to '$(document).ready(function(){xxx})'.
@@ -20,56 +20,49 @@
  * have not yet been parsed and available for script interactions.
 */
 
-$(function() {
-    alert('jv-tfrcalc toimii');
-    // Variable declarations:
-    /* Tämä var aTreeData;   //Data object holding directory tree JSON data from mongo database
-    var backR;       //true or false back reflection included or not
-    var dirUser='Publ'; //server directory user default
-    var DFmngo;
-    var frontR;         //true or false front reflection included or not
-    var locReader = new FileReader();
-    var matrlArr=[];    //first row: [nm|um|eV, n, k]
-    var matrlFileNme;
+// Variable declarations:
+var aTreeData;   //Data object holding directory tree JSON data from mongo database
+var backR;       //true or false back reflection included or not
+var dirUser='Publ'; //server directory user default
+var DFmngo;
+var frontR;         //true or false front reflection included or not
+var locReader = new FileReader();
+var matrlArr=[];    //first row: [nm|um|eV, n, k]
+var matrlFileNme;
 //to initialize material string with some n and k values to show in table and graph:
-    var matrlStr = "nm\tn\tk\r\n500\t1.0\t0.0\r\n510\t1.5\t0.2\r\n520\t1.2\t0.4";
-    var matOpt = [];    //materials to be used in calculations, including their nk-tables,
-    var nkPlot;         //Graph for n&k Data
-    var oMatOptTable = {};
-    var oMatTable={};   //objekti, materiaalilista dataTables widgettiä varten
-    var oStackTable = {};
-    var oTargOptTable = {};
-    var otargTable = {};  //objekti, targettilista dataTables widgettiä varten
-    var polaris;          //porization direction 'TE' (s) or 'TM' (p)
+var matrlStr = "nm\tn\tk\r\n500\t1.0\t0.0\r\n510\t1.5\t0.2\r\n520\t1.2\t0.4";
+var matOpt = [];    //materials to be used in calculations, including their nk-tables,
+var nkPlot;         //Graph for n&k Data
+var oMatOptTable = {};
+var oMatTable={};   //objekti, materiaalilista dataTables widgettiä varten
+var oStackTable = {};
+var oTargOptTable = {};
+var otargTable = {};  //objekti, targettilista dataTables widgettiä varten
+var polaris;          //porization direction 'TE' (s) or 'TM' (p)
 //var resTarg = [,]; //Array for calculation result and target
-    var RorT = 'R';    //Spectrum type R (=default) for reflectance T for transmittance
-    var rowInd1 = 0;
-    var RTPlot;        //Graph for R&T Data
-    var selctdNde={};   //selected node in jsTree
-    var spArra=[,,];   //spectral points array for calculations and display
-    var spNum=201;     //number of spectral points
-    var spectOpts = [];//list of selected target or measured spectra
-    var spStart=400;   //first spectral point in calculations
-    var spStop=1000;   //last spectral point in calculations
-    var spUnit='nm';   //käytössä oleva spektrin yksikkö (nm oletus),
+var RorT = 'R';    //Spectrum type R (=default) for reflectance T for transmittance
+var rowInd1 = 0;
+var RTPlot;        //Graph for R&T Data
+var selctdNde={};   //selected node in jsTree
+var spArra=[,,];   //spectral points array for calculations and display
+var spNum=201;     //number of spectral points
+var spectOpts = [];//list of selected target or measured spectra
+var spStart=400;   //first spectral point in calculations
+var spStop=1000;   //last spectral point in calculations
+var spUnit='nm';   //käytössä oleva spektrin yksikkö (nm oletus),
 //initialize film stack to have only substrate and cover materials:
 //refractive index data is added as n- and k-vectors to the end of each stack line:
-    var stackArr = [['Cover','DblClick to edit!','bulk','no'],['Substr.','DblClick to edit!','bulk','no']];
+var stackArr = [['Cover','DblClick to edit!','bulk','no'],['Substr.','DblClick to edit!','bulk','no']];
 //ToDo: siirrä stackArr:in alustus document ready funktioon:
-    var stackPL;       //Graph for stack R|T or film nk
-    var userName = 'No login'; // after login obtained from web-server
-    var targArr = [];
+var stackPL;       //Graph for stack R|T or film nk
+var userName = 'No login'; // after login obtained from web-server
+var targArr = [];
 //initialize target string with some R% values to show in table and graph:
-    var targStr = "nm\tR\t'sample data'\r\n500\t55.0\r\n510\t54.0\r\n520\t55.0";
-    var targtFileNme;
-    var theta0;        //complex incidence angle
- alert('huuhaa');*/
-//jQuery(document).ready(function(){
-//jQuery(function () {
-    //console.log('running jv-tfrcalc');
-    //get user name from server:
-    //var huuhaa="jj";
+var targStr = "nm\tR\t'sample data'\r\n500\t55.0\r\n510\t54.0\r\n520\t55.0";
+var targtFileNme;
+var theta0;        //complex incidence angle
 
+$(function() {
    /* var cookies = get_cookies_array();
     for(var name in cookies) {
         console.log('cookiename: '+name+' : '+cookies[name]);

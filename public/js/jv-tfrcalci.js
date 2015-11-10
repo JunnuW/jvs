@@ -21,26 +21,28 @@
  * have not yet been parsed and available for script interactions.
  */
 
-// ******Global Variable declarations****:
-var aTreeData;   //Data object holding directory tree JSON data from mongo database
-var backR;       //true or false back reflection included or not
-var dirUser='Publ'; //server directory user default
-var DFmngo;
+/* *****Global Variable declarations*****
+* These should be kept out of document ready function, otherwise become  unavailable
+*
+*/
+var aTreeData;      //Data object for directory tree (JSON data) obtained from mongo database
+var backR;          //true or false; backside reflection included or not
+var dirUser='Publ'; //server directory user default (No Login)
+var DFmngo;         //Dialogform for file operations
 var frontR;         //true or false front reflection included or not
 var locReader = new FileReader();
 var matrlArr=[];    //first row: [nm|um|eV, n, k]
-var matrlFileNme;
-//to initialize material string with some n and k values to show in table and graph:
+var matrlFileNme;   //Filename for optical properties
+//initializes material string with some n and k values to show in table and graph:
 var matrlStr = "nm\tn\tk\r\n500\t1.0\t0.0\r\n510\t1.5\t0.2\r\n520\t1.2\t0.4";
 var matOpt = [];    //materials to be used in calculations, including their nk-tables,
 var nkPlot;         //Graph for n&k Data
 var oMatOptTable = {};
 var oMatTable={};   //objekti, materiaalilista dataTables widgettiä varten
-var oStackTable = {};
-var oTargOptTable = {};
-var otargTable = {};  //objekti, targettilista dataTables widgettiä varten
+var oStackTable = {};   //covermaterial, layers and substrate
+var oTargOptTable = {}; //fitting targets nenu
+var otargTable = {};    //targettilista dataTables widgettiä varten
 var polaris;          //porization direction 'TE' (s) or 'TM' (p)
-//var resTarg = [,]; //Array for calculation result and target
 var RorT = 'R';    //Spectrum type R (=default) for reflectance T for transmittance
 var rowInd1 = 0;
 var RTPlot;        //Graph for R&T Data
@@ -63,15 +65,17 @@ var targStr = "nm\tR\t'sample data'\r\n500\t55.0\r\n510\t54.0\r\n520\t55.0";
 var targtFileNme;
 var theta0;        //complex incidence angle
 
-//Document ready function:
-    $(function() {
-        var uName;
+/* *****Document ready function ***********
+*   This runs after refletrans page has been rendered
+*   Initializes variables and prepares event handlers
+*/
+$(function() {
         if (window.sessionStorage.getItem('RTFtoken') && window.sessionStorage.getItem('RTFtoken').length>0){
             userName=window.sessionStorage.getItem('RTFuser');
         }else{
-            uName='No login';
+            userName='No login';
         }
-        console.log('username: '+uName);
+        //console.log('username: '+userName);
 
         //Set default calculation unit and mode into spArra's header (spectral array)
          spArra.push([spUnit, RorT, '']);
@@ -84,7 +88,7 @@ var theta0;        //complex incidence angle
             //seuraava päivittää graafin ja taulukot kun tabsia klikataan:
             activate: function (event, ui) {
                 var poisTab=ui.oldTab.index();
-                var exitTab=$("#tabs").find("ul>li a").eq(poisTab).attr('id'); //exitoivan tabsin id
+                var exitTab=$("#tabis").find("ul>li a").eq(poisTab).attr('id'); //exitoivan tabsin id
                 if (exitTab=="Settings"){//now leaving settings tabs values need to be updated
                     //alert("exiting settings");
                     var tmpAng=$("#incAng").spinner("value")*Math.PI/180;//get incidence angle from spinner
@@ -97,7 +101,7 @@ var theta0;        //complex incidence angle
                 }
                 //var nextTab =ui.newPanel.attr('id'); //antaa aktivoituvan tabsin href:in
                 var nextTab = ui.newTab.index(); //antaa aktivoidun tabs:in indeksin ul:ssä
-                var selecTab = $("#tabs").find("ul>li a").eq(nextTab).attr('id'); //aktivoidun tabsin id
+                var selecTab = $("#tabis").find("ul>li a").eq(nextTab).attr('id'); //aktivoidun tabsin id
                 //var selecTab = $("#tabs ul>li a").eq(nextTab).attr('id');
                 if (selecTab == "Targets") {
                     //RorT = targArr[0][1];
@@ -1402,8 +1406,8 @@ var theta0;        //complex incidence angle
          stackPL = plotNK(matrlArr, 8);
          //ToDo:check resize-scaling in stack plot
          });
-//--------------------------------------------------------------------------------
-    });//**End of document ready  jQuery  function
+});
+//**End of document ready  jQuery  function
 
 /**
  * Function to add a R- or T-spectrum to the targets menu
@@ -1617,18 +1621,3 @@ function matrixMult() {
  //}
  });
  })(jQuery); */
-
-
-
- 		
-
-
-
-
-
-
-
-
-
-
-

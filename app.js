@@ -387,14 +387,14 @@ app.get('/signup', function(req, res) {
 });
 
 /* GET tabX page. */
-app.get('/tabX', function(req, res) {
+/*app.get('/tabX', function(req, res) {
     console.log('app.get/tabX');
     res.render('tabX', {
         //user: (req.user)  //false
         //,infos: req.flash('error')
         //infos välittää virheilmoituksen layout sivulle
     });
-});
+});*/
 
 app.get('/refletrans', function (req, res) {
     console.log('app.get/refletrans');
@@ -535,6 +535,7 @@ app.post('/auth/*', function(req,res){
                 mngoTree.checkOneUserFile(req,res);
                 break;
             case '/dbFindOne' :
+                console.log('dbFindOne in post');
                 mngoTree.obtainOne(req,res);
                 break;
             case '/dbUpdate' :

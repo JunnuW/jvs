@@ -3,7 +3,8 @@
  * voihan v.....
  *
  */
-//"use strict";
+
+"use strict";
 function sendData(data) {
     //post without jquery interactions, but
     //this function is not used, kept for future needs
@@ -42,15 +43,15 @@ function sendData(data) {
 }
 
 /**
- * Function Fill matrlArr with data from mongodb
+ * Function Fill matrlArr with data obtained from mongodb
  * @resObj  object returned from mongodb
  * @function
  */
 function respToArr(fileName,resObj) {
     //build matrlArr, then update table and graph
     var dataArrs=resObj.datArrs; //is still an object
-    var activeTab = $("#tabs").tabs("option", "active");
-    var selecTabId = $("#tabs ul>li a").eq(activeTab).attr('id');
+    var activeTab = $("#tabis").tabs("option", "active");
+    var selecTabId = $("#tabis ul>li a").eq(activeTab).attr('id');
     var laabel;
     if (dirUser=='Publ'){
         laabel='Public server file:'
@@ -75,7 +76,7 @@ function respToArr(fileName,resObj) {
         }
         $('#EdiMater').val(fileName);
         $('#EdiMaterLbl').val(laabel);
-        console.log('matrlArr[0][3]: '+matrlArr[0][3]);
+        //console.log('matrlArr[0][3]: '+matrlArr[0][3]);
         if (matrlArr[0][3]) $('#descMater').val(matrlArr[0][3]);
         oMatTable.fnClearTable();
         oMatTable.fnAddData(matrlArr.slice(1));
@@ -134,10 +135,10 @@ function mongoReadDesc(fileName){
         .done(function (datas) {
             //successful reading responds "reading OK" otherwise an error message
             if (datas){
-                console.log('Document reading response: '+datas);
+                //console.log('Document reading response: '+datas);
                 if (datas.indexOf("DocumentOK")==0){//gives -1 if not found
                     var resText=datas.slice(datas.indexOf(':')+1); //cuts out 'documentOK' from the beginning
-                    console.log('resText: '+resText);
+                    //console.log('resText: '+resText);
                     //$.notifyBar({
                     //    cssClass: "success",
                     //    html: 'File description OK' // "File was read for description:"
@@ -192,7 +193,7 @@ function mongoGetOne(fileName){
                         cssClass: "success",
                         html: respnce // "File was read:"
                     });
-                    //console.log("file was read");
+                    //console.log("file was read",resObj);
                     //todo: update filename and description inputs
                     respToArr(fileName,resObj);     //updates matrlArr to opened document
                     /*oMatTable.fnClearTable(); //clear nk table on tab-8
@@ -505,8 +506,8 @@ function treeUpdate(){
     if (userName!='No login'){
         tokene=window.sessionStorage.getItem('RTFtoken');
     }
-    console.log('dirUser: ',dirUser);
-    console.log('treeupdate tokene: ',tokene);
+    //console.log('dirUser: ',dirUser);
+    //console.log('treeupdate tokene: ',tokene);
     //fetches all user's file titles with their paths from server:
     var checkUserFiles = $.post('/auth/checkAllUserF',{
         userNme: dirUser,
@@ -642,8 +643,8 @@ function gotTextFile(fileCont) {
     //callback after reading local files on material editor tab
     //test timo:
     //setTimeout(function(){alert("tab oli: "+cBackTab+"  File: "+fileCont.length)},30000);
-    var activeTab = $("#tabs").tabs("option", "active");
-    var selecTabId = $("#tabs ul>li a").eq(activeTab).attr('id');
+    var activeTab = $("#tabis").tabs("option", "active");
+    var selecTabId = $("#tabis ul>li a").eq(activeTab).attr('id');
     if (selecTabId == "Materials") {
         matrlArr = splitToArr(fileCont);
         oMatTable.fnClearTable();
@@ -894,6 +895,8 @@ var buildMongoDial=function(){
                 //enable input boxes:
                 $('#mongoFileName').prop("disabled",false);
                 $('#directoName').prop("disabled",false);
+                //get the open or save option:
+                var dialTitle=$("#mongoDialForm").dialog("option","title");
                 //select button text between on Open or Save
                 if (dialTitle.indexOf('Open')>-1){
                     $('#btn-mngOpenSave').text('Open File');
@@ -953,8 +956,8 @@ var buildMongoDial=function(){
     });
 
     $('#btnUserDir').click(function(){
-        var activeTab = $("#tabs").tabs("option", "active");
-        var selecTabId = $("#tabs ul>li a").eq(activeTab).attr('id');
+        var activeTab = $("#tabis").tabs("option", "active");
+        var selecTabId = $("#tabis ul>li a").eq(activeTab).attr('id');
         if (userName!='No login'){ //user has logged in (but login maybe expired; token will be checked)
             dirUser=userName;
             $('#frm-Login').hide();
@@ -1029,9 +1032,9 @@ var buildMongoDial=function(){
     });
 
     $('#btnPublDir').click(function(){
-        var activeTab = $("#tabs").tabs("option", "active");
-        var selecTabId = $("#tabs ul>li a").eq(activeTab).attr('id');
-        console.log('tabs: '+selecTabId);
+        var activeTab = $("#tabis").tabs("option", "active");
+        var selecTabId = $("#tabis ul>li a").eq(activeTab).attr('id');
+        //console.log('tabis: '+selecTabId);
         dirUser='Publ';
         treeUpdate();
         $('#FilTreLege').text('Files on server in public directory');
@@ -1046,6 +1049,7 @@ var buildMongoDial=function(){
 
     $('#btnLocDir').click(function(){
         //Click is either for saving or opening a file in a local directory:
+        var dialTitle=$("#mongoDialForm").dialog("option","title");//gets the open or save options:
         if (dialTitle.indexOf('Open')>-1){//click is for file opening operation :
             if (dialTitle.indexOf('material')>-1){//request is to open a material file:
                 $('#descMater').val('');
@@ -1291,8 +1295,8 @@ function makeOptsArr(aRRa){
 }
 
 function findOwner(){
-    var activeTab = $("#tabs").tabs("option", "active");
-    var selecTabId = $("#tabs ul>li a").eq(activeTab).attr('id').trim();
+    var activeTab = $("#tabis").tabs("option", "active");
+    var selecTabId = $("#tabis ul>li a").eq(activeTab).attr('id').trim();
     var laabl='';
     switch (selecTabId){
         case "Targets":
