@@ -395,7 +395,6 @@ app.get('/refletrans', function (req, res) {
 });
 
 
-
 app.post('/login',function(req,res){
     console.log("app.post('/login') req.headers: "+JSON.stringify(req.headers));
     passport.authenticate('local',function(err, user, info) {
@@ -498,7 +497,7 @@ app.post('/signup', function (req, res) {
 });
 
 app.post('/auth/*', function(req,res){
-        console.log('post auth: ',req.url, ' req.body.userNme: ',req.body.userNme);
+        console.log('post auth: ',req.url, ' req.body: ',req.body);
         console.log(' req.user: ',req.user);
         var urli=req.url;
         urli=urli.slice(5);

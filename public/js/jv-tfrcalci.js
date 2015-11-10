@@ -1180,7 +1180,7 @@ $(function() {
 
         // Tabs-7 and Tabs-8: Save button click handler:
         $('#btnSaveMat, #btnSaveTarg').click(function(){
-            console.log('klikattu: '+this.id);
+            //console.log('klikattu: '+this.id);
             //alert('nappi: ' + this.id);
             var dirSer;
             var selDirTxt;

@@ -347,17 +347,18 @@ function mongoSave(saveUrl,flNme) {
     var dJson;
     if (flNme == $('#directoName').val()) {
         //save operation on directory
-        dJson = toJsonArr(userName, tokene, datColl, flNme, [], $('#mongFileDesc').val());
+        dJson = toJsonArr(datColl, flNme, [], $('#mongFileDesc').val());
     }
     else {
         console.log('arrSave.length: ' + arrSave.length);
-        dJson = toJsonArr(userName, tokene, datColl, flNme, arrSave, $('#mongFileDesc').val());
+        dJson = toJsonArr(datColl, flNme, arrSave, $('#mongFileDesc').val());
         //dJson=toJsonArr(userName,datColl,flNme,[["nm","n","k"],[400,1.5,0.1],[420,1.51,0.05]],$('#mongFileDesc').val());
         //dJson=toJsonArr(userName,datColl,flNme,[["nm","R (or T)","% (or Abs)"],[500,55],[510,54]],[520,55]],$('#mongFileDesc').val());
     }
-    var dbSave = $.post(saveUrl,
-        {data: JSON.stringify(dJson)}
-    )
+    var dbSave = $.post(saveUrl, {
+        userNme:  dirUser,
+        rtftoken: tokene,
+        data: JSON.stringify(dJson) })
         .done(function (datas) {
             //successfull saving responds "saving OK" otherwise an error message
             if (datas) {
@@ -570,7 +571,7 @@ function treeUpdate(){
  * @param desc (text) descriptor for the data
  * @param coLLe (text) mongo database collection name for the saving
  */
-function toJsonArr(userName, tokene, coLLe, filename, arrDat, desc) {
+function toJsonArr(coLLe, filename, arrDat, desc) {
     //var resu={};
     var unit=arrDat[0][0]; //should be
     if (unit!="nm" && unit!="um" && unit!="eV") {
@@ -580,8 +581,6 @@ function toJsonArr(userName, tokene, coLLe, filename, arrDat, desc) {
     desc= desc.replace(/(^[\"\']+)|([\"\']+$)/g, ""); //remove leading and trailing single and double quotes
     var sPoints=[];
     var resu = {}; //define result as json object
-        resu.User = userName;
-        resu.rtftoken =tokene;
         resu.Collection = coLLe;
         resu.Filename = filename;
         resu.Unit = unit; //wavelength unit: nm, um or eV

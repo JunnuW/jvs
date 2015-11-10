@@ -246,8 +246,8 @@ exports.updateDoc=function(req,res) {
             // numAffected is the number of updated documents
             //console.log("numAffected: "+numAffected);
             if (!err && (numAffected===1)) {
+                res.writeHead(200, {'content-type': 'text/plain' });
                 res.write('saving OK');
-                res.status(200);
                 res.end();
             }
             else {
@@ -264,7 +264,8 @@ exports.updateDoc=function(req,res) {
 }
 
 exports.insertDoc=function(req,res){
-    console.log("insertDoc req.body.data: "+JSON.stringify(req.body.data));
+    //console.log("insertDoc req.body.data: "+JSON.stringify(req.body.data));
+    console.log('insertDoc reg.body: ',req.body);
     //Transfer-Encoding is not a header in 'request' object only in 'responce' object!
     //it can be set to: chunk, but since the related:
     //req.on('data',function(chunk){}), isn't ever triggered here (on res object), we use:
@@ -280,7 +281,7 @@ exports.insertDoc=function(req,res){
     switch (dataa.Collection){
         case "materials":
             newDocu = new Material({
-                    username: dataa.User,
+                    username: req.body.userNme,
                     fName:trim, //e.g. "branch1/parent1/parent2/file1",
                     description:dataa.Descr,
                     unit:dataa.Unit,
@@ -290,7 +291,7 @@ exports.insertDoc=function(req,res){
             break;
         case "targets":
             newDocu = new Target({
-                    username: dataa.User,
+                    username: req.userNme,
                     fName:trim, //e.g. "branch1/parent1/parent2/file1",
                     description:dataa.Descr,
                     unit:dataa.Unit,
@@ -316,8 +317,8 @@ exports.insertDoc=function(req,res){
         }
         else{
             console.log("saving OK: "+trim);
+            res.writeHead(200, {'content-type': 'text/plain' });
             res.write('saving OK');
-            res.status(200);
             res.end();
         }
     });
