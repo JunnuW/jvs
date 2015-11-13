@@ -510,7 +510,7 @@ app.post('/auth/*', function(req,res){
         res.end();
         return;
     }
-    if (req.body.userNme==req.user.username && req.body.rtftoken){
+    if (req.user && req.body.userNme==req.user.username && req.body.rtftoken){
         //user has logged in , check token
         //console.log('directory: ',req.body.userNme);
         valFileOps(req,res);//Exits through this function, if token is invalid
