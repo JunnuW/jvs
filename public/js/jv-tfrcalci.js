@@ -38,10 +38,10 @@ var matrlStr = "nm\tn\tk\r\n500\t1.0\t0.0\r\n510\t1.5\t0.2\r\n520\t1.2\t0.4";
 var matOpt = [];    //materials to be used in calculations, including their nk-tables,
 var nkPlot;         //Graph for n&k Data
 var oMatOptTable = {};
-var oMatTable={};   //objekti, materiaalilista dataTables widgettiä varten
+var oMatTable={};   //objekti, materiaalilista dataTables widgettiï¿½ varten
 var oStackTable = {};   //covermaterial, layers and substrate
 var oTargOptTable = {}; //fitting targets nenu
-var otargTable = {};    //targettilista dataTables widgettiä varten
+var otargTable = {};    //targettilista dataTables widgettiï¿½ varten
 var polaris;          //porization direction 'TE' (s) or 'TM' (p)
 var RorT = 'R';    //Spectrum type R (=default) for reflectance T for transmittance
 var rowInd1 = 0;
@@ -52,11 +52,11 @@ var spNum=201;     //number of spectral points
 var spectOpts = [];//list of selected target or measured spectra
 var spStart=400;   //first spectral point in calculations
 var spStop=1000;   //last spectral point in calculations
-var spUnit='nm';   //käytössä oleva spektrin yksikkö (nm oletus),
+var spUnit='nm';   //kï¿½ytï¿½ssï¿½ oleva spektrin yksikkï¿½ (nm oletus),
 //initialize film stack to have only substrate and cover materials:
 //refractive index data is added as n- and k-vectors to the end of each stack line:
 var stackArr = [['Cover','DblClick to edit!','bulk','no'],['Substr.','DblClick to edit!','bulk','no']];
-//ToDo: siirrä stackArr:in alustus document ready funktioon:
+//ToDo: siirrï¿½ stackArr:in alustus document ready funktioon:
 var stackPL;       //Graph for stack R|T or film nk
 var userName = 'No login'; // after login obtained from web-server
 var targArr = [];
@@ -83,9 +83,9 @@ $(function() {
          matrlArr = splitToArr(matrlStr);
 
         $( "#tabis" ).tabs({
-            //tabs panel täyttää koko näytön korkeuden:
+            //tabs panel tï¿½yttï¿½ï¿½ koko nï¿½ytï¿½n korkeuden:
             heightStyle: "fill",
-            //seuraava päivittää graafin ja taulukot kun tabsia klikataan:
+            //seuraava pï¿½ivittï¿½ï¿½ graafin ja taulukot kun tabsia klikataan:
             activate: function (event, ui) {
                 var poisTab=ui.oldTab.index();
                 var exitTab=$("#tabis").find("ul>li a").eq(poisTab).attr('id'); //exitoivan tabsin id
@@ -100,7 +100,7 @@ $(function() {
                     updGraph();
                 }
                 //var nextTab =ui.newPanel.attr('id'); //antaa aktivoituvan tabsin href:in
-                var nextTab = ui.newTab.index(); //antaa aktivoidun tabs:in indeksin ul:ssä
+                var nextTab = ui.newTab.index(); //antaa aktivoidun tabs:in indeksin ul:ssï¿½
                 var selecTab = $("#tabis").find("ul>li a").eq(nextTab).attr('id'); //aktivoidun tabsin id
                 //var selecTab = $("#tabs ul>li a").eq(nextTab).attr('id');
                 if (selecTab == "Targets") {
@@ -253,18 +253,18 @@ $(function() {
                 if (spUnit == "eV") {
                     $("#SpStop").spinner("option", "max", tmp1);
                     if (tmp1 > 0) {
-                        spStart = Math.round(1239.8 / tmp1); //pyöristys nanometriksi
+                        spStart = Math.round(1239.8 / tmp1); //pyï¿½ristys nanometriksi
                     }
                     else {
                         spStart = 400; //jossakin sekoilua; palataan aloitusarvoon
                     }
                 }
-                else {//yksikkönä on joko nm tai um
+                else {//yksikkï¿½nï¿½ on joko nm tai um
                     $("#SpStop").spinner("option", "min", ui.value);
                     if (spUnit == "um") {
                         spStart = Math.round(1000 * ui.value);
                     }
-                    else {//yksikkönä nm
+                    else {//yksikkï¿½nï¿½ nm
                         spStart = Math.round(ui.value);
                     }
                 }
@@ -291,19 +291,19 @@ $(function() {
                         spStop = 1000; //jossakin sekoilua; palataan aloitusarvoon
                     }
                 }
-                else {//yksikkönä um tai nm
+                else {//yksikkï¿½nï¿½ um tai nm
                     $("#SpStart").spinner("option", "max", ui.value);
                     if (spUnit == "um") {
                         spStop = Math.round(1000 * ui.value);
                     }
-                    else {//yksikkönä nm
+                    else {//yksikkï¿½nï¿½ nm
                         spStop = Math.round(ui.value);
                     }
                 }
                 $("#spRange2").text(spStop);
             },
             change: function (event, ui) {
-                //buildSpArray(); päivitetään vasta settings tabsista poisttttaessa
+                //buildSpArray(); pï¿½ivitetï¿½ï¿½n vasta settings tabsista poisttttaessa
             }
         }).val(spStop);
 
@@ -385,14 +385,14 @@ $(function() {
         //alustetaan kalvopakan taulukko:
         createStackTable();
 
-        //Tabs-6: tehdää piirtomoodin muuttamisen event handler:
+        //Tabs-6: tehdï¿½ï¿½ piirtomoodin muuttamisen event handler:
         $("input[name=graphMode]:radio").change(function () {
             updRTspArra();
             updNKspArra();
             updGraph();
         });
 
-        //Tabs-6: tehdään toinen sarake editoitavaksi select-option rakenteen kanssa:
+        //Tabs-6: tehdï¿½ï¿½n toinen sarake editoitavaksi select-option rakenteen kanssa:
         oStackTable.on('dblclick', 'td:nth-child(2)', function (evt) {
             if ($(this)[0].editing) {
                 //without this checking editable function may be triggered twice
@@ -546,7 +546,7 @@ $(function() {
         $("#adjustThs").css( "border", "3px solid red" );
         $("#adjustThs").hide();
 
-//Tabs-6: tehdään neljäs sarake editoitavaksi checkboxin kanssa:
+//Tabs-6: tehdï¿½ï¿½n neljï¿½s sarake editoitavaksi checkboxin kanssa:
         oStackTable.on('dblclick', 'td:nth-child(4)', function (evt) {
             var layerCount = stackArr.length;
             var rowIndex = $(this).parent().index();
@@ -589,7 +589,7 @@ $(function() {
             $(this).dblclick(); //activates editable
         });
 
-//Tabs-6: tehdään kalvopakan editointinappuloiden enablointi-disablointi handleri
+//Tabs-6: tehdï¿½ï¿½n kalvopakan editointinappuloiden enablointi-disablointi handleri
         oStackTable.on('click', 'td', function (evt) {
             //will not work if selector 'td' is replaced with 'tr'
             // clicked element will also be set to selected: 'td' gets selected but 'tr' remains unselected
@@ -620,7 +620,7 @@ $(function() {
             }
         });
 
-//Tabs-6: Document ready tekee kalvokerroksen lisäykseen handlerin:
+//Tabs-6: Document ready tekee kalvokerroksen lisï¿½ykseen handlerin:
         $('#btnAddFilm').click(function () {
             var uusFilm;
             var layerCount = stackArr.length;
@@ -732,7 +732,7 @@ $(function() {
         //------------------------------------------------------------------------------------
         //Tabs-7: alustetaan reflectanssitargetti:
         //targArr = splitToArr(targStr);
-        createTargEditTable(); //voisi nimetä paremmin, kun luodaan otargTable
+        createTargEditTable(); //voisi nimetï¿½ paremmin, kun luodaan otargTable
         otargTable.fnClearTable();
         otargTable.fnAddData(targArr.slice(1));
         //RorT = targArr[0][1];
@@ -744,7 +744,7 @@ $(function() {
             EnDisButt('Enabled', '#btnDelTargRow');
             EnDisButt('Enabled', '#btnAddTargRow');
             if (evt.which !== 1) {
-                //oikeanpuoleinen klikkaus, estetään contextmenun avaus:
+                //oikeanpuoleinen klikkaus, estetï¿½ï¿½n contextmenun avaus:
                 evt.preventDefault();
                 EnDisButt('Disabled', '#btnDelTargRow');
                 EnDisButt('Disabled', '#btnAddTargRow');
@@ -771,11 +771,11 @@ $(function() {
             }
         });
 
-//Tabs-7 event liitettävä delegaatilla, muuten uudet rivit eivät ole editoitavissa:
+//Tabs-7 event liitettï¿½vï¿½ delegaatilla, muuten uudet rivit eivï¿½t ole editoitavissa:
         otargTable.on('dblclick', 'td', function (evt) {
             if ($(this)[0].editing) {
-                //ilman tätä tarkistusta editable funktio voi liipaistua
-                //uudelleen, mikä aiheuttaa virheen ja ilmoituksen:
+                //ilman tï¿½tï¿½ tarkistusta editable funktio voi liipaistua
+                //uudelleen, mikï¿½ aiheuttaa virheen ja ilmoituksen:
                 //"too much recursion"
                 return;
             }
@@ -815,7 +815,7 @@ $(function() {
             $(this).dblclick();
         });
 
-        //Tabs-7 tehdään paikalliseen tiedostojen tallennukseen click handler:
+        //Tabs-7 tehdï¿½ï¿½n paikalliseen tiedostojen tallennukseen click handler:
         //$("#btnLclTSave").click(function () {
         //    var seivString;
         //    var failneim = $('#ediTarge').val();
@@ -878,7 +878,7 @@ $(function() {
                 EnDisButt('Disabled', '#btnRmvTarg');
             }
             else {
-                //poistetaan kaikilta riveiltä valinta
+                //poistetaan kaikilta riveiltï¿½ valinta
                 oTargOptTable.$('tr').removeClass('row_selected');
                 //valitaan klikattu rivi
                 $(this).closest('tr').addClass('row_selected');
@@ -886,7 +886,7 @@ $(function() {
             }
         });
 
-        //Tabs-7 tehdään targettilistalle lisäysnapin event handler:
+        //Tabs-7 tehdï¿½ï¿½n targettilistalle lisï¿½ysnapin event handler:
         $('#btnPlusTarg').click(function () {
             var trgOptsArr = [];
             var owneri= (userName=='No login')? 'Publ' : userName;
@@ -895,7 +895,7 @@ $(function() {
             }
 
             var rivit = 0;
-            //lisätään uusi targetti:
+            //lisï¿½tï¿½ï¿½n uusi targetti:
             EnDisButt('Disabled', '#btnRmvTarg');
             if ($('#ediTarge').val().length > 0) {
                 targtFileNme = $('#ediTarge').val();
@@ -949,13 +949,13 @@ $(function() {
             StackTargSelUpd();
         });
 
-        //Tabs-7: targettilistaan Label tulee tiedostonimestä, mikä sattaa olla 'hankala'
+        //Tabs-7: targettilistaan Label tulee tiedostonimestï¿½, mikï¿½ sattaa olla 'hankala'
         //oTargOptTable.delegate("td:nth-child(2)","dblclick",function(){
         //tai sitten:
         oTargOptTable.on('dblclick', 'td:nth-child(2)', function (evt) {
             if ($(this)[0].editing) {
-                //ilman tätä tarkistusta editable funktio voi liipaistua
-                //uudelleen, mikä aiheuttaa virheen ja ilmoituksen:
+                //ilman tï¿½tï¿½ tarkistusta editable funktio voi liipaistua
+                //uudelleen, mikï¿½ aiheuttaa virheen ja ilmoituksen:
                 //"too much recursion"
                 return;
             }
@@ -990,14 +990,14 @@ $(function() {
                     "height": "14px",
                     "width": "100%"
                 });
-            //yllä tehtiin handleri sitten vielä:
+            //yllï¿½ tehtiin handleri sitten vielï¿½:
             // liipaistaan dblclick: solu muuttuu editoitavaksi
             $(this).dblclick();
         });
         //Code for tabs-7 ended above
         // **********************************************************************************
 
-        //Tabs-8 set default n & k values for table and graph init. jotakin mitä näyttää alussa:
+        //Tabs-8 set default n & k values for table and graph init. jotakin mitï¿½ nï¿½yttï¿½ï¿½ alussa:
         matrlFileNme = '';
         //matrlArr = splitToArr(matrlStr);
         nkPlot = plotNK(matrlArr, 8);
@@ -1005,10 +1005,10 @@ $(function() {
         oMatTable.fnClearTable();
         oMatTable.fnAddData(matrlArr.slice(1));
 
-        /* lisätään click handler riveille
-         * Jotta handler toimii myös jäljestä lisättyjen rivien kanssa
-         * pitää käyttää .on('click',.....) tyyliä, kuten alla.
-         *  [.click(function(    )] tyyli ei toimi ajon aikana lisättyjen kanssa.*/
+        /* lisï¿½tï¿½ï¿½n click handler riveille
+         * Jotta handler toimii myï¿½s jï¿½ljestï¿½ lisï¿½ttyjen rivien kanssa
+         * pitï¿½ï¿½ kï¿½yttï¿½ï¿½ .on('click',.....) tyyliï¿½, kuten alla.
+         *  [.click(function(    )] tyyli ei toimi ajon aikana lisï¿½ttyjen kanssa.*/
         oMatTable.on('click', 'td', function (evt) {
             rowInd1 = oMatTable.fnGetPosition($(this).closest('tr')[0]);
             if ($(this).closest('tr').hasClass('row_selected')) {
@@ -1235,7 +1235,7 @@ $(function() {
             EnDisButt('Disabled', '#btnAddMatRow');
         });
 
-        //Tabs-8: materiaalilistalle rivin lisäyksen handleri:
+        //Tabs-8: materiaalilistalle rivin lisï¿½yksen handleri:
         $('#btnAddMatRow').click(function () {//Click handler for 'Add row' in material data editor
             var uusDat;
             uusDat = [];
@@ -1252,11 +1252,11 @@ $(function() {
             }
         });
 
-        //Tabs-8: tehdään nk-taulukko editoitavaksi:
+        //Tabs-8: tehdï¿½ï¿½n nk-taulukko editoitavaksi:
         oMatTable.on('dblclick', 'td', function (evt) {
             //oMatTable.delegate("td", "contextmenu", function () {
             if ($(this)[0].editing) {
-                //ilman tätä tarkistusta editable funktio voi liipaistua
+                //ilman tï¿½tï¿½ tarkistusta editable funktio voi liipaistua
                 //uudelleen, aiheuttaen virheen ja ilmoituksen:
                 //"too much recursion"
                 return;
@@ -1349,9 +1349,9 @@ $(function() {
         });
 
         function sorttaa(aRRay) {
-            var tmpR1 = aRRay.slice(0, 1); //tässä vain ensimmäinen rivi
-            var tmpR2 = aRRay.slice(1); //tässä loput
-            tmpR2.sort(function (a, b) {//sortataan ensimmäisen sarakkeen [0] mukaan:
+            var tmpR1 = aRRay.slice(0, 1); //tï¿½ssï¿½ vain ensimmï¿½inen rivi
+            var tmpR2 = aRRay.slice(1); //tï¿½ssï¿½ loput
+            tmpR2.sort(function (a, b) {//sortataan ensimmï¿½isen sarakkeen [0] mukaan:
                 return a[0] - b[0];
             });
             return tmpR1.concat(tmpR2);
@@ -1363,10 +1363,10 @@ $(function() {
             //rowInd0 = oMatOptTable.fnGetPosition($(this).closest('tr')[0]);
             //Huom! 'click contextmenu' on joko (vasen click) tai (oikea click)
             if (evt.which !== 1) {
-                //oikeanpuoleinen klikkaus, estetään contextmenun avaus:
+                //oikeanpuoleinen klikkaus, estetï¿½ï¿½n contextmenun avaus:
                 //alert("klikkaus oikealla");
                 evt.preventDefault();
-                //käytetään contextmenu eventtiä vasta otargTable.delegatessa
+                //kï¿½ytetï¿½ï¿½n contextmenu eventtiï¿½ vasta otargTable.delegatessa
                 if (oMatOptTable.$('tr.row_selected').length !== 0) {
                     oMatOptTable.$('tr.row_selected').removeClass('row_selected');
                 }
@@ -1393,10 +1393,10 @@ $(function() {
             }
         });
 
-        buildMongoDial(); //creates dialogform for saving to mongodb
-        DFmngo=$('#mongoDialForm'); //dialogform
+       // buildMongoDial(); //creates dialogform for saving to mongodb
+       // DFmngo=$('#mongoDialForm'); //dialogform
 
-        //ilman seuraavaa funktiota reflektanssi/transmissio sekeä n-k-Graafit eivät
+        //ilman seuraavaa funktiota reflektanssi/transmissio sekeï¿½ n-k-Graafit eivï¿½t
         //skaalaudu oikein sivun kokoa muutettaessa
 
          $(window).resize(function () {
@@ -1608,7 +1608,7 @@ function matrixMult() {
     } //wavelengths loop ends
 }
 
-/*tällä rakenteella voi lisätä omia funktioita jqueryyn:
+/*tï¿½llï¿½ rakenteella voi lisï¿½tï¿½ omia funktioita jqueryyn:
  (function($){
  $.fn.extend({
  huuhaas: function(text) {

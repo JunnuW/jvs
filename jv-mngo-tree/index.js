@@ -36,7 +36,7 @@ var Target=mongoose.model('Target',targSchema);
 //creates targets collection, if it does not exist in mongodb
 
 exports.obtainOne=function(req,res){
-    console.log('obtainOne req.body: ',req.body);
+    console.log('obtainOne req.body.userNme: ',req.body.userNme);
     //queries one documents from mongo db
     var applModel;
     //var drTree=[];
@@ -389,7 +389,7 @@ exports.checkAllUserFiles=function(req,res){
         for (var i=0;i<matFiles;i++){
             var a=[];
             a=dirIds[i].split("/");
-            console.log('dirIds['+i+']: '+dirIds[i]);
+            //console.log('dirIds['+i+']: '+dirIds[i]);
             if (a.length>dirDepth) dirDepth= a.length;
             for (var s=0;s<a.length-1;s++){
                 a[s]=a[s]+'/';

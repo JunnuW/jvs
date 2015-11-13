@@ -147,7 +147,7 @@ passport.serializeUser(function(user, done) {
 //deserializeUser will get the user from the database and store it in req.user
 passport.deserializeUser(function(id, done) {
     User.findById(id, function(err, user) {
-        console.log("deserializeUser: "+user);
+        //console.log("deserializeUser: "+user);
         done(err, user);
     });
 });
@@ -396,7 +396,7 @@ app.get('/refletrans', function (req, res) {
 
 
 app.post('/login',function(req,res){
-    console.log("app.post('/login') req.headers: "+JSON.stringify(req.headers));
+    //console.log("app.post('/login') req.headers: "+JSON.stringify(req.headers));
     passport.authenticate('local',function(err, user, info) {
         //console.log('authenticate info: ',info);
         //info { message: 'Incorrect password.' })
@@ -435,9 +435,9 @@ app.post('/login',function(req,res){
         //self-executing function'in tapaan parametreilla: req, res, next
     })(req, res);
     function next(err){
-        console.log('nexterr: ',err);
+        console.log('error: ',err);
+        return res.redirect('/login');
     }
-    //res.redirect('/');
 });
 
 app.post('/signup', function (req, res) {
@@ -497,57 +497,56 @@ app.post('/signup', function (req, res) {
 });
 
 app.post('/auth/*', function(req,res){
-        //console.log('post auth: ',req.url, ' req.body: ',req.body);
-        //console.log(' req.user: ',req.user);
-        var urli=req.url;
-        urli=urli.slice(5);
-        if (req.body.rtftoken){
-            //private directory selected or admin user login as Publ
-            //console.log('directory: ',req.body.userNme);
-            valFileOps(req,res);
-        }else{
-            //user does not have admin rights:
-            //these operations are not allowed:
-            if (['/dbRename', '/dbDelete', '/dbInsert','/dbUpdate'].indexOf(urli) !== -1) {
-                var opert=urli.slice(3);
-                res.write('No permission to '+opert+' operation in Public directory');
-                res.status(500);
-                res.end();
-                return;
-            }
-        }
-        switch (urli){
-            case '/checkAllUserF' :
-                mngoTree.checkAllUserFiles(req,res);
-                break;
-            case '/checkOneUserF' :
-                mngoTree.checkOneUserFile(req,res);
-                break;
-            case '/dbFindOne' :
-                console.log('dbFindOne in post');
-                mngoTree.obtainOne(req,res);
-                break;
-            case '/dbUpdate' :
-                mngoTree.updateDoc(req,res);
-                break;
-            case '/dbInsert' :
-                mngoTree.insertDoc(req,res);
-                break;
-            case '/dbDelete' :
-                mngoTree.deleteDoc(req,res);
-                break;
-            case '/dbRename' :
-                mngoTree.renameDocs(req,res);
-                break;
-            default:
-                res.render('error', {
-                    'message':urli +" page not found",
-                    'error.status':"404"
-                });
-        }
-    },
-    function nexterr(err){
-        console.log('nexterr: ',err);
+    //console.log('post auth: ',req.url, ' req.body: ',req.body);
+    var urli=req.url;
+    urli=urli.slice(5);
+
+    if (['/dbRename', '/dbDelete', '/dbInsert','/dbUpdate'].indexOf(urli) !== -1 &&
+        req.body.userNme!=req.user.username) {
+        //requested directory is not owned by user: deny all changes!
+        var opert=urli.slice(3);
+        res.writeHead(500, {'content-type': 'text/plain' });
+        res.write('No '+opert+' permission in '+ req.body.userNme+' directory!');
+        res.end();
+        return;
+    }
+    if (req.body.userNme==req.user.username && req.body.rtftoken){
+        //user has logged in , check token
+        //console.log('directory: ',req.body.userNme);
+        valFileOps(req,res);//Exits through this function, if token is invalid
+    }
+    switch (urli){
+        case '/checkAllUserF' :
+            mngoTree.checkAllUserFiles(req,res);
+            break;
+        case '/checkOneUserF' :
+            mngoTree.checkOneUserFile(req,res);
+            break;
+        case '/dbFindOne' :
+            //console.log('dbFindOne in: ',req.body.userNme,' user:',req.user.username);
+            mngoTree.obtainOne(req,res);
+            break;
+        case '/dbUpdate' :
+            mngoTree.updateDoc(req,res);
+            break;
+        case '/dbInsert' :
+            mngoTree.insertDoc(req,res);
+            break;
+        case '/dbDelete' :
+            mngoTree.deleteDoc(req,res);
+            break;
+        case '/dbRename' :
+            mngoTree.renameDocs(req,res);
+            break;
+        default:
+            res.render('error', {
+                'message':urli +" page not found",
+                'error.status':"404"
+            });
+    }
+},
+function nexterr(err){
+    console.log('nexterr: ',err);
     }
 );
 

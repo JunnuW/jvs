@@ -263,7 +263,7 @@ function mongoRename(oldFile,newFile,icon){
             }
         })
         .fail(function(datas){
-        handleFail(datas, 'Nothing was renamed');
+        handleFail(datas, 'Renaming failed');
         });
     DFmngo.dialog("close"); // '/auth/dbRename'
 }
@@ -281,7 +281,7 @@ function mongoDelete(flNme) {
         tokene=window.sessionStorage.getItem('RTFtoken');
     }
     var deleteDoc = $.post('/auth/dbDelete', {
-        userNme: userName,
+        userNme: dirUser,
         rtftoken: tokene,
         //chooses between materials or targets data files
         dataColl: datColl,
@@ -364,7 +364,7 @@ function mongoSave(saveUrl,flNme) {
             if (datas) {
                 //console.log('saving response: ' + datas);
                 if (datas == "saving OK" || datas.indexOf('updated') > -1) {
-                    $('#btn-mngOpenSave').text("Save current data");//return original caption
+                    $('#btn-mngOpenSave').text("Save file");//return original caption
                     matrlArr[0][3]=$('#mongFileDesc').val();
                     $.notifyBar({
                         cssClass: "success",
@@ -420,7 +420,7 @@ function saveToMngoDb(mngFileN){
     var datColl=pickCollection();
     //console.log('checking if file exists: '+mngFileN);
         var saveUserFile = $.post('/auth/checkOneUserF',{
-            userNme: userName,
+            userNme: dirUser,
             //chooses between materials or targets data files
             dataColl: datColl,
             fileName: mngFileN
@@ -482,8 +482,11 @@ function handleFail(errDatas,messag){
     var respMessa=messag;
     var fileN=$('#mongoFileName').val();
     switch (errDatas.status) {
+        case 500:
+            respMessa=messag+': '+errDatas.statusText+ ",  "+errDatas.responseText;
+            break;
         case 400:
-            respMessa=messag+' '+errData.statusText+ ",  "+errDatas.responseText;
+            respMessa=messag+' '+errDatas.statusText+ ",  "+errDatas.responseText;
             break;
         case 404:
             respMessa=messag+' '+" , error in Url?: "+saveUrl;
@@ -794,7 +797,7 @@ var buildMongoDial=function(){
             //Button1: this button is always available for cancelling file operations (Open or Save)
             {   id:'btnMngoCancel',
                 text: "Cancel",
-                "class": 'medium-btn',
+                "class": 'big-btn',
                 click: function () {
                     $('#FilTreLege').text('Files available on server:');
                     $(this).dialog("close");
@@ -804,7 +807,7 @@ var buildMongoDial=function(){
             //with another username
             {   id:'btnLogMeOff',
                 text: "Log me off",
-                "class": 'medium-btn',
+                "class": 'big-btn',
                 click: function(){
                     //alert('logging off: '+userName);
                     $.get('/logout');
@@ -818,7 +821,7 @@ var buildMongoDial=function(){
             //Button3: this button is for opening and saving data files
             {   id:'btn-mngOpenSave', //save- or open-file button
                 text: 'Open File',    //guesses that the first operation will be 'open-file'
-                "class": 'medium-btn',
+                "class": 'big-btn',
                 click: function(){
                     var a=$('#btn-mngOpenSave').text();
                     if (a.indexOf('Open')>-1){//this is a file open operation
@@ -970,6 +973,7 @@ var buildMongoDial=function(){
                 $("#ediTargeLbl").text(userName+"\s file: ");
             }
         } else {//no login, but user requests for private files
+            dirUser='Publ';
             $('#frm-Login').show();
             $('#frm-FileTree').hide();
             $('#btn-mngOpenSave').hide();
@@ -998,7 +1002,7 @@ var buildMongoDial=function(){
                         html: "You are now logged in as: " + userName
                     });
                     $('#frm-Login').hide();
-                    dirUser=userName;
+                    //dirUser=userName;
                     treeUpdate();
                     $('#frm-FileTree').show();
                     $('#btnLogMeOff').show();
