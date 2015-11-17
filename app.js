@@ -286,7 +286,7 @@ function createToken(req,userN){
 
 function ValidateToken(req,res){
     //var secrt=app.get('jwtTokenSecret');
-    console.log('Validated token: ',req.body.rtftoken)
+    //console.log('Validated token: ',req.body.rtftoken)
     var decoded = jwt.decode(req.body.rtftoken, jwtSecret);
     //console.log('issuer: ',decoded.iss);
     //console.log('reqIP: ',decoded.reqIp);
@@ -311,14 +311,14 @@ function ValidateToken(req,res){
         //console.log('Your login is invalid');
         //res.end('Access token has expired', 400);
     }
-    console.log('validation result: ',validResult);
+    //console.log('validation result: ',validResult);
     return validResult;
     //console.log('token has to be validated for: '+req.body.userNme);
 }
 
 function valFileOps(req,res){
     var valResu=ValidateToken(req,res);
-    console.log('validation result: '+valResu);
+    //console.log('validation result: '+valResu);
     //res.write(valResu);
     if (valResu!='OK') {//token validation not OK: expired ||[invalid (userName||client IP)]
         res.json({
@@ -330,12 +330,23 @@ function valFileOps(req,res){
     return;
 }
 
+/*function doResponse(req,res,Messa){
+    console.log('doResponse url: ',req.url);
+    console.log('doResponse Messa: ',Messa);
+    res.json(Messa);
+    //var statusCode=Messa.statCode;
+    //var MessaStr=Messa.resString;
+    //res.writeHead(StatusCode, {'content-type': 'text/plain' });
+    //res.write(MessaStr);
+    //res.end();
+}*/
+
 /* GET home page. */
 app.get('/', function(req, res) {
     console.log('get/');
-    //following line prevents cache usage in rendering /index ; (menus will update according to login status)
+    // following line prevents cache usage in rendering /index ;
+    // causing menus to update according to login status
     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-    //req.flash('info', 'Welcome');
     if (req.user) {
         //console.log('rendering with cookie username:  '+(req.session.user));
         res.render('index', {
@@ -357,8 +368,6 @@ app.get('/index', function(req, res) {
     console.log('/index req.headers: '+JSON.stringify(req.headers));
     console.log('app.get/index');
 });
-
-
 
 /* GET signup page */
 app.get('/signup', function(req, res) {
@@ -496,47 +505,64 @@ app.post('/signup', function (req, res) {
     });
 });
 
+function respAllMngo(req,res,respOnse) {
+    //console.log('respAllMngo respOnse: ',respOnse);
+    //console.log('respAllMngo url: ',req.url);
+    res.json(respOnse);
+    //var statusCode=Messa.statCode;
+    //var MessaStr=Messa.resString;
+    //res.writeHead(StatusCode, {'content-type': 'text/plain' });
+    //res.write(MessaStr);
+    //res.end();
+}
+
 app.post('/auth/*', function(req,res){
     //console.log('post auth: ',req.url, ' req.body: ',req.body);
     var urli=req.url;
     urli=urli.slice(5);
-
     if (['/dbRename', '/dbDelete', '/dbInsert','/dbUpdate'].indexOf(urli) !== -1 &&
         req.body.userNme!=req.user.username) {
         //requested directory is not owned by user: deny all changes!
         var opert=urli.slice(3);
-        res.writeHead(500, {'content-type': 'text/plain' });
-        res.write('No '+opert+' permission in '+ req.body.userNme+' directory!');
-        res.end();
+        var messag={statCode:500, resString:'No '+opert+' permission in '+ req.body.userNme+' directory!'};
+        console.log('messag: ',messag);
+        doResponse(req,res,messag);
         return;
     }
     if (req.user && req.body.userNme==req.user.username && req.body.rtftoken){
         //user has logged in , check token
-        //console.log('directory: ',req.body.userNme);
-        valFileOps(req,res);//Exits through this function, if token is invalid
+        valFileOps(req,res);//Exits in this function, if token is invalid
     }
     switch (urli){
         case '/checkAllUserF' :
-            mngoTree.checkAllUserFiles(req,res);
+            mngoTree.checkAllUserFiles(req,res,respAllMngo);
+            //Response to user's browser via callback respAllMngo
+            //trying to avoid 'can't set headers after they are sent' error
             break;
         case '/checkOneUserF' :
-            mngoTree.checkOneUserFile(req,res);
+            mngoTree.checkOneUserFile(req,res,respAllMngo);
+            //tehty
             break;
         case '/dbFindOne' :
             //console.log('dbFindOne in: ',req.body.userNme,' user:',req.user.username);
-            mngoTree.obtainOne(req,res);
+            mngoTree.obtainOne(req,res,respAllMngo);
+            //tehty
             break;
         case '/dbUpdate' :
-            mngoTree.updateDoc(req,res);
+            mngoTree.updateDoc(req,res,respAllMngo);
+            //tehty
             break;
         case '/dbInsert' :
-            mngoTree.insertDoc(req,res);
+            mngoTree.insertDoc(req,res,respAllMngo);
+            //tehty
             break;
         case '/dbDelete' :
-            mngoTree.deleteDoc(req,res);
+            mngoTree.deleteDoc(req,res,respAllMngo);
+            //tehty
             break;
         case '/dbRename' :
-            mngoTree.renameDocs(req,res);
+            mngoTree.renameDocs(req,res,respAllMngo);
+            //
             break;
         default:
             res.render('error', {
@@ -544,10 +570,10 @@ app.post('/auth/*', function(req,res){
                 'error.status':"404"
             });
     }
-},
-function nexterr(err){
-    console.log('nexterr: ',err);
-    }
+}//,
+//function nexterr(err){
+//    console.log('nexterr: ',err);
+//    }
 );
 
 app.get('/pwdEdit', function(req, res) {

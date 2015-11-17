@@ -134,10 +134,10 @@ function mongoReadDesc(fileName){
     })
         .done(function (datas) {
             //successful reading responds "reading OK" otherwise an error message
-            if (datas){
+            if (datas && datas.statCode==200){
                 //console.log('Document reading response: '+datas);
-                if (datas.indexOf("DocumentOK")==0){//gives -1 if not found
-                    var resText=datas.slice(datas.indexOf(':')+1); //cuts out 'documentOK' from the beginning
+                if (datas.resString.indexOf("DocumentOK")==0){//gives -1 if not found
+                    var resText=datas.resString.slice(datas.resString.indexOf(':')+1); //cuts out 'documentOK' from the beginning
                     //console.log('resText: '+resText);
                     //$.notifyBar({
                     //    cssClass: "success",
@@ -145,12 +145,11 @@ function mongoReadDesc(fileName){
                     //});
                     resText = (resText.length>0)? resText : 'no description available';
                     $('#mongFileDesc').val(resText);
-                }
-                else{
+                } else {
                     //database responds with error message
                     $.notifyBar({
                         cssClass: "warning",
-                        html: "File could not be found: "+datas
+                        html: "File could not be found: "+datas.error
                     });
                 }
             }
@@ -183,12 +182,12 @@ function mongoGetOne(fileName){
     })
         .done(function (datas) {
             //successful reading responds "reading OK" otherwise an error message
-            if (datas){
+            if (datas && datas.statCode==200){
                 //console.log('Document reading response: '+datas);
-                if (datas.indexOf("DocumentOK")==0){
+                if (datas.resString.indexOf("DocumentOK")>-1){
                     //cut out 'documentOK' text from the response string beginning
                     // and convert back to object
-                    var resObj=JSON.parse(datas.slice(datas.indexOf('{')));
+                    var resObj=JSON.parse(datas.resString.slice(datas.resString.indexOf('{')));
                     $.notifyBar({
                         cssClass: "success",
                         html: respnce // "File was read:"
@@ -206,7 +205,7 @@ function mongoGetOne(fileName){
                     //database responds with error message
                     $.notifyBar({
                         cssClass: "warning",
-                        html: "Data could not be obtained: "+datas
+                        html: "Data could not be obtained: "+datas.error
                     });
                 }
             }
@@ -243,21 +242,21 @@ function mongoRename(oldFile,newFile,icon){
         //fileType is either 'jstree-file' or 'jstree-folder'
     })
         .done(function (datas) {
-            //successful deleting responds "deleting OK" otherwise an error message
+            //successful renaming responds "renaming OK" otherwise an error message
             if (datas){
                 console.log('Renaming response: '+datas);
-                if (datas.indexOf("renaming OK")>-1){
+                if (datas.resString.indexOf("renaming OK")>-1){
                     $('#btn-mngOpenSave').text("Save current data");//return original caption
                     $.notifyBar({
                         cssClass: "success",
-                        html: datas // "Your file was renamed:"
+                        html: datas.resString // "Your file was renamed:"
                     });
                 }
                 else{
                     //database responds with error message
                     $.notifyBar({
                         cssClass: "warning",
-                        html: "File was not renamed, database error: "+datas
+                        html: "File was not renamed, database error: "+datas.error
                     });
                 }
             }
@@ -289,21 +288,20 @@ function mongoDelete(flNme) {
     })
         .done(function (datas) {
             //successful deleting responds "deleting OK" otherwise an error message
-            if (datas) {
-                console.log('Deleting response: ' + datas);
-                console.log('index of deleting OK: ' + datas.indexOf('deleting OK'));
-                if (datas.indexOf('deleting OK') > -1) {
+            if (datas && datas.statCode==200) {
+                console.log('Deleting response: ' + datas.resString);
+                if (datas.resString.indexOf('deleting OK') > -1) {
                     $('#btn-mngOpenSave').text("Save current data");//return original caption
                     $.notifyBar({
                         cssClass: "success",
-                        html: "You deleted:" + datas.slice(17)
+                        html: "You deleted:" + datas.resString.slice(17)
                     });
                 }
                 else {
                     //database responds with error message
                     $.notifyBar({
                         cssClass: "warning",
-                        html: "File was not deleted, database error: " + datas
+                        html: "File was not deleted, database error: " + datas.error
                     });
                 }
             }
@@ -361,9 +359,9 @@ function mongoSave(saveUrl,flNme) {
         data: JSON.stringify(dJson) })
         .done(function (datas) {
             //successfull saving responds "saving OK" otherwise an error message
-            if (datas) {
+            if (datas && datas.statCode==200) {
                 //console.log('saving response: ' + datas);
-                if (datas == "saving OK" || datas.indexOf('updated') > -1) {
+                if (datas.resString.indexOf("saving OK")>-1 || datas.resString.indexOf('Updated') > -1) {
                     $('#btn-mngOpenSave').text("Save file");//return original caption
                     matrlArr[0][3]=$('#mongFileDesc').val();
                     $.notifyBar({
@@ -374,7 +372,7 @@ function mongoSave(saveUrl,flNme) {
                 else {
                     $.notifyBar({
                         cssClass: "warning",
-                        html: "File was not saved, database error: " + datas
+                        html: "File was not saved, database error: " + datas.error
                     });
                 }
             }
@@ -428,8 +426,8 @@ function saveToMngoDb(mngFileN){
         //existence checking operation on server; should return either "yes" or "no"
         .done(function (data) {
             //console.log('if exists: '+data);
-            if (data){
-                switch (data){
+            if (data && data.statCode==200){
+                switch (data.resString){
                     case "yes":
                         //file exists, needs to prompt for overwrite:
                         $('#btn-mngOpenSave').text("Confirm Overwrite");
@@ -451,14 +449,15 @@ function saveToMngoDb(mngFileN){
                         });
                         break;
                 }
-            }
-            //no relevant response from server on file existence query:
-            else{
-                console.log('File existence was not checked from server');
+            } else{//no relevant response from server to existence query:
+                //console.log('File existence was not checked from server');
+                var errme=(data)? data.error
+                    : "Could not check if file already exists in database!";
                 $.notifyBar({
                     //position: "bottom",
                     cssClass: "error",
-                    html: "Could not check if file already exists in database!"
+                    html: errme
+                    //html: "Could not check if file already exists in database!"
                 });
                 DFmngo.dialog("close");
             }
@@ -481,7 +480,7 @@ function handleFail(errDatas,messag){
     //console.log('response.message: '+errDatas.responseText);
     var respMessa=messag;
     var fileN=$('#mongoFileName').val();
-    switch (errDatas.status) {
+    switch (errDatas.statCode) {
         case 500:
             respMessa=messag+': '+errDatas.statusText+ ",  "+errDatas.responseText;
             break;
@@ -540,10 +539,17 @@ function treeUpdate(){
                     $("#EdiMaterLbl").text("Server file:");
                     return;
                 }
-                //console.log('data received: '+data);
-                aTreeData=JSON.parse(data);
-                $('#mongoTree').jstree(true).settings.core.data = aTreeData;
-                $('#mongoTree').jstree(true).refresh();
+                //console.log('data received: ',data);
+                if (data.statCode==200){
+                    aTreeData=JSON.parse(data.resString);
+                    $('#mongoTree').jstree(true).settings.core.data = aTreeData;
+                    $('#mongoTree').jstree(true).refresh();
+                } else{
+                    $.notifyBar({
+                        cssClass: "error",
+                        html: data.error
+                    });
+                }
             } else{
                 console.log('no data received');
                 $.notifyBar({

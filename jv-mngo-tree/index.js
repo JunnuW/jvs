@@ -6,9 +6,19 @@
  * ease the browsing of available documents in the database
  */
 var mongoose = require('mongoose');
-//var util = require('util');
 var d=new Date();
 var vanhenee= d.toUTCString();
+var respOnse; //response to db operation
+
+/* Material data structure in MongoDb:
+ * Each document belongs to a named user: 'username'
+ * Each document has a filename: fName
+ * filenames incude directory structure like: Dielectric/Sputtered/al2O3-IBS
+ * 'description' field contains information about the material data
+ * 'unit' is either 'nm, 'um' or 'eV'
+ * 'datArrs' is the array for wavelength n and k parameters.
+ * 'dataExpires' timestamps the document
+ */
 var matrlSchema = new mongoose.Schema({
     username: { type: String, required: true },
     fName: { type: String, required: true },
@@ -17,11 +27,20 @@ var matrlSchema = new mongoose.Schema({
     datArrs:{ type: Array, required: false},
     dataExpires: { type: String, required: true}
 });
-
+//User cannot save two documents with identical names:
 matrlSchema.index({username: 1, fName:1}, {unique: true});
 var Material=mongoose.model('Material',matrlSchema);
 //creates materials collection, if it does not exist in mongodb
 
+/* Target spectrum data structure in MongoDb:
+ * Each document belongs to a named user: 'username'
+ * Each document has a filename: fName
+ * filenames incude directory structure like: 'Reflectance/AR830Y5P'
+ * 'description' field contains information about the spectral data
+ * 'unit' is either 'nm, 'um' or 'eV'
+ * 'datArrs' contains the spectral array  [wavelength and R% or T%]
+ * 'dataExpires' timestamps the document
+ */
 var targSchema = new mongoose.Schema({
     username: { type: String, required: true },
     fName: { type: String, required: true },
@@ -31,24 +50,41 @@ var targSchema = new mongoose.Schema({
     datArrs:{ type: Array, required: false},
     dataExpires: { type: String, required: false}
 });
+//User cannot save two documents with identical names:
 targSchema.index({username: 1, fName:1}, {unique: true});
 var Target=mongoose.model('Target',targSchema);
 //creates targets collection, if it does not exist in mongodb
 
-exports.obtainOne=function(req,res){
-    console.log('obtainOne req.body.userNme: ',req.body.userNme);
-    //queries one documents from mongo db
-    var applModel;
-    //var drTree=[];
+//var applModel;
+function ApplMod(req){
     switch (req.body.dataColl){
         case "materials":
-            applModel=Material; //model name for 'materials' collection
+            applModel= Material; //model name for 'materials' collection
             break;
         case "targets":
-            applModel=Target; //model name for 'targets' collection
+            applModel= Target; //model name for 'targets' collection
             break;
         default:
-            throw "invalid data request, obtainOne";
+            applModel='';
+            break;
+    }
+    return applModel;
+}
+
+
+exports.obtainOne=function(req,res,callBfun){
+    //console.log('obtainOne req.body.userNme: ',req.body.userNme);
+    //queries one documents from mongo db
+    var applModel;
+    applModel=ApplMod(req);
+    if (applModel=='') {
+        respOnse={
+            statCode: 500,
+            resString:'',
+            error:"invalid request to obtain one document"
+        };
+        callBfun(respOnse);
+        return;
     }
     //document name to be searched:
     var fiName = req.body.fileName.replace(/(^\/)|(\/$)/g, ""); //removes eventual leading and trailing'/'
@@ -60,171 +96,204 @@ exports.obtainOne=function(req,res){
         if (!err && docum) {
             //Reading was successful, convert to string:
             docRes = (toRes=='wholeDoc')? JSON.stringify(docum) : docum.description;
-            res.writeHead(200, {'content-type': 'text/plain' });
-            res.write('DocumentOK :'+docRes);
-            res.end();
-            //message.type = 'notificatication'
+            respOnse={
+                statCode: 200,
+                resString:'DocumentOK :'+docRes,
+                error:''
+            };
         }
         else {
             var responseStr= (err)? err.toString():fiName+ ' not found';
-            res.write(responseStr);
-            res.status(500);
-            res.end();
-            //message.type = 'error';
+            respOnse={
+                statCode: 500,
+                resString:'',
+                error:responseStr
+            };
         }
+        callBfun(req,res,respOnse);
     });
 }
 
-exports.deleteDoc=function(req,res){
-//deletes query matching documents from mongo db
-//uses collection name to select the document model
-//applies Model.remove method to delete the document
-//gets document name: req.body.fileName
+/* Queries and deletes matching documents from mongo db
+* uses collection name to select the document model
+* applies Model.remove method to delete the document
+* gets document name: req.body.fileName
+* responses either with 'error...' or 'Deleting OK' messages
+*/
+exports.deleteDoc=function(req,res,callBfun){
     var applModel;
-    //var drTree=[];
-    switch (req.body.dataColl){
-        case "materials":
-            applModel=Material; //model name for 'materials' collection
-            break;
-        case "targets":
-            applModel=Target; //model name for 'targets' collection
-            break;
-        default:
-            throw "invalid data request in deleteDoc";
+    applModel=ApplMod(req);
+    if (applModel=='') {
+        respOnse={
+            statCode: 500,
+            resString:'',
+            error:"invalid request to obtain one document"
+        };
+        callBfun(respOnse);
+        return;
     }
-    //document name to be searched:
-    //var fiName = req.body.fileName.replace(/(^\/)|(\/$)/g, ""); //removes eventual leading and trailing '/'
+    //document name to be searched, build search query using regexp:
+    //applModel determines the file type (materials, targets.. )
     var fiName = req.body.fileName.replace(/(^\/)|(\/$)/g, ""); //removes eventual leading and trailing'/'
-    //build delete query using regexp:
     var toReg=fiName.replace('/','\/');//slash characters in filename have to be escaped in regexp
     var re = new RegExp('^'+toReg);
     var querY = {fName: re, username: req.body.userNme};
-    //var querY = {fName: fiName, username: req.body.userNme};
-    //above chosen applModel determines the document collection:
-    //FBFriendModel.find({ id:333 }).remove( callback );
     applModel.remove(querY, function(err,numberRemoved) {
         if (!err) {
             //Deleting was successful:
-            res.write('deleting OK with: '+numberRemoved+' documents');
-            res.status(200);
-            res.end();
-            //message.type = 'notification!';
+            respOnse={
+                statCode: 200,
+                resString:'deleting OK with: '+numberRemoved+' documents',
+                error:''
+            };
+        } else {
+            respOnse={
+                statCode: 500,
+                resString:'',
+                error:err.toString()
+            };
         }
-        else {
-            var responseStr=err.toString();
-            res.write(responseStr);
-            res.status(500);
-            res.end();
-            //message.type = 'error';
-        }
+        callBfun(req,res,respOnse);
     });
-}
+};
 
-exports.renameDocs=function(req,res) {
+var nRenamed=0;
+var toBeRen=0;
+exports.renameDocs=function(req,res,callBfun) {
+    //callBfun takes result back for the response handler in app.js
     //renames existing mongo db document with new fName
+    //pick a mongoose model for renaming update:
+    var applModel;
+    applModel=ApplMod(req);
+    if (applModel=='') {
+        respOnse={
+            statCode: 500,
+            resString:'',
+            error:"invalid request obtain one document"
+        };
+        callBfun(respOnse);
+        return;
+    }
+    toBeRenamed(req,res,renOne,callBfun);
+};
+
+/*
+ * Function, in async mode, first queries the db for matching doc names.
+ * After receiving them, it repeatedly uses the callback function 'renOne'
+ * to rename the matching document names one by one.
+ * 'renOne' in turn receives 'callBfun' as a callback returning a message
+ * about the success (or failure). This callback sequence eliminates error messages:
+ * 'Can't set headers after they have been sent'
+ */
+function toBeRenamed(req,res,callBa,callBfun){
     var User = req.body.userNme;
-    console.log('oldName: '+req.body.oldName);
-    console.log('newName: '+req.body.newName);
-    //console.log('fileType: '+req.body.fileType);
     var oldName = req.body.oldName.replace(/(^\/|\/$)/g, ""); //removes eventual leading and trailing '/'
-
-    //get the directory part from the old filename
-    var slashN=oldName.lastIndexOf('/');
-    var dirX = oldName.slice(0,slashN+1);
-
+    var newN = req.body.newName.replace(/(^\/)|(\/$)/g, ""); //removes eventual leading and
     //build database query using regexp:
     var toReg=oldName.replace('/','\/');//slash characters in filename have to be escaped in regexp
     var re = new RegExp('^'+toReg);
     var querY = {fName: re, username: User};
-
-    //pick a mongoose model for renaming update:
-    var applModel;
-    switch (req.body.dataColl){
-        case "materials":
-            applModel=Material; //model for 'materials' collection
-            break;
-        case "targets":
-            applModel=Target; //model for 'targets' collection
-            break;
-        case "stacks":
-            applModel=Stack; //model for 'stacks' collection
-            break;
-        default:
-            throw "invalid data request in renameDoc";
+    //console.log('query: ',querY);
+    var applModel=ApplMod(req);
+    if (applModel=='') {
+        respOnse={
+            statCode: 500,
+            resString:'',
+            error:"invalid request obtain one document"
+        };
+        callBfun(respOnse);
+        return;
     }
-
-    //Finds the documents and renames them one by one:
-    var renamedN=0; //progress counter in renaming
-    applModel.find(querY, function (err, docs) {//finds the documents matching the query
-        docs.forEach(function(entry) {
-            perfOneRename(entry.fName);// renames them one by one
-            renamedN+=1; //increments the counter
-        });
-        if (err) {//error in finding file from mongodb
+    applModel.find(querY, function (err, docs) {
+        if (err) {//error in finding documents from mongodb
             console.log('err: ' + err.toString());
-            responseStr=err.toString();
-            responseStr=responseStr+" while renaming: "+oldName+" document";
-            res.write(responseStr);
-            res.status(500);
-            res.end();
-        }
-        if (renamedN>0){
-            res.write('renaming OK for '+renamedN+'/'+docs.length+' docs');
-            res.status(200);
-            res.end();
-        }
-        else{
-            res.write('No documents were renamed!');
-            res.status(500);
-            res.end();
+            respOnse={
+                statCode: 500,
+                resString:'Document not found for renaming',
+                error:err.toString()+' in finding document for renaming '
+            };
+            callBfun(req,res,respOnse);
+            return;
+        }else{
+            toBeRen=docs.length;
+            nRenamed=0;
+            var olD;
+            var neW;
+            var reg;
+            var queRy;
+            docs.forEach(function(item){
+                olD=item.fName;//where the beginning is identical to oldName
+                olD=olD.replace('/','\/');//slash characters have to be escaped in regex
+                reg = new RegExp('^'+olD); //searches at string beginning
+                queRy = {fName: reg, username: User};
+                neW=olD.replace(re,newN);
+                //console.log('rename old: ',olD,' to new: ',neW);
+                renOne(req,res,toBeRen,queRy,neW,renOneOk,callBfun);//renames one by one
+            });
         }
     });
+}
 
-    //perform one by one renaming:
-    function perfOneRename(oldName) {
-        var newN = req.body.newName.replace(/(^\/)|(\/$)/g, ""); //removes eventual leading and trailing '/'
-        var oldFile = oldName.slice(dirX.length); //cuts off directory part from the beginning
-        oldFile = oldFile.replace(/(^\/)/g, ""); //removes eventual leading '/'
-        console.log('oldFile. '+oldFile);
-        var slashPos=oldFile.indexOf('/');
-        var restName=(slashPos>0)? oldFile.slice(slashPos+1) : '';
-        console.log('oldFile: '+oldFile+' slashPos: '+slashPos+' restName: '+restName );
-        if (restName.length>0) newN=newN+'/'+restName;
-        if (req.body.fileType=='jstree-folder' && restName.length<=0) newN=newN+'/'; //creates empty folder?
-        console.log('newName: '+newN);
-        var options = {multi: false};
-        var toRegEx=oldName.replace('/','\/');//slash characters have to be escaped
-        var reg = new RegExp('^'+toRegEx);
-        var queRy = {fName: reg, username: User};
-        var renamed=0;
-        //use the above data to rename one document
-        applModel.update(queRy, { $set: { fName: newN }}, options,
-            //i.e. Material or Target.update(......
-            function(err,numAffected){
-                // numAffected = 1, the renaming was successful
-                console.log("numAffected: "+numAffected);
-                if (!err && (numAffected===1)) {
-                    return; //no error, renaming was successful
-                }
-                else {
-                    var responseStr='Error';
-                    if (err) {
-                        responseStr=err.toString();
-                    }
-                    responseStr=responseStr+" while renaming: "+oldName+" document";
-                    res.write(responseStr);
-                    res.status(500);
-                    res.end();
-                }
+function renOne(req,res,toBeRen,queRy,neW,callB,callBfun){
+    var options = {multi: false};
+    //console.log('query old name: ',queRy.fName,' replace with: ',neW )
+    var applModel;
+    applModel=ApplMod(req);
+    if (applModel=='') {
+        respOnse={
+            statCode: 500,
+            resString:'',
+            error:"invalid request obtain one document"
+        };
+        callBfun(respOnse);
+        return;
+    }
+    applModel.update(queRy, { $set: { fName: neW }}, options,
+        //i.e. Material or Target.update(......
+        function(err,numAffected){
+            // numAffected.nModified = 1, the renaming was successful
+            //console.log("numAffected: ",numAffected.nModified);
+            if (err) {
+                respOnse={
+                    statCode: 500,
+                    resString:'',
+                    error:err.toString() + " while renaming document: " + queRy.fName
+                };
+                callBfun(req,res,respOnse);//Returns error message
+            }else {
+                callB(req,res,toBeRen,callBfun);//counts renamed documents and announce success
             }
-        );
+        }
+    );
+}
+
+function renOneOk(req,res,toBeRen,callBfun){
+    nRenamed+=1;
+    //console.log('nRenamed: ',nRenamed);
+    if (nRenamed>=toBeRen){
+        respOnse= {
+            statCode: 200,
+            resString:'renaming OK for '+nRenamed+'/'+toBeRen+' docs',
+            error:''
+        };
+        callBfun(req,res,respOnse);
     }
 }
 
-exports.updateDoc=function(req,res) {
+exports.updateDoc=function(req,res,callBfun) {
     //console.log("updateDoc req.body.data: "+JSON.stringify(req.body.data));
     //overwrites existing mongo db document with new data
-    //todo: update targets missing
+    var applModel;
+    applModel=ApplMod(req);
+    if (applModel=='') {
+        respOnse={
+            statCode: 500,
+            resString:'',
+            error:"invalid request obtain one document"
+        };
+        callBfun(respOnse);
+        return;
+    }
     var dataa=JSON.parse(req.body.data); //data quality has already been verified by the urlencoded bodyparser
     //get document filename:
     var trimmed = dataa.Filename.replace(/(^\/)|(\/$)/g, ""); //removes eventual leading and trailing '/'
@@ -241,39 +310,45 @@ exports.updateDoc=function(req,res) {
     var options = {multi: false};
     console.log('in updateDoc Descr: '+dataa.Descr);
     //performs document update:
-    Material.update(querY, upDates, options,
+    applModel.update(querY, upDates, options,
         function(err,numAffected){
             // numAffected is the number of updated documents
             //console.log("numAffected: "+numAffected);
             if (!err && (numAffected===1)) {
-                res.writeHead(200, {'content-type': 'text/plain' });
-                res.write('saving OK');
-                res.end();
+                respOnse={
+                    statCode: 200,
+                    resString:'saving OK',
+                    error:''
+                };
             }
             else {
-                var responseStr='';
                 if (err) {
-                    responseStr=err.toString();
+                    respOnse={
+                        statCode: 500,
+                        resString:'',
+                        error:err.toString()
+                    };
+                }else{
+                    respOnse={
+                        statCode: 200,
+                        resString:"Updated: "+numAffected+ "documents",
+                        error:''
+                    };
                 }
-                responseStr=responseStr+" updated: "+numAffected+ "documents";
-                res.write(responseStr);
-                res.status(500);
-                res.end();
             }
+            callBfun(req,res,respOnse);
         });
-}
+};
 
-exports.insertDoc=function(req,res){
+exports.insertDoc=function(req,res,callBfun){
     //console.log("insertDoc req.body.data: "+JSON.stringify(req.body.data));
     console.log('insertDoc reg.body: ',req.body);
     //Transfer-Encoding is not a header in 'request' object only in 'responce' object!
     //it can be set to: chunk, but since the related:
     //req.on('data',function(chunk){}), isn't ever triggered here (on res object), we use:
     var dataa=JSON.parse(req.body.data);
-    //Now the acceptable data length has already been checked by the urlencoded bodyparser
-    // in node modules thus preventing malicious disk dumps
-    //console.log("insertmat User: "+dataa.User);
-    //var applModel;
+    //The acceptable data length has already been checked by the urlencoded bodyparser
+    // in node modules, which prevents malicious disk dumps
     //var trim = dataa.Filename.replace(/(^\/)|(\/$)/g, ""); //removes leading and trailing '/'
     var trim = dataa.Filename.replace(/(^\/)/g, ""); //removes leading  '/'
     var newDocu={};
@@ -301,82 +376,107 @@ exports.insertDoc=function(req,res){
             );
             break;
         case "stacks":
-            applModel=Stack; //model for 'stacks' collection
+            //applModel=Stack; //model for 'stacks' collection
             break;
         default:
-            throw "invalid data request in insertDoc";
+            respOnse={
+                statCode: 500,
+                resString:'',
+                error:"invalid data request in insertDoc"
+            };
+            callBfun(req,res,respOnse);
+            return;
+            break;
     }
-
     newDocu.save(function (err) {
         if (err) {
             console.log('Error in saving to mongo-db: '+err.toString());
-            var responseStr=err.toString();
-            res.write(responseStr);
-            res.status(500);
-            res.end();
-        }
-        else{
+            respOnse={
+                statCode: 500,
+                resString:'',
+                error:err.toString()
+            };
+        }else{
             console.log("saving OK: "+trim);
-            res.writeHead(200, {'content-type': 'text/plain' });
-            res.write('saving OK');
-            res.end();
+            respOnse={
+                statCode: 200,
+                resString:'saving OK',
+                error:''
+            };
         }
+        callBfun(req,res,respOnse);
     });
-}
+};
 
-exports.checkOneUserFile=function(req,res){
+/* Checks the existence of one user document name in mongo db
+ * uses collection name to select the document schema for either materials or targets
+ * responces either with an error message or with 'Yes' or 'No'
+ */
+exports.checkOneUserFile=function(req,res,callBfun){
     //checks if document already exist in user's document collections
-    console.log("checkOneUserFile username: ", req.body.userNme);
-    console.log("checkOneUserFile collection: ", req.body.dataColl);
-    var applColl;
-    var drTree=[];
-    switch (req.body.dataColl){
-        case "materials":
-            applColl=Material; //model name for 'materials' collection
-            break;
-        case "targets":
-            applColl=Target; //model name for 'targets' collection
-            break;
-        default:
-            throw "invalid data request in checkOneUserFile";
+    //console.log("checkOneUserFile username: ", req.body.userNme);
+    //console.log("checkOneUserFile collection: ", req.body.dataColl);
+    var applModel;
+    applModel=ApplMod(req);
+    if (applModel=='') {
+        respOnse={
+            statCode: 500,
+            resString:'',
+            error:"invalid request obtain one document"
+        };
+        callBfun(respOnse);
+        return;
     }
+    var drTree=[];
     //document name to be searched:
     var fiName=req.body.fileName;
     if (fiName.charAt(0) === '/'){
         fiName = fiName.substr(1);
     }
-    applColl.find({username: req.body.userNme, fName:fiName},{'_id':0,'fName':1}, function(err,obj) {
+    applModel.find({username: req.body.userNme, fName:fiName},{'_id':0,'fName':1}, function(err,obj) {
         var matFiles=obj.length;
         var existORnot=(obj.length)? "yes":"no";
         if (err) {
-            res.writeHead(500, {'content-type': 'text/plain' });
-            res.write(err.toString());
-            res.end();
+            respOnse={
+                statCode: 500,
+                resString:'',
+                error:err.toString()
+            };
+            //res.writeHead(500, {'content-type': 'text/plain' });
+            //res.write(err.toString());
+            //res.end();
+        }else{
+            respOnse={
+                statCode: 200,
+                resString:existORnot,
+                error:''
+            };
         }
-        res.writeHead(200, {'content-type': 'text/plain' });
-        //res.write(resp);
-        res.write(existORnot);
-        res.end();
+        callBfun(req,res,respOnse);
     });
-}
+};
 
-exports.checkAllUserFiles=function(req,res){
+
+/* Queries all documents with a schema from mongo db
+ * uses collection name to select the document schema for either materials or targets
+ * responces either with an error message or a string containing the directory structure
+ */
+exports.checkAllUserFiles=function(req,res,callBfun){
     //console.log("checkAllUserFiles username: ", req.body.userNme);
     //console.log("checkAllUserFiles dataColl: ", req.body.dataColl);
-    var applColl;
-    var drTree=[];
-    //var huihai=Material;
-    switch (req.body.dataColl){
-        case "materials":
-            applColl=Material;
-            break;
-        case "targets":
-            applColl=Target;
-            break;
-        default:
-            throw "invalid data request in checkAllUserFiles";
+    var applModel;
+    applModel=ApplMod(req);
+    if (applModel=='') {
+        respOnse={
+            statCode: 500,
+            resString:'',
+            error:"invalid request obtain one document"
+        };
+        callBfun(respOnse);
+        return;
     }
-    applColl.find({username: req.body.userNme},{'_id':0,'fName':1}, function(err,obj) {
+    var drTree=[];
+    applModel.find({username: req.body.userNme},{'_id':0,'fName':1}, function(err,obj,next) {
         var matFiles=obj.length;
         var dirIds=[];
         var dirArr=[];
@@ -386,7 +486,7 @@ exports.checkAllUserFiles=function(req,res){
             dirIds.push(obj[i].fName);
         }
         dirIds.sort();//sorted to alphabetical order
-        for (var i=0;i<matFiles;i++){
+        for (i=0;i<matFiles;i++){
             var a=[];
             a=dirIds[i].split("/");
             //console.log('dirIds['+i+']: '+dirIds[i]);
@@ -399,7 +499,7 @@ exports.checkAllUserFiles=function(req,res){
         //console.log(dirArr);
         //console.log('dirDepth: '+dirDepth);
         var arrX=[]; //matrix for parent relations initialized
-        for (var i=0;i<matFiles;i++){
+        for (i=0;i<matFiles;i++){
             arrX[i]=[];
             for (var j=0;j<dirDepth;j++){
                 arrX[i].push(0);
@@ -424,7 +524,6 @@ exports.checkAllUserFiles=function(req,res){
                 else arrX[i][j]=0;
             }
         }
-        //console.log("dirArr: "+dirArr);
         //console.log("arrX: "+arrX);
         //console.log("k: "+k);
         for (var itemNo=1;itemNo<k+1; itemNo++){
@@ -434,7 +533,7 @@ exports.checkAllUserFiles=function(req,res){
                         if (col==0) {//operates only on first column = root node
                             //,'icon': 'jstree-file' or ,'icon': 'jstree-folder'
                             if ((dirArr[row][col + 1]) || (dirArr[row][col].slice(-1)=='/')){
-                                console.log("dirArr col:"+col+": "+dirArr[row][col]);
+                                //console.log("dirArr col:"+col+": "+dirArr[row][col]);
                                 drTree.push({
                                     "id": "ajason" + itemNo,
                                     "parent": "#",
@@ -476,10 +575,13 @@ exports.checkAllUserFiles=function(req,res){
                 }
             }
         }
-        var resp=drTree;
-        res.writeHead(200, {'content-type': 'text/plain' });
-        //res.write(resp);
-        res.write(JSON.stringify(resp));
-        res.end();
+        respOnse={
+            statCode: 200,
+            resString:JSON.stringify(drTree),
+            error:''
+        };
+        callBfun(req,res,respOnse);
     });
-}
+};
+
+
