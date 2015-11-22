@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  h2= title
+  p
+    if user
+      b #{user.username}
+      |  : Perhaps you have a comment or a question?
+      |  Please type it in the box below!
+      br
+      br
+      label
+        span(style="display:inline-block") Your message:
+      br
+      textarea(id="custMessa" cols="60" rows="10")
+    else
+      | Please login
+    br
+    br
+
+
+
+//-script(type='text/javascript').

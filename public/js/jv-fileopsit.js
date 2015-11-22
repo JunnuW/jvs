@@ -818,8 +818,8 @@ var buildMongoDial=function(){
                     //alert('logging off: '+userName);
                     $.get('/logout');
                     userName='No login';
-                    window.sessionStorage.setItem('RTFuser',undefined);
-                    window.sessionStorage.setItem('RTFtoken',undefined);
+                    window.sessionStorage.setItem('RTFuser','');
+                    window.sessionStorage.setItem('RTFtoken','');
                     $('#frm-FileTree').hide();
                     $('#btnLogMeOff').hide();
                 }

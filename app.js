@@ -14,7 +14,6 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt-nodejs');
 var async = require('async'); //utility module for waterfall etc.
-//var crypto = require('crypto');//npm install varoittaa tämän oleva core moduli
 var flash = require('express-flash');
 var expressValidator = require("express-validator");
 var methodOverride=require("express-method-override");
@@ -41,7 +40,6 @@ if (typeof ipAddress === "undefined") {
     ipAddress = "127.0.0.1";
 }
 app.ipaddress=ipAddress;
-//var Port= process.env.OPENSHIFT_NODEJS_PORT || 3000;
 app.port=process.env.OPENSHIFT_NODEJS_PORT || 3000;
 console.log('Port: ',app.port);
 
@@ -64,7 +62,6 @@ app.use(express.static(__dirname)); //tämä oltava jotta bower_components hakem
 app.use(express.static(__dirname + '/public')); //tässä muun staattisen sisällön hakemisto
 //seuraava on ovela, muodostaa polun kÃ¤yttÃ¤en OS:n mukaan joko / tai \ merkkiÃ¤:
 app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
-//app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
 
 var url;
 if (process.env.OPENSHIFT_MONGODB_DB_URL) {
@@ -183,17 +180,10 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 
 var User = mongoose.model('User', userSchema);
 
-//var uusi = mngoTree.insertMatrl("branch1/file1");
-
-// view engine setup
-//app.set('port', process.env.PORT || 3000);
 //console.log('directory is:'+__dirname);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.set('SessionSecret', 'onpas_ovelaa_tämä:_node.js');
-//app.use(express.favicon()); ei toiminut, korvattu:
-//app.use(favicon());
-// app.use(express.logger('dev')); ei toiminut, korvattu:
 app.use(logger('dev')); //in development neighbourhood
 
 /*logger(req, res, function (err) {
@@ -202,7 +192,6 @@ app.use(logger('dev')); //in development neighbourhood
     res.setHeader('content-type', 'text/plain')
     res.end('hello, world!')*/
 
-//app.use(bodyParser);
 //nämä kaksi:app.use(bodyParser.json())
 app.use(jsonParser);
 app.use(urlEncodedParser,function(error, req, res, next){
@@ -217,13 +206,8 @@ app.use(urlEncodedParser,function(error, req, res, next){
     }
 });
 
-//required by jQ-Filetree plugin
-//app.use(bodyParser.urlencoded({ extended: true }));
-app.use(expressValidator());
-//app.use(express.methodOverride()); ei toiminut ennen asennusta: npm install express-method-override
-//sitten muutettu:
-app.use(methodOverride());
-//app.use(express.cookieParser()); ei toiminut muutettu:
+//app.use(expressValidator());
+//app.use(methodOverride());
 app.use(cookieParser());
 //app.use(express.session({ secret: 'keyboard cat' })); ei toiminut ennen asennusta: npm install express-session
 //muutettu:
@@ -241,9 +225,7 @@ app.use(session({//session is require by flash and passport
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-//seuraava ei toiminut eikÃ¤ suositella kÃ¤ytettÃ¤vÃ¤ksi Express 4 versiossa , tarpeeton
-
-//kaikki liitettävät .css, .js ym. tiedostot oltava public hakemistossa tai sen isähakemistoon (__dirname)
+//kaikki liitettävät .css, .js ym. tiedostot oltava public hakemistossa tai sen lisähakemistoon (__dirname)
 
 /* GET login page. */
 app.get('/login', function(req, res) {
@@ -330,17 +312,6 @@ function valFileOps(req,res){
     return;
 }
 
-/*function doResponse(req,res,Messa){
-    console.log('doResponse url: ',req.url);
-    console.log('doResponse Messa: ',Messa);
-    res.json(Messa);
-    //var statusCode=Messa.statCode;
-    //var MessaStr=Messa.resString;
-    //res.writeHead(StatusCode, {'content-type': 'text/plain' });
-    //res.write(MessaStr);
-    //res.end();
-}*/
-
 /* GET home page. */
 app.get('/', function(req, res) {
     console.log('get/');
@@ -366,7 +337,36 @@ app.get('/', function(req, res) {
 app.get('/index', function(req, res) {
     console.log('app.get/index');
     console.log('/index req.headers: '+JSON.stringify(req.headers));
-    console.log('app.get/index');
+});
+
+/* GET contributions page. */
+app.get('/contrbs', function(req, res) {
+    console.log('app.get/contrbs');
+    console.log('/contrbs req.headers: '+JSON.stringify(req.headers));
+    res.render('contrbs', {
+        title: 'Credits and acknowledgements',
+        user: (req.user)  //false
+    });
+});
+
+/* GET customer messaging page. */
+app.get('/custmsgs', function(req, res) {
+    console.log('app.get/custmsgs');
+    console.log('/custmsgs req.headers: '+JSON.stringify(req.headers));
+    res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+    if (req.user) {
+        //console.log('rendering with cookie username:  '+(req.session.user));
+        res.render('custmsgs', {
+            title: 'User\'s comments and messages',
+            user: (req.user)
+        });
+    } else {
+        //console.log('rendering / with or without user: ');
+        res.render('custmsgs', {
+            title: 'Login is required for user messaging',
+            user: (req.user)  //false
+        });
+    }
 });
 
 /* GET signup page */

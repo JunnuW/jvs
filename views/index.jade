@@ -10,26 +10,111 @@ block content
     else
       | Welcome to Rock.Phys.
     br
+    h3 Purpose
+    | This is a private effort to study the possibilities in
+    //- link to cloud computing on new browser tab
+    -cloud_url="https://en.wikipedia.org/wiki/Cloud_computing"
+    a(href="#{cloud_url}" target="_blank")   cloud and web based
+    |  applications
     br
-    | This is a programming exercise with Javascript, Jquery, Node.js, HTML5, CSS, Jade
+    | for technical and scientific computing purposes.
     br
+    h3 Advantage potential
+    |  Obtainable benefits in this approach include:
     br
-    | These apps run readily in standard web browsers without any need to program installation or deployment steps,
-    | regardless of your operation systems (Win,OSX,Unix or Linux).
+    |  -  Ease of software distribution and deploying
     br
+    |  -  No software distribution or assembling on user\'s equipment will be necessary.
     br
-    | All nontrivial projects need to read and save some data, either locally or on the server.
-    | Browser access to local user files has traditionally been prevented for safety reasons, but has recently become available through HTML5 file API.
+    |  -  Having a standardized web browser the user can choose any OS (Win, Linux, OS X, ...) for the equipment.
     br
+    |  -  These details significantly ease the application support and maintenance
     br
-    | Using Node.js, also the server side operations can be done through javascript,
-    | which eliminates the need to add PHP or ASP to the list above,
+    h3 Software components
+    | Web browser based applications can be split into two separately developed and debugged components:
+    br
+    |  -  software on the server
+    br
+    |  -  software on the web page (downloaded from server to the browser on the client's pc.)
+    br
+    |  -  interaction between these two takes place through browser requests and server responses.
+    br
+    h3 Software on the server
+    | Client's requests for responses with dynamic content are handled by servers based on specific
+    | web-framework systems.
+    br
+    | Several differing web-frameworks are available to build the server software on.
+    br
+    | Some of the most popular are:
+    br
+    -Django_url="https://en.wikipedia.org/wiki/Django_(web_framework)"
+    a(href="#{Django_url}" target="_blank")  - Django
+    |   (Open source web application network written Python)
+    br
+    -Ruby_url="https://en.wikipedia.org/wiki/Ruby_on_Rails"
+    a(href="#{Ruby_url}" target="_blank")  - Ruby on Rails (RoR)
+    |   (MIT licenced application network written in Ruby)
+    br
+    -Symphony_url="https://en.wikipedia.org/wiki/Symfony"
+    a(href="#{Symphony_url}" target="_blank")  - Symphony
+    |   (Open source web application network under MIT licence for PHP language)
+    br
+    -Spring_url="https://en.wikipedia.org/wiki/Spring_Framework"
+    a(href="#{Spring_url}" target="_blank")  - Spring framework
+    |   (Apache licenced application framework for Java platform)
+    br
+    -Asp_url="https://en.wikipedia.org/wiki/ASP.NET"
+    a(href="#{Asp_url}" target="_blank")  - ASP.NET
+    |   (open source, server-side web application framework running on Microsoft CLR)
+    br
+    -Node_url="https://en.wikipedia.org/wiki/Node.js"
+    a(href="#{Node_url}" target="_blank")  - Node.js
+    |   (open source, cross-platform runtime environment for server-side applications, from Node.js Foundation)
+    br
+    h3 Software on client's browser
+    | Modern browsers (2015) are based on HTML, CSS and Javascript in versions 5, 3 and 1.8.5 respectively.
+    br
+    | For safety reasons, with browser based software script, direct access to client's local file system has traditionally been denied
+    br
+    | or at least restricted to events, where the user by mouse click or keyboard actions first authorizes the file operation.
+    br
+    | This means that all software script on the browser has to be included on the HTML pages downloaded from the server and with slow web access connections,
+    br
+    | may cause software response time problems. Used open source and MIT licenced software packages are listed under the
+    -credits_url="/contrbs"
+    a(href="#{credits_url}")  'Credits and Acknowledgements'
+    br
+    | menu item of this page.
+    br
+    h3 Configuration chosen for this app
+    | For this particular web page, Node.js was a natural choice for the server side framework, enabling javascript coding both on server and
+    br
+    | and browser. Though Node.js is rather recent, it has already been widely adopted into web sites of many
+    br
+    | front line companies and is also supported by most web hosting providers.
+    br
+    | For this particular web site, in addition to HTML web page storage and delivery, server software is needed for:
+    br
+    | - user login authentication
+    br
+    -Mongo_url="https://en.wikipedia.org/wiki/MongoDB"
+    a(href="#{Mongo_url}" target="_blank")  - database management
+    |   to store:
+    br
+    | - - user information (username, password, email address, expiration date)
+    br
+    | - - user data file storage and delivery
+    br
+    | In conclusion, Node.js runtime system fits nicely and scales up well for applications, where major
+    | part of data processing is performed locally in the browser on the client pc.
+    br
+  //- br
     | and these 'Desktop application' have been coded using merely javascript.
-    -node_url="http://en.wikipedia.org/wiki/Node.js"
-    a(href="#{node_url}")    Node Wiki!!
+    | -node_url="http://en.wikipedia.org/wiki/Node.js"
+    |  a(href="#{node_url}")    Node Wiki!!
     br
-    | Node.js runtime system fits nicely and scales up well for applications, where the major part of data processing is performed locally in the browser at the client pc. 
-    -another_url="http://www.javaworld.com/article/2079190/scripting-jvm-languages/6-things-you-should-know-about-node-js.html"
-    a(href="#{another_url}")  More about Node.js
+    |
+    | -another_url="http://www.javaworld.com/article/2079190/scripting-jvm-languages/6-things-you-should-know-about-node-js.html"
+    | a(href="#{another_url}")  More about Node.js
 
 //-script(type='text/javascript').

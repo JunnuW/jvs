@@ -83,9 +83,9 @@ $(function() {
          matrlArr = splitToArr(matrlStr);
 
         $( "#tabis" ).tabs({
-            //tabs panel t�ytt�� koko n�yt�n korkeuden:
-            heightStyle: "fill",
-            //seuraava p�ivitt�� graafin ja taulukot kun tabsia klikataan:
+            //tabs panel täyttää koko näytön korkeuden:
+            heightStyle: "auto",
+            //seuraava päivittää graafin ja taulukot kun tabsia klikataan:
             activate: function (event, ui) {
                 var poisTab=ui.oldTab.index();
                 var exitTab=$("#tabis").find("ul>li a").eq(poisTab).attr('id'); //exitoivan tabsin id
@@ -113,6 +113,14 @@ $(function() {
                 }
                 if (selecTab == "Materials") {
                     nkPlot = plotNK(matrlArr, 8);
+                }
+                if (selecTab == "Settings") {
+                    if (window.sessionStorage.getItem('RTFtoken') && window.sessionStorage.getItem('RTFtoken').length>0){
+                        userName=window.sessionStorage.getItem('RTFuser');
+                    }else{
+                        userName='No login';
+                    }
+                    $('#UserName').text(userName);
                 }
                 if (selecTab == "Stack") {
 
@@ -1192,7 +1200,7 @@ $(function() {
                     dirSer = 'Mtrls';
                     srvrFileTxt = 'Save material data to';
                     saveLegend= (userName=='No login')?
-                        "Material files in public directory":"Material files in"+userName+"\'s directory";
+                        "Material files in public directory":"Material files in "+userName+"\'s directory";
                     break;
                 case 'btnSaveTarg':
                     selDirTxt = 'Targets';

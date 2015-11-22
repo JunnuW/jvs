@@ -567,7 +567,7 @@ function cubSplinInt(toVector,onArray){
                     }
                 else if (toVector[i]>onArray[j][0]&&toVector[i]<onArray[j+1][0]){  
                         //request lies between two available data points; interpolated:
-                        x = (toVector[i] - onArray[j][0]) /
+                        var x = (toVector[i] - onArray[j][0]) /
                         (onArray[j+1][0] - onArray[j][0]);
                         onVal[i]=(2*x*x*x-3*x*x+1)*onArray[j][1]+(x*x*x-2*x*x+x)*onDer[j-1]*(onArray[j+1][0]-onArray[j][0])+
                         (-2*x*x*x+3*x*x)*onArray[j+1][1]+(x*x*x-x*x)*onDer[j]*(onArray[j+1][0]-onArray[j][0]);

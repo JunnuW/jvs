@@ -32,7 +32,7 @@ html
                   //- use: #{user.username} to show the username
                 if user!=null
                   li
-                    a(href='/Logout') Logout
+                    a(id='lokoutti', href='/Logout') Logout
                   li
                     a(href='/pwdEdit') Change pwd
                 else
@@ -54,7 +54,15 @@ html
                   a(href='/GasFlo') Gas flow in circular pipes (under construction)
                 //-li
                   a(href='/tabX') Testing document ready function
-          a.navbar-brand(href='/') Projects
+            li.dropdown
+              a(href='#' class='dropdown-toggle' data-toggle='dropdown') Info
+                b.caret
+              ul.dropdown-menu
+                li
+                  a(href='/contrbs') Credits and acknowledgements
+                li
+                  a(href='/custmsgs') Comments and Messages
+          //-a.navbar-brand(href='/') Projects
         //-gets messages from req.flash set in app.js
     if messages
       .container
@@ -70,3 +78,9 @@ html
         block content
           //-block content määritellään index.jade, login.jade, signup.jade, pwdEdit.jade, forgot.jade
           //-sivuilta joille nämä asetukset periytyvät
+  script(type='text/javascript').
+    $('#lokoutti').on('click',function(evt){
+      window.sessionStorage.setItem('RTFuser', '');
+      window.sessionStorage.setItem('RTFtoken', '');
+      //alert('klikkasit');
+    })

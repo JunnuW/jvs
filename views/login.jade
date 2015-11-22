@@ -5,23 +5,23 @@ block content
   form(id='submForm' method='POST' role="form" action='/login')
     legend Login
     .form-group
-      label(for='username') Username
-      input.form-control(type='text', name='username', autofocus)
+      label(for='uSer') Username
+      input.form-control(id=uSer, type='text', name='username', autofocus)
     .form-group
-      label(for='password') Password
-      input.form-control(type='password', name='password')
+      label(for='PwD') Password
+      input.form-control(id=PwD, type='password', name='password')
     //-button.btn.btn-primary(id='loginni') Loginn
     button.btn.btn-primary(type='submit') Login
     //-button.btn.btn-primary(id='loginni' type='submit') Login
     a.btn.btn-link(href='/forgot') Forgot Password?
   p
-    //lasketaan login-yritysten määrä req.flashin avulla:
+    //lasketaan login-yritysten mï¿½ï¿½rï¿½ req.flashin avulla:
   //#flash
   - var x= messages.error;
   p(id='alertMes' style='visibility:hidden') #{x}
 
   script(type='text/javascript').
-    //täältäpä skripti pelaa sujuvasti myös login formin kanssa
+    //tï¿½ï¿½ltï¿½pï¿½ skripti pelaa sujuvasti myï¿½s login formin kanssa
     var alerMes = $('#alertMes').text();
     var nTries;
     if (alerMes.length>0) {//error messages exists
