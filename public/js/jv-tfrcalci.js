@@ -35,7 +35,7 @@ var matrlArr=[];    //first row: [nm|um|eV, n, k]
 var matrlFileNme;   //Filename for optical properties
 //initializes material string with some n and k values to show in table and graph:
 var matrlStr = "nm\tn\tk\r\n500\t1.0\t0.0\r\n510\t1.5\t0.2\r\n520\t1.2\t0.4";
-var matOpt = [];    //materials to be used in calculations, including their nk-tables,
+//var matOpt = [];    //materials to be used in calculations, including their nk-tables,
 var nkPlot;         //Graph for n&k Data
 var oMatOptTable = {};
 var oMatTable={};   //objekti, materiaalilista dataTables widgetti� varten
@@ -49,13 +49,14 @@ var RTPlot;        //Graph for R&T Data
 var selctdNde={};   //selected node in jsTree
 var spArra=[,,];   //spectral points array for calculations and display
 var spNum=201;     //number of spectral points
-var spectOpts = [];//list of selected target or measured spectra
+//var spectOpts = [];//list of selected target or measured spectra
 var spStart=400;   //first spectral point in calculations
 var spStop=1000;   //last spectral point in calculations
 var spUnit='nm';   //k�yt�ss� oleva spektrin yksikk� (nm oletus),
 //initialize film stack to have only substrate and cover materials:
 //refractive index data is added as n- and k-vectors to the end of each stack line:
-var stackArr = [['Cover','DblClick to edit!','bulk','no'],['Substr.','DblClick to edit!','bulk','no']];
+var stack={};          //thin film stack between cover material and substrate
+var stackArr = [['Cover','DblClick to edit!','bulk','no',[]],['Substr.','DblClick to edit!','bulk','no',[]]];
 //ToDo: siirr� stackArr:in alustus document ready funktioon:
 var stackPL;       //Graph for stack R|T or film nk
 var userName = 'No login'; // after login obtained from web-server
@@ -68,387 +69,406 @@ var theta0;        //complex incidence angle
 /* *****Document ready function ***********
 *   This runs after refletrans page has been rendered
 *   Initializes variables and prepares event handlers
+*   (could be done also by placing the script calls to the bottom of the HTML-page)
+*   $( document ).ready(function() {
+*       console.log( "ready!" );
+*   });
 */
 $(function() {
-        if (window.sessionStorage.getItem('RTFtoken') && window.sessionStorage.getItem('RTFtoken').length>0){
-            userName=window.sessionStorage.getItem('RTFuser');
-        }else{
-            userName='No login';
-        }
-        //console.log('username: '+userName);
+    if (window.sessionStorage.getItem('RTFtoken') && window.sessionStorage.getItem('RTFtoken').length>0){
+        userName=window.sessionStorage.getItem('RTFuser');
+    }else{
+        userName='No login';
+    }
+    //console.log('username: '+userName);
 
-        //Set default calculation unit and mode into spArra's header (spectral array)
-         spArra.push([spUnit, RorT, '']);
-         targArr = splitToArr(targStr);
-         matrlArr = splitToArr(matrlStr);
+    //Set default calculation unit and mode into spArra's header (spectral array)
+    stack=buildStack();
+    //console.log('stack: '+JSON.stringify(stack));
+    spArra.push([spUnit, RorT, '']);
+    targArr = splitToArr(targStr);
+    matrlArr = splitToArr(matrlStr);
 
-        $( "#tabis" ).tabs({
-            //tabs panel täyttää koko näytön korkeuden:
-            heightStyle: "auto",
-            //seuraava päivittää graafin ja taulukot kun tabsia klikataan:
-            activate: function (event, ui) {
-                var poisTab=ui.oldTab.index();
-                var exitTab=$("#tabis").find("ul>li a").eq(poisTab).attr('id'); //exitoivan tabsin id
-                if (exitTab=="Settings"){//now leaving settings tabs values need to be updated
-                    //alert("exiting settings");
-                    var tmpAng=$("#incAng").spinner("value")*Math.PI/180;//get incidence angle from spinner
-                    theta0=Math.Complex(tmpAng,0); //assumes loss free cover material
-                    buildSpArray(); // updates spectral wavelengths grid
-                    updNKspArra(); //updates nk-values in materials stack
-                    updTargSpArra();//updates target values
-                    updRTspArra();//updates calculated values
-                    updGraph();
-                }
-                //var nextTab =ui.newPanel.attr('id'); //antaa aktivoituvan tabsin href:in
-                var nextTab = ui.newTab.index(); //antaa aktivoidun tabs:in indeksin ul:ss�
-                var selecTab = $("#tabis").find("ul>li a").eq(nextTab).attr('id'); //aktivoidun tabsin id
-                //var selecTab = $("#tabs ul>li a").eq(nextTab).attr('id');
-                if (selecTab == "Targets") {
-                    //RorT = targArr[0][1];
-                    plotRT(targArr, 7);
-                    //$("p").css({ "color": "blue", "font-size": "1.2em"}).text("Text changed!");
-                    $('#targEditTabl').find('th:eq(0)').text("Wavel. [" + targArr[0][0] + "]")
-                        .find('th:eq(1)').text(targArr[0][1] +  " %-value");
+    $( "#tabis" ).tabs({
+        //tabs panel täyttää sen verran, kun on tarpeen:
+        heightStyle: "auto",
+        //seuraava päivittää settingsit, graafin ja taulukot kun tabsia klikataan:
+        activate: function (event, ui) {
+            var poisTab=ui.oldTab.index(); //exitoituvan tabsin indexi
+            var exitTab=$("#tabis").find("ul>li a").eq(poisTab).attr('id'); //exitoivan tabsin id
+            if (exitTab=="Settings"){//Settings tabs values need to be updated on exit:
+                stack.settings.polaris=$('input[name="polSel"]:checked').val();
+                stack.settings.angle=$("#incAng").spinner("value");          //incidence angle in cover matrl
+                stack.settings.Refl_Trans=$('input[name="setCalcfor"]:checked').val();//R or T
+                stack.settings.Back_R=$('#bottomR').is(':checked');          //back surface reflection included
+                stack.settings.Front_R=$('#frontR').is(':checked');          //front surface reflection included
+                stack.settings.Substr_D=$("#sThickn").spinner("value")*1000; //Substrate thickness in nm:
+                stack.settings.Cover_D= $("#cThickn").spinner("value")*1000; //cover thickness in nm:
+                stack.settings.Unit=$('input[name="setUnit"]:checked').val();
+                stack.settings.WL_start=spStart;
+                stack.settings.WL_stop=spStop;
+                var tmpAng=$("#incAng").spinner("value")*Math.PI/180;//get incidence angle from spinner
+                theta0=Math.Complex(tmpAng,0);  //assumes loss free cover material!!
+                buildSpArray();                 //updates spectral wavelengths grid
+                updNKspArra();                  //updates nk-values in materials stack
+                updTargSpArra();                //updates target values
+                updRTspArra();                  //updates calculated values
+                updGraph();
+                //console.log('stack: ',JSON.stringify(stack));
+            }
+            //var nextTab =ui.newPanel.attr('id'); //antaa aktivoituvan tabsin href:in
+            var nextTab = ui.newTab.index(); //antaa aktivoidun tabs:in indeksin ul:ss�
+            var selecTab = $("#tabis").find("ul>li a").eq(nextTab).attr('id'); //aktivoidun tabsin id
+            //var selecTab = $("#tabs ul>li a").eq(nextTab).attr('id');
+            if (selecTab == "Targets") {
+                //RorT = targArr[0][1];
+                plotRT(targArr, 7);
+                //$("p").css({ "color": "blue", "font-size": "1.2em"}).text("Text changed!");
+                $('#targEditTabl').find('th:eq(0)').text("Wavel. [" + targArr[0][0] + "]")
+                    .find('th:eq(1)').text(targArr[0][1] +  " %-value");
                     //settings tabs:in muutokset piirettiin Targets tabsiin
+            }
+            if (selecTab == "Materials") {
+                nkPlot = plotNK(matrlArr, 8);
+            }
+            if (selecTab == "Settings") {
+                if (window.sessionStorage.getItem('RTFtoken') && window.sessionStorage.getItem('RTFtoken').length>0){
+                    userName=window.sessionStorage.getItem('RTFuser');
+                }else{
+                    userName='No login';
                 }
-                if (selecTab == "Materials") {
-                    nkPlot = plotNK(matrlArr, 8);
-                }
-                if (selecTab == "Settings") {
-                    if (window.sessionStorage.getItem('RTFtoken') && window.sessionStorage.getItem('RTFtoken').length>0){
-                        userName=window.sessionStorage.getItem('RTFuser');
-                    }else{
-                        userName='No login';
-                    }
-                    $('#UserName').text(userName);
-                }
-                if (selecTab == "Stack") {
+                $('#UserName').text(userName);
+            }
+            if (selecTab == "Stack") {
 
-                }
             }
-        });
-        //Set datatables jquery widget defaults:
-        //observe: dataTables uses jquery interface, but DataTables applies it's own interface
-        $.extend($.fn.dataTable.defaults, {
-            "bPaginate": true,
-            "bLengthChange": true,
-            "bFilter": true,
-            "bSort": false,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
+        }
+    });
+//Set datatables jquery widget defaults:
+//observe: dataTables uses jquery interface, but DataTables (with capital D) has it's own interface
+    $.extend($.fn.dataTable.defaults, {
+        "bPaginate": true,
+        "bLengthChange": true,
+        "bFilter": true,
+        "bSort": false,
+        "bInfo": true,
+        "bAutoWidth": true
+    })
+//--------------------------------------------------------------------------------
+//For tabs-2 --------------------------
+    //Toggle titles on mode event changes handler:
+    $('input[name="setCalcfor"]').change(function () {
+        if (this.value == "Refl") {
+            $("#setTarg").text("Calculated  reflectance includes:");
+            $("#CalcRes").text("&Reflectance is graphed on "+spUnit+" axis");//&nbsp &nbsp Reflectance is graphed on nm axis
+            $("#targMode").text("Target spectrum for reflectance");
+            $("#targCol2").text("R%-value");
+            $("#StackRTb").text("Stack Reflectance");
+            RorT = "R";
+        }else {
+            $("#setTarg").text("Calculated  transmittance includes:");
+            $("#CalcRes").text("Transmittance is graphed on "+spUnit+" axis");
+            $("#targMode").text("Target spectrum for transmittance");
+            $("#targCol2").text("T%-value");
+            $("#StackRTb").text("Stack Transmittance");
+            RorT = "T";
+        }
+        //console.log('stack: '+JSON.stringify(stack));
+    });
+    $('#obliDiv').hide();       //hides oblique incidence spinner in startup
+    polaris="TE";               //assumes TE polarization for startup
+    theta0=Math.Complex(0,0);   //assumes perpendicular incidence in startup
 
-        //--------------------------------------------------------------------------------
-        //For tabs-2 --------------------------
-        //Toggle titles
-        $('input[name="setCalcfor"]').change(function () {
-            if (this.value == "Refl") {
-                $("#setTarg").text("Calculated  reflectance includes:");
-                $("#CalcRes").text("&Reflectance is graphed on "+spUnit+" axis");//&nbsp &nbsp Reflectance is graphed on nm axis
-                $("#targMode").text("Target spectrum for reflectance");
-                $("#targCol2").text("R%-value");
-                $("#StackRTb").text("Stack Reflectance");
-                RorT = "R";
-            }
-            else {
-                $("#setTarg").text("Calculated  transmittance includes:");
-                $("#CalcRes").text("Transmittance is graphed on "+spUnit+" axis");
-                $("#targMode").text("Target spectrum for transmittance");
-                $("#targCol2").text("T%-value");
-                $("#StackRTb").text("Stack Transmittance");
-                RorT = "T";
-            }
-        });
-        $('#obliDiv').hide();
+    backR=false;                //initializes without substrate back reflection
+    var bottR=$('#bottomR');    //checkbox for substrate backside reflection
+    bottR.attr('checked', false);
+    bottR.click(function() {    //event handler for checkbox
+        if ($(this).is(':checked')) {
+            backR=true;
+            frontR=false;
+            topR.attr('checked',false);
+        }else{
+            backR=false;
+        }
+    });
+
+    frontR=false;               //initializes without cover matrl front reflection
+    var topR=$('#frontR');      //checkbox for cover matrl front reflection
+    topR.attr('checked', false);
+    topR.click(function() {    //event handler for checkbox
+        if ($(this).is(':checked')) {
+            backR=false;
+            frontR=true;
+            bottR.attr('checked',false);
+        }else {
+            frontR = false;
+        }
+    });
+
+    $('input[name="incidenceA"]').change(function(){
         polaris="TE";
-        theta0=Math.Complex(0,0);
-        backR=false;
-        frontR=false;
-        var bottR=$('#bottomR'); //checkbox on Tab2
-        bottR.attr('checked', false);
-        var topR=$('#frontR');   //checkbox on Tab2
-        topR.attr('checked', false);
+        $("#incAng").spinner("value",0);
+        if (this.value == "Normal") $('#obliDiv').hide();
+        else {
+            $('#obliDiv').show();
+            $('#TEpol').prop('checked',true);
+        }
+    });
 
-        bottR.click(function() {
-            if ($(this).is(':checked')) {
-                backR=true;
-                frontR=false;
-                topR.attr('checked',false);
-                //alert('bottomR is checked');
-            }
-            else{
-                backR=false;
-            }
-        });
+    $('input[name="polSel"]').change(function(){
+        polaris = this.value == "TE" ? "TE" : "TM";
+    });
 
-        topR.click(function() {
-            if ($(this).is(':checked')) {
-                backR=false;
-                frontR=true;
-                bottR.attr('checked',false);
-                //alert('frontR is checked');
-            }
-            else {
-                frontR = false;
-            }
-        });
+//Tabs-2: Set wavelength spinners:-------------------------------------------------------
+    buildSpArray(); //todo: tarkista paikka prepares wavelength grid
+    $("#sThickn").spinner({
+        max: 5000,
+        min: 50,
+        step:10,
+        spin: function (event, ui) {
+            //this.value; antaisi olleen arvon
+            //ui.value antaisi tulevan uuden arvon
+            var tmp1 = ui.value.toFixed(0);
+        },
+        change: function (event, ui) {
+            //buildSpArray(); päivitetään muutokset vasta poistuttaessa settings tabsista
+        }
+    }).val(1000);
 
-        $('input[name="incidenceA"]').change(function(){
-            polaris="TE";
-            $("#incAng").spinner("value",0);
-            if (this.value == "Normal") $('#obliDiv').hide();
-            else {
-                $('#obliDiv').show();
-                $('#TEpol').prop('checked',true);
-            }
-        });
+    $("#cThickn").spinner({
+        max: 5000,
+        min: 50,
+        step:10,
+        spin: function (event, ui) {
+            //this.value; antaisi olleen arvon
+            //ui.value antaisi tulevan uuden arvon
+            var tmp1 = ui.value.toFixed(0);
+        },
+        change: function (event, ui) {
+            //buildSpArray(); päivitetään muutokset vasta poistuttaessa settings tabsista
+        }
+    }).val(1000);
 
-        $('input[name="polSel"]').change(function(){
-            polaris = this.value == "TE" ? "TE" : "TM";
-        });
-        //Tabs-2: Set wavelength spinners:-------------------------------------------------------
-        buildSpArray(); //prepares wavelength grid
-        $("#sThickn").spinner({
-            max: 5000,
-            min: 50,
-            step:10,
-            spin: function (event, ui) {
-                //this.value; antaisi olleen arvon
-                //ui.value antaisi tulevan uuden arvon
-                var tmp1 = ui.value.toFixed(0);
-            },
-            change: function (event, ui) {
-                //buildSpArray(); vasta poistuttaessa settings tabsista
-            }
-        }).val(1000);
+    $("#incAng").spinner({
+        max: 90,
+        min: 0,
+        step:1,
+        spin: function (event, ui) {
+            //this.value; antaisi olleen arvon
+            //ui.value antaisi tulevan uuden arvon
+            var tmp1 = ui.value.toFixed(0);
+        },
+        change: function (event, ui) {
+            //buildSpArray(); päivitetään muutokset vasta poistuttaessa settings tabsista
+        }
+    }).val(0);
 
-        $("#cThickn").spinner({
-            max: 5000,
-            min: 50,
-            step:10,
-            spin: function (event, ui) {
-                //this.value; antaisi olleen arvon
-                //ui.value antaisi tulevan uuden arvon
-                var tmp1 = ui.value.toFixed(0);
-            },
-            change: function (event, ui) {
-                //buildSpArray(); vasta poistuttaessa settings tabsista
-            }
-        }).val(1000);
-
-        $("#incAng").spinner({
-            max: 90,
-            min: 0,
-            step:1,
-            spin: function (event, ui) {
-                //this.value; antaisi olleen arvon
-                //ui.value antaisi tulevan uuden arvon
-                var tmp1 = ui.value.toFixed(0);
-            },
-            change: function (event, ui) {
-                //buildSpArray(); vasta poistuttaessa settings tabsista
-            }
-        }).val(0);
-
-        $("#SpStart").spinner({
-            max: spStop,
-            min: 0,
-            step: 1,
-            spin: function (event, ui) {
-                //this.value; antaa olleen arvon
-                //ui.value antaa tulevan arvon
-                var tmp1 = ui.value; //.toFixed(4);
-                if (spUnit == "eV") {
-                    $("#SpStop").spinner("option", "max", tmp1);
-                    if (tmp1 > 0) {
-                        spStart = Math.round(1239.8 / tmp1); //py�ristys nanometriksi
-                    }
-                    else {
-                        spStart = 400; //jossakin sekoilua; palataan aloitusarvoon
-                    }
+    $("#SpStart").spinner({
+        max: spStop,
+        min: 0,
+        step: 1,
+        spin: function (event, ui) {
+            //this.value; antaa olleen arvon
+            //ui.value antaa tulevan arvon
+            var tmp1 = ui.value; //.toFixed(4);
+            if (spUnit == "eV") {
+                $("#SpStop").spinner("option", "max", tmp1);
+                if (tmp1 > 0) {
+                    spStart = Math.round(1239.8 / tmp1); //pyöristys nanometriksi
+                }else {
+                    spStart = 400; //jossakin sekoilua; palataan aloitusarvoon
                 }
-                else {//yksikk�n� on joko nm tai um
-                    $("#SpStop").spinner("option", "min", ui.value);
-                    if (spUnit == "um") {
-                        spStart = Math.round(1000 * ui.value);
-                    }
-                    else {//yksikk�n� nm
-                        spStart = Math.round(ui.value);
-                    }
+            }else {//yksikkönä on joko nm tai um
+                $("#SpStop").spinner("option", "min", ui.value);
+                if (spUnit == "um") {
+                    spStart = Math.round(1000 * ui.value);
+                }else {//yksikkönä nm
+                    spStart = Math.round(ui.value);
                 }
-                $("#spRange1").text(spStart);
-            },
-            change: function (event, ui) {
-                //buildSpArray(); vasta poistuttaessa settings tabsista
-            }
-        }).val(spStart);
-
-        $("#SpStop").spinner({
-            max: 5000,
-            min: spStart,
-            step: 1,
-            spin: function (event, ui) {
-                // alert("event: "+event.target+" ui: "+ui.value);
-                var tmp2 = ui.value;//.toFixed(4);
-                if (spUnit == "eV") {
-                    $("#SpStart").spinner("option", "min", tmp2);
-                    if (tmp2 > 0) {
-                        spStop = Math.round(1239.8 / tmp2); //asettaa nm-arvon suurimmalle aaltopituudelle
-                    }
-                    else {
-                        spStop = 1000; //jossakin sekoilua; palataan aloitusarvoon
-                    }
-                }
-                else {//yksikk�n� um tai nm
-                    $("#SpStart").spinner("option", "max", ui.value);
-                    if (spUnit == "um") {
-                        spStop = Math.round(1000 * ui.value);
-                    }
-                    else {//yksikk�n� nm
-                        spStop = Math.round(ui.value);
-                    }
-                }
-                $("#spRange2").text(spStop);
-            },
-            change: function (event, ui) {
-                //buildSpArray(); p�ivitet��n vasta settings tabsista poisttttaessa
-            }
-        }).val(spStop);
-
-        //------------------------------------------------------------------------------
-        //Spectral units sector:------------------------------------------------------
-        spUnit = "nm"; //spektrimuuttujan aloitusarvo
-        $('input[name="setUnit"]').change(function (){
-            spUnit = this.value;
-            //alert(this.value);
-            if (RorT=="T") {
-                $("#CalcRes").text("Transmittance is graphed on "+spUnit+" axis");
-            }
-            else {
-                $("#CalcRes").text("Reflectance is graphed on "+spUnit+" axis");
-            }
-            switch (spUnit) {
-                case 'nm':
-                    $("#SpStart").spinner({
-                        max: spStop,
-                        min: 300,
-                        step:1}).val(spStart);
-                    $("#SpStop").spinner({
-                        max: 5000,
-                        min: spStart,
-                        step: 1}).val(spStop);
-                    $("#lblStartUn").text("[ nm ]");
-                    $("#lblStopUn").text("[ nm ]");
-                    break;
-                case 'um':
-                    $("#SpStart").spinner({
-                        max: spStop / 1000,
-                        min: 0.300,
-                        step:0.001}).val(spStart / 1000);
-                    $("#SpStop").spinner({
-                        max: 5.000,
-                        min: spStart / 1000,
-                        step: 0.001}).val(spStop / 1000);
-                    $("#lblStartUn").text("[ um ]");
-                    $("#lblStopUn").text("[ um ]");
-                    break;
-                case 'eV':
-                    var tmpT = (1239.8 / spStart).toFixed(4);
-                    var tmpP = (1239.8 / spStop).toFixed(4);
-                    var tmpD = ((tmpT - tmpP) / 600).toFixed(7);
-                    $("#SpStart").spinner({
-                        step: tmpD,
-                        max: (1239.8/300).toFixed(4),
-                        min: tmpP
-                    }).val(tmpT);
-                    $("#SpStop").spinner({
-                        step: tmpD,
-                        max: tmpT,
-                        min: (1239.8/5000).toFixed(4)
-                    }).val(tmpP);
-                    $("#lblStartUn").text("[ eV ]");
-                    $("#lblStopUn").text("[ eV ]");
-                    break;
-                default:
-                    $("#SpStart").spinner({
-                        step: 1,
-                        max: spStop,
-                        min: 300
-                    }).val(spStart);
-                    $("#SpStop").spinner({
-                        step: 1,
-                        max: 5000,
-                        min: spStart
-                    }).val(spStop);
-                    $("#lblStartUn").text("[ nm ]");
-                    $("#lblStopUn").text("[ nm ]");
             }
             $("#spRange1").text(spStart);
-            $("#spRange2").text(spStop);
-        });
-        //-----------------------------------------------------------------
-        //Code for tabs-2 ends here
+        },
+        change: function (event, ui) {
+            //buildSpArray(); vasta poistuttaessa settings tabsista
+        }
+    }).val(spStart);
 
-        //tabs-6-----Film Stack--------------------------
-        //alustetaan kalvopakan taulukko:
-        createStackTable();
-
-        //Tabs-6: tehd�� piirtomoodin muuttamisen event handler:
-        $("input[name=graphMode]:radio").change(function () {
-            updRTspArra();
-            updNKspArra();
-            updGraph();
-        });
-
-        //Tabs-6: tehd��n toinen sarake editoitavaksi select-option rakenteen kanssa:
-        oStackTable.on('dblclick', 'td:nth-child(2)', function (evt) {
-            if ($(this)[0].editing) {
-                //without this checking editable function may be triggered twice
-                //This results in error message: "too much recursion"
-                return;
+    $("#SpStop").spinner({
+        max: 5000,
+        min: spStart,
+        step: 1,
+        spin: function (event, ui) {
+            // alert("event: "+event.target+" ui: "+ui.value);
+            var tmp2 = ui.value;//.toFixed(4);
+            if (spUnit == "eV") {
+                $("#SpStart").spinner("option", "min", tmp2);
+                if (tmp2 > 0) {
+                    spStop = Math.round(1239.8 / tmp2); //asettaa nm-arvon suurimmalle aaltopituudelle
+                }else {
+                    spStop = 1000; //jossakin sekoilua; palataan aloitusarvoon
+                }
+            }else {//yksikkönä um tai nm
+                $("#SpStart").spinner("option", "max", ui.value);
+                if (spUnit == "um") {
+                    spStop = Math.round(1000 * ui.value);
+                }else {//yksikkönä nm
+                    spStop = Math.round(ui.value);
+                }
             }
-            $(this).editable(function (value, settings) {
-                    return (value);
-                },
-                {//huom. jquery.jeditable.js:ssa oletuksena on click.editable
-                    event: 'dblclick.editable',
-                    type: 'select',
-                    onblur: 'submit',
-                    data: function () {
-                        var optsString;
-                        if (matOpt.length < 1) {
-                            optsString = "{'':'Empty materials list','-':'Populate it on','--':'Materials Tab'}"
-                        }
-                        else {
-                            optsString = "{'':'Select:'";
-                            for (var i = 0; i < matOpt.length; i++) {
-                                optsString = optsString + ",'" + matOpt[i].Name + "':'" + matOpt[i].Name + "'";
-                            }
-                            optsString = optsString + "}";
-                        }
-                        return optsString;
-                    },
-                    onsubmit: function (settings, td) {
-                        var input = $(this).find('select');
-                        //var arvo = input.text();
-                    },
-                    "callback": function (value, settings) {
-                        //kelpuutetun uuden arvon prosessointi:
-                        var aPos = oStackTable.fnGetPosition(this);
-                        //kakkossarakkeeseen tulee valitun materiaalin nimi
-                        stackArr[aPos[0]][aPos[1]] = value;
-                        oStackTable.fnClearTable();
-                        oStackTable.fnAddData(stackArr);
-                        updNKspArra();
-                        updRTspArra();
-                        updGraph();
-                    },
-                    "height": "14px",
-                    "width": "100%"
-                });
-            //$(this).trigger("edit"); // ei toimi
-            $(this).dblclick(); //toimii
+            $("#spRange2").text(spStop);
+        },
+        change: function (event, ui) {
+            //buildSpArray(); päivitetään vasta settings tabsista poisttttaessa
+        }
+    }).val(spStop);
+
+//------------------------------------------------------------------------------
+//Spectral units sector:------------------------------------------------------
+    spUnit = "nm"; //spektrimuuttujan aloitusarvo
+    $('input[name="setUnit"]').change(function (){
+        spUnit = this.value;
+        //alert(this.value);
+        if (RorT=="T") {
+            $("#CalcRes").text("Transmittance is graphed on "+spUnit+" axis");
+        }else {
+            $("#CalcRes").text("Reflectance is graphed on "+spUnit+" axis");
+        }
+        switch (spUnit) {
+            case 'nm':
+                $("#SpStart").spinner({
+                    max: spStop,
+                    min: 300,
+                    step:1
+                }).val(spStart);
+                $("#SpStop").spinner({
+                    max: 5000,
+                    min: spStart,
+                    step: 1
+                }).val(spStop);
+                $("#lblStartUn").text("[ nm ]");
+                $("#lblStopUn").text("[ nm ]");
+                break;
+            case 'um':
+                $("#SpStart").spinner({
+                    max: spStop / 1000,
+                    min: 0.300,
+                    step:0.001
+                }).val(spStart / 1000);
+                $("#SpStop").spinner({
+                    max: 5.000,
+                    min: spStart / 1000,
+                    step: 0.001
+                }).val(spStop / 1000);
+                $("#lblStartUn").text("[ um ]");
+                $("#lblStopUn").text("[ um ]");
+                break;
+            case 'eV':
+                var tmpT = (1239.8 / spStart).toFixed(4);
+                var tmpP = (1239.8 / spStop).toFixed(4);
+                var tmpD = ((tmpT - tmpP) / 600).toFixed(7);
+                $("#SpStart").spinner({
+                    step: tmpD,
+                    max: (1239.8/300).toFixed(4),
+                    min: tmpP
+                }).val(tmpT);
+                $("#SpStop").spinner({
+                    step: tmpD,
+                    max: tmpT,
+                    min: (1239.8/5000).toFixed(4)
+                }).val(tmpP);
+                $("#lblStartUn").text("[ eV ]");
+                $("#lblStopUn").text("[ eV ]");
+                break;
+            default:
+                $("#SpStart").spinner({
+                    step: 1,
+                    max: spStop,
+                    min: 300
+                }).val(spStart);
+                $("#SpStop").spinner({
+                    step: 1,
+                    max: 5000,
+                    min: spStart
+                }).val(spStop);
+                $("#lblStartUn").text("[ nm ]");
+                $("#lblStopUn").text("[ nm ]");
+        }
+        $("#spRange1").text(spStart);
+        $("#spRange2").text(spStop);
+    });
+//-----------------------------------------------------------------
+//Code for tabs-2 ends here
+
+//tabs-6-----Film Stack--------------------------
+//alustetaan kalvopakan taulukko:
+    createStackTable();
+
+    $('#btnReadStack').click(function(){
+        console.log('stack.Materials: '+JSON.stringify(stack.Materials));
+    });
+
+    $('#btnSaveStack').click(function(){
+        console.log('stack.Layers: '+JSON.stringify(stack.Layers));
+    });
+//Tabs-6: tehd�� piirtomoodin muuttamisen event handler:
+    $("input[name=graphMode]:radio").change(function () {
+        updRTspArra();
+        updNKspArra();
+        updGraph();
+    });
+
+//Tabs-6: tehd��n toinen sarake editoitavaksi select-option rakenteen kanssa:
+    oStackTable.on('dblclick', 'td:nth-child(2)', function (evt) {
+        if ($(this)[0].editing) {
+            //without this checking jquery editable function may be triggered twice
+            //and results in error message: "too much recursion"
+            return;
+        }
+        $(this).editable(function (value, settings) {
+            return (value);
+        },
+        {//huom. jquery.jeditable.js:ssa oletuksena on click.editable
+        event: 'dblclick.editable',
+        type: 'select',
+        onblur: 'submit',
+        data: function () {
+            var optsString;
+            if (stack.Materials.length < 1) {
+            //if (matOpt.length < 1) {
+                optsString = "{'':'Empty materials list','-':'Populate it on','--':'Materials Tab'}"
+            }else {
+                optsString = "{'':'Select:'";
+                for (var i = 0; i < stack.Materials.length; i++) {
+                //for (var i = 0; i < matOpt.length; i++) {
+                    optsString = optsString + ",'" + stack.Materials[i].Name + "':'" + stack.Materials[i].Name + "'";
+                    //optsString = optsString + ",'" + matOpt[i].Name + "':'" + matOpt[i].Name + "'";
+                }
+                optsString = optsString + "}";
+            }
+            return optsString;
+        },
+        onsubmit: function (settings, td) {
+            var input = $(this).find('select');
+            //var arvo = input.text();
+        },
+        "callback": function (value, settings) {
+            //kelpuutetun uuden arvon prosessointi:
+            var aPos = oStackTable.fnGetPosition(this);
+            //kakkossarakkeeseen tulee valitun materiaalin nimi
+            stackArr[aPos[0]][aPos[1]] = value;
+            stack.Layers[aPos[0]][aPos[1]] = value;
+            oStackTable.fnClearTable();
+            oStackTable.fnAddData(stackArr);
+            updNKspArra();
+            updRTspArra();
+            updGraph();
+        },
+        "height": "14px",
+        "width": "100%"
         });
+        //$(this).trigger("edit"); // ei toimi
+        $(this).dblclick(); //toimii
+    });
 
         $('#stackTargs').change(function () {
             var selTarg = $('#stackTargs option:selected').text();
@@ -459,7 +479,7 @@ $(function() {
             }
         });
 
-        //Tabs-6: Add a custom editable number input to jeditable
+        //Tabs-6: Add a custom editable number input to jeditable for film thickness
         $.editable.addInputType('qumber', {
             element: function (settings, original) {
                 var minput = $('<input id="arvotus">');//creates input box
@@ -537,6 +557,9 @@ $(function() {
                         //processing the newly obtained thickness:
                         var aPos = oStackTable.fnGetPosition(this);
                         stackArr[aPos[0]][aPos[1]] = value; //
+                        //console.log('aPos[0]: '+aPos[0]+' aPos[1]: '+aPos[1]+' value: '+value);
+                        stack.Layers[aPos[0]][aPos[1]] = value;
+                        //console.log('stack.Layers: ',stack.Layers);
                         oStackTable.fnClearTable();
                         oStackTable.fnAddData(stackArr);
                         updNKspArra();
@@ -577,6 +600,9 @@ $(function() {
                     callback: function (value, settings) {//runs on submit
                         var aPos = oStackTable.fnGetPosition(this); //gets the selected cell in the table:
                         stackArr[aPos[0]][aPos[1]] = value;         //gets checkbox value: Yes/No
+                        console.log('aPos[0]: '+aPos[0]+' aPos[1]: '+aPos[1]+' value: '+value);
+                        stack.Layers[aPos[0]][aPos[1]] = value;
+                        //console.log('stack.Layers: ',stack.Layers);
                         stackArr[aPos[0]].slice(0,5);               //cut out earlier strtVal or members after fourth member
                         stackArr[aPos[0]].strtVal = (value === 'Yes') ? stackArr[aPos[0]][2]:0;
                         oStackTable.fnClearTable();
@@ -597,7 +623,7 @@ $(function() {
             $(this).dblclick(); //activates editable
         });
 
-//Tabs-6: tehd��n kalvopakan editointinappuloiden enablointi-disablointi handleri
+//Tabs-6: tehdään kalvopakan editointinappuloiden enablointi-disablointi handleri
         oStackTable.on('click', 'td', function (evt) {
             //will not work if selector 'td' is replaced with 'tr'
             // clicked element will also be set to selected: 'td' gets selected but 'tr' remains unselected
@@ -635,18 +661,22 @@ $(function() {
             //console.log("kalvoja: " + layerCount);
             uusFilm = [];
             var anSelected = fnGetSelected(oStackTable);
-            if (anSelected.length !== 0 && rowIndex !== 0) {
+            if (anSelected.length !== 0 && rowIndex !== 0) {//Ylin kerros on indeksillä 0, sen päälle ei saa lisätä
                 var rowIndex = oStackTable.fnGetPosition($(anSelected).closest('tr')[0]);
                 //console.log("rowIndex: " + rowIndex);
-                uusFilm = [" ", "Select material", "0", "no"];
+                uusFilm = [" ", "Select material", "0", "no",0];
                 stackArr.splice(rowIndex, 0, uusFilm);
+                stack.Layers.splice(rowIndex, 0, uusFilm);
                 for (var i = 1; i < layerCount; i++) {
                     stackArr[i][0] = "Film#: " + (layerCount - i);
+                    stack.Layers[i][0]="Film#: " + (layerCount - i);
                 }
+                //console.log('stack.Layers: ',stack.Layers);
                 oStackTable.fnClearTable();
                 oStackTable.fnAddData(stackArr);
             }
             stackArr.ready=false;
+            stack.ReadyForCalc=false;
         });
 
 //Tabs-6: tehdaan kalvokerroksen poiston handleri:
@@ -657,9 +687,13 @@ $(function() {
             if (anSelected.length !== 0 && stackArr.length > 2) {
                 var rowIndex = oStackTable.fnGetPosition($(anSelected).closest('tr')[0]);
                 stackArr.splice(rowIndex, 1); //removes one row at rowIndex
+                stack.Layers.splice(rowIndex, 1);
+                //console.log('stack.Layers: ',stack.Layers);
                 for (var i = 1; i < layerCount - 2; i++) {
                     stackArr[i][0] = "Film#: " + (layerCount - 2 - i);
+                    stack.Layers[i][0] = "Film#: " + (layerCount - 2 - i);
                 }
+                //console.log('stack.Layers: ',stack.Layers);
                 oStackTable.fnClearTable();
                 oStackTable.fnAddData(stackArr);
                 updNKspArra();
@@ -688,9 +722,12 @@ $(function() {
             for (var i=0;i<ii;i++){
                 if (stackArr[i][3]==="Yes") {//layer is selected for thickness tuning
                     stackArr[i][2] *= (1 + tunePerz.val()/100);
+                    stack.Layers[i][2] *= (1 + tunePerz.val()/100);
                     stackArr[i][2]=(Math.round(stackArr[i][2]*1000))/1000;
+                    stack.Layers[i][2]=(Math.round(stack.Layers[i][2]*1000))/1000;
                 }
             }
+            //console.log('stack.Layers: ',stack.Layers);
             oStackTable.fnClearTable();
             oStackTable.fnAddData(stackArr);
             updRTspArra();
@@ -737,162 +774,159 @@ $(function() {
             }
         });
 
-        //------------------------------------------------------------------------------------
-        //Tabs-7: alustetaan reflectanssitargetti:
+//------------------------------------------------------------------------------------
+//Tabs-7: alustetaan reflectanssitargetti:
         //targArr = splitToArr(targStr);
-        createTargEditTable(); //voisi nimet� paremmin, kun luodaan otargTable
-        otargTable.fnClearTable();
-        otargTable.fnAddData(targArr.slice(1));
-        //RorT = targArr[0][1];
-        RTPlot = plotRT(targArr, 7);
-        otargTable.on('click contextmenu', 'td', function (evt) {
-            //var rowInd0 = 0;
-            //rowInd0 = otargTable.fnGetPosition($(this).closest('tr')[0]);
-            //Huom! 'click contextmenu' on molemmat (vasen click) tai (oikea click)
-            EnDisButt('Enabled', '#btnDelTargRow');
-            EnDisButt('Enabled', '#btnAddTargRow');
-            if (evt.which !== 1) {
-                //oikeanpuoleinen klikkaus, estet��n contextmenun avaus:
-                evt.preventDefault();
-                EnDisButt('Disabled', '#btnDelTargRow');
-                EnDisButt('Disabled', '#btnAddTargRow');
-                if (otargTable.$('tr.row_selected').length !== 0) {
-                    otargTable.$('tr.row_selected').removeClass('row_selected');
-                }
-                //return; //turhaa
-            }
-            //vasemmanpuoleinen hiiren nappi:
-            else {
-                if ($(this).closest('tr').hasClass('row_selected')) {
-                    $(this).closest('tr').removeClass('row_selected');
-                    //Disable Add & Del butts.
-                    EnDisButt('Disabled', '#btnDelTargRow');
-                    EnDisButt('Disabled', '#btnAddTargRow');
-                }
-                else {
-                    otargTable.$('tr.row_selected').removeClass('row_selected');
-                    $(this).closest('tr').addClass('row_selected');
-                    //Enable Add & Del butts.
-                    EnDisButt('Enabled', '#btnDelTargRow');
-                    EnDisButt('Enabled', '#btnAddTargRow');
-                }
-            }
-        });
-
-//Tabs-7 event liitett�v� delegaatilla, muuten uudet rivit eiv�t ole editoitavissa:
-        otargTable.on('dblclick', 'td', function (evt) {
-            if ($(this)[0].editing) {
-                //ilman t�t� tarkistusta editable funktio voi liipaistua
-                //uudelleen, mik� aiheuttaa virheen ja ilmoituksen:
-                //"too much recursion"
-                return;
-            }
-            $(this).editable(function (value, settings) {
-                    return (value);
-                },
-                { tooltip: 'Click to select row, dblclick to edit...',
-                    //huom. jquery.jeditable.js:ssa oletuksena on click.editable
-                    event: 'dblclick.editable', //contMenu.editable on paras toteutus mutta ei toimi IE:ssa
-                    onsubmit: function (settings, td) {
-                        var input = $(td).find('input');
-                        var original = input.val();
-                        //console.log('targ edited : '+original);
-                        //console.log('targ edited is numeric: '+isNumeric(original));
-                        return isNumeric(original);
-                        // if (isNumeric(original)) {
-                        //    return true;
-                        //} else {
-                        ////input.css('background-color','#c00').css('color', '#fff');
-                        //    return false;
-                        //}
-                    },
-                    "callback": function (value, settings) {
-                        //kelpuutetun uuden arvon prosessointi:
-                        $('#ediTarge').val('Unsaved target data');
-                        var aPos = otargTable.fnGetPosition(this);
-                        targArr[aPos[0] + 1][aPos[1]] = value;
-                        //sort the array after new data:
-                        targArr = sorttaa(targArr);
-                        otargTable.fnClearTable();
-                        otargTable.fnAddData(targArr.slice(1));
-                        RTPlot = plotRT(targArr, 7);
-                    },
-                    "height": "14px",
-                    "width": "100%"
-                });
-            $(this).dblclick();
-        });
-
-        //Tabs-7 tehd��n paikalliseen tiedostojen tallennukseen click handler:
-        //$("#btnLclTSave").click(function () {
-        //    var seivString;
-        //    var failneim = $('#ediTarge').val();
-        //    alert('Save file name: '+failneim);
-        //    //ToDo: build saveString from target data
-        //    //ToDo: take filename proposal from inputput box
-        //    seivString = 'Hellot worldit';
-        //    failneim = 'huihai.txt';
-        //    seiv_loucal(failneim, seivString);
-        //});
-
-        //Tabs-7: Click handler for 'delete row' in target or measurement data
-        $('#btnDelTargRow').click(function () {
-            var anSelected = fnGetSelected(otargTable);
-            var rowS = targArr.length;
-            var rowIndex;
-            if (anSelected.length !== 0 && rowS > 1) {
-                rowIndex = otargTable.fnGetPosition($(anSelected).closest('tr')[0]);
-                //alert("rowIndex: " + rowIndex);
-                targArr.splice(rowIndex + 1, 1);
-                otargTable.fnClearTable();
-                otargTable.fnAddData(targArr.slice(1));
-                RTPlot=plotRT(targArr, 7);
-                $('#ediTarge').val('Unsaved target data');
-                EnDisButt('Disabled', '#btnPlusTarg');
-                //RTPlot(targArr, 7);
-            }
-            else {
-                rowIndex = otargTable.fnGetPosition($(anSelected).closest('tr')[0]);
-                alert("Cannot remowe row No: " + rowIndex + " !");
-            }
+    createTargEditTable(); //voisi nimet� paremmin, kun luodaan otargTable
+    otargTable.fnClearTable();
+    otargTable.fnAddData(targArr.slice(1));
+    //RorT = targArr[0][1];
+    RTPlot = plotRT(targArr, 7);
+    otargTable.on('click contextmenu', 'td', function (evt) {
+        //var rowInd0 = 0;
+        //rowInd0 = otargTable.fnGetPosition($(this).closest('tr')[0]);
+        //Huom! 'click contextmenu' on molemmat (vasen click) tai (oikea click)
+        EnDisButt('Enabled', '#btnDelTargRow');
+        EnDisButt('Enabled', '#btnAddTargRow');
+        if (evt.which !== 1) {
+            //oikeanpuoleinen klikkaus, estet��n contextmenun avaus:
+            evt.preventDefault();
             EnDisButt('Disabled', '#btnDelTargRow');
             EnDisButt('Disabled', '#btnAddTargRow');
-        });
+            if (otargTable.$('tr.row_selected').length !== 0) {
+                otargTable.$('tr.row_selected').removeClass('row_selected');
+            }
+            //return; //turhaa
+        }
+        //vasemmanpuoleinen hiiren nappi:
+        else {
+            if ($(this).closest('tr').hasClass('row_selected')) {
+                $(this).closest('tr').removeClass('row_selected');
+                //Disable Add & Del butts.
+                EnDisButt('Disabled', '#btnDelTargRow');
+                EnDisButt('Disabled', '#btnAddTargRow');
+            } else {
+                otargTable.$('tr.row_selected').removeClass('row_selected');
+                $(this).closest('tr').addClass('row_selected');
+                //Enable Add & Del butts.
+                EnDisButt('Enabled', '#btnDelTargRow');
+                EnDisButt('Enabled', '#btnAddTargRow');
+            }
+        }
+    });
 
-        //Tabs-7: Click handler for 'Add row' in target or measurement data
-        $('#btnAddTargRow').click(function () {
-            var uusDat = [];
-            var anSelected = fnGetSelected(otargTable);
-            if (anSelected.length !== 0) {
-                uusDat = [anSelected.find('td:eq(0)').html(), "0.0"];
-                targArr.splice(rowInd1 + 1, 0, uusDat);
+//Tabs-7 event liitett�v� delegaatilla, muuten uudet rivit eiv�t ole editoitavissa:
+    otargTable.on('dblclick', 'td', function (evt) {
+        if ($(this)[0].editing) {
+            //ilman t�t� tarkistusta editable funktio voi liipaistua
+            //uudelleen, mik� aiheuttaa virheen ja ilmoituksen:
+            //"too much recursion"
+            return;
+        }
+        $(this).editable(function (value, settings) {
+            return (value);
+        },
+        { tooltip: 'Click to select row, dblclick to edit...',
+            //huom. jquery.jeditable.js:ssa oletuksena on click.editable
+            event: 'dblclick.editable', //contMenu.editable on paras toteutus mutta ei toimi IE:ssa
+            onsubmit: function (settings, td) {
+                var input = $(td).find('input');
+                var original = input.val();
+                //console.log('targ edited : '+original);
+                //console.log('targ edited is numeric: '+isNumeric(original));
+                return isNumeric(original);
+                // if (isNumeric(original)) {
+                //    return true;
+                //} else {
+                ////input.css('background-color','#c00').css('color', '#fff');
+                //    return false;
+                //}
+            },
+            "callback": function (value, settings) {
+                //kelpuutetun uuden arvon prosessointi:
+                $('#ediTarge').val('Unsaved target data');
+                var aPos = otargTable.fnGetPosition(this);
+                targArr[aPos[0] + 1][aPos[1]] = value;
+                //sort the array after new data:
                 targArr = sorttaa(targArr);
                 otargTable.fnClearTable();
                 otargTable.fnAddData(targArr.slice(1));
-                RTPlot=plotRT(targArr, 7);
-                $('#ediTarge').val('Unsaved target data');
-                EnDisButt('Disabled', '#btnPlusTarg');
-                //RTPlot(targArr, 7);
-            }
+                RTPlot = plotRT(targArr, 7);
+            },
+            "height": "14px",
+            "width": "100%"
         });
+        $(this).dblclick();
+    });
 
-        //tabs-7 alustetaan spektritargettien lista
-        createTargOptsTable();
-        // alustetaan spektrien valinta handleri, joka enabloi/disabloi poistonappulaa:
-        oTargOptTable.on('click', 'td', function (evt) {
-            //huom ei toimi jos 'td':n sijalla 'tr' (klikattu rivi on aina selected)
-            if ($(this).closest('tr').hasClass('row_selected')) {
-                oTargOptTable.$('tr').removeClass('row_selected');
-                EnDisButt('Disabled', '#btnRmvTarg');
-            }
-            else {
-                //poistetaan kaikilta riveilt� valinta
-                oTargOptTable.$('tr').removeClass('row_selected');
-                //valitaan klikattu rivi
-                $(this).closest('tr').addClass('row_selected');
-                EnDisButt('Enabled', '#btnRmvTarg');
-            }
-        });
+//Tabs-7 tehd��n paikalliseen tiedostojen tallennukseen click handler:
+//$("#btnLclTSave").click(function () {
+//    var seivString;
+//    var failneim = $('#ediTarge').val();
+//    alert('Save file name: '+failneim);
+//    //ToDo: build saveString from target data
+//    //ToDo: take filename proposal from inputput box
+//    seivString = 'Hellot worldit';
+//    failneim = 'huihai.txt';
+//    seiv_loucal(failneim, seivString);
+//});
+
+//Tabs-7: Click handler for 'delete row' in target or measurement data
+    $('#btnDelTargRow').click(function () {
+        var anSelected = fnGetSelected(otargTable);
+        var rowS = targArr.length;
+        var rowIndex;
+        if (anSelected.length !== 0 && rowS > 1) {
+            rowIndex = otargTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            //alert("rowIndex: " + rowIndex);
+            targArr.splice(rowIndex + 1, 1);
+            otargTable.fnClearTable();
+            otargTable.fnAddData(targArr.slice(1));
+            RTPlot=plotRT(targArr, 7);
+            $('#ediTarge').val('Unsaved target data');
+            EnDisButt('Disabled', '#btnPlusTarg');
+            //RTPlot(targArr, 7);
+        }else {
+            rowIndex = otargTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            alert("Cannot remowe row No: " + rowIndex + " !");
+        }
+        EnDisButt('Disabled', '#btnDelTargRow');
+        EnDisButt('Disabled', '#btnAddTargRow');
+    });
+
+//Tabs-7: Click handler for 'Add row' in target or measurement data
+    $('#btnAddTargRow').click(function () {
+        var uusDat = [];
+        var anSelected = fnGetSelected(otargTable);
+        if (anSelected.length !== 0) {
+            uusDat = [anSelected.find('td:eq(0)').html(), "0.0"];
+            targArr.splice(rowInd1 + 1, 0, uusDat);
+            targArr = sorttaa(targArr);
+            otargTable.fnClearTable();
+            otargTable.fnAddData(targArr.slice(1));
+            RTPlot=plotRT(targArr, 7);
+            $('#ediTarge').val('Unsaved target data');
+            EnDisButt('Disabled', '#btnPlusTarg');
+            //RTPlot(targArr, 7);
+        }
+    });
+
+//tabs-7 alustetaan spektritargettien lista
+    createTargOptsTable();
+    // alustetaan spektrien valinta handleri, joka enabloi/disabloi poistonappulaa:
+    oTargOptTable.on('click', 'td', function (evt) {
+        //huom ei toimi jos 'td':n sijalla 'tr' (klikattu rivi on aina selected)
+        if ($(this).closest('tr').hasClass('row_selected')) {
+            oTargOptTable.$('tr').removeClass('row_selected');
+            EnDisButt('Disabled', '#btnRmvTarg');
+        }else {
+            //poistetaan kaikilta riveilt� valinta
+            oTargOptTable.$('tr').removeClass('row_selected');
+            //valitaan klikattu rivi
+            $(this).closest('tr').addClass('row_selected');
+            EnDisButt('Enabled', '#btnRmvTarg');
+        }
+    });
 
         //Tabs-7 tehd��n targettilistalle lis�ysnapin event handler:
         $('#btnPlusTarg').click(function () {
@@ -903,7 +937,7 @@ $(function() {
             }
 
             var rivit = 0;
-            //lis�t��n uusi targetti:
+            //lisätään uusi targetti:
             EnDisButt('Disabled', '#btnRmvTarg');
             if ($('#ediTarge').val().length > 0) {
                 targtFileNme = $('#ediTarge').val();
@@ -915,7 +949,8 @@ $(function() {
                 sliceLen = menuName.lastIndexOf('\\')+1; //cuts off from beginning until the last '\'
                 menuName=menuName.slice(sliceLen);
                 addTo_specOpts(targtFileNme, menuName, owneri, targArr);
-                trgOptsArr = makeOptsArr(spectOpts);
+                //trgOptsArr = makeOptsArr(spectOpts);
+                trgOptsArr = makeOptsArr(stack.Targets);
                 oTargOptTable.fnClearTable();
                 rivit = trgOptsArr.length;
                 if (rivit > 0) {
@@ -929,32 +964,39 @@ $(function() {
             var stckT=$('#stackTargs');
             stckT.empty();
             stckT.append('<option selected="selected" value="whatever">List is empty</option>');
-            var n = spectOpts.length;
+            //var n = spectOpts.length;
+            var n = stack.Targets.length;
             for (var i = 0; i < n; i++) {
                 if (i == 0) {
                     stckT.empty();
                     stckT.append($('<option></option>').val(0).html('Select:'));
                 }
-                stckT.append($('<option></option>').val(i).html(spectOpts[i].Name));
+                //stckT.append($('<option></option>').val(i).html(spectOpts[i].Name));
+                stckT.append($('<option></option>').val(i).html(stack.Targets[i].Name));
             }
         }
+
         //Tabs-7 tehdaan targettilistalta poistonapin event handler:
         $('#btnRmvTarg').click(function () {
             var targOptsArr = [];
             EnDisButt('Disabled', '#btnRmvTarg');
             var anSelected = fnGetSelected(oTargOptTable);
-            if (anSelected.length !== 0 && spectOpts.length > 0) {
+            if (anSelected.length !== 0 && stack.Targets.length > 0) {
+                //if (anSelected.length !== 0 && spectOpts.length > 0) {
                 var rowIndex;
                 var tmpRow;
                 rowIndex = oTargOptTable.fnGetPosition($(anSelected).closest('tr')[0]);
-                spectOpts.splice(rowIndex, 1);
-                targOptsArr = makeOptsArr(spectOpts);
+                //spectOpts.splice(rowIndex, 1);
+                stack.Targets.splice(rowIndex, 1);
+                //targOptsArr = makeOptsArr(spectOpts);
+                targOptsArr = makeOptsArr(stack.Targets);
                 oTargOptTable.fnClearTable();
                 if (targOptsArr.length > 0) {
                     oTargOptTable.fnAddData(targOptsArr)
                 }
             }
             StackTargSelUpd();
+            console.log('stack.Targets: ',stack.Targets);
         });
 
         //Tabs-7: targettilistaan Label tulee tiedostonimest�, mik� sattaa olla 'hankala'
@@ -988,8 +1030,10 @@ $(function() {
                         //uuden arvon prosessointi taulukkoon:
                         var targOptsArr = [];
                         var aPos = oTargOptTable.fnGetPosition(this);
-                        spectOpts[aPos[0]].Name = value;
-                        targOptsArr = makeOptsArr(spectOpts);
+                        stack.Targets[aPos[0]].Name = value;
+                        //spectOpts[aPos[0]].Name = value;
+                        //targOptsArr = makeOptsArr(spectOpts);
+                        targOptsArr = makeOptsArr(stack.Targets);
                         if (targOptsArr.length > 0) {
                             oTargOptTable.fnClearTable();
                             oTargOptTable.fnAddData(targOptsArr);
@@ -1073,7 +1117,7 @@ $(function() {
         $("#btnUseMat").click(function () {
             var matOptsArr = [];
             var owneri= (userName=='No login')? 'Publ' : userName;
-            //lisataan uusi materiaali:
+            //lisataan uusi materiaali listaan :
             EnDisButt('Disabled', '#btnRmvMat');
             if ($('#EdiMater').val().length > 0) {
                 matrlFileNme = $('#EdiMater').val();
@@ -1088,7 +1132,8 @@ $(function() {
                     owneri='Local file';
                 }
                 addTo_matOpt(matrlFileNme, menuName, owneri, matrlArr);
-                matOptsArr = makeOptsArr(matOpt);
+                matOptsArr = makeOptsArr(stack.Materials);
+                //matOptsArr = makeOptsArr(matOpt);
                 oMatOptTable.fnClearTable();
                 if (matOptsArr.length > 0) {
                     oMatOptTable.fnAddData(matOptsArr);
@@ -1119,15 +1164,19 @@ $(function() {
             var matOptsArr = [];
             EnDisButt('Disabled', '#btnRmvMat');
             var anSelected = fnGetSelected(oMatOptTable);
-            if (anSelected.length !== 0 && matOpt.length > 0) {
+            if (anSelected.length !== 0 && stack.Materials.length > 0) {
+            //if (anSelected.length !== 0 && matOpt.length > 0) {
                 var rowIndex = oMatOptTable.fnGetPosition($(anSelected).closest('tr')[0]);
-                matOpt.splice(rowIndex, 1);
-                matOptsArr = makeOptsArr(matOpt);
+                //matOpt.splice(rowIndex, 1);
+                stack.Materials.splice(rowIndex, 1);
+                matOptsArr = makeOptsArr(stack.Materials);
+                //matOptsArr = makeOptsArr(matOpt);
                 oMatOptTable.fnClearTable();
                 if (matOptsArr.length > 0) {
                     oMatOptTable.fnAddData(matOptsArr);
                 }
             }
+            //console.log('stack.Materials: ',stack.Materials);
         });
 
         //Tabs-8: Materiaalilistaan Label tulee tiedostonimesta, mika sattaa olla 'hankala'
@@ -1162,8 +1211,10 @@ $(function() {
                         //kelpuutetun uuden arvon prosessointi taulukkoon:
                         var matOptsArr = [];
                         var aPos = oMatOptTable.fnGetPosition(this);
-                        matOpt[aPos[0]].Name = value;
-                        matOptsArr = makeOptsArr(matOpt);
+                        stack.Materials[aPos[0]].Name = value;
+                        //matOpt[aPos[0]].Name = value;
+                        matOptsArr = makeOptsArr(stack.Materials);
+                        //matOptsArr = makeOptsArr(matOpt);
                         if (matOptsArr.length > 0) {
                             oMatOptTable.fnClearTable();
                             oMatOptTable.fnAddData(matOptsArr);
@@ -1434,7 +1485,8 @@ function addTo_specOpts(fileName, nickName, ownr, rawArr) {
         Data: rawArr    //numeric data in array in format: [[],[],[],....]
         // On first line: [(Unit:nm, um or eV),(R or T),(% or abs)]
     };
-    spectOpts.push(tempObj);
+    //spectOpts.push(tempObj);
+    stack.Targets.push(tempObj);
 }
 
 //Add material to menu list of materials
@@ -1450,11 +1502,9 @@ function addTo_specOpts(fileName, nickName, ownr, rawArr) {
 function addTo_matOpt(fileName, nickName, ownr, rawArr) {
     var tempObj = {
         File: fileName,
-        //Filename with path for server files
-        // browsers do not yield full filepath filenames with local files
+        //Filename with path for server file, full filepath is not allowed on browsers with local files
         Name: nickName,
-        //Initialized as filename without file ending .***
-        //can be edited while browsing
+        //Initialized as filename without file ending .*** (can be edited while browsing)
         Owner: ownr,
         // 'Local' for local files owner
         // 'Library' for public server files
@@ -1462,7 +1512,9 @@ function addTo_matOpt(fileName, nickName, ownr, rawArr) {
         Data: rawArr
         // wavelength vs n and k- data
     };
-    matOpt.push(tempObj);
+    //matOpt.push(tempObj);
+    stack.Materials.push(tempObj);
+    //console.log('stack: ',JSON.stringify(stack));
 }
 
 

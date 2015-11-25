@@ -43,6 +43,32 @@ function sendData(data) {
 }
 
 /**
+ * Function buildStack
+ * initializes thin film stack
+ */
+function buildStack(){
+    var theStack={
+        "settings": {
+            "polaris": "TE",
+            "angle": "0",
+            "Refl_Trans": "R",
+            "Back_R": "false",
+            "Front_R": "false",
+            "Substr_D": "1000",
+            "Cover_D": "1000",
+            "Unit": "nm",
+            "WL_start": "400",
+            "WL_stop": "1000"
+        },
+        "Materials": [],
+        "Targets": [],
+        "Layers": [["Cover ", "DblClick to edit!", "bulk", "no",0],["Substrate", "DblClick to edit!", "bulk", "no",0]],
+        "ReadyForCalc":"false"
+    };
+    return theStack;
+}
+
+/**
  * Function Fill matrlArr with data obtained from mongodb
  * @resObj  object returned from mongodb
  * @function
@@ -1285,6 +1311,11 @@ function operDispatcher(operatSel){
     }
 };
 
+/*makeOptsArr(aRRa)
+* produces materials menu and spectral targets menu lists on
+* corresponding tabs
+* aRRa is either material or target data array
+ */
 function makeOptsArr(aRRa){
     //aRRa joko matOpt tai spectOpts
     var rCount = aRRa.length;

@@ -455,7 +455,8 @@ function updTargSpArra() {
     //alert("selected target: "+selTarg);
     var Targt = [];
     //console.log("selTarg: "+selTarg);
-    Targt = intpolData(selTarg, spectOpts, 1);
+    //Targt = intpolData(selTarg, spectOpts, 1);
+    Targt = intpolData(selTarg, stack.Targets, 1);
     //interpoloidaan toisesta sarakkeesta spArra:n kolmanteen sarakkeeseen
     for (var i = 0; i < Targt.length; i++) {
         spArra[i][2] = Targt[i];
@@ -470,30 +471,39 @@ function updTargSpArra() {
 function updNKspArra() {
 //Checkings:
 // No:1 Check that some materials are available for the layers
-    if (matOpt.length < 1) return; //exit immediately
+    if (stack.Targets.length < 1) return; //exit immediately
+    //if (matOpt.length < 1) return; //exit immediately
     var layerCount = stackArr.length;
     //loop through all material layers:
     for (var rowIndex = 0; rowIndex < layerCount; rowIndex++) {
-        var matrl;
+        var matrl="";
         //loop through all material options:
-        for (var i = 0; i < matOpt.length; i++) {
-            if (stackArr[rowIndex][1] == matOpt[i].Name) {
-                matrl = matOpt[i].Name;
+        for (var i = 0; i < stack.Materials.length; i++) {
+        //for (var i = 0; i < matOpt.length; i++) {
+            if (stackArr[rowIndex][1] == stack.Materials[i].Name) {
+            //if (stackArr[rowIndex][1] == matOpt[i].Name) {
+                matrl = stack.Materials[i].Name;
+                //matrl = matOpt[i].Name;
             }
         }
-        if (matrl) {
+        if (matrl!="") {
             //selected material exists in options
             var f = stackArr.length; //heading row and wavelength values
             for (var i = 0; i < f; i++) {
                  //delete n- ja k-values dropping off array starting at 4th index (5th pos.)
-                stackArr[i].slice(0, 4);
+                stackArr[i]=stackArr[i].slice(0, 4);
+                //console.log('stackArr['+i+']=',stackArr[i]);
                 stackArr[i].push([]); //add empty array to 5th pos.
                 stackArr[i].push([]); //add empty array to 6th pos
+                //console.log('stackArr['+i+']=',stackArr[i]);
                 var nORk = []; //n is interpolated first the k
-                nORk = intpolData(stackArr[i][1], matOpt, 1);//interpolate new n-values
+                nORk = intpolData(stackArr[i][1], stack.Materials, 1);//interpolate new n-values
+                //nORk = intpolData(stackArr[i][1], matOpt, 1);//interpolate new n-values
                 stackArr[i][4] = nORk; //add them to stackArr[][4]
-                nORk = intpolData(stackArr[i][1], matOpt, 2);//interpolate new k-values
+                nORk = intpolData(stackArr[i][1], stack.Materials, 2);//interpolate new k-values
+                //nORk = intpolData(stackArr[i][1], matOpt, 2);//interpolate new k-values
                 stackArr[i][5] = nORk; //add them to stackArr[][5]
+                //console.log('stackArr['+i+']=',stackArr[i]);
             }
         }
     }
