@@ -366,7 +366,7 @@ exports.insertDoc=function(req,res,callBfun){
             break;
         case "targets":
             newDocu = new Target({
-                    username: req.userNme,
+                    username: req.body.userNme,
                     fName:trim, //e.g. "branch1/parent1/parent2/file1",
                     description:dataa.Descr,
                     unit:dataa.Unit,
