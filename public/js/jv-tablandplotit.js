@@ -4,38 +4,52 @@
  */
 
 "use strict";
- /**
- * Spectral wavelength points array creator
- * @function
- *
- */
+/**
+* Spectral wavelength points array creator
+*  @function
+*
+*/
 function buildSpArray(){
-    //Calculations is always are done in nm units and array has uniform grid
+    //Calculations are always in nm units.
     //For results display units can be: nm, um or eV
-    //if eV axis is chosen the nm grid is changed to inversely uniform grid
-    //energies are uniformly spaced on 1/wavelength [1/nm] scale
+    //Spectral array has uniform grid in all units, which means that:
+    //if eV axis is chosen, [1/nm] axis has uniform grid and spectral
+    //energies are uniformly spaced on 1/wavelength scale
     spArra=[];//grid reset
-    var startV=spStart;
-    var stopV=spStop;
-    spArra.push([spUnit,RorT,'']); //first element has the unit. nm, um or eV
-    if (spUnit=='eV'){
-        if (spStart>0) startV=1239.8/spStart; //spinner start value in eV, converted to nm start value
-        if (spStop>0) stopV=1239.8/spStop;//spinner stop value in eV, converted to nm stop value
-    }
-    var sDel=(stopV-startV)/(spNum-1);
+    var strtV=$("#SpStart").spinner("value"); //unit nm, um or eV
+    var stpV=$("#SpStop").spinner("value");
+    //var strtV=parseFloat(stack.settings.spStart);
+    //var stpV=parseFloat(stack.settings.spStop);
+    spArra.push([stack.settings.spUnit,stack.settings.RorT,'']); //first row has the unit. nm, um or eV
+
+    var sDel=(stpV-strtV)/(spNum-1);//eV yksikön kanssa negatiivinen
+    //console.log('strtV: ',strtV);
+    //console.log('stpV: ',stpV);
+    //console.log('sDel: ',sDel);
+    var temSp;
     for (var i=0;i<spNum;i++) {
-        var temSp = startV + i * sDel;
-        //sArr.push([temSp,,]);
-        if (spUnit == 'eV' && temSp > 0) {
-            //muutetaan eV akselin pisteet takaisin nm:ksi
-            //aallonpituusasteikosta tulee epälineaarinen
-            spArra.push([1239.8 / temSp, ,]);
+        temSp=strtV+i*sDel;
+        switch (stack.settings.spUnit){
+            case 'eV':
+                temSp=1239.8/temSp; //for array values converted to nm scale
+                break;
+            case 'um':
+                temSp=(temSp*=1000).toFixed(2); //values in um converted to nm scale
+                break;
+            case 'nm':
+                break;
         }
-        else {
-            spArra.push([temSp, ,]);
-        }
+        spArra.push([temSp,NaN,NaN]);
     }
+    //console.log('spArra: ',spArra);
 }
+
+
+
+
+    //var temSp=0;
+
+
 
 /**
  * Function evaluates difference between the target and calculated spectra
@@ -241,12 +255,12 @@ function revertTune(){
 }
 
 //Graphing Funs:
- /**
- * Function for plotting Reflectance and Transmittance graphs on spectral targets Tab
- * @function
- * @param {Array} PloArr - contains the numeric data to be plotted
- * @param {Number} graphNO - flot-graph placeholder number according to tabs-no
- */
+/**
+* Function for plotting Reflectance and Transmittance graphs on spectral targets Tab
+* @function
+* @param {Array} PloArr - contains the numeric data to be plotted
+* @param {Number} graphNO - flot-graph placeholder number according to tabs-no
+*/
 function plotRT(PloArr, graphNO) {
     if (!PloArr) return; //exit plotting if no data
     var plotsRT=[];      //reflectance or transmittance vector
@@ -302,7 +316,7 @@ function plotNK(PloArr, graphNO) {
             plotK.push([PloArr[jj][0], PloArr[jj][2]]); 
         }
         else {
-            switch(spUnit){
+            switch(stack.settings.spUnit){
                 case 'eV':
                     var x;
                     x = (PloArr[jj][0] > 0) ? 1239.8 / PloArr[jj][0]:NaN;
@@ -348,7 +362,7 @@ function plotRT2(PloArr) {
     if (!PloArr) return;  //exit plotting if no data
     var plotCalc=[];     //calculation result array
     var plotTarg=[];     //spectral target array
-    var yAxisLbl = RorT + "%";   //should be either R% or T%
+    var yAxisLbl = stack.settings.RorT + "%";   //should be either R% or T%
     var graphXunit= PloArr[0][0]; //ollee: nm, um tai eV
     if (graphXunit==='eV'){
         graphXunit = 'Energy eV';
@@ -359,7 +373,7 @@ function plotRT2(PloArr) {
     for (var jj = 1; jj < PloArr.length; jj++) {
         //Modify spectral unit from nm to desired  plotting
         //first column is in nm but will be transformed for plotting:
-        switch (spUnit) {
+        switch (stack.settings.spUnit) {
             case 'eV':
                 var x;
                 x = (PloArr[jj][0] > 0) ? 1239.8 / PloArr[jj][0] : NaN;
@@ -404,7 +418,7 @@ function plotRT2(PloArr) {
 function updGraph(){
     var stackPL2;
     if ($('input:radio[name=graphMode]:checked').val() == 'StackRT') {
-        stackPL = plotRT2(spArra); //graafi päivitetään
+        plotRT2(spArra); //graafi päivitetään
         //alert("graafi päivitettiin");
     }
     else {
@@ -412,7 +426,7 @@ function updGraph(){
         if (layerX.length < 1) return; //no nk-graphing, since all layers unselected
         var rowInd = oStackTable.fnGetPosition($(layerX).closest('tr')[0]);
         var nkArra = [];
-        var tmp = [spUnit,'n','k'];
+        var tmp = [stack.settings.spUnit,'n','k'];
         nkArra.push(tmp);
         var n = stackArr[rowInd][4].length;
         for (var i = 1; i < n; i++) {
@@ -429,7 +443,7 @@ function updGraph(){
  */
 function updRTspArra(){
     //if (!$("#setStack").is(":checked")) return;      //film n-k graphing is selected
-    spArra[0][1] = RorT + "%";
+    spArra[0][1] = stack.settings.RorT + "%";
     if (!stackArr.ready) {
        //All stack layers have not been set with n-k data:
        var m=spArra.length;
@@ -439,7 +453,7 @@ function updRTspArra(){
           } 
         }
     else {
-        matrixMult(theta0,polaris);
+        matrixMult();
         //if ($("#setFilm").is(":checked")) return; //n-k plotting selected exiting function
         //stackPL = plotRT2(spArra);
         }
@@ -455,7 +469,6 @@ function updTargSpArra() {
     //alert("selected target: "+selTarg);
     var Targt = [];
     //console.log("selTarg: "+selTarg);
-    //Targt = intpolData(selTarg, spectOpts, 1);
     Targt = intpolData(selTarg, stack.Targets, 1);
     //interpoloidaan toisesta sarakkeesta spArra:n kolmanteen sarakkeeseen
     for (var i = 0; i < Targt.length; i++) {
@@ -472,18 +485,14 @@ function updNKspArra() {
 //Checkings:
 // No:1 Check that some materials are available for the layers
     if (stack.Targets.length < 1) return; //exit immediately
-    //if (matOpt.length < 1) return; //exit immediately
     var layerCount = stackArr.length;
     //loop through all material layers:
     for (var rowIndex = 0; rowIndex < layerCount; rowIndex++) {
         var matrl="";
         //loop through all material options:
         for (var i = 0; i < stack.Materials.length; i++) {
-        //for (var i = 0; i < matOpt.length; i++) {
             if (stackArr[rowIndex][1] == stack.Materials[i].Name) {
-            //if (stackArr[rowIndex][1] == matOpt[i].Name) {
                 matrl = stack.Materials[i].Name;
-                //matrl = matOpt[i].Name;
             }
         }
         if (matrl!="") {
@@ -498,10 +507,8 @@ function updNKspArra() {
                 //console.log('stackArr['+i+']=',stackArr[i]);
                 var nORk = []; //n is interpolated first the k
                 nORk = intpolData(stackArr[i][1], stack.Materials, 1);//interpolate new n-values
-                //nORk = intpolData(stackArr[i][1], matOpt, 1);//interpolate new n-values
                 stackArr[i][4] = nORk; //add them to stackArr[][4]
                 nORk = intpolData(stackArr[i][1], stack.Materials, 2);//interpolate new k-values
-                //nORk = intpolData(stackArr[i][1], matOpt, 2);//interpolate new k-values
                 stackArr[i][5] = nORk; //add them to stackArr[][5]
                 //console.log('stackArr['+i+']=',stackArr[i]);
             }
@@ -509,17 +516,17 @@ function updNKspArra() {
     }
 // No:2 Check if all layers have valid n-k data:
 //disables, enables stack plotting:
-         for (var i=0;i<f;i++){
-            stackArr.ready=true;
-            if (stackArr[i][4].length!==spArra.length) stackArr.ready = false;
-            else stackArr.ready = true;
-         }
+    for (var i=0;i<f;i++){
+        stackArr.ready=true;
+        if (stackArr[i][4].length!==spArra.length) stackArr.ready = false;
+        else stackArr.ready = true;
+    }
 
 // No:3 Check if stack graphing has been chosen
-        if ($("#setStack").is(":checked")){
-            updRTspArra();//graph-RT
-            return; //nk-values not graphed
-        }
+    if ($("#setStack").is(":checked")){
+        updRTspArra();//graph-RT
+        return; //nk-values not graphed
+    }
 }
 
 /**
@@ -602,6 +609,9 @@ function cubSplinInt(toVector,onArray){
 function intpolData(optName,optArr,trIndex){
     //spVector first member contains spectral unit to be displaid in UI
     //in calculations spectral points are always in nm-units
+    //console.log('optName: ',optName);
+    //console.log('optArr: ',optArr);
+    //console.log('trIndex: ',trIndex);
     var Vector=[];
     var tmpUnit;
     var ideTr; //n, k, R or T
@@ -612,6 +622,7 @@ function intpolData(optName,optArr,trIndex){
     var spVector=[];
     for (var i = 1; i < n;i++ ){
         spVector.push(spArra[i][0]); //aallonpituudet nm:nä
+        //console.log('spVector[',i,']: ',spVector);
     }
     //skipped first element (i=0, containing the wavelength unit in graphing)
     //get material nk-data:
@@ -625,7 +636,7 @@ function intpolData(optName,optArr,trIndex){
             var tmpPoint=[,ideTr];
             Vector.push(tmpPoint);
             for (var j=1;j<s;j++){
-                //optArr[i].Data:ssa (joko matOpt[i] tai targOpt[i]) numeeriset arvot
+            //optArr[i].Data:ssa (joko stack.Materials[i] tai stack.Targets[i]) arvot
                 //ensimmäisessä rivissä otsikko esim: ['nm','n','k']
                 tmpPoint=[];
                 tmpPoint.push(optArr[i].Data[j][0]);//aallonpituus

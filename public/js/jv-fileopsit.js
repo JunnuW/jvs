@@ -50,15 +50,15 @@ function buildStack(){
     var theStack={
         "settings": {
             "polaris": "TE",
-            "angle": "0",
-            "Refl_Trans": "R",
-            "Back_R": "false",
-            "Front_R": "false",
-            "Substr_D": "1000",
-            "Cover_D": "1000",
-            "Unit": "nm",
-            "WL_start": "400",
-            "WL_stop": "1000"
+            "angle": 0,  //assumes perpendicular incidence in loss free cover material!!
+            "RorT": "R",
+            "backR": "false",
+            "frontR": "false",
+            "SubstrD": 1000, //assumed 1000um (1mm) thickness, multiplied by 1000 to get nm's
+            "CoverD": 1000,  //assumed 1000um (1mm) thickness, multiplied by 1000 to get nm's
+            "spUnit": "nm",
+            "spStart": 400,
+            "spStop": 1000
         },
         "Materials": [],
         "Targets": [],
@@ -107,7 +107,7 @@ function respToArr(fileName,resObj) {
         oMatTable.fnClearTable();
         oMatTable.fnAddData(matrlArr.slice(1));
         $('#matEditTabl').find('th:eq(0)').text("Unit [" + matrlArr[0][0] + "]");
-        nkPlot = plotNK(matrlArr, 8);
+        plotNK(matrlArr, 8); //tämäkö?
         EnDisButt('Enabled', '#btnUseMat');
     }
     if (selecTabId == "Targets") {
@@ -125,7 +125,7 @@ function respToArr(fileName,resObj) {
         }
         $('#ediTarge').val(fileName);
         $('#ediTargeLbl').val(laabel);
-        console.log('targArr[0][2]: '+targArr[0][2]);
+        //console.log('targArr[0][2]: '+targArr[0][2]);
         if (targArr[0][2]) $('#descTarge').val(targArr[0][2]);
         otargTable.fnClearTable();
         otargTable.fnAddData(targArr.slice(1));
@@ -685,7 +685,7 @@ function gotTextFile(fileCont) {
         oMatTable.fnAddData(matrlArr.slice(1));
         $('#matEditTabl').find('th:eq(0)').text("Unit [" + matrlArr[0][0] + "]");
         $('#descMater').val(matrlArr[0][3]);
-        nkPlot = plotNK(matrlArr, 8);
+        plotNK(matrlArr, 8);
         EnDisButt('Enabled', '#btnUseMat');
     }
     if (selecTabId == "Targets") {
@@ -1317,7 +1317,7 @@ function operDispatcher(operatSel){
 * aRRa is either material or target data array
  */
 function makeOptsArr(aRRa){
-    //aRRa joko matOpt tai spectOpts
+    //aRRa joko stack.Materials tai stack.Targets
     var rCount = aRRa.length;
     var tmpArra = [];
     var tmpRow;
