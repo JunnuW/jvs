@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jv-mngo-tree/index.js" afterPath="$PROJECT_DIR$/jv-mngo-tree/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/jv-tfrcalcs.css" afterPath="$PROJECT_DIR$/public/css/jv-tfrcalcs.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/jv-fileopsit.js" afterPath="$PROJECT_DIR$/public/js/jv-fileopsit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/jv-tablandplotit.js" afterPath="$PROJECT_DIR$/public/js/jv-tablandplotit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/jv-tfrcalci.js" afterPath="$PROJECT_DIR$/public/js/jv-tfrcalci.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/refletrans.jade" afterPath="$PROJECT_DIR$/views/refletrans.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/tab2.jade" afterPath="$PROJECT_DIR$/views/tab2.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/tab6.jade" afterPath="$PROJECT_DIR$/views/tab6.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/tab7.jade" afterPath="$PROJECT_DIR$/views/tab7.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/tab8.jade" afterPath="$PROJECT_DIR$/views/tab8.jade" />
-    </list>
+    <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="" />
     <ignored path="jvs.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
