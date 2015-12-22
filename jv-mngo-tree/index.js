@@ -55,6 +55,26 @@ targSchema.index({username: 1, fName:1}, {unique: true});
 var Target=mongoose.model('Target',targSchema);
 //creates targets collection, if it does not exist in mongodb
 
+/* Stack data in MongoDb:
+ * Each document belongs to a named user: 'username'
+ * Each document has a filename: fName
+ * filenames incude directory structure like: 'directory/stackNN'
+ * 'description' field contains information about the spectral data
+ * 'datJson' is the JSON.stringify converted film JSON data of the film stack
+ * 'dataExpires' timestamps the document
+ */
+var stackSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    fName: { type: String, required: true },
+    description:{type: String, required: false},
+    matrlStack:{ type: String, required: false},
+    dataExpires: { type: String, required: false}
+});
+//User cannot save two stacks with identical names:
+stackSchema.index({username: 1, fName:1}, {unique: true});
+var Stack=mongoose.model('Stack',stackSchema);
+//creates stacks collection, if it does not exist in mongodb
+
 //var applModel;
 function ApplMod(req){
     switch (req.body.dataColl){
@@ -64,13 +84,15 @@ function ApplMod(req){
         case "targets":
             applModel= Target; //model name for 'targets' collection
             break;
+        case "stacks":
+            applModel= Stack; //model name for 'stacks' collection
+            break;
         default:
             applModel='';
             break;
     }
     return applModel;
 }
-
 
 exports.obtainOne=function(req,res,callBfun){
     //console.log('obtainOne req.body.userNme: ',req.body.userNme);
@@ -352,16 +374,16 @@ exports.insertDoc=function(req,res,callBfun){
     //var trim = dataa.Filename.replace(/(^\/)|(\/$)/g, ""); //removes leading and trailing '/'
     var trim = dataa.Filename.replace(/(^\/)/g, ""); //removes leading  '/'
     var newDocu={};
-    console.log('collection: '+dataa.Collection);
+    console.log('inserting collection: '+dataa.Collection);
     switch (dataa.Collection){
         case "materials":
             newDocu = new Material({
-                    username: req.body.userNme,
-                    fName:trim, //e.g. "branch1/parent1/parent2/file1",
-                    description:dataa.Descr,
-                    unit:dataa.Unit,
-                    datArrs:[{"absc":dataa.absc}, {"n":dataa.n}, {"k":dataa.k}],
-                    dataExpires: vanhenee}
+                username: req.body.userNme,
+                fName:trim, //e.g. "branch1/parent1/parent2/file1",
+                description:dataa.Descr,
+                unit:dataa.Unit,
+                datArrs:[{"absc":dataa.absc}, {"n":dataa.n}, {"k":dataa.k}],
+                dataExpires: vanhenee}
             );
             break;
         case "targets":
@@ -376,8 +398,15 @@ exports.insertDoc=function(req,res,callBfun){
             );
             break;
         case "stacks":
-            //applModel=Stack; //model for 'stacks' collection
+            newDocu = new Stack({
+                username: req.body.userNme,
+                fName: trim, //e.g. "branch1/parent1/parent2/file1",
+                description: dataa.Descr,
+                matrlStack: JSON.stringify(dataa.Stack),
+                dataExpires: vanhenee}
+            );
             break;
+            //applModel=Stack; //model for 'stacks' collection
         default:
             respOnse={
                 statCode: 500,
@@ -414,8 +443,8 @@ exports.insertDoc=function(req,res,callBfun){
  */
 exports.checkOneUserFile=function(req,res,callBfun){
     //checks if document already exist in user's document collections
-    //console.log("checkOneUserFile username: ", req.body.userNme);
-    //console.log("checkOneUserFile collection: ", req.body.dataColl);
+    console.log("checkOneUserFile username: ", req.body.userNme);
+    console.log("checkOneUserFile collection: ", req.body.dataColl);
     var applModel;
     applModel=ApplMod(req);
     if (applModel=='') {
@@ -462,8 +491,8 @@ exports.checkOneUserFile=function(req,res,callBfun){
  * responces either with an error message or a string containing the directory structure
  */
 exports.checkAllUserFiles=function(req,res,callBfun){
-    //console.log("checkAllUserFiles username: ", req.body.userNme);
-    //console.log("checkAllUserFiles dataColl: ", req.body.dataColl);
+    console.log("checkAllUserFiles username: ", req.body.userNme);
+    console.log("checkAllUserFiles dataColl: ", req.body.dataColl);
     var applModel;
     applModel=ApplMod(req);
     if (applModel=='') {

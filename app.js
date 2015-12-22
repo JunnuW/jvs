@@ -517,7 +517,7 @@ function respAllMngo(req,res,respOnse) {
 }
 
 app.post('/auth/*', function(req,res){
-    //console.log('post auth: ',req.url, ' req.body: ',req.body);
+    console.log('post auth: ',req.url, ' req.body: ',req.body);
     var urli=req.url;
     urli=urli.slice(5);
     if (['/dbRename', '/dbDelete', '/dbInsert','/dbUpdate'].indexOf(urli) !== -1 &&
@@ -535,11 +535,13 @@ app.post('/auth/*', function(req,res){
     }
     switch (urli){
         case '/checkAllUserF' :
+            //console.log('checking all user files');
             mngoTree.checkAllUserFiles(req,res,respAllMngo);
             //Response to user's browser via callback respAllMngo
             //trying to avoid 'can't set headers after they are sent' error
             break;
         case '/checkOneUserF' :
+            //console.log('checking one user files');
             mngoTree.checkOneUserFile(req,res,respAllMngo);
             //tehty
             break;

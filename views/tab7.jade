@@ -18,7 +18,7 @@ div(id="tabs-7")
         "ui-button-text-icon-primary" style="margin-right:50px")
           span(class="ui-icon ui-icon-document")
           span(class="ui-button-text") Save file
-        button(id="btnPlusTarg" class="ui-button ui-widget ui-state-default " +
+        button(id="btnUseTarg" class="ui-button ui-widget ui-state-default " +
         "ui-corner-all ui-button-text-icon-primary ui-button-disabled ui-state-disabled" style="margin-right:10px")
           span(class="ui-icon ui-icon-plus")
           span(class="ui-button-text") Add to list of targets
@@ -44,10 +44,10 @@ div(id="tabs-7")
         div
           label(class="bblueText labelOnInput")
             span(id="ediTargeLbl") File:
-            input(id="ediTarge" class="inputUnderLabel" type="text" name="ediTarge" value="" size="30%" style="font-size:10pt")
+            input(id="ediTarge" class="inputUnderLabel" type="text" name="ediTarge" value="Unsaved" size="30%" style="font-size:10pt")
           label(class="bblueText labelOnInput" style="margin-left:10px")
             span(id="descTargeLbl") Descr:
-            input(id="descTarge" class="inputUnderLabel" type="text" name="descTarge" value="" size="50%" style="font-size:10pt")
+            input(id="descTarge" class="inputUnderLabel" type="text" name="descTarge" value="Dummy data" size="50%" style="font-size:10pt")
           //-Next is a hidden input for file name to open local file using HTML5 file API
           input(type="file" id="targLocFiles" style="display:none" name="targLocFiles")
         div(id="ResizeAble7" style="width:100%;display:block;" class="ui-widget-content")

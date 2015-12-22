@@ -29,9 +29,9 @@ div(id="tabs-8")
       //-Ekan rivin toka sarake:
       td(class="editTabs" style="padding-left:10px")
         div  
-          b Edit Materials:  
-        button(id="btnAddMatRow" class="add_row ui-button ui-widget ui-state-default ui-corner-all ui-button-disabled " +
-        "ui-state-disabled ui-button-text-icon-primary")
+          b Edit Material:
+        button(id="btnAddMatRow" class="add_row ui-button ui-widget ui-state-default ui-corner-all " +
+        "ui-button-disabled ui-state-disabled ui-button-text-icon-primary")
           span(class="ui-button-icon-primary ui-icon ui-icon-plus")
           span(class="ui-button-text") Add Row..
         button(id="btnDelMatRow" class="delete_row ui-button ui-widget ui-state-default ui-corner-all " +
@@ -43,11 +43,11 @@ div(id="tabs-8")
       td(class="editTabs")
         div
           label(class="bblueText labelOnInput")
-            span(id="EdiMaterLbl") File:
-            input(id="EdiMater" class="inputUnderLabel" type="text" value="" size="30%" style="font-size:10pt")
+            span(id="ediMaterLbl") File:
+            input(id="ediMater" class="inputUnderLabel" type="text" value="Unsaved" size="30%" style="font-size:10pt")
           label(class="bblueText labelOnInput" style="margin-left:10px")
             span(id="descMaterLbl") Descr:
-            input(id="descMater" class="inputUnderLabel" type="text" value="" size="50%" style="font-size:10pt")
+            input(id="descMater" class="inputUnderLabel" type="text" value="Dummy data" size="50%" style="font-size:10pt")
           //-hidden input for file name to open local file using HTML5 file API
           input(type="file" id="matLocFiles" style="display:none" name="matLocFiles")
         div(id="ResizeAble8" style="height:50%;width:100%;display:block;" class="ui-widget-content")

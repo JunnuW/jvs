@@ -44,17 +44,10 @@ function buildSpArray(){
     //console.log('spArra: ',spArra);
 }
 
-
-
-
-    //var temSp=0;
-
-
-
 /**
- * Function evaluates difference between the target and calculated spectra
- * @function
- */
+* Function evaluates difference between the target and calculated spectra
+* @function
+*/
 function evalDif(){
     var difVari=0;
     var difAver=0;
@@ -72,9 +65,9 @@ function evalDif(){
 }
 
 /**
- * Function checks parameters for film thickness autotuning
- * @function returns 'Stop' or 'Continue' depending if parameters are good for autotuning
- */
+* Function checks parameters for film thickness autotuning
+* @function returns 'Stop' or 'Continue' depending if parameters are good for autotuning
+*/
 function iter1(){
     //Check if both calculated and target spectra are available:
     if ((spArra[0][1]) && (spArra[0][2])) {
@@ -96,7 +89,7 @@ function iter1(){
                     return 'Stop';
                 }//could not start from zero thickness stop iter1
                 stackArr[j].slice(0,5);//removed earlier tuning-data
-                stackArr[j].strtVal=stackArr[j][2]; //save initial value to enable cancel operation
+                stackArr[j].push(stackArr[j][2]); //save initial value to enable cancel operation
             }
         }
         return (tuneN<1)? 'Stop':'Continue';
@@ -121,13 +114,13 @@ function iter1(){
     }
 }
 /**
- * Function increases selected film thicknesses by multiplying with ratio:
- * (1+ tunePrcnt/100) until difference between calculated and target spectra
- * starts to increase.
- * To avoid user interfce freeze this function is called from setTimeout function
- * @function iter2
- * @param tunePrcnt  parameter for thickness increase rate
- */
+* Function increases selected film thicknesses by multiplying with ratio:
+* (1+ tunePrcnt/100) until difference between calculated and target spectra
+* starts to increase.
+* To avoid user interfce freeze this function is called from setTimeout function
+* @function iter2
+* @param tunePrcnt  parameter for cthickness increase rate
+*/
 function iter2(tunePrcnt){
     var RET = ($('#autoTune').children('.ui-button-text','span').text()=='AutoTune')? -1: tunePrcnt;
     if (RET<0.0001) {
@@ -170,13 +163,13 @@ function iter2(tunePrcnt){
 }
 
 /**
- * Function decreases tuned film thicknesses by multiplying with ratio:
- * (1- tunePrcnt/100) until difference between calculated and target spectra
- * starts to increase.
- * To avoid user interfce freeze this function is called from setTimeout function
- * @function iter3
- * @param tunePrcnt  parameter for thickness decrease rate
- */
+* Function decreases tuned film thicknesses by multiplying with ratio:
+* (1- tunePrcnt/100) until difference between calculated and target spectra
+* starts to increase.
+* To avoid user interfce freeze this function is called from setTimeout function
+* @function iter3
+* @param tunePrcnt  parameter for thickness decrease rate
+*/
 function iter3(tunePrcnt){
     var RET = ($('#autoTune').children('.ui-button-text','span').text()=='AutoTune')? -1: tunePrcnt;
     if (RET<0.0001) {
@@ -219,14 +212,16 @@ function iter3(tunePrcnt){
 
 
 /**
- * Function updates user page after iteration:
- * @function iterEnd
- */
+* Function updates user page after iteration:
+* @function iterEnd
+*/
 function iterEnd(){
     var diffs=evalDif(); //fitting quality estimate
-    for (var j=0;j<stackArr.length;j++){
+    for (var j=1;j<stackArr.length-1;j++){//layers between substrate and cover material
         stackArr[j][2]=(Math.round(stackArr[j][2]*1000))/1000;
     }
+    stackArr[0][2]='bulk'; //cover and substrate thicknesses do not participate in interference
+    stackArr[stackArr.length-1][2]='bulk';
     oStackTable.fnClearTable();
     oStackTable.fnAddData(stackArr);
     updRTspArra();
@@ -237,17 +232,21 @@ function iterEnd(){
 }
 
 /**
- * Function returns film thicknesses to their original values before tuning:
- * @function revertTune
- */
+* Function returns film thicknesses to their original values before tuning:
+* @function revertTune
+*/
 function revertTune(){
     var jj=stackArr.length;
     for (var j=0;j<jj;j++){
+        console.log(j,' rev to: ',stack.Layers[j][4]);
         if (stackArr[j][3]==="Yes"){
-            stackArr[j][2]=stackArr[j].strtVal;
+            stackArr[j][2]=stack.Layers[j][4];
+            stack.Layers[j][2]=stack.Layers[j][4];
             stackArr[j][3]="No";
         }
     }
+    stackArr[0][2]='bulk'; //cover and substrate thicknesses do not participate in interference
+    stackArr[stackArr.length-1][2]='bulk';
     oStackTable.fnClearTable();
     oStackTable.fnAddData(stackArr);
     updRTspArra();
@@ -289,11 +288,11 @@ function plotRT(PloArr, graphNO) {
 }
 
 /**
- * Plots n- and k- scatter-graphs to the given placeholder on correspondind tabs (using the jquery.flot-widget).
- * @function
- * @param {Array} PloArr - contains the numeric data for the curves
- * @param {Number} graphNO - graph placeholder number according to tabs-no
- */
+* Plots n- and k- scatter-graphs to the given placeholder on correspondind tabs (using the jquery.flot-widget).
+* @function
+* @param {Array} PloArr - contains the numeric data for the curves
+* @param {Number} graphNO - graph placeholder number according to tabs-no
+*/
 function plotNK(PloArr, graphNO) {
     //Data files may have x units in: nm, um or eV
     //but in calculations and resulting spectra x is always nm, 
@@ -349,11 +348,11 @@ function plotNK(PloArr, graphNO) {
 }
 
 /**
- * Plots calculated and target R% or T% graphs to Tabs6 (using the jquery.flot-widget).
- * @function
- * @param {Array} PloArr - contains the numeric data for the curves
- * @param {Number} graphNO - graph placeholder number according to tabs-no
- */
+* Plots calculated and target R% or T% graphs to Tabs6 (using the jquery.flot-widget).
+* @function
+* @param {Array} PloArr - contains the numeric data for the curves
+* @param {Number} graphNO - graph placeholder number according to tabs-no
+*/
 function plotRT2(PloArr) {
     //Data files may have x units in: nm, um or eV
     //but in calculations and resulting spectra x is always nm, 
@@ -416,7 +415,6 @@ function plotRT2(PloArr) {
 }
 
 function updGraph(){
-    var stackPL2;
     if ($('input:radio[name=graphMode]:checked').val() == 'StackRT') {
         plotRT2(spArra); //graafi päivitetään
         //alert("graafi päivitettiin");
@@ -433,14 +431,14 @@ function updGraph(){
             tmp=[spArra[i][0],stackArr[rowInd][4][i],stackArr[rowInd][5][i]];
             nkArra.push(tmp);
         }
-        stackPL2 = plotNK(nkArra, 6);
+        var stackPL2 = plotNK(nkArra, 6);
     }
 }
 
 /**
- * Function for updating R or T calculation data while plotting on 'Film stack Tab'
- * @function
- */
+* Function for updating R or T calculation data while plotting on 'Film stack Tab'
+* @function
+*/
 function updRTspArra(){
     //if (!$("#setStack").is(":checked")) return;      //film n-k graphing is selected
     spArra[0][1] = stack.settings.RorT + "%";
@@ -455,14 +453,14 @@ function updRTspArra(){
     else {
         matrixMult();
         //if ($("#setFilm").is(":checked")) return; //n-k plotting selected exiting function
-        //stackPL = plotRT2(spArra);
+        //var stackPL = plotRT2(spArra);
         }
 }
 
 /**
- * Function for updating R or T Target data before plotting on 'Film stack Tab'
- * @function
- */
+* Function for updating R or T Target data before plotting on 'Film stack Tab'
+* @function
+*/
 function updTargSpArra() {
     var selTarg = $('#stackTargs option:selected').text();
     if (!selTarg || selTarg==="Select:" || selTarg==="List is empty" ) return;
@@ -478,9 +476,9 @@ function updTargSpArra() {
 }
 
 /**
- * Function for updating n-k data Graph on 'Film stack Tab'
- * @function
- */
+* Function for updating n-k data Graph on 'Film stack Tab'
+* @function
+*/
 function updNKspArra() {
 //Checkings:
 // No:1 Check that some materials are available for the layers
@@ -530,12 +528,12 @@ function updNKspArra() {
 }
 
 /**
- * Cubic spline interpolation from available data points to desired data points:
- * @function
- * @param {array} toVector 1xn array of abscissa-values whose ordinatas will be evaluated
- * @param {array} onArray 2xm array of abscissa and ordinata values for interepolation data
- * @return {array} onVal Returned 1xn array as the interpolation result
- */
+* Cubic spline interpolation from available data points to desired data points:
+* @function
+* @param {array} toVector 1xn array of abscissa-values whose ordinatas will be evaluated
+* @param {array} onArray 2xm array of abscissa and ordinata values for interepolation data
+* @return {array} onVal Returned 1xn array as the interpolation result
+*/
 function cubSplinInt(toVector,onArray){
     //ToDo: target vektoria ei saa venyttää päistään kuten n- ja k-vektoreita
     //console.log('toVector: ' + toVector);
@@ -596,16 +594,16 @@ function cubSplinInt(toVector,onArray){
 }
 
 /**
- * Makes an y-value vector coinciding with x-values 
- * x-axis calculation units are always in nm, but desired plotting unit can be nm, um or eV
- * spectral plotting array in 'spArra', 
- * whose y-values are obtained through cubic spline interpolation
- * @function
- * @param (text) optName - Name of material in the stack layer
- * @param [array] optArr - options table for materials or spectral targets
- * @param (number) trIndex - index (=1 or 2) of the plotted curve 
- * [(film-n):1, (film-k):2, (calculated R or T):1, (target R or T):2.] 
- */
+* Makes an y-value vector coinciding with x-values
+* x-axis calculation units are always in nm, but desired plotting unit can be nm, um or eV
+* spectral plotting array in 'spArra',
+* whose y-values are obtained through cubic spline interpolation
+* @function
+* @param (text) optName - Name of material in the stack layer
+* @param [array] optArr - options table for materials or spectral targets
+* @param (number) trIndex - index (=1 or 2) of the plotted curve
+* [(film-n):1, (film-k):2, (calculated R or T):1, (target R or T):2.]
+*/
 function intpolData(optName,optArr,trIndex){
     //spVector first member contains spectral unit to be displaid in UI
     //in calculations spectral points are always in nm-units
@@ -639,7 +637,7 @@ function intpolData(optName,optArr,trIndex){
             //optArr[i].Data:ssa (joko stack.Materials[i] tai stack.Targets[i]) arvot
                 //ensimmäisessä rivissä otsikko esim: ['nm','n','k']
                 tmpPoint=[];
-                tmpPoint.push(optArr[i].Data[j][0]);//aallonpituus
+                tmpPoint.push(optArr[i].Data[j][0]); //aallonpituus
                 tmpPoint.push(optArr[i].Data[j][trIndex]);
                 //trIndex=1: n-arvo tai referenssin R|T-arvo, 
                 // trIndex=2: ainoastaan n-k taulukon k-arvolle
@@ -699,9 +697,9 @@ function intpolData(optName,optArr,trIndex){
 
 //*******Tabling Funs:**********
 /**
- * Film stack initialization function for tabs-6. Using dataTables jquery plugin
- * @function
- */
+* Film stack initialization function for tabs-6. Using dataTables jquery plugin
+* @function
+*/
 function createStackTable() {
     oStackTable = $('#StackEdit').dataTable({
         "aaData": stackArr,
@@ -713,7 +711,7 @@ function createStackTable() {
         "bAutoWidth": false,
         "aoColumns": [{"sTitle": "Id:", "sType": "text", "sClass": "centtis"},
             {"sTitle": "Material:", "sType": "text", "sClass": "centtis"},
-            {"sTitle": "Thickness:", "sType": "number", "sClass": "centtis"},
+            {"sTitle": "Thickness:", "sType": "text", "sClass": "centtis"},
             {"sTitle": "Tuned:", "sType": "text", "sClass": "centtis",
                 type: 'checkbox',
                 onblur: 'submit',
@@ -722,9 +720,9 @@ function createStackTable() {
     });
 }
 /**
- * Initializes material nk-data editing table on tabs-8. Uses dataTables jquery plugin
- * @function
- */
+* Initializes material nk-data editing table on tabs-8. Uses dataTables jquery plugin
+* @function
+*/
 function createMatEditTable(){
     var sTitle1="Unit [" + matrlArr[0][0] + "]";
     var sTitle2="n";
@@ -746,9 +744,10 @@ function createMatEditTable(){
 }
 
 /**
- * Initializes material-options table (without data) on tabs-8. Uses dataTables jquery plugin
- * @function
- */
+*
+* Initializes material-options table (without data) on tabs-8. Uses dataTables jquery plugin
+* @function
+*/
 function createMatOptsTable(){
     oMatOptTable = $('#matOpsTabl').dataTable({
         "autoWidth": true,
@@ -770,10 +769,10 @@ function createMatOptsTable(){
 }
 
 /**
- * Initializes spectral-target editing table on tabs-7. Uses dataTables jquery plugin,
- * column titles obtained from targArr (global Array)
- * @function
- */
+* Initializes spectral-target editing table on tabs-7. Uses dataTables jquery plugin,
+* column titles obtained from targArr (global Array)
+* @function
+*/
 function createTargEditTable(){
     var sTitle1="Unit: [" + targArr[0][0] + "]";
     var sTitle2=targArr[0][1]+ " %-value";

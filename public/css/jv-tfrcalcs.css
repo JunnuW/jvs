@@ -22,6 +22,7 @@ table.display
     .bblueText2 { color:blue; font-size: 17px; font-weight:bold; position: relative;  left: 80px;  }
     .bblueText3 { color: #1f02a9; font-size: 21px; font-weight:bold; white-space: pre; margin-left:3em;}
     .bblueText4 { color:#1f02a9; font-size: 17px; font-weight:bold; white-space: pre; margin-left:1em;}
+    .bblueText5 { color:#1f02a9; font-size: 17px; font-weight:bold; margin-left:1em;}
     .spinner2 {margin-left:5em; margin-right: 5em;  width: 40px; white-space: pre;}
     .posit80 {position: relative;  left: 80px; white-space: pre;}
 

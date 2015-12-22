@@ -9,36 +9,44 @@ div(id="tabs-6")
       //-Ekan rivin eka sarake:
       td(class="editTabs")
         div
-          b(class="bblueText") Thin film stack:
-        button(id="btnReadStack" class="ui-button ui-widget ui-state-default ui-corner-all " +
+          //-b(class="bblueText") Thin film stack:
+        button(id="btnOpenStack" class="ui-button ui-widget ui-state-default ui-corner-all " +
         "ui-button-text-icon-primary" style="margin-right:10px")
           span(class="ui-icon ui-icon-document")
           span(class="ui-button-text") Open file
         button(id="btnSaveStack" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary")
           span(class="ui-icon ui-icon-document")
           span(class="ui-button-text") Save file
+        //-label(for='ediStack' id='ediStackLbl' style="margin:15px") File:
+        label(for='ediStack' id='ediStackLbl' class="bblueText5") File:
+        input(id="ediStack" type="text" name="ediStack" value="" size="30%" style="margin-left:0.3em")
         div
-          label(for="stackTargs" class="bblueText labelOnInput")
+          br
+          label(for='descStack' id='descStackLbl' class="bblueText5") Description:
+          input(id="descStack" type="text" name="descStack" value="" size="55%" style="margin-left:0.3em" )
+          br
+          br
+          label(for="stackTargs" class="bblueText5 labelOnInput")
             span(id="stackTargsLbl") Spectral target:
             select(id="stackTargs" class="selectUnderLabel" style="font-size:14px")
-          input(id="ediStack" class="text" type="url" name="ediStack" value="")
         div(id="StackKontti")
           table(id="StackEdit" class="display")
             //-display class tekee taulukossa jokatoisen  rivin eriväriseksi
-            //-kalvopakka alustetaan koodissa: createStackTable
         div
           b   
         div
-          button(id="btnAddFilm" class="add_row ui-button ui-widget ui-state-default ui-corner-all ui-button-disabled ui-state-disabled ui-button-text-icon-primary")
+          button(id="btnAddFilm" class="add_row ui-button ui-widget ui-state-default ui-corner-all " +
+          "ui-button-disabled ui-state-disabled ui-button-text-icon-primary")
             span(class="ui-button-icon-primary ui-icon ui-icon-plus")
             span(class="ui-button-text") Add Film..
-          button(id="btnDelFilm" class="delete_row ui-button ui-widget ui-state-default ui-corner-all ui-button-disabled ui-state-disabled ui-button-text-icon-primary")
+          button(id="btnDelFilm" class="delete_row ui-button ui-widget ui-state-default ui-corner-all " +
+          "ui-button-disabled ui-state-disabled ui-button-text-icon-primary")
             span(class="ui-button-icon-primary ui-icon ui-icon-trash")
             span(class="ui-button-text") Remove Film
       //-Ekan rivin toka sarake:
       td(class="editTabs" style="padding-left:10px")
         div
-          label(for="setStack" class="bblueText" id="stackModeLbl") Graph mode:  
+          label(for="setStack" class="bblueText5" id="stackModeLbl") Graph mode:
           input(type="radio" id="setStack" name="graphMode" value="StackRT" checked="checked")
           b(id="StackRTb")   Stack Reflectance
           pre   

@@ -8,86 +8,87 @@ div(id="tabs-2", style="height: auto")
     tr
       td(class="editTabs2")
         //td(class="setTabs")
-        p(class="bblueText1") Spectral mode
-          br
+        div(class="bblueText1") Spectral mode
         input(type="radio" id="setRefl" name="setCalcfor" value="R" checked="checked" class="bblueText2")
-        label(for="setRefl" class="bblueText2") Reflectance
-          br
         pre
+        label(id="setReflLbl" for="setRefl" class="bblueText2")  Reflectance
+        br
         input(type="radio" id="setTrans" name="setCalcfor" value="T" class="bblueText2")
-        label(for="setTrans" class="bblueText2") Transmittance
-          br
-        p(id="setTarg" class="bblueText1") Calculated  reflectance includes:
-          br
+        pre
+        label(id="setTranLbl" for="setTrans" class="bblueText2")  Transmittance
+        br
+        br
+        div(id="setTarg" class="bblueText1") Calculated  reflectance includes:
+        br
         input(type="checkbox" id="frontR" class="bblueText2")
-        label(for="frontR" class="bblueText2")  Top (l.cover) layer front surface reflection
-          br
+        label(id="frontRlbl" for="frontR" class="bblueText2")  Top (l. cover) material front surface reflection
+        br
         pre
         input(type="checkbox" id="bottomR" class="bblueText2")
-        label(for="bottomR" class="bblueText2")  Bottom (l.substrate) layer backside reflection
+        label(id="bottomRlbl" for="bottomR" class="bblueText2")  Substrate (l. bottom) material backside reflection
           br
         pre
       td(class="editTabs2" id="tdLabel")
         p(class="bblueText1") Spectral graphing unit:
           br
         input(type="radio" id="setNM" name="setUnit" value="nm" checked="checked" class="bblueText2")
-        label(for="setNM" class="bblueText2") [ nm ] &nbsp &nbsp
+        label(for="setNM" class="bblueText2")  [ nm ] &nbsp &nbsp
         input(type="radio" id="setUM" name="setUnit" value="um" class="bblueText2")
-        label(for="setUM" class="bblueText2") [ um ] &nbsp &nbsp
+        label(for="setUM" class="bblueText2")  [ um ] &nbsp &nbsp
         input(type="radio" id="setEV" name="setUnit" value="eV" class="bblueText2")
-        label(for="setEV" class="bblueText2") [ eV ]
+        label(for="setEV" class="bblueText2")  [ eV ]
         br
         br
         input(type="radio" id="setNormal" name="incidenceA" value="Normal" checked="checked" class="bblueText2")
-        label(for="setNormal" class="bblueText2") Perpendicular incidence
+        label(for="setNormal" class="bblueText2")  Perpendicular incidence
         br
         br
         input(type="radio" id="setOblique" name="incidenceA" value="Oblique" class="bblueText2")
-        label(for="setOblique" class="bblueText2") Oblique incidence
+        label(for="setOblique" class="bblueText2")  Oblique incidence
         br
         br
         div(class="posit80" id="obliDiv")
-          label(for="incAng" class="bblueText4") Incidence angle:
+          label(for="incAng" class="bblueText4")  Incidence angle:
           input(id="incAng" name="incAng" class="spinner2" )
           label(class="bblueText4") [ degr. ]
           br
-          label(class="bblueText4") Polarization:
+          label(class="bblueText4")  Polarization:
           br
           pre
           input(id="TEpol" type="radio" name="polSel" checked="checked" class="bblueText4" value="TE")
-          label(for="TEpol") TE (s)
+          label(for="TEpol")  TE (s)
           pre
           input(id="TMpol" type="radio" name="polSel" class="bblueText4" value="TM")
-          label(for="TMpol") TM (p)
+          label(for="TMpol")  TM (p)
     tr
       td(class="editTabs2")
         br
         div
           label(for="sThickn" class="bblueText1") Substrate thickness:
           input(id="sThickn" name="sThickn" style="width:60px")
-          label(class="bblueText1") [ um ]
+          label(class="bblueText1")  [ um ]
         br
       td(class="editTabs2")
         br
         div
-          label(for="cThickn" class="bblueText1") Cover material thickness:
+          label(for="cThickn" class="bblueText1")  Cover material thickness:
           input(id="cThickn" name="cThickn" style="width:60px")
-          label(class="bblueText1") [ um ]
+          label(class="bblueText1")  [ um ]
         br
       tr
         td(class="editTabs2")
           br
           div
-            label(for="SpStart" id="lblStart" class="bblueText1") Start at wavelength:
+            label(for="SpStart" id="lblStart" class="bblueText1")  Start at wavelength:
             input(id="SpStart" name="SpStart" style="width:60px")
-            label(id="lblStartUn" class="bblueText1") [ nm ]
+            label(id="lblStartUn" class="bblueText1")  [ nm ]
           br
         td(class="editTabs2")
           br
           div
             label(for="SpStop", id="lblStop" class="bblueText1") Stop at wavelength:
             input(id="SpStop" name="SpStop" style="width:60px")
-            label(id="lblStopUn" class="bblueText1") [ nm ]
+            label(id="lblStopUn" class="bblueText1")  [ nm ]
           br
       tr
         td(colspan="2" class="editTabs2")
