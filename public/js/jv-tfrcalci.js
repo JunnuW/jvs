@@ -1711,6 +1711,8 @@ function matrixMult() {
                         alfa = 4 * Math.PI / spArra[ii][0] * (etas.im), //substrate absorption index with propagation angle
                         //D = $("#sThickn").spinner("value")*1000; //Substrate thickness in nm:
                         D = stack.settings.SubstrD*1000; //Substrate thickness in nm:
+                        alfa=0;
+                        //todo: alfan lasku korjattava
                     Rb *= Rb;//backside intensity reflectance
                     var Ttmp = Math.exp(alfa * D) * (1 - Rb) * tee / (1 - Math.exp(2 * alfa * D) * roo * roo * Rb);
                     spArra[ii][1] = Ttmp * 100;
