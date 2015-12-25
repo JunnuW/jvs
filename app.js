@@ -506,9 +506,10 @@ app.post('/signup', function (req, res) {
 });
 
 function respAllMngo(req,res,respOnse) {
-    //console.log('respAllMngo respOnse: ',respOnse);
-    //console.log('respAllMngo url: ',req.url);
-    res.json(respOnse);
+    console.log('respAllMngo respOnse: ',respOnse);
+    console.log('respAllMngo url: ',req.url);
+    var statCode=respOnse.statCode;
+    res.status(statCode).json(respOnse);
     //var statusCode=Messa.statCode;
     //var MessaStr=Messa.resString;
     //res.writeHead(StatusCode, {'content-type': 'text/plain' });
@@ -543,24 +544,19 @@ app.post('/auth/*', function(req,res){
         case '/checkOneUserF' :
             //console.log('checking one user files');
             mngoTree.checkOneUserFile(req,res,respAllMngo);
-            //tehty
             break;
         case '/dbFindOne' :
             //console.log('dbFindOne in: ',req.body.userNme,' user:',req.user.username);
             mngoTree.obtainOne(req,res,respAllMngo);
-            //tehty
             break;
         case '/dbUpdate' :
             mngoTree.updateDoc(req,res,respAllMngo);
-            //tehty
             break;
         case '/dbInsert' :
             mngoTree.insertDoc(req,res,respAllMngo);
-            //tehty
             break;
         case '/dbDelete' :
             mngoTree.deleteDoc(req,res,respAllMngo);
-            //tehty
             break;
         case '/dbRename' :
             mngoTree.renameDocs(req,res,respAllMngo);

@@ -95,7 +95,7 @@ function ApplMod(req){
 }
 
 exports.obtainOne=function(req,res,callBfun){
-    //console.log('obtainOne req.body.userNme: ',req.body.userNme);
+    console.log('obtainOne req.body.userNme: ',req.body.userNme);
     //queries one documents from mongo db
     var applModel;
     applModel=ApplMod(req);
@@ -118,6 +118,7 @@ exports.obtainOne=function(req,res,callBfun){
         if (!err && docum) {
             //Reading was successful, convert to string:
             docRes = (toRes=='wholeDoc')? JSON.stringify(docum) : docum.description;
+            //console.log('obtainOne docRes: ',docRes);
             respOnse={
                 statCode: 200,
                 resString:'DocumentOK :'+docRes,
@@ -125,13 +126,22 @@ exports.obtainOne=function(req,res,callBfun){
             };
         }
         else {
-            var responseStr= (err)? err.toString():fiName+ ' not found';
-            respOnse={
-                statCode: 500,
-                resString:'',
-                error:responseStr
-            };
+            //var responseStr= (err)? err.toString():fiName+ ' not found';
+            if (err) {
+                respOnse={
+                    statCode: 500,
+                    resString:'',
+                    error:err.toString()
+                };
+            }else {
+                respOnse={
+                    statCode: 202,
+                    resString:'',
+                    error: fiName+ ' not found'
+                };
+            }
         }
+        //console.log('obtainOne respOnse: ',respOnse);
         callBfun(req,res,respOnse);
     });
 }

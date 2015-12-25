@@ -42,7 +42,7 @@ var selctdNde={};       //selected node in jsTree
 var spArra=[,,];        //spectral points array for calculations and display
 var spNum=201;          //number of spectral points
 var stack={};           //thin film stack including cover and substrate materials
-var stackArr; // [['Cover','DblClick to edit!','bulk','no',[]],['Substr.','DblClick to edit!','bulk','no',[]]];
+var stackArr=[['Cover','DblClick to edit!','bulk','no',[]],['Substr.','DblClick to edit!','bulk','no',[]]];
 //ToDo: siirr� stackArr:in alustus document ready funktioon:
 var userName = 'No login'; // after login obtained from web-server
 var targArr = [];
@@ -59,6 +59,7 @@ var targStr = "nm\tR\t'sample data'\r\n500\t55.0\r\n510\t54.0\r\n520\t55.0";
 */
 $(function() {
     stack=buildStack(); //Set default calculation parameters and materials
+    //console.log('buildStack. ',stack);
     buildMongoDial();   //creates dialogform for saving to mongodb
     var srvrFileTxt = 'Open stack file from';
     DFmngo=$('#mongoDialForm'); //dialog form
@@ -71,7 +72,6 @@ $(function() {
         mongoGetOne(fiile,dirUser);// opens default stack from Publ dierectory: dirUser='Publ'
         //afterStackRead();
     }
-
 
     //todo: read default stack, then set: target selector, target options and material options
     targArr = splitToArr(targStr);

@@ -103,7 +103,6 @@ function afterStackRead(rsObj){
     if (trgOptsArr.length > 0) {
         oTargOptTable.fnAddData(trgOptsArr);
     }
-
     oStackTable.fnClearTable();
     oStackTable.fnAddData(stackArr);
 
@@ -195,6 +194,7 @@ function respToArr(fileName,resObj) {
         case "Stack","intro": // at start-up default stack is read from server from 'intro' tab
             $('#ediStack').val(fileName);
             $('#descStack').val(resObj.description);
+            console.log('respToarr: ',resObj);
             afterStackRead(resObj); //inits objects and application interface for the stack
             //updRTspArra();
             //updGraph();
@@ -258,6 +258,7 @@ function mongoReadDesc(fileName){
  * @function
  */
 function mongoGetOne(fileName){
+
     var datColl=pickCollection();
     /*var respnce= datColl=='materials'? 'Material data obtained from server'
         :'Spectral target obtained from server';*/
@@ -275,6 +276,7 @@ function mongoGetOne(fileName){
         default:
             respnce='unexpected data from server';
     }
+    console.log('mongoGetOne: ',fileName,' ',respnce);
     var tokene;
     if (userName!='No login'){
         tokene=window.sessionStorage.getItem('RTFtoken');
@@ -286,37 +288,51 @@ function mongoGetOne(fileName){
         dataColl: datColl,//chooses between materials or targets data files
         replyType: 'wholeDoc'
     })
-        .done(function (datas) {
-            //successful reading responds "reading OK" otherwise an error message
-            if (datas && datas.statCode==200){
-                //console.log('Document reading response: '+datas);
-                if (datas.resString.indexOf("DocumentOK")>-1){
-                    //cut out 'documentOK' text from the response string beginning
-                    // and convert back to object
-                    var resObj=JSON.parse(datas.resString.slice(datas.resString.indexOf('{')));
-                    $.notifyBar({
-                        cssClass: "success",
-                        html: respnce // "File was read:"
-                    });
-                    //console.log("file was read",resObj);
-                    //todo: update filename and description inputs
-                    respToArr(fileName,resObj);     //updates matrlArr to opened document
-                    /*oMatTable.fnClearTable(); //clear nk table on tab-8
-                    oMatTable.fnAddData(matrlArr.slice(1)); //updates editing table to opened document
-                    $('#matEditTabl').find('th:eq(0)').text("Wavel. [" + matrlArr[0][0] + "]");
-                    nkPlot = plotNK(matrlArr, 8); //updates graph
-                    $('#ediMater').val(fileName);*/
-                }
-                else{
-                    //database responds with error message
-                    $.notifyBar({
-                        cssClass: "warning",
-                        html: "Data could not be obtained: "+datas.error
-                    });
+        .done(function (datas,textStatus) {
+            if (textStatus=='nocontent'){//resposed with status 204 'nocontent
+                console.log('no content 204');
+                $.notifyBar({
+                    cssClass: "warning",
+                    html: "Data could not be obtained from server: "
+                });
+                return;
+            }
+            if (textStatus=='success' && datas){
+                switch (datas.statCode){
+                    case 200:
+                        if (datas.resString.indexOf("DocumentOK")>-1) {
+                            //cut out 'documentOK' text from the response string beginning
+                            // and convert back to object
+                            var resObj = JSON.parse(datas.resString.slice(datas.resString.indexOf('{')));
+                            $.notifyBar({
+                                cssClass: "success",
+                                html: respnce // "File was read:"
+                            });
+                            console.log("file was read", resObj);
+                            //todo: update filename and description inputs
+                            respToArr(fileName, resObj);     //updates matrlArr to opened document
+                            /*oMatTable.fnClearTable(); //clear nk table on tab-8
+                             oMatTable.fnAddData(matrlArr.slice(1)); //updates editing table to opened document
+                             $('#matEditTabl').find('th:eq(0)').text("Wavel. [" + matrlArr[0][0] + "]");
+                             nkPlot = plotNK(matrlArr, 8); //updates graph
+                             $('#ediMater').val(fileName);*/
+                        }
+                        break;
+                    case 202:
+                        //database responds with not found
+                        //console.log('202:Data could not be obtained:  '+datas.error)
+                        $.notifyBar({
+                            cssClass: "warning",
+                            html: "Data could not be obtained: "+datas.error
+                        });
+                        break;
                 }
             }
+            //console.log('reading done: ',datas,' ',textStatus);
+            //successful reading responds "reading OK" otherwise an error message
         })
         .fail(function(datas){
+            console.log('data reading failed: ',datas);
             handleFail(datas, 'Data was not obtainable');
         });
     DFmngo.dialog("close");
@@ -625,6 +641,8 @@ function handleFail(errDatas,messag){
         case 413:
             respMessa=messag+' '+" , too much data? ";
             break;
+        case 204:
+            respMessa=messag+' '+' File was not found'
     }
     $.notifyBar({
         cssClass: "error",
