@@ -5,9 +5,12 @@ html
     link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
     //script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
     script(src='/bower_components/jquery/dist/jquery.min.js')
+    script(src='/bower_components/jstree/dist/jstree.min.js')
     script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
     script(src='/bower_components/jquery-validation/dist/jquery.validate.js')
     script(src='/bower_components/jqnotifybar/jquery.notifyBar.js')
+    script(type ='text/x-mathjax-config') MathJax.Hub.Config ({TeX:{equationNumbers:{autoNumber:"AMS"},tex2jax:{inlineMath:[['$','$'], ['\\(','\\)']]}}});
+    script(src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML")
     link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
   body
     .navbar.navbar-inverse.navbar-static-top(role='navigation')
@@ -37,7 +40,7 @@ html
                     a(href='/pwdEdit') Change pwd
                 else
                   li
-                    a(href='/login') Login
+                    a(id='loginni', href='/login') Login
                   li
                     a(href='/signup') Signup
             li.dropdown
@@ -46,11 +49,11 @@ html
               ul.dropdown-menu  
                 li
                   a(href='/refletrans') Reflectance and transmittance of thin films
-                li
+                //-li
                   a(href='/WaterRock') Water Rocket calculator (under construction)
                 li
-                  a(href='/BroadMod') Broadening model for quantum well diodes (under construction)
-                li
+                  a(href='/BroadMod') Spectral broadening light emitting diodes (under construction)
+                //-li
                   a(href='/GasFlo') Gas flow in circular pipes (under construction)
                 //-li
                   a(href='/tabX') Testing document ready function
@@ -78,9 +81,5 @@ html
         block content
           //-block content määritellään index.jade, login.jade, signup.jade, pwdEdit.jade, forgot.jade
           //-sivuilta joille nämä asetukset periytyvät
+
   script(type='text/javascript').
-    $('#lokoutti').on('click',function(evt){
-      window.sessionStorage.setItem('RTFuser', '');
-      window.sessionStorage.setItem('RTFtoken', '');
-      //alert('klikkasit');
-    })

@@ -5,7 +5,9 @@ block content
   p
     if user
       b #{user.username}
-      |  : Used open source and MIT-licenced software components can be found in the lists below. Please notice also their composers through the included links.
+      | :
+      br
+      | Used open source and MIT-licenced software components can be found in the lists below. Please notice also their composers through the included links.
     else
       | Used open source and MIT-licenced software components can be found in the lists below. Please notice also their composers through the included links.
     br
@@ -13,7 +15,7 @@ block content
     -Node_urli="https://en.wikipedia.org/wiki/Node.js"
     a(href="#{Node_urli}" target="_blank") Node.js
     |    with modules:
-    -Express_urli="https://github.com/strongloop/express/?_ga=1.208594130.1762076801.1444310280"
+    -Express_urli="http://expressjs.com/"
     a(href="#{Express_urli}" target="_blank")   Express
     | ,
     -path_urli="https://nodejs.org/api/path.html"

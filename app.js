@@ -61,7 +61,7 @@ app.get('/',function(req,res){
 app.use(express.static(__dirname)); //tämä oltava jotta bower_components hakemisto löytyy
 app.use(express.static(__dirname + '/public')); //tässä muun staattisen sisällön hakemisto
 //seuraava on ovela, muodostaa polun kÃ¤yttÃ¤en OS:n mukaan joko / tai \ merkkiÃ¤:
-app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
+app.use(favicon(path.join(__dirname,'public','images','favicon24.ico')));
 
 var url;
 if (process.env.OPENSHIFT_MONGODB_DB_URL) {
@@ -251,14 +251,19 @@ app.get('/login', function(req, res) {
     //var clientIp = requestIp.getClientIp(req);
 });
 
+app.get('/Logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
 function createToken(req,userN){
     var expires = moment().add(7, 'minute').valueOf();
     var clientIp = requestIp.getClientIp(req);
     var jwtToken = jwt.encode({
-            iss: userN,
-            reqIP:clientIp,
-            expires: expires
-        },
+        iss: userN,
+        reqIP:clientIp,
+        expires: expires
+    },
         jwtSecret,
         'HS256');
     //console.log('token: ',jwtToken);
@@ -298,20 +303,6 @@ function ValidateToken(req,res){
     //console.log('token has to be validated for: '+req.body.userNme);
 }
 
-function valFileOps(req,res){
-    var valResu=ValidateToken(req,res);
-    //console.log('validation result: '+valResu);
-    //res.write(valResu);
-    if (valResu!='OK') {//token validation not OK: expired ||[invalid (userName||client IP)]
-        res.json({
-            token : 'invalid',
-            response: valResu
-        });
-        return;
-    }
-    return;
-}
-
 /* GET home page. */
 app.get('/', function(req, res) {
     console.log('get/');
@@ -349,21 +340,31 @@ app.get('/contrbs', function(req, res) {
     });
 });
 
+/* GET Broadenin fun page. */
+app.get('/BroadMod', function(req, res) {
+    //console.log('app.get/BroadMod');
+    //console.log('/BroadMod: '+JSON.stringify(req.headers));
+    res.render('broaden', {
+        title: 'Spectral broadening in quantum well LED\'s and LD\'s below laser threshold',
+        user: (req.user)  //false
+    });
+});
+
 /* GET customer messaging page. */
 app.get('/custmsgs', function(req, res) {
-    console.log('app.get/custmsgs');
-    console.log('/custmsgs req.headers: '+JSON.stringify(req.headers));
+    //console.log('app.get/custmsgs');
+    //console.log('/custmsgs req.headers: '+JSON.stringify(req.headers));
     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
     if (req.user) {
         //console.log('rendering with cookie username:  '+(req.session.user));
         res.render('custmsgs', {
-            title: 'User\'s comments and messages',
+            title: 'Rock Phys comments and messages',
             user: (req.user)
         });
     } else {
         //console.log('rendering / with or without user: ');
         res.render('custmsgs', {
-            title: 'Login is required for user messaging',
+            title: 'Message posting requires login',
             user: (req.user)  //false
         });
     }
@@ -403,10 +404,9 @@ app.get('/refletrans', function (req, res) {
     });
 });
 
-
 app.post('/login',function(req,res){
     //console.log("app.post('/login') req.headers: "+JSON.stringify(req.headers));
-    passport.authenticate('local',function(err, user, info) {
+    passport.authenticate('local',{session:false},function(err, user, info) {
         //console.log('authenticate info: ',info);
         //info { message: 'Incorrect password.' })
         if (err) return next(err);
@@ -450,13 +450,24 @@ app.post('/login',function(req,res){
 });
 
 app.post('/signup', function (req, res) {
-    console.log("app.post('/signup')");
+    //console.log("app.post('/signup')");
+    //console.log('req.body: ',req.body);
+    if (req.body.firstname!='M.' || req.body.lastname!='H.'){
+        //'sign up' button was not clicked on signup page, operator could be a robot:
+        var clientIp = requestIp.getClientIp(req);
+        console.log('robot signup trial from: ',clientIp);
+        res.json({
+            responseStr: "Your signup successfull, thank you!!" //vain hämäys, oikeasti umpikuja
+        });
+        return;
+    }
+    //Test the possible new user in moongoose model:
     var user = new User({
         username: req.body.username,
         email: req.body.email,
         password: req.body.password
     });
-    //try to save credentials as a new user:
+    //try to save credentials as a new user to mongodb:
     user.save(function (err) {
         if (err)  {
             var responseString;
@@ -479,19 +490,17 @@ app.post('/signup', function (req, res) {
                 responseStr: responseString
             });
             return;
-        }else {
+        }else {//New user was accepted login this user:
             //console.log('token: ',jwtToken);
             //console.log('user.save : '+JSON.stringify(user));
             req.logIn(user, function(err) {
                 //req.user=user;
-                console.log('req.loqIn user: ',user);
+                //console.log('req.logIn user: ',user);
                 if (err) {
                     console.log('reg.logIn errori: ',err);
                     return; // next(err);
                 }
-                //var jwtToken = jwtCreate(req,res,user);
                 var jwtToken =createToken(req,user.username);
-                //res.render('index',{token: token, expires: expires});
                 req.flash('success', 'Signup was successful! You are now logged in as: '+user.username);
                 res.json({
                     token : jwtToken,
@@ -506,8 +515,8 @@ app.post('/signup', function (req, res) {
 });
 
 function respAllMngo(req,res,respOnse) {
-    console.log('respAllMngo respOnse: ',respOnse);
-    console.log('respAllMngo url: ',req.url);
+    //console.log('respAllMngo url: ',req.url);
+    //console.log('respAllMngo res: ',res);
     var statCode=respOnse.statCode;
     res.status(statCode).json(respOnse);
     //var statusCode=Messa.statCode;
@@ -518,7 +527,7 @@ function respAllMngo(req,res,respOnse) {
 }
 
 app.post('/auth/*', function(req,res){
-    console.log('post auth: ',req.url, ' req.body: ',req.body);
+    //console.log('post auth: ',req.url, ' req.body: ',req.body);
     var urli=req.url;
     urli=urli.slice(5);
     if (['/dbRename', '/dbDelete', '/dbInsert','/dbUpdate'].indexOf(urli) !== -1 &&
@@ -532,7 +541,14 @@ app.post('/auth/*', function(req,res){
     }
     if (req.user && req.body.userNme==req.user.username && req.body.rtftoken){
         //user has logged in , check token
-        valFileOps(req,res);//Exits in this function, if token is invalid
+        var valResu=ValidateToken(req,res);
+        if (valResu!='OK') {//token validation not OK: expired ||[invalid (userName||client IP)]
+            res.json({
+                token : 'invalid',
+                response: valResu
+            });
+            return;
+        }
     }
     switch (urli){
         case '/checkAllUserF' :
@@ -560,7 +576,18 @@ app.post('/auth/*', function(req,res){
             break;
         case '/dbRename' :
             mngoTree.renameDocs(req,res,respAllMngo);
-            //
+            break;
+        case '/getMessages' :
+            mngoTree.checkAllMessa(req,res,respAllMngo);
+            break;
+        case '/getOneMessage' :
+            mngoTree.getOneMessa(req,res,respAllMngo);
+            break;
+        case '/messageSave' :
+            mngoTree.saveMsg(req,res,respAllMngo);
+            break;
+        case '/countMessages' :
+            mngoTree.countUserMess(req,res,respAllMngo);
             break;
         default:
             res.render('error', {
@@ -568,11 +595,7 @@ app.post('/auth/*', function(req,res){
                 'error.status':"404"
             });
     }
-}//,
-//function nexterr(err){
-//    console.log('nexterr: ',err);
-//    }
-);
+});
 
 app.get('/pwdEdit', function(req, res) {
     console.log("app.get('/pwdEdit')");
@@ -586,9 +609,11 @@ app.get('/logout', function(req, res){
     //console.log('logging out user: '+user.username+' req.session.user.username: '+req.session.user.username);
     //req.session.user=req.logout();
     console.log('logging off user:'+JSON.stringify(req.user));
+    req.user='';
+    console.log('logged off user:'+JSON.stringify(req.user));
     res.render('index',{
         title: 'Rock Phys. (no login)',
-        user:null
+        user:req.user
     });
 });
 

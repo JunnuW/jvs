@@ -36,7 +36,7 @@ var matrlStr = "nm\tn\tk\r\n500\t1.0\t0.0\r\n510\t1.5\t0.2\r\n520\t1.2\t0.4";
 var oMatOptTable = {};
 var oMatTable={};       //objekti, materiaalilista dataTables widgetti� varten
 var oStackTable = {};   //covermaterial, layers and substrate
-var oTargOptTable = {}; //fitting targets nenu
+var oTargOptTable = {}; //fitting targets menu
 var otargTable = {};    //targettilista dataTables widgetti� varten
 var selctdNde={};       //selected node in jsTree
 var spArra=[,,];        //spectral points array for calculations and display
@@ -360,7 +360,7 @@ $(function() {
             //kakkossarakkeeseen tulee valitun materiaalin nimi
             stackArr[aPos[0]][aPos[1]] = value;
             stack.Layers[aPos[0]][aPos[1]] = value;  //aPos[1]=1; p.o. toinen sarake
-            console.log('stack.Layers[aPos[0]][aPos[1]]: ',value);
+            //console.log('stack.Layers[aPos[0]][aPos[1]]: ',value);
             oStackTable.fnClearTable();
             oStackTable.fnAddData(stackArr);
             updNKspArra();
@@ -1404,9 +1404,6 @@ $(function() {
         }
     });
 
-// buildMongoDial(); //creates dialogform for saving to mongodb
-// DFmngo=$('#mongoDialForm'); //dialogform
-
 //ilman seuraavaa funktiota reflektanssi/transmissio seke� n-k-Graafit eiv�t
 //skaalaudu oikein sivun kokoa muutettaessa
 
@@ -1670,7 +1667,7 @@ function matrixMult() {
         var tee=(1-roo*roo)*bb/hh;//Equ: 2.104 in mcLeod
         //pick what is requested; reflectance or transmittance
         if (stack.settings.RorT == "R") {//reflectance is calculated
-            if (!stack.settings.backR && !stack.settings.frontR){//Backside and front reflection is not included
+            if (!stack.settings.backR && !stack.settings.frontR){//Backside and front reflections are not included
                 spArra[ii][1] = roo * roo * 100;
             }
             else {//Backside is included
@@ -1696,23 +1693,18 @@ function matrixMult() {
                     spArra[ii][1] = Ttmp * 100;
                 }
             }
-        }
-        else {//Transmittance is calculated
+        }else {//Transmittance is calculated
             var cetm1=etm1.con();
             var hh=cetm1.mul(etm0).re;
             var bb=stackArr[k-1][4][ii];
             var tee=(1-roo*roo)*bb/hh;//Equ: 2.104 in mcLeod
             if (!stack.settings.backR && !stack.settings.frontR){//Backside or front reflectivity are not included
                 spArra[ii][1] = tee*100;
-            }
-            else {//Backside or front reflectance is to be included
+            }else {//either backside or front reflectance is to be included
                 if (stack.settings.backR) {
                     var Rb = ((eta0.sub(etas)).div(eta0.add(etas))).abs(), //back surface reflectivity
                         alfa = 4 * Math.PI / spArra[ii][0] * (etas.im), //substrate absorption index with propagation angle
-                        //D = $("#sThickn").spinner("value")*1000; //Substrate thickness in nm:
-                        D = stack.settings.SubstrD*1000; //Substrate thickness in nm:
-                        alfa=0;
-                        //todo: alfan lasku korjattava
+                        D = stack.settings.SubstrD;//Substrate thickness in nm:
                     Rb *= Rb;//backside intensity reflectance
                     var Ttmp = Math.exp(alfa * D) * (1 - Rb) * tee / (1 - Math.exp(2 * alfa * D) * roo * roo * Rb);
                     spArra[ii][1] = Ttmp * 100;
@@ -1727,7 +1719,7 @@ function matrixMult() {
                     var Rt = ((eta0.sub(etaT)).div(eta0.add(etaT))).abs(), //top surface reflectivity
                         alfa = 4 * Math.PI / spArra[ii][0] * (eta0.im),//cover.mat absorption index with propagation angle
                         //D = $("#cThickn").spinner("value")*1000; //cover.mat thickness in nm:
-                        D = stack.settings.CoverD*1000; //cover.mat thickness in nm:
+                        D = stack.settings.CoverD; //cover.mat thickness in nm:
                     Rt *= Rt;//front surface intensity reflectance
                     var Ttmp = Math.exp(alfa * D) * (1 - Rt) * tee / (1 - Math.exp(2 * alfa * D) * roo * roo * Rt);
                     spArra[ii][1] = Ttmp * 100;

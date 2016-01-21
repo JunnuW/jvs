@@ -32,7 +32,7 @@ block content
     }else nTries=1;
 
     $(document).submit(function (event) {
-      //this eventhandler is used to get the token stored in
+      //this eventhandler replaces default in order to get the token available in
       // the ajax success callback
       var postData = $('#submForm').serializeArray();
       var formURL = $('#submForm').attr("action");
@@ -60,7 +60,7 @@ block content
             location = location + '/login/?info='+nTries;
             }
         }
-         console.log('location: ',location);
+         //console.log('location: ',location);
         // returns either to index, login or forgot pages determined above:
         window.location.replace(location); //no possibility to use back in browsing
         // window.location.assign(location); //would allow back in browsing

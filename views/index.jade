@@ -4,52 +4,58 @@ block content
   h1= title
   p
     if user
-      b #{user.username}
+      b(id='indUser') #{user.username}
       |  : Welcome to Rock.Phys.
       | #{token}
     else
       | Welcome to Rock.Phys.
     br
-    h3 Purpose
-    | This is a private effort to study the possibilities in
+    h2 Summary and purpose
+    | This is a private effort to study
     //- link to cloud computing on new browser tab
     -cloud_url="https://en.wikipedia.org/wiki/Cloud_computing"
-    a(href="#{cloud_url}" target="_blank")   cloud and web based
-    |  applications
+    a(href="#{cloud_url}" target="_blank")  cloud and web browser based
     br
-    | for technical and scientific computing purposes.
+    | programming in technical and scientific computing purposes.
     br
-    h3 Advantage potential
-    |  Obtainable benefits in this approach include:
+    h3 Advantage potential:
+    u  Available benefits in this approach:
     br
-    |  -  Ease of software distribution and deploying
+    |  -  Ease of software distribution and deployment
     br
-    |  -  No software distribution or assembling on user\'s equipment will be necessary.
+    |  -  Minimal assembly work on user's equipment.
     br
-    |  -  Having a standardized web browser the user can choose any OS (Win, Linux, OS X, ...) for the equipment.
+    |  -  Using a standardized web browser, the user can choose the OS (Win, Linux, OS X, ...)
     br
-    |  -  These details significantly ease the application support and maintenance
+    | and hardware (pc, laptop, tablet or phone) according to his/hers private preferences.
     br
-    h3 Software components
-    | Web browser based applications can be split into two separately developed and debugged components:
+    |  -  Application support and maintenance work is greatly simplified,
     br
-    |  -  software on the server
+    | since only one software version needs to be supported and updated.
     br
-    |  -  software on the web page (downloaded from server to the browser on the client's pc.)
+    h3 Components required:
+    u Browser based applications include two separately developed and debugged components:
+    h4 software on the server
+    | (Normally located on a remote machine, but for development and offline access it can also
     br
-    |  -  interaction between these two takes place through browser requests and server responses.
+    | be configured to operate from the local machine storing all the required HTML pages and resources.)
+    h4 software on client's browser
+    | (scripted to the web pages and downloaded during the browsing from the server)
     br
-    h3 On the server
-    | Client's requests for responses with dynamic content are handled by servers based on specific
-    | web-framework systems.
+    | interaction between these two components takes place through browser requests and server responses.
     br
-    | Several differing web-frameworks are available to build the server software on.
+    h3 Server side program
+    | Client's requests and responses for the dynamic content are handled in the server,
     br
-    | Some of the most popular are:
+    | which is based on a specific web-framework system, that the developer had chosen during the
+    br
+    | development process. Several alternatives are available for building the server software on.
+    br
+    u Some popular frameworks:
     br
     -Django_url="https://en.wikipedia.org/wiki/Django_(web_framework)"
     a(href="#{Django_url}" target="_blank")  - Django
-    |   (Open source web application network written Python)
+    |   (Open source web application network written in Python)
     br
     -Ruby_url="https://en.wikipedia.org/wiki/Ruby_on_Rails"
     a(href="#{Ruby_url}" target="_blank")  - Ruby on Rails (RoR)
@@ -69,45 +75,64 @@ block content
     br
     -Node_url="https://en.wikipedia.org/wiki/Node.js"
     a(href="#{Node_url}" target="_blank")  - Node.js
-    |   (open source, cross-platform runtime environment for server-side applications, from Node.js Foundation)
+    |   (open source, cross-platform runtime environment for javascript, from Node.js Foundation)
     br
-    h3 On client's browser
-    | Modern browsers (2015) are based on HTML, CSS and Javascript in versions 5, 3 and 1.8.5 respectively.
+    h3 Browser side program ( active on client's pc)
+    | Modern browsers (2015) use HTML, CSS and Javascript with versions 5, 3 and 1.8.5 respectively,
     br
-    | For safety reasons, with browser based software script, direct access to client's local file system has traditionally been denied
+    u and for safety reasons, the browser based software script, downloaded from the internet, cannot directly
     br
-    | or at least restricted to events, where the user by mouse click or keyboard actions first authorizes the file operation.
+    u access the client's local file system or activate any local programs on the user's equipment.
     br
-    | This means that all software script on the browser has to be included on the HTML pages downloaded from the server and with slow web access connections,
+    | However, local files can be accessed and written after events, where the user by mouse click or keyboard actions
     br
-    | may cause software response time problems. Used open source and MIT licenced software packages are listed under the
+    | first authorises those operations. This is the common practice also with software updates offered through the internet.
+    br
+    | Since no software is saved locally on user's hardware, the browser based program can be used only, if the user has
+    br
+    | internet access, and slow network connections, may cause software response time problems.
+    br
+    br
+    u All the applied open source components and MIT licenced software packages are listed under the
+    br
     -credits_url="/contrbs"
-    a(href="#{credits_url}")  'Credits and Acknowledgements'
-    br
-    | menu item of this page.
+    a(href="#{credits_url}") 'Credits and Acknowledgements'
+    |   menu item of this site.
     br
     h3 Configuration in this app
-    | For this particular web page, Node.js was a natural choice for the server side framework, enabling javascript coding both on server and
+    | For this particular web site, Node.js was a natural choice for the server side framework,
     br
-    | and browser. Though Node.js is rather recent and officially still in beta phase (at writing this version 0.10.31), it has already serves behind numerous web pages from many
+    | enabling javascript coding both on the server and and browser. Though Node.js is rather recent
     br
-    | front line companies (Microsoft, Yahoo!, LinkedIn, eBay, Dow Jones, Cloud9, The New York Times etc.) and is also supported by most web hosting providers.
+    | and officially still in beta phase (at writing this version 0.10.31), it already serves behind
     br
-    | For this particular web site, in addition to HTML web page storage and delivery, server software is needed for:
+    | numerous web pages from many front line companies (Microsoft, Yahoo!, LinkedIn, eBay, Dow Jones,
     br
-    | - user login authentication
+    | Cloud9, The New York Times etc.) and is also supported by most web hosting providers.
+    br
+    br
+    | For this particular web site, in addition to HTML web page storage and delivery, server software
+    br
+    | is needed for:
+    br
+    u user signup and login authentication
     br
     -Mongo_url="https://en.wikipedia.org/wiki/MongoDB"
     a(href="#{Mongo_url}" target="_blank")  - database management
-    |   to store:
+    |   (i.e. to store and acquire:)
     br
-    | - - user information (username, password, email address, expiration date)
+    | - user information (i.e: username, password, email address, expiration date)
     br
-    | - - user data file storage and delivery
+    | - user data files storage and delivery
     br
-    | In conclusion, Node.js runtime system fits nicely and scales up well for applications, where major
-    | part of data processing is performed locally in the browser on the client pc.
+    | - user messages and comments
+    h3 Conclusions:
+    | While coding, it turned out that Node.js runtime fits nicely for this kind of applications,
     br
+    | where major part of data processing is performed locally in the browser on the client's pc.
+    br
+    | Network speed didn't cause any issues on the available (10Mbit/s) connection.
+
   //- br
     | and these 'Desktop application' have been coded using merely javascript.
     | -node_url="http://en.wikipedia.org/wiki/Node.js"
@@ -117,4 +142,10 @@ block content
     | -another_url="http://www.javaworld.com/article/2079190/scripting-jvm-languages/6-things-you-should-know-about-node-js.html"
     | a(href="#{another_url}")  More about Node.js
 
-//-script(type='text/javascript').
+  //-script(type='text/javascript').
+    console.log('index user: ',$('#indUser').text());*/
+    /*if (!$('#indUser').text()){
+      window.sessionStorage.setItem('RTFuser', '');
+      window.sessionStorage.setItem('RTFtoken', '');
+      }*/
+      //alert('huuhaa');

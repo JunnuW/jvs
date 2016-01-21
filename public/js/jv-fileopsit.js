@@ -56,8 +56,8 @@ function buildStack(){
             "RorT": "R",
             "backR": "false",
             "frontR": "false",
-            "SubstrD": 1000,    //assumed 1000um (1mm) thickness, multiplied by 1000 to get nm's
-            "CoverD": 1000,     //assumed 1000um (1mm) thickness, multiplied by 1000 to get nm's
+            "SubstrD": 1000000,    //assumed 1mm thickness, multiplied by 1000000 to get nm's
+            "CoverD": 1000000,     //assumed 1mm thickness, multiplied by 1000000 to get nm's
             "spUnit": "nm",
             "spStart": 400,
             "spStop": 1000,
@@ -194,7 +194,7 @@ function respToArr(fileName,resObj) {
         case "Stack","intro": // at start-up default stack is read from server from 'intro' tab
             $('#ediStack').val(fileName);
             $('#descStack').val(resObj.description);
-            console.log('respToarr: ',resObj);
+            //console.log('respToarr: ',resObj);
             afterStackRead(resObj); //inits objects and application interface for the stack
             //updRTspArra();
             //updGraph();
@@ -219,7 +219,7 @@ function mongoReadDesc(fileName){
         fileName: fileName,
         rtftoken: tokene,
         //chooses between materials or targets data files
-        dataColl: datColl,
+        Collection: datColl,
         replyType: 'descOnly'
         //fileType is either 'jstree-file' or 'jstree-folder'
     })
@@ -276,7 +276,7 @@ function mongoGetOne(fileName){
         default:
             respnce='unexpected data from server';
     }
-    console.log('mongoGetOne: ',fileName,' ',respnce);
+    //console.log('mongoGetOne: ',fileName,' ',respnce);
     var tokene;
     if (userName!='No login'){
         tokene=window.sessionStorage.getItem('RTFtoken');
@@ -285,7 +285,7 @@ function mongoGetOne(fileName){
         userNme:  dirUser,
         fileName: fileName,
         rtftoken: tokene,
-        dataColl: datColl,//chooses between materials or targets data files
+        Collection: datColl,//chooses between materials or targets data files
         replyType: 'wholeDoc'
     })
         .done(function (datas,textStatus) {
@@ -308,7 +308,7 @@ function mongoGetOne(fileName){
                                 cssClass: "success",
                                 html: respnce // "File was read:"
                             });
-                            console.log("file was read", resObj);
+                            //console.log("file was read", resObj);
                             //todo: update filename and description inputs
                             respToArr(fileName, resObj);     //updates matrlArr to opened document
                             /*oMatTable.fnClearTable(); //clear nk table on tab-8
@@ -356,7 +356,7 @@ function mongoRename(oldFile,newFile,icon){
         userNme: dirUser,
         //if public files have been selected: dirUser=='Publ'
         //otherwise dirUser==userName
-        dataColl: datColl, //chooses between 'materials-' or 'targets data' files
+        Collection: datColl, //chooses between 'materials-' or 'targets data' files
         oldName: oldFile,
         rtftoken: tokene,
         newName:newFile,
@@ -405,7 +405,7 @@ function mongoDelete(flNme) {
         userNme: dirUser,
         rtftoken: tokene,
         //chooses between materials or targets data files
-        dataColl: datColl,
+        Collection: datColl,
         fileName: flNme
     })
         .done(function (datas) {
@@ -475,7 +475,6 @@ function mongoSave(saveUrl,flNme) {
             case ((dialTitle.match(/stack/gi))? dialTitle: undefined) :
                 //
                 descr= descr.replace(/(^[\"\']+)|([\"\']+$)/g, ""); //remove leading and trailing single and double quotes
-                dJson.Collection = datColl;
                 dJson.Filename = flNme;
                 dJson.Descr = descr;
                 dJson.Stack=stack;
@@ -489,6 +488,7 @@ function mongoSave(saveUrl,flNme) {
     }
     var dbSave = $.post(saveUrl, {
         userNme:  dirUser,
+        Collection:datColl,
         rtftoken: tokene,
         data: JSON.stringify(dJson) })
         .done(function (datas) {
@@ -569,7 +569,7 @@ function saveToMngoDb(mngFileN){
         var saveUserFile = $.post('/auth/checkOneUserF',{
             userNme: dirUser,
             //chooses between materials or targets data files
-            dataColl: datColl,
+            Collection: datColl,
             fileName: mngFileN
         })
         //existence checking operation on server; should return either "yes" or "no"
@@ -666,12 +666,12 @@ function treeUpdate(){
         userNme: dirUser,
         rtftoken: tokene,
         //uses either materials, targets or stacks data collection:
-        dataColl: collec
+        Collection: collec
     })
         .done(function (data,status,xhr) {//
             if (data){
                 //console.log('data.token: '+data.token);
-                if (data.token=='invalid'){//User token was invalid reset userName and token
+                if (data.token=='invalid'){//invalid token, Otherwice data.token==undefined
                     userName='No login';
                     window.sessionStorage.setItem('RTFuser',userName);
                     window.sessionStorage.setItem('RTFtoken', null);
@@ -1036,7 +1036,8 @@ var buildMongoDial=function(){
                 if (fleRena){
                     var noodi = data.instance._model.data[fleRena];
                     if (!noodi){
-                        $('#mongFileDesc').val(matrlArr[0][3]);
+                        //$('#mongFileDesc').val(matrlArr[0][3]);
+                        $('#mongFileDesc').val('');
                         break;
                     }
                     var textOrig=noodi.original.text;
@@ -1044,9 +1045,9 @@ var buildMongoDial=function(){
                     if (texti!=textOrig) {
                         $('#mongoTree').jstree('set_text', noodi, textOrig);
                     }
-                }
-                else {
-                    $('#mongFileDesc').val(matrlArr[0][3]);
+                }else {
+                    //$('#mongFileDesc').val(matrlArr[0][3]);
+                    $('#mongFileDesc').val('');
                 }
                 break;
             case 'select_node':
@@ -1186,7 +1187,6 @@ var buildMongoDial=function(){
                 });
             });
         dirUser = (userName=='No login')? 'Publ':userName;
-
     });
 
     $('#btnPublDir').click(function(){
@@ -1198,9 +1198,6 @@ var buildMongoDial=function(){
         $('#FilTreLege').text('Files on server in public directory');
         $('#frm-FileTree').show();
         $('#btn-mngOpenSave').show();
-        //$("#ediMaterLbl").text("Public server file:");
-        //$("#ediTargeLbl").text("Public server file:");
-        //$("#ediStackLbl").text("Public server file:");
     });
 
     $('#btnLocDir').click(function(){
@@ -1266,7 +1263,8 @@ function mongoColle(nodeJson){
     //seuraavasta saadaan selville nyt valittu node:
     //var dataa =$('#mongoTree').jstree(true).get_json('#', { 'flat': true });
     var obje = { longFile: '' ,shortFile:'', Folder: ''};
-    if (!aTreeData || nodeJson.length<1) {//return early
+    //longfile: filename with directory, shortFile: only filename, Folder: only directory
+    if (!aTreeData || nodeJson.length<1) {//return early if no data
         return obje;
     }
     var pathi='';
@@ -1275,7 +1273,7 @@ function mongoColle(nodeJson){
     var condition=true;
     var nodeId=nodeJson;
     var temp="";
-    while (condition) {//grep to find node for nodeId:
+    while (condition) {//grep (=filter array) to find node for nodeId:
         var noode=$.grep(aTreeData, function(e){ return e.id == nodeId; })[0];
         //Examine if root parent has not been reached:
         condition=(noode.parent != "#" && nodeId != 'ajason1'); //false if root parent
@@ -1306,18 +1304,29 @@ function mongoColle(nodeJson){
  * @return string mngFileN
  */
 function fleNamer() {
+    var fNamed;
     var fileN = $('#mongoFileName').val();
-    if (fileN.length<1) {
-        fileN=$('#directoName').val();
+    if (fileN.length<1){// means the filename field is empty
+        alert("Filename is required");
+        return fNamed;//undefined
     }
-    var myRegxp1 = /^[-_\/\sa-z0-9]+$/i; //only alphanumerics with "-", "_" and "/" are allowed
-    if (!myRegxp1.test(fileN)) {
+    fileN = fileN.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
+    var myRegxp1 = /^[-_\/\sa-z0-9]+$/i;
+    if (!myRegxp1.test(fileN)) {//only alphanumerics with "-", "_" and "/" are allowed
         alert("Invalid filename: " + fileN);
-        return;
+        return fNamed;//undefined
     }
-    //console.log('fileN: '+fileN);
-    fileN=fileN.replace(/^\/+/,'');//removes all leading'/'
-    return fileN;
+    var dirN=$('#directoName').val();
+    dirN = dirN.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
+    if (!myRegxp1.test(dirN)) {//only alphanumerics with "-", "_" and "/" are allowed
+        alert("Invalid directory name: " + dirN);
+        return fNamed;//undefined
+    }
+    var overLap=fileN.indexOf(dirN); //is directory already included in the beginning of filename?
+    //console.log('dirname overlap: ',overLap);
+    fNamed = (overLap==0)? fileN : dirN+'/'+fileN;
+    //console.log('filename: ',fNamed);
+    return fNamed;
 }
 
 function operDispatcher(operatSel){
@@ -1327,26 +1336,7 @@ function operDispatcher(operatSel){
     }
     switch (operatSel) {
         case 'Save current data':
-            var fileN = $('#mongoFileName').val();
-            if (fileN.length<1){// means the filename field is empty
-                alert("Filename is required");
-                break;
-            }
-            fileN = fileN.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-            var myRegxp1 = /^[-_\/\sa-z0-9]+$/i;
-            if (!myRegxp1.test(fileN)) {//only alphanumerics with "-", "_" and "/" are allowed
-                alert("Invalid filename: " + fileN);
-                break;
-            }
-            var dirN=$('#directoName').val();
-            if (!myRegxp1.test(dirN)) {//only alphanumerics with "-", "_" and "/" are allowed
-                alert("Invalid directory name: " + dirN);
-                break;
-            }
-            dirN = dirN.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-            var overLap=fileN.indexOf(dirN);
-            fileN = (overLap>-1)? fileN : fileN=dirN+'/'+fileN;
-            saveToMngoDb(fileN);
+            saveToMngoDb(mngFileN);
             //$('#mongFileDesc').val('');
             break;
         case 'Confirm Overwrite':
@@ -1406,9 +1396,6 @@ function operDispatcher(operatSel){
         case 'Confirm copying':
             var v =$('#mongoTree').jstree(true).get_json('#', { 'flat': true });
             //console.log('v. '+JSON.stringify(v));
-            //var tree = aTree.get_state();
-            //console.log('keys1: '+Object.keys(tree));
-            //console.log('tree: '+Object.keys(tree));
             var oldfile='';
             /*var jsData=$.jstree.reference('#mongoTree').get_selected(true)[0];
             $.jstree.reference('#mongoTree'.getElementByID('branch'));
@@ -1475,7 +1462,6 @@ function seiv_loucal(filesname, texti,calliPakki) {
     pom.download = filenameDisplay;
     pom.target="_self" ; //required in FF, optional for Chrome
     pom.click();*/
-
 }
 
 function targetToLocFile(filesname){

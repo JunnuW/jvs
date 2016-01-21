@@ -10,6 +10,27 @@ var d=new Date();
 var vanhenee= d.toUTCString();
 var respOnse; //response to db operation
 
+/* Message data structure in MongoDb:
+ * Each message belongs to a named user: 'username'
+ * Each message belongs to a thread, like ThinFilmOpt/Bugs
+ * Each message has a messagename: fName
+ * messagenames incude thread structure like: ThinFilmOpt/Bugs/failed
+ * 'uMessage' field contains the actual message text
+ * 'dataExpires' timestamps the document
+ */
+var messagSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    fName: { type: String, required: true },
+    uMessage:{type: String, required: true},
+    dateRec: { type: String, required: true}
+});
+//User cannot save two messages with identical names:
+messagSchema.index({username: 1, fName:1}, {unique: true});
+//Two users cannot save messages with identical names and timestamps:
+messagSchema.index({dateRec: 1, fName:1}, {unique: true});
+var Message=mongoose.model('Message',messagSchema);
+//creates messages collection, if it does not exist in mongodb
+
 /* Material data structure in MongoDb:
  * Each document belongs to a named user: 'username'
  * Each document has a filename: fName
@@ -77,7 +98,8 @@ var Stack=mongoose.model('Stack',stackSchema);
 
 //var applModel;
 function ApplMod(req){
-    switch (req.body.dataColl){
+    //console.log('applMod collection: ',req.body.Collection);
+    switch (req.body.Collection){
         case "materials":
             applModel= Material; //model name for 'materials' collection
             break;
@@ -87,6 +109,9 @@ function ApplMod(req){
         case "stacks":
             applModel= Stack; //model name for 'stacks' collection
             break;
+        case "messages":
+            applModel= Message; //model name for 'messages' collection
+            break;
         default:
             applModel='';
             break;
@@ -94,8 +119,54 @@ function ApplMod(req){
     return applModel;
 }
 
+exports.saveMsg=function(req,res,callBfun){
+    var messN=req.body.fName;
+    //console.log('messageName: ',messN);
+    var messUser=req.body.userNme;
+    //console.log('messageUser: ',messUser);
+    var messTxt=req.body.Text;
+    //console.log('messageText: ',messTxt);
+    var Messa = new Message({
+        username: messUser,
+        fName: messN, //e.g. "branch1/parent1/parent2/file1",
+        uMessage: messTxt,
+        dateRec: vanhenee}
+    );
+    //console.log('Messa: ',Messa);
+    Messa.save(function (err) {
+        //Jos messN:llä on jo tallennettu tämä antaa
+        // virheilmoituksen E11000 duplicate key error index
+        //http:ksi statusCode 409
+        if (err) {
+            console.log('Error in saving to mongo-db: ',err);
+            if (err.name=='MongoError' && err.code==11000){
+                //console.log('dubb key Error in saving to mongo-db:');
+                respOnse= {
+                    statCode: 409, //user already has this message:
+                    resString: 'We already have your message: '+messN,
+                    error: err.toString()
+                };
+            }else{
+                console.log('Error in saving to mongo-db:');
+                respOnse= {
+                    statCode: 500,
+                    resString: '',
+                    error: err.toString()
+                };
+            }
+        } else{
+            console.log("saving OK: "+messN);
+            respOnse={
+            statCode: 200,
+            resString:'saving OK',
+            error:''
+            };
+        }
+        callBfun(req,res,respOnse);
+    });
+};
+
 exports.obtainOne=function(req,res,callBfun){
-    console.log('obtainOne req.body.userNme: ',req.body.userNme);
     //queries one documents from mongo db
     var applModel;
     applModel=ApplMod(req);
@@ -144,7 +215,7 @@ exports.obtainOne=function(req,res,callBfun){
         //console.log('obtainOne respOnse: ',respOnse);
         callBfun(req,res,respOnse);
     });
-}
+};
 
 /* Queries and deletes matching documents from mongo db
 * uses collection name to select the document model
@@ -313,7 +384,7 @@ function renOneOk(req,res,toBeRen,callBfun){
 }
 
 exports.updateDoc=function(req,res,callBfun) {
-    //console.log("updateDoc req.body.data: "+JSON.stringify(req.body.data));
+    console.log("updateDoc req.body.data: "+JSON.stringify(req.body.data));
     //overwrites existing mongo db document with new data
     var applModel;
     applModel=ApplMod(req);
@@ -321,7 +392,7 @@ exports.updateDoc=function(req,res,callBfun) {
         respOnse={
             statCode: 500,
             resString:'',
-            error:"invalid request obtain one document"
+            error:"invalid request to obtain one document"
         };
         callBfun(respOnse);
         return;
@@ -329,23 +400,63 @@ exports.updateDoc=function(req,res,callBfun) {
     var dataa=JSON.parse(req.body.data); //data quality has already been verified by the urlencoded bodyparser
     //get document filename:
     var trimmed = dataa.Filename.replace(/(^\/)|(\/$)/g, ""); //removes eventual leading and trailing '/'
-    var querY = {fName: trimmed, username: dataa.User};//builds database query:
+    var querY = {fName: trimmed, username: req.body.userNme};//builds database query:
+    var upDates;
     //builds update data:
-    var upDates = {
-        fName: trimmed,
-        username: dataa.User,
-        description: dataa.Descr,
-        unit: dataa.Unit,
-        datArrs: [{"absc":dataa.absc}, {"n":dataa.n}, {"k":dataa.k}],
-        dataExpires: vanhenee
-    };
+    switch (req.body.Collection){
+        case "materials":
+            upDates = {
+                fName: trimmed,
+                username: req.body.userNme,
+                description: dataa.Descr,
+                unit: dataa.Unit,
+                datArrs: [{"absc":dataa.absc}, {"n":dataa.n}, {"k":dataa.k}],
+                dataExpires: vanhenee
+            };
+            break;
+        case "targets":
+            console.log('targets dataa: ',JSON.stringify(dataa));
+            console.log('targets dataa.Descr: ',dataa.Descr);
+            upDates = {
+                fName: trimmed,
+                username: req.body.userNme,
+                description: dataa.Descr,
+                unit: dataa.Unit,
+                spType:dataa.type,
+                datArrs:[{"absc":dataa.absc}, {'percents':dataa.Sv}],
+                dataExpires: vanhenee
+            };
+            break;
+        case "stacks":
+            upDates = {
+                username: req.body.userNme,
+                fName: trimmed, //e.g. "branch1/parent1/parent2/file1",
+                description: dataa.Descr,
+                matrlStack: JSON.stringify(dataa.Stack),
+                dataExpires: vanhenee
+            };
+            break;
+        //applModel=Stack; //model for 'stacks' collection
+        default:
+            respOnse={
+                statCode: 500,
+                resString:'',
+                error:"invalid data request in insertDoc"
+            };
+            callBfun(req,res,respOnse);
+            return;
+            break;
+    }
+
     var options = {multi: false};
-    console.log('in updateDoc Descr: '+dataa.Descr);
+    //console.log('in updateDoc Descr: '+dataa.Descr);
     //performs document update:
     applModel.update(querY, upDates, options,
         function(err,numAffected){
             // numAffected is the number of updated documents
-            //console.log("numAffected: "+numAffected);
+            console.log("query: "+JSON.stringify(querY));
+            console.log("upDates: "+JSON.stringify(upDates));
+            console.log("updated numAffected: "+JSON.stringify(numAffected));
             if (!err && (numAffected===1)) {
                 respOnse={
                     statCode: 200,
@@ -373,19 +484,17 @@ exports.updateDoc=function(req,res,callBfun) {
 };
 
 exports.insertDoc=function(req,res,callBfun){
-    //console.log("insertDoc req.body.data: "+JSON.stringify(req.body.data));
     console.log('insertDoc reg.body: ',req.body);
     //Transfer-Encoding is not a header in 'request' object only in 'responce' object!
     //it can be set to: chunk, but since the related:
-    //req.on('data',function(chunk){}), isn't ever triggered here (on res object), we use:
+    //req.on('data',function(chunk){}), is never triggered here (on res object), we use:
     var dataa=JSON.parse(req.body.data);
     //The acceptable data length has already been checked by the urlencoded bodyparser
     // in node modules, which prevents malicious disk dumps
     //var trim = dataa.Filename.replace(/(^\/)|(\/$)/g, ""); //removes leading and trailing '/'
     var trim = dataa.Filename.replace(/(^\/)/g, ""); //removes leading  '/'
     var newDocu={};
-    console.log('inserting collection: '+dataa.Collection);
-    switch (dataa.Collection){
+    switch (req.body.Collection){
         case "materials":
             newDocu = new Material({
                 username: req.body.userNme,
@@ -398,13 +507,13 @@ exports.insertDoc=function(req,res,callBfun){
             break;
         case "targets":
             newDocu = new Target({
-                    username: req.body.userNme,
-                    fName:trim, //e.g. "branch1/parent1/parent2/file1",
-                    description:dataa.Descr,
-                    unit:dataa.Unit,
-                    spType:dataa.type,
-                    datArrs:[{"absc":dataa.absc}, {'percents':dataa.Sv}],
-                    dataExpires: vanhenee}
+                username: req.body.userNme,
+                fName:trim, //e.g. "branch1/parent1/parent2/file1",
+                description:dataa.Descr,
+                unit:dataa.Unit,
+                spType:dataa.type,
+                datArrs:[{"absc":dataa.absc}, {'percents':dataa.Sv}],
+                dataExpires: vanhenee}
             );
             break;
         case "stacks":
@@ -453,15 +562,14 @@ exports.insertDoc=function(req,res,callBfun){
  */
 exports.checkOneUserFile=function(req,res,callBfun){
     //checks if document already exist in user's document collections
-    console.log("checkOneUserFile username: ", req.body.userNme);
-    console.log("checkOneUserFile collection: ", req.body.dataColl);
     var applModel;
     applModel=ApplMod(req);
     if (applModel=='') {
+        //console.log('no applModel');
         respOnse={
             statCode: 500,
             resString:'',
-            error:"invalid request obtain one document"
+            error:"invalid request to obtain one document"
         };
         callBfun(respOnse);
         return;
@@ -491,6 +599,7 @@ exports.checkOneUserFile=function(req,res,callBfun){
                 error:''
             };
         }
+        //console.log('checkOneUserFile respOnse: ',respOnse);
         callBfun(req,res,respOnse);
     });
 };
@@ -501,26 +610,26 @@ exports.checkOneUserFile=function(req,res,callBfun){
  * responces either with an error message or a string containing the directory structure
  */
 exports.checkAllUserFiles=function(req,res,callBfun){
-    console.log("checkAllUserFiles username: ", req.body.userNme);
-    console.log("checkAllUserFiles dataColl: ", req.body.dataColl);
-    var applModel;
-    applModel=ApplMod(req);
-    if (applModel=='') {
+    //console.log("checkAllUserFiles username: ", req.body.userNme);
+    //console.log("checkAllUserFiles Collection: ", req.body.Collection);
+    var appModel;
+    //console.log('applMod req.body: ',req.body);
+    appModel=ApplMod(req);
+    if (appModel=='' || appModel==undefined) {
         respOnse={
             statCode: 500,
             resString:'',
-            error:"invalid request obtain one document"
+            error:"error in reading user file list"
         };
         callBfun(respOnse);
         return;
     }
     var drTree=[];
-    applModel.find({username: req.body.userNme},{'_id':0,'fName':1}, function(err,obj,next) {
+    appModel.find({username: req.body.userNme},{'_id':0,'fName':1}, function(err,obj,next) {
         var matFiles=obj.length;
         var dirIds=[];
         var dirArr=[];
         var dirDepth=0;
-        //console.log('saatiin: '+obj.length);
         for (var i=0;i<matFiles;i++){
             dirIds.push(obj[i].fName);
         }
@@ -623,4 +732,112 @@ exports.checkAllUserFiles=function(req,res,callBfun){
     });
 };
 
+/* Queries for one specific message in mongodb and returns the message text
+ * uses messages collection
+ * responces either with an error message or a string containing the message
+ */
+exports.getOneMessa=function(req,res,callBfun){
+    Message.find({_id: req.body.messageId},{'_id':1,'fName':1,
+        'dateRec':1,uMessage:1,username:1}, function(err,messag) {
+        console.log('messag: ',messag[0]);
+        if (err) {
+            respOnse={
+                statCode: 500,
+                resString:'',
+                error:err.toString()
+            };
+        }else{
+            respOnse={
+                statCode: 200,
+                resString:JSON.stringify(messag[0]),
+                error:''
+            };
+        }
+        callBfun(req,res,respOnse);
+    });
+};
 
+/* Queries for user's message count
+ * from messages collection
+ * responces either with the number of stored messages by the user an error message
+ */
+exports.countUserMess=function(req,res,callBfun){
+    Message.count({username: req.body.username},function(err,countti) {
+        console.log('count: ',countti);
+        if (err) {
+            respOnse={
+                statCode: 500,
+                resString:'message counting failed for '+req.body.username,
+                error:err.toString()
+            };
+        }else{
+            respOnse={
+                statCode: 200,
+                MessageCount:countti,
+                error:''
+            };
+        }
+        callBfun(req,res,respOnse);
+    });
+};
+
+/* Queries all messages according to a schema in mongo db
+ * uses messages collection
+ * responces either with an error message or a string containing the directory structure
+ */
+exports.checkAllMessa=function(req,res,callBfun){
+    //console.log("checkAllUserFiles username: ", req.body.userNme);
+    //console.log("checkAllUserFiles Collection: ", req.body.Collection);
+    var drTree=[];
+    Message.find({},{'_id':1,'fName':1,'dateRec':1}, function(err,allMess) {
+        var messFN=allMess.length;
+        allMess.sort(function(a,b){
+            if(a.fName< b.fName) return -1; //alphabetically sorts after message name
+            if(a.fName >b.fName) return 1;
+            if(a.dateRec< b.dateRec) return -1; //identical names sorted by receiving time
+            if(a.dateRec >b.dateRec) return 1;
+            return 0; // should never take place, receiving times can't be identical
+        });
+        //Put messages into json object for the jsTree widget
+        for (var i=0;i<messFN;i++){
+            var mesName=allMess[i].fName;
+            var a=[];
+            mesName = mesName.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
+            a=mesName.split("/");
+            if (a.length==1){//thread item
+                drTree.push({
+                    "id": allMess[i]._id,
+                    "parent": '#',
+                    "text": mesName //,"icon":"jstree-folder"
+                })
+            }else{
+                if (a.length>1){
+                    var slashPos=mesName.lastIndexOf('/');
+                    var fndIt=mesName.substring(0,slashPos);//folder part of the messagename:
+                    var itemi=mesName.substring(slashPos+1); //end of string from the last '/'
+                    var parnts=allMess.filter(function(e){//find parent candidates:
+                        return (e.fName.indexOf(fndIt)==0)
+                    });
+                    parnts.sort(function(a, b) {
+                        if (a.fName>b.fName) return 1;
+                        if (a.fName<b.fName) return -1;
+                        (a.dateRec> b.dateRec); //identical names sorted by recording date
+                    });
+                    var parnt=parnts[0]._id; //select the first candidate
+                    drTree.push({
+                        "id": allMess[i]._id,
+                        "parent": parnt,
+                        "text": itemi //,"icon":"jstree-folder"
+                    })
+                }
+            }
+            //console.log(i,' drTree: ',drTree[i]);
+        }
+        respOnse={
+            statCode: 200,
+            resString:JSON.stringify(drTree),
+            error:''
+        };
+        callBfun(req,res,respOnse);
+    });
+};
