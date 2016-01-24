@@ -258,7 +258,6 @@ function mongoReadDesc(fileName){
  * @function
  */
 function mongoGetOne(fileName){
-
     var datColl=pickCollection();
     /*var respnce= datColl=='materials'? 'Material data obtained from server'
         :'Spectral target obtained from server';*/

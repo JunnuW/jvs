@@ -50,7 +50,7 @@ var targArr = [];
 var targStr = "nm\tR\t'sample data'\r\n500\t55.0\r\n510\t54.0\r\n520\t55.0";
 
 /* *****Document ready function ***********
-*   This runs after refletrans page has been rendered
+*   Runs after HTML page has been rendered
 *   Initializes variables and prepares event handlers
 *   (could be done also by placing the script calls to the bottom of the HTML-page)
 *   $( document ).ready(function() {
@@ -70,7 +70,6 @@ $(function() {
         userName='No login';
         var fiile='Defaults/R-Default';
         mongoGetOne(fiile,dirUser);// opens default stack from Publ dierectory: dirUser='Publ'
-        //afterStackRead();
     }
 
     //todo: read default stack, then set: target selector, target options and material options
@@ -137,7 +136,7 @@ $(function() {
                 $('#UserName').text(userName);
             }
             if (selecTab == "Stack") {
-
+                updGraph();
             }
         }
     });
