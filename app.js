@@ -298,9 +298,7 @@ function ValidateToken(req,res){
         //console.log('Your login is invalid');
         //res.end('Access token has expired', 400);
     }
-    //console.log('validation result: ',validResult);
     return validResult;
-    //console.log('token has to be validated for: '+req.body.userNme);
 }
 
 /* GET home page. */
@@ -341,12 +339,22 @@ app.get('/contrbs', function(req, res) {
 });
 
 /* GET Broadenin fun page. */
-app.get('/BroadMod', function(req, res) {
+app.get('/broadmod', function(req, res) {
     //console.log('app.get/BroadMod');
     //console.log('/BroadMod: '+JSON.stringify(req.headers));
     res.render('broaden', {
         title: 'Spectral broadening in quantum well LED\'s and LD\'s below laser threshold',
         user: (req.user)  //false
+    });
+});
+
+/* GET About page. */
+app.get('/aboutti', function(req, res) {
+    //console.log('app.get/BroadMod');
+    //console.log('/BroadMod: '+JSON.stringify(req.headers));
+    res.render('apautti', {
+        //title: 'Spectral broadening in quantum well LED\'s and LD\'s below laser threshold',
+        //user: (req.user)  //false
     });
 });
 
@@ -378,7 +386,7 @@ app.get('/signup', function(req, res) {
     var n=signInfo.lastIndexOf('=');
     var signInfo=signInfo.slice(n+1);
     if (n>0){
-        // app.get('/signup',  re-entered after signup error
+        //app.get('/signup',  re-entered after signup error
         //console.log('signup error with message: '+signInfo);
         req.flash('error', signInfo);
         res.render('signup', {
@@ -507,7 +515,6 @@ app.post('/signup', function (req, res) {
                     user: user.toJSON(),
                     responseStr: "Login successfull"
                 });
-                //req.session.user = user;
                 console.log('user authenticated and jwtToken made for: '+user.username);
             });
         }

@@ -22,6 +22,7 @@ var messagSchema = new mongoose.Schema({
     username: { type: String, required: true },
     fName: { type: String, required: true },
     uMessage:{type: String, required: true},
+    moderated:{type: Boolean, required:true},
     dateRec: { type: String, required: true}
 });
 //User cannot save two messages with identical names:
@@ -130,6 +131,7 @@ exports.saveMsg=function(req,res,callBfun){
         username: messUser,
         fName: messN, //e.g. "branch1/parent1/parent2/file1",
         uMessage: messTxt,
+        Moderated: false,
         dateRec: vanhenee}
     );
     //console.log('Messa: ',Messa);
@@ -781,7 +783,7 @@ exports.countUserMess=function(req,res,callBfun){
     });
 };
 
-/* Queries all messages according to a schema in mongo db
+/* Queries all moderated messages according to a schema in mongo db
  * uses messages collection
  * responces either with an error message or a string containing the directory structure
  */
@@ -789,7 +791,7 @@ exports.checkAllMessa=function(req,res,callBfun){
     //console.log("checkAllUserFiles username: ", req.body.userNme);
     //console.log("checkAllUserFiles Collection: ", req.body.Collection);
     var drTree=[];
-    Message.find({},{'_id':1,'fName':1,'dateRec':1}, function(err,allMess) {
+    Message.find({},{'_id':1,'fName':1,'dateRec':1,'Moderated':true}, function(err,allMess) {
         var messFN=allMess.length;
         allMess.sort(function(a,b){
             if(a.fName< b.fName) return -1; //alphabetically sorts after message name

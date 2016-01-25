@@ -10,7 +10,7 @@ block content
     else
       | Welcome to Rock.Phys.
     br
-    h2 Summary and purpose
+    h2 Summary
     | This is a private effort to study
     //- link to cloud computing on new browser tab
     -cloud_url="https://en.wikipedia.org/wiki/Cloud_computing"
@@ -18,134 +18,13 @@ block content
     br
     | programming in technical and scientific computing purposes.
     br
-    h3 Advantage potential:
-    b  At least following benefits are reached:
-    br
-    |  -  Ease of distribution and deployment
-    br
-    |  -  Minimal program assembly effort on user's equipment.
-    br
-    |  -  With a standard web browser, the user can stick to any OS (Win, Linux, OS X, Android, ...)
-    br
-    | or hardware (pc, laptop, tablet or phone).
-    br
-    |  -  Application support and maintenance work is greatly simplified,
-    br
-    | since only one software version needs to be supported and updated.
-    br
-    h3 Components required:
-    u Browser based applications include two separately developed and debugged components:
-    h4 software on the server
-    | (Normally located on a remote machine, but for development and offline access it can also
-    br
-    | be configured to operate from the local machine storing all the required HTML pages and resources.)
-    h4 software on client's browser
-    | (scripted to the web pages and downloaded during the browsing from the server)
-    br
-    | interaction between these two components takes place through browser requests and server responses.
-    br
-    h3 Server side program
-    | Client's requests and responses for the dynamic content are handled in the server,
-    br
-    | which is based on a specific web-framework system, that the developer had chosen during the
-    br
-    | development process. Several alternatives are available for building the server software on.
-    br
-    u Some popular frameworks:
-    br
-    -Django_url="https://en.wikipedia.org/wiki/Django_(web_framework)"
-    a(href="#{Django_url}" target="_blank")  - Django
-    |   (Open source web application network written in Python)
-    br
-    -Ruby_url="https://en.wikipedia.org/wiki/Ruby_on_Rails"
-    a(href="#{Ruby_url}" target="_blank")  - Ruby on Rails (RoR)
-    |   (MIT licenced application network written in Ruby)
-    br
-    -Symphony_url="https://en.wikipedia.org/wiki/Symfony"
-    a(href="#{Symphony_url}" target="_blank")  - Symphony
-    |   (Open source web application network under MIT licence for PHP language)
-    br
-    -Spring_url="https://en.wikipedia.org/wiki/Spring_Framework"
-    a(href="#{Spring_url}" target="_blank")  - Spring framework
-    |   (Apache licenced application framework for Java platform)
-    br
-    -Asp_url="https://en.wikipedia.org/wiki/ASP.NET"
-    a(href="#{Asp_url}" target="_blank")  - ASP.NET
-    |   (open source, server-side web application framework running on Microsoft CLR)
-    br
-    -Node_url="https://en.wikipedia.org/wiki/Node.js"
-    a(href="#{Node_url}" target="_blank")  - Node.js
-    |   (open source, cross-platform runtime environment for javascript, from Node.js Foundation)
-    br
-    h3 Browser side program ( active on client's pc)
-    | Modern browsers (2015) use HTML, CSS and Javascript with versions 5, 3 and 1.8.5 respectively,
-    br
-    u and for safety reasons, the browser based software script, downloaded from the internet, cannot directly
-    br
-    u access the client's local file system or activate any local programs on the user's equipment.
-    br
-    | However, local files can be accessed and written after events, where the user by mouse click or keyboard actions
-    br
-    | first authorises those operations. This is the common practice also with software updates offered through the internet.
-    br
-    | Since no software is saved locally on user's hardware, the browser based program can be used only, if the user has
-    br
-    | internet access, and slow network connections, may cause software response time problems.
-    br
-    br
-    u All the applied open source components and MIT licenced software packages are listed under the
-    br
-    -credits_url="/contrbs"
-    a(href="#{credits_url}") 'Credits and Acknowledgements'
-    |   menu item of this site.
-    br
-    h3 Configuration in this app
-    | For this particular web site, Node.js was a natural choice for the server side framework,
-    br
-    | enabling javascript coding both on the server and and browser. Though Node.js is rather recent
-    br
-    | and officially still in beta phase (at writing this version 0.10.31), it already serves behind
-    br
-    | numerous web pages from many front line companies (Microsoft, Yahoo!, LinkedIn, eBay, Dow Jones,
-    br
-    | Cloud9, The New York Times etc.) and is also supported by most web hosting providers.
-    br
-    br
-    | For this particular web site, in addition to HTML web page storage and delivery, server software
-    br
-    | is needed for:
-    br
-    u user signup and login authentication
-    br
-    -Mongo_url="https://en.wikipedia.org/wiki/MongoDB"
-    a(href="#{Mongo_url}" target="_blank")  - database management
-    |   (i.e. to store and acquire:)
-    br
-    | - user information (i.e: username, password, email address, expiration date)
-    br
-    | - user data files storage and delivery
-    br
-    | - user messages and comments
-    h3 Conclusions:
-    | While coding, it turned out that Node.js runtime fits nicely for this kind of applications,
-    br
-    | where major part of data processing is performed locally in the browser on the client's pc.
-    br
-    | Network speed didn't cause any issues on the available (10Mbit/s) connection.
-
-  //- br
-    | and these 'Desktop application' have been coded using merely javascript.
-    | -node_url="http://en.wikipedia.org/wiki/Node.js"
-    |  a(href="#{node_url}")    Node Wiki!!
-    br
-    |
-    | -another_url="http://www.javaworld.com/article/2079190/scripting-jvm-languages/6-things-you-should-know-about-node-js.html"
-    | a(href="#{another_url}")  More about Node.js
-
-  //-script(type='text/javascript').
-    console.log('index user: ',$('#indUser').text());*/
-    /*if (!$('#indUser').text()){
-      window.sessionStorage.setItem('RTFuser', '');
-      window.sessionStorage.setItem('RTFtoken', '');
-      }*/
-      //alert('huuhaa');
+    | More details about this site is available behind menu item:
+    -cloud_url2="/aboutti"
+    a(href="#{cloud_url2}")    info/about this site .
+    h2 Login or not login?
+    | This site has (some) cloud based storage space for user files and messages. In order to avoid abuse
+    | (robots or malicious users), all the space is reserved for logged in users only. The email address required
+    | during signup is merely for password recovery, if forgotten. It will not be sold or used to pollute your mailbox
+    | with commercial messages. If you want to be sure, and do not need the password recovery option, you can signup with
+    | an imaginary email address. During signup, the user password will be hashed before saving and without a real email
+    | address there is no easy way to recover it from the server. Passive login data will be regularly deleted from the server.

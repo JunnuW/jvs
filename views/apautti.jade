@@ -1,0 +1,112 @@
+extends layout
+
+block content
+  h1 Web browser and cloud storage based software
+  p
+    h3 Advantage potential in technical and scientific computing:
+    b  For new software, you should consider at least following benefits:
+    br
+    |  -  Ease of distribution and deployment,
+    br
+    |  -  Minimal assembly effort on customer's equipment,
+    br
+    |  -  With a standard web browser, the user can stick to any OS (Win, Linux, OS X, Android, ...)
+    br
+    |   and hardware (pc, laptop, tablet or phone),
+    br
+    |  -  Application support and maintenance work is greatly simplified,
+    br
+    |   since only one software version needs to be supported and updated.
+    h3 Two separately developed and debugged components:
+    | The interaction between them takes place through server responses to web browser requests.
+    h4 software on the server
+    | These components are normally located on a remote machine, but for offline access and program development they can
+    | as well be run from the local machine. The local host then also stores all the required HTML pages and resources.
+    h4 software on client's browser
+    | This part is scripted to the web pages to be downloaded from the server during the browsing.
+    h3 Server side program
+    | Client's requests and the responses for the dynamic content are handled in the server,
+    br
+    | which is based on a specific web-framework system, that the developer had chosen during the
+    br
+    | development process. Several alternatives are available for building the server software on.
+    br
+    u Some popular frameworks:
+    br
+    -Django_url="https://en.wikipedia.org/wiki/Django_(web_framework)"
+    a(href="#{Django_url}" target="_blank")  - Django
+    |   (Open source web application network written in Python)
+    br
+    -Ruby_url="https://en.wikipedia.org/wiki/Ruby_on_Rails"
+    a(href="#{Ruby_url}" target="_blank")  - Ruby on Rails (RoR)
+    |   (MIT licenced application network written in Ruby)
+    br
+    -Symphony_url="https://en.wikipedia.org/wiki/Symfony"
+    a(href="#{Symphony_url}" target="_blank")  - Symphony
+    |   (Open source web application network under MIT licence for PHP language)
+    br
+    -Spring_url="https://en.wikipedia.org/wiki/Spring_Framework"
+    a(href="#{Spring_url}" target="_blank")  - Spring framework
+    |   (Apache licenced application framework for Java platform)
+    br
+    -Asp_url="https://en.wikipedia.org/wiki/ASP.NET"
+    a(href="#{Asp_url}" target="_blank")  - ASP.NET
+    |   (open source, server-side web application framework running on Microsoft CLR)
+    br
+    -Node_url="https://en.wikipedia.org/wiki/Node.js"
+    a(href="#{Node_url}" target="_blank")  - Node.js
+    |   (open source, cross-platform runtime environment for javascript, from Node.js Foundation)
+    br
+    h3 Browser side program ( active on client's pc)
+    | Modern browsers (2015) use HTML, CSS and Javascript with versions 5, 3 and 1.8.5 respectively, and
+    | for safety reasons, the script on the browser as downloaded from the internet, cannot directly
+    | access the client's local file system or activate any local programs on the user's equipment.
+    br
+    | However, local files can be accessed and written after events, where the user by mouse click or keyboard actions
+    | first authorises those operations, as is the common practice also with software updates offered through the internet.
+    | These features and the safety issues in general are among the
+    b   flaws and downsides
+    |   in web browser based programs. Files should be downloaded only through https and pages browsed merely on safe servers
+    | and sites with safety certificates.
+    br
+    br
+    | Since no software is saved locally on user's hardware, a browser based program is useful only with
+    | internet access, and a slow connection may cause software response time problems.
+    br
+    br
+    | All the applied open source components and MIT licenced software packages are listed under the
+    br
+    -credits_url="/contrbs"
+    a(href="#{credits_url}") 'Credits and Acknowledgements'
+    |   menu item of this site.
+    br
+    h3 Configuration in this site
+    | For this particular web site, Node.js was a natural choice for the server side framework,
+    | enabling javascript coding on both sides. Though Node.js is rather recent, it already
+    | serves behind numerous web pages from many front line companies (
+    i Microsoft, Yahoo!, LinkedIn, eBay, Dow Jones, Cloud9, The New York Times etc.
+    | ) and it is also supported by most web hosting providers.
+    br
+    br
+    | On this particular web site, in addition to HTML web page storage and delivery, server software
+    | is needed for:
+    br
+    b   user signup and login authentication
+    br
+    -Mongo_url="https://en.wikipedia.org/wiki/MongoDB"
+    a(href="#{Mongo_url}" target="_blank")  - database management
+    |   (
+    i i.e. to store and acquire:
+    |)
+    br
+    | - user information (
+    i username, password, email address, expiration date
+    |)
+    br
+    | - user data files, storage and delivery
+    br
+    | - user messages and comments with moderation
+    h3 Conclusions:
+    | While coding, it turned out that Node.js runtime fits nicely for this kind of applications,
+    | where major part of data processing is performed locally in the browser on the client's pc.
+    | Network speed didn't cause any issues on the available, low speed (10Mbit/s) connection.
