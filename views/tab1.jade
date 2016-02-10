@@ -1,8 +1,10 @@
 div(id="tabs-1")
   p
     b Step 1:
-  div Define calculation mode and settings (Reflectance/Transmittance, wavelength range etc.)
-  | on "Calculation Settings" TAB
+  div Define calculation mode and settings (Reflectance/Transmittance, wavelength range etc.) on
+    br
+    b(style="color:green")    Calculation Settings
+    |   TAB
   p
     b Step 2:
   div Populate 'materials list' with refractive index data from local or server files using:
@@ -12,15 +14,46 @@ div(id="tabs-1")
   p
     b Step 3:
   div Populate 'Spectral targets list' with spectral data from local or server files using:
-  | "Spectral Targets Editor" TAB
+    br
+    b(style="color:green")   Spectral Targets Editor
+    |   TAB
   p
     b Step 4:
-  div Define the film stack structure and select target spectrum on "Film Stack Editor" TAB
+  div Define the film stack structure and select target spectrum on:
+    br
+    b(style="color:green")   Film Stack Editor
+    |   TAB
   p
     b Step 5:
-  div Perform calculations on "Film Stack Editor" TAB
-  | adjust the film thicknesses in the stack to match the target spectrum (if is selected)
+  div Perform calculations on:
+    br
+    b(style="color:green")   Film Stack Editor
+    |   TAB
+  | Adjust the film thicknesses in the stack to match the target spectrum (if is selected)
   | using either the 'manual-' or 'auto-tuning' mode
   p
     b Step 6:
-  div Nam dui erat, auctor a, dignissim quis.
+  div Save data either to server (uploaded) or local (downloaded) files:
+    br
+    b(style="color:green")   Use save buttons on TAB's
+    |    in previous steps 2,3,4
+  br
+  | Before local saving check and possibly edit the filename on the respective TAB.
+  | As default, local saving takes place into the downloads folder defined in
+  br
+  | your browser settings and contains the data safety risks common to data downloads
+  | from the internet.
+  br
+  | However, Mozilla-FF provides methods to check and inspect the file contents before the saving.
+  | For that, a basic text editor without scripting possibility is recommended
+  br
+  | (or possibly MS-Office programs in macros disabled mode). MS-Notepad should also be OK, but does
+  | not show the contents properly, while it requires CR,LF characters to start a new line.
+  br
+  | Google Chrome in turn provides the possibility to edit the filename and select the folder for the local saving.
+  br
+  | Internet Explorer and MS-Edge browsers support HTML5 File Apis through blob objects (binary large object)
+  br
+  | and file drag and drop. As these are not used here and this application uses local saving to text files, the MS-browsers are
+  br
+  | not recommend if you want local storage. http://caniuse.com/#search=file%20api

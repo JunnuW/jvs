@@ -88,7 +88,7 @@ var Target=mongoose.model('Target',targSchema);
 var stackSchema = new mongoose.Schema({
     username: { type: String, required: true },
     fName: { type: String, required: true },
-    description:{type: String, required: false},
+    //description:{type: String, required: false},
     matrlStack:{ type: String, required: false},
     dataExpires: { type: String, required: false}
 });
@@ -522,7 +522,7 @@ exports.insertDoc=function(req,res,callBfun){
             newDocu = new Stack({
                 username: req.body.userNme,
                 fName: trim, //e.g. "branch1/parent1/parent2/file1",
-                description: dataa.Descr,
+                //description: dataa.Descr,
                 matrlStack: JSON.stringify(dataa.Stack),
                 dataExpires: vanhenee}
             );

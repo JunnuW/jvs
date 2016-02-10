@@ -1,171 +1,257 @@
-extends layout
+//-extends layout
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
+    //script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+    script(src='/bower_components/jquery/dist/jquery.min.js')
+    script(src='/bower_components/jstree/dist/jstree.min.js')
+    script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+    script(src='/bower_components/jquery-validation/dist/jquery.validate.js')
+    script(src='/bower_components/jqnotifybar/jquery.notifyBar.js')
+    script(type ='text/x-mathjax-config') MathJax.Hub.Config ({TeX:{equationNumbers:{autoNumber:"AMS"},tex2jax:{inlineMath:[['$','$'], ['\\(','\\)']]}}});
+    script(src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML")
+    link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
+  body
+    .navbar.navbar-inverse.navbar-static-top(role='navigation')
+      .container
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+            span.sr-only Toggle navigation
+            //-tehdään neljä päällekkäistä viivaa kun nav-bar menee liian kapeaksi
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          //-a.navbar-brand(href='/') Project name
+        .collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li.dropdown
+              a(href='#' class='dropdown-toggle' data-toggle='dropdown') Services
+                b.caret
+              ul.dropdown-menu
+                li
+                  a(href='/') Home
+                  //- use: #{user.username} to show the username
+                if user!=null
+                  li
+                    a(id='lokoutti', href='/Logout') Logout
+                  li
+                    a(href='/pwdEdit') Change pwd
+                else
+                  li
+                    a(id='loginni', href='/login') Login
+                  li
+                    a(href='/signup') Signup
+            li.dropdown
+              a(href='#' class='dropdown-toggle' data-toggle='dropdown') Broadenings
+                b.caret
+              ul.dropdown-menu
+                li
+                  a(href='/inhomo') Inhomogeneous
+                //-li
+                  a(href='/WaterRock') Water Rocket calculator (under construction)
+                li
+                  a(href='/homo') Homogeneous
+                //-li
+                  a(href='/GasFlo') Gas flow in circular pipes (under construction)
+                //-li
+                  a(href='/tabX') Testing document ready function
+            li.dropdown
+              a(href='#' class='dropdown-toggle' data-toggle='dropdown') Modelling
+                b.caret
+              ul.dropdown-menu
+                li
+                  a(href='/quantumwell') Quantum well interactions
+                li
+                  a(href='/elvspl') El- and Pl-Spectra
+                li
+                  a(href='/calcspec') Spectrum calculator
+          //-a.navbar-brand(href='/') Projects
+        //-gets messages from req.flash set in app.js
+    if messages
+      .container
+        if messages && messages.error
+          .alert.alert-danger
+            div= messages.error
+        if messages && messages.info
+          .alert.alert-info
+            div= messages.info
+        if messages && messages.success
+          .alert.alert-success
+            div= messages.success
 
-block content
-  h2= title
-  p
-    if user
-      b #{user.username}
-      | : huu haa!
-    else
-      //-| Used open source and MIT-licenced software components can be found in the lists below. Please notice also their composers through the included links.
-    h3 Motivation and Purpose:
-  p
-    | Because of their high light production efficiency, LED's and laser diodes have gained popularity in many applications.
-    | To obtain the high efficiency LED's contain one or more quantum wells in the junction area of the semiconductor
-    | diode structure. The basic idea of the quantum well is to collect the charge carriers of the electric current to a
-    | tightly restricted area, where their increased density dramatically increases the recombination probability
-    | between the electrons and holes. Each recombining pair can potentially produces an emitted photon and therefore
-    | contributes to the emission of light from the diode.
-    br
-    br
-    b The emission wavelength
-    |   (optical color) is determined by the bandgap in the used semiconductor materials, in combination
-    |with the dimensions (depth and width) of the included quantum well. These parameters have been tailored during the
-    |material deposition processes during the fabrication. However, for the
-    b   other spectral details
-    |   we also need to understand the involved
-    b   broadening phenomena.
-    |   In LED's (also in semiconductor lasers below lazing threshold), the emission spectra are rather broad, at least
-    | significantly broader than calculated before the spectral broadening
-    |mechanisms are accounted for. A correct spectral broadening model is required also for semiconductor laser modelling
-    |to calculate the shape of the laser gain function.
-    br
-    br
-    |Several spectral broadening functions are available and many have also been proposed for LED calculations.
-    |This site examines three of them. Optical broadening mechanisms are often categorized to be either
-    b   inhomogeneous
-    |   or
-    b   homogeneous.
-    |   In LED's, inhomogeneous broadening arises from local fluctuations in material properties and
-    |quantum well dimensions. These typically have Gaussian occurrence probability, which directly transforms to gaussian
-    |spectral shapes. This kind of broadening is easily observed at low excitation levels (small diode currents), and the
-    |width of the spectrum reveals the quality of materials and processes been used.
-    |At higher intensities (larger diode currents), the density of carriers in the quantum wells increases and through
-    |collision with each other significantly reduce the lifetime of exitons (electron-hole pairs).
-    |This results into
-    b    lifetime broadening,
-    | which is a homogeneous process, since the locally close electrons are indistinguishable from each other
-    | as well as the closely located holes are indistinguishable from each other.
-    | Therefore, homogeneous spectral broadening takes over in LED's at high light intensities.
-    h3 Applied methods:
-    p
-    |In order to focus on writing and modelling, the number of new drawings remains minimal, which possibly decreases readability, but is
-    |compensated by links to available graphs elsewhere on the web. Another topic is the mathematical formulas and equations,
-    |that will be more or less unavoidable. For adding equations on HTML5 pages, several options are available claiming
-    |to support equally all browsers.
-    -MathJax_urli="https://www.mathjax.org/"
-    a(href="#{MathJax_urli}" target="_blank") MathJax
-    |       was selected for this page.
-    h3 Compared spectral functions:
-    | Collect here some math functions:
-    h3 Details in the Calculation:
-    p
-    | -Possibility to upload and download spectral measurements
-    br
-    | -Possibility adjust spectral parameters on broadening functions
-    br
-    | -graphing measured and calculated spectra
-    br
-    br
-    b Inserting potentially needed equations.
-    br
-    br
-    | When \(a \ne 0 \), there are two solutions to \( ax^2 + bx + c = 0 \) and they are
-    | $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
-    br
-    | \begin{equation}
-    | \label{Relaxation-appr}
-    | 1/\tau_{c}= 1/\tau_{ce}+1/\tau_{ch}+1/\tau_{cph}+1/\tau_{ci} ~,
-    | \end{equation}
-    | relaxation times from other electrons \(\tau_{ce}\) or holes \(\tau_{ch}\), phonons \(\tau_{cph}\),
-    | and crystal defects or impurities \(\tau_{ci}\)
-    br
-    | \begin{equation}
-    | \label{UrbachTail}
-    | I(E)/I_{g}=exp[(E - E_{g})/E_{u}]~,
-    | \end{equation}
-    br
-    | where \(I_{g}\) is the spectral value at bandgap energy \(E_{g}\), and \(E_{u}\) is the Urbach parameter.
-    | In GaAs, at 300K, 6-9 meV values have been reported for \(E_{u}\). The temperature dependent contributions in
-    | \(E_{u}\) have been associated to disorder created by phonons
-    br
-    | \begin{align}
-    | \label{Lorentz1}
-    | p_{e}(\Delta E_{e})=&\frac{\tau_{e}/(\pi\hbar)}{1+\tau_{e}^{2}\Delta E_{e}^{2}/\hbar^{2}}\\
-    | p_{h}(\Delta E_{h})=&\frac{\tau_{h}/(\pi\hbar)}{1+\tau_{h}^{2}\Delta E_{h}^{2}/\hbar^{2}}~,
-    | \end{align}
-    | where \(p_{e}\) and \(p_{h}\) are probability densities and \(\Delta E_{e}\) and \(\Delta E_{h}\) the deviations
-    | from the center energies, as depicted in Fig.
-    br
-    | \begin{equation}
-    |\label{Exciton-K}
-    |\bf{K}=\bf{k_{e}-k_{h}}
-    |\end{equation}
-    br
-    | \begin{align}
-    | \label{LorentzianLB}
-    | L_{t}(\Delta E)=&\frac{\tau_{r}/(\pi\hbar)}{1+\tau_{r}^{2}\Delta E^{2}/\hbar^{2}}\\
-    | \tau_{r}=&\frac{\tau_{e}\tau_{h}}{\tau_{e}+\tau_{h}}\label{TauR}\
-    | \end{align}
-    br
-    | \begin{align}
-    |\Delta E_{e}=&\frac{\hbar^{2}}{2m_{e}}[(k_{e}+\Delta k_{e})^{2}-k_{e}^{2}]\label{Deltak1}\\
-    |\Delta E_{h}=&\frac{\hbar^{2}}{2m_{h}}[(k_{h}+\Delta k_{h})^{2}-k_{h}^{2}]\label{Deltak2}\\
-    |\Delta E=&\Delta E_{e}+\Delta E_{h}\label{totdE2}\
-    |\end{align}
-    |Line broadening permits transitions also in the bandgap, where \(\Delta E_{e}\) and \(\Delta E_{h}\) have
-    |negative values, which requires imaginary \( \Delta k \) values.
-    | This means that, for exciton \((E_{e},E_{h})\), broadening energy \(\Delta E\) is possible only with these
-    | simultaneous \(\Delta E_{e}\) and \(\Delta E_{h}\) values. Their probability densities are:
-    |\begin{align}
-    |p_{e}(\Delta E_{e})=&\frac{\tau_{be}/(\pi\hbar)}{1+\tau_{be}^{2}\Delta E^{2}/\hbar^{2}}\label{Pe}\\
-    |p_{h}(\Delta E_{h})=&\frac{\tau_{bh}/(\pi\hbar)}{1+\tau_{bh}^{2}\Delta E^{2}/\hbar^{2}}\label{Ph}\
-    |\end{align}
-    | where
-    |\begin{equation}
-    |\tau_{be}=\frac{\tau_{e}m_{h}}{m_{h}+m_{e}} \quad\textrm{and}\quad\tau_{bh}=\frac{\tau_{h}m_{e}}{m_{h}+m_{e}}
-    |\label{Reducedtau}
-    |\end{equation}
-    |If the allowed wave vector mismatch ($\Delta k_{e}-\Delta k_{h}$) is small in the recombination, and the intraband scattering processes at $E_{e}$ and $E_{h}$ are independent, as was assumed also with Eqs. (\ref{LorentzianLB}) and (\ref{TauR}), the corresponding homogeneous line shape is now obtained as the normalized product of the two above probability densities:
-    |\begin{equation}
-    |L_{t}(\Delta E)= \frac{(\tau_{be}+\tau_{bh})/(\pi\hbar)}{1+\tau_{be}^{2}\Delta E^{2}/\hbar^{2}}\times\frac{1}{1+\tau_{bh}^{2}\Delta E^{2}/\hbar^{2}}\label{DLorentz}~,
-    |\end{equation}
-    |or if expressed as a difference of two Lorentzians \cite{Lin1}:
-    |\begin{align}\nonumber
-    |L_{t}(\Delta E)=\frac{1}{\pi\hbar\cdot(\tau_{bh}-\tau_{be})}
-    |\times \Big(\frac{\tau_{bh}^{2}}{1+\tau_{bh}^{2}\Delta E^{2}/\hbar^{2}}-
-    |\frac{\tau_{be}^{2}}{1+\tau_{be}^{2}\Delta E^{2}/\hbar^{2}}\Big)\label{DLorentz2}~,
-    |\end{align}
-    | Starting from Fermi's golden rule, spontaneous interband emission rate without Coulomb interactions has been
-    |expressed as: \cite{Coldren1,Christen1}
-    | \begin{align}\nonumber
-    | R_{sp}(E)=\frac{ne^{2}}{\epsilon_{0}\hbar^{2}\pi c^3m_{0}^2}E|M_{T}|^2\rho_{r}(E)f_{c}(E)
-    | \times(1-f_{v}(E))\label{Spectrum1}\
-    | \end{align}
-    | Here \(|M_{T}|^{2}\) is the transition matrix element, \(\rho_{r}\) the JDOS, and \(f_{c}\) and \(f_{v}\)
-    |are the Fermi functions for the conduction band (CB) electrons and valence band (VB) holes, respectively.
-    | To evaluate spectral distributions with Coulomb interactions and broadening effects, Eq. (\ref{Spectrum1})
-    | is multiplied with exciton continuum enhancement \(S(\epsilon)\), and convolved with line broadening function
-    |\(L_{t}(E)\). Approximating \(f_{c}\times (1-f_{v})\) with Boltzmann distribution we get the emitted spectra from:
-    |\begin{align}\nonumber
-    |R_{sp}(E)\propto\int_0^\infty |M_{T}|^2 \epsilon\rho_{r}(\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)\\
-    |\times L_{t}(E-\epsilon)\mathrm{d}\epsilon\label{Spectrum2}\ ~,
-    |\end{align}
-    br
-    | where \(k_{B}\) is the Boltzmann coefficient.
-    | the exciton true continuum is:
-    | \begin{align}
-    | S_{s}(E)=&\pi\alpha\frac{e^{\pi\alpha}}{sinh(\pi\alpha)}\label{BulkEnh1}\\
-    | \alpha=&\sqrt{\frac{E_{b}}{E-E_{g}}}\label{BulkEnh2}\
-    | \end{align}
-    | Eq. (\ref{BulkEnh2}) has a pole at \(E_{g}\) coinciding with zero in JDOS (\(\rho_{r}\) in
-    | Eq. (\ref{Spectrum2})), but the combination with parabolic band edge, (\(\rho_{r}\propto \sqrt{E-E{g}}\))
-    | leads to finite spectral power densities enabling the numerical integration of Eq. (\ref{Spectrum2}).
-    | polarizations are observable. The corresponding enhancement factors are \cite{Shinada}:
-    | \begin{align}
-    | S_{TE}(E)=&\frac{e^{\pi\alpha}}{cosh(\pi\alpha)}\label{QwEnh1}\\
-    | S_{TM}(E)=&(1+4\alpha^{2})\frac{e^{\pi\alpha}}{cosh(\pi\alpha)}\label{QwEnh2}\ ~,
-    | \end{align}
-    | where \(\alpha\) is given in Eq. (\ref{BulkEnh2}) and \(E_{g}\) is the bandgap energy in the quantum well
+        h2= title
+        p
+        if user
+          b #{user.username}
+          | : huu haa!
+        else
+          //-| Used open source and MIT-licenced software components can be found in the lists below. Please notice also their composers through the included links.
+        h3 Motivation and Purpose:
+        p
+        | Because of the high efficiency, LED's and laser diodes have gained popularity in many applications.
+        | To reach the high efficiencies LED's are constructed with one or more quantum wells in the semiconductor
+        | diode's pn-diode junction area. The purpose of the quantum well is to collect the electric charge carriers to a
+        | tightly restricted area, where the increased density dramatically increases the recombination probability
+        | between the electrons and holes. Each recombining pair may produce an emitted photon and thereby
+        | contribute to the emission of light from the diode. To describe the conversion of electric power into photon flux,
+        | in addition to power efficiency, we need to evaluate also the
+        em  wavelength
+        |   and
+        em  the broadening mechanisms.
+        br
+        br
+        b
+          i  The emission wavelength
+        |   (spectral color) is determined by the semiconductor material bandgap, in combination
+        |with the dimensions (depth and width) of the included quantum well. These three parameters have been tailored during the
+        |material deposition processes during the fabrication. However, for the
+        b   other spectral details
+        |   we also need to understand the involved
+        b   broadening phenomena.
+        |   In LED's (also in semiconductor lasers below lazing threshold), the emission spectra are rather broad, at least
+        | significantly broader than calculated before the spectral broadening
+        |mechanisms are accounted for. A correct spectral broadening model is required also for semiconductor laser modelling
+        |to calculate the shape of the laser gain function.
+        br
+        br
+        |Several spectral broadening functions are available and many have also been proposed for LED calculations.
+        |This site examines three of them. Optical broadening mechanisms are often categorized to be either
+        b   inhomogeneous
+        |   or
+        b   homogeneous.
+        |   In LED's, inhomogeneous broadening arises from local fluctuations in material properties and
+        |quantum well dimensions. These typically have Gaussian occurrence probability, which directly transforms to gaussian
+        |spectral shapes. This kind of broadening is easily observed at low excitation levels (small diode currents), and the
+        |width of the spectrum reveals the quality of materials and processes been used.
+        |At higher intensities (larger diode currents), the density of carriers in the quantum wells increases and through
+        |collision with each other significantly reduce the lifetime of exitons (electron-hole pairs).
+        |This results into
+        b    lifetime broadening,
+        | which is a homogeneous process, since the locally close electrons are indistinguishable from each other
+        | as well as the closely located holes are indistinguishable from each other.
+        | Therefore, homogeneous spectral broadening takes over in LED's at high light intensities.
+        h3 Applied methods:
+        p
+        |In order to focus on writing and modelling, the number of new drawings remains minimal, which possibly decreases readability, but is
+        |compensated by links to available graphs elsewhere on the web. Another topic is the mathematical formulas and equations,
+        |that will be more or less unavoidable. For adding equations on HTML5 pages, several options are available claiming
+        |to support equally all browsers.
+        -MathJax_urli="https://www.mathjax.org/"
+        a(href="#{MathJax_urli}" target="_blank") MathJax
+        |       was selected for this page.
+        h3 Compared spectral functions:
+        | Collect here some math functions:
+        h3 Details in the Calculation:
+        p
+        | -Possibility to upload and download spectral measurements
+        br
+        | -Possibility adjust spectral parameters on broadening functions
+        br
+        | -graphing measured and calculated spectra
+        br
+        br
+        b Inserting potentially needed equations.
+        br
+        br
+        | When \(a \ne 0 \), there are two solutions to \( ax^2 + bx + c = 0 \) and they are
+        | $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+        br
+        | \begin{equation}
+        | \label{Relaxation-appr}
+        | 1/\tau_{c}= 1/\tau_{ce}+1/\tau_{ch}+1/\tau_{cph}+1/\tau_{ci} ~,
+        | \end{equation}
+        | relaxation times from other electrons \(\tau_{ce}\) or holes \(\tau_{ch}\), phonons \(\tau_{cph}\),
+        | and crystal defects or impurities \(\tau_{ci}\)
+        br
+        | \begin{equation}
+        | \label{UrbachTail}
+        | I(E)/I_{g}=exp[(E - E_{g})/E_{u}]~,
+        | \end{equation}
+        br
+        | where \(I_{g}\) is the spectral value at bandgap energy \(E_{g}\), and \(E_{u}\) is the Urbach parameter.
+        | In GaAs, at 300K, 6-9 meV values have been reported for \(E_{u}\). The temperature dependent contributions in
+        | \(E_{u}\) have been associated to disorder created by phonons
+        br
+        | \begin{align}
+        | \label{Lorentz1}
+        | p_{e}(\Delta E_{e})=&\frac{\tau_{e}/(\pi\hbar)}{1+\tau_{e}^{2}\Delta E_{e}^{2}/\hbar^{2}}\\
+        | p_{h}(\Delta E_{h})=&\frac{\tau_{h}/(\pi\hbar)}{1+\tau_{h}^{2}\Delta E_{h}^{2}/\hbar^{2}}~,
+        | \end{align}
+        | where \(p_{e}\) and \(p_{h}\) are probability densities and \(\Delta E_{e}\) and \(\Delta E_{h}\) the deviations
+        | from the center energies, as depicted in Fig.
+        br
+        | \begin{equation}
+        |\label{Exciton-K}
+        |\bf{K}=\bf{k_{e}-k_{h}}
+        |\end{equation}
+        br
+        | \begin{align}
+        | \label{LorentzianLB}
+        | L_{t}(\Delta E)=&\frac{\tau_{r}/(\pi\hbar)}{1+\tau_{r}^{2}\Delta E^{2}/\hbar^{2}}\\
+        | \tau_{r}=&\frac{\tau_{e}\tau_{h}}{\tau_{e}+\tau_{h}}\label{TauR}\
+        | \end{align}
+        br
+        | \begin{align}
+        |\Delta E_{e}=&\frac{\hbar^{2}}{2m_{e}}[(k_{e}+\Delta k_{e})^{2}-k_{e}^{2}]\label{Deltak1}\\
+        |\Delta E_{h}=&\frac{\hbar^{2}}{2m_{h}}[(k_{h}+\Delta k_{h})^{2}-k_{h}^{2}]\label{Deltak2}\\
+        |\Delta E=&\Delta E_{e}+\Delta E_{h}\label{totdE2}\
+        |\end{align}
+        |Line broadening permits transitions also in the bandgap, where \(\Delta E_{e}\) and \(\Delta E_{h}\) have
+        |negative values, which requires imaginary \( \Delta k \) values.
+        | This means that, for exciton \((E_{e},E_{h})\), broadening energy \(\Delta E\) is possible only with these
+        | simultaneous \(\Delta E_{e}\) and \(\Delta E_{h}\) values. Their probability densities are:
+        |\begin{align}
+        |p_{e}(\Delta E_{e})=&\frac{\tau_{be}/(\pi\hbar)}{1+\tau_{be}^{2}\Delta E^{2}/\hbar^{2}}\label{Pe}\\
+        |p_{h}(\Delta E_{h})=&\frac{\tau_{bh}/(\pi\hbar)}{1+\tau_{bh}^{2}\Delta E^{2}/\hbar^{2}}\label{Ph}\
+        |\end{align}
+        |where
+        |\begin{equation}
+        |\tau_{be}=\frac{\tau_{e}m_{h}}{m_{h}+m_{e}} \quad\textrm{and}\quad\tau_{bh}=\frac{\tau_{h}m_{e}}{m_{h}+m_{e}}
+        |\label{Reducedtau}
+        |\end{equation}
+        |If the allowed wave vector mismatch ($\Delta k_{e}-\Delta k_{h}$) is small in the recombination, and the intraband scattering processes at $E_{e}$ and $E_{h}$ are independent, as was assumed also with Eqs. (\ref{LorentzianLB}) and (\ref{TauR}), the corresponding homogeneous line shape is now obtained as the normalized product of the two above probability densities:
+        |\begin{equation}
+        |L_{t}(\Delta E)= \frac{(\tau_{be}+\tau_{bh})/(\pi\hbar)}{1+\tau_{be}^{2}\Delta E^{2}/\hbar^{2}}\times\frac{1}{1+\tau_{bh}^{2}\Delta E^{2}/\hbar^{2}}\label{DLorentz}~,
+        |\end{equation}
+        |or if expressed as a difference of two Lorentzians \cite{Lin1}:
+        |\begin{align}\nonumber
+        |L_{t}(\Delta E)=\frac{1}{\pi\hbar\cdot(\tau_{bh}-\tau_{be})}
+        |\times \Big(\frac{\tau_{bh}^{2}}{1+\tau_{bh}^{2}\Delta E^{2}/\hbar^{2}}-
+        |\frac{\tau_{be}^{2}}{1+\tau_{be}^{2}\Delta E^{2}/\hbar^{2}}\Big)\label{DLorentz2}~,
+        |\end{align}
+        |Starting from Fermi's golden rule, spontaneous interband emission rate without Coulomb interactions has been
+        |expressed as: \cite{Coldren1,Christen1}
+        |\begin{align}\nonumber
+        |R_{sp}(E)=\frac{ne^{2}}{\epsilon_{0}\hbar^{2}\pi c^3m_{0}^2}E|M_{T}|^2\rho_{r}(E)f_{c}(E)
+        |\times(1-f_{v}(E))\label{Spectrum1}\
+        |\end{align}
+        |Here \(|M_{T}|^{2}\) is the transition matrix element, \(\rho_{r}\) the JDOS, and \(f_{c}\) and \(f_{v}\)
+        |are the Fermi functions for the conduction band (CB) electrons and valence band (VB) holes, respectively.
+        |To evaluate spectral distributions with Coulomb interactions and broadening effects, Eq. (\ref{Spectrum1})
+        |is multiplied with exciton continuum enhancement \(S(\epsilon)\), and convolved with line broadening function
+        |\(L_{t}(E)\). Approximating \(f_{c}\times (1-f_{v})\) with Boltzmann distribution we get the emitted spectra from:
+        |\begin{align}\nonumber
+        |R_{sp}(E)\propto\int_0^\infty |M_{T}|^2 \epsilon\rho_{r}(\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)\\
+        |\times L_{t}(E-\epsilon)\mathrm{d}\epsilon\label{Spectrum2}\ ~,
+        |\end{align}
+        br
+        | where \(k_{B}\) is the Boltzmann coefficient.
+        | the exciton true continuum is:
+        | \begin{align}
+        | S_{s}(E)=&\pi\alpha\frac{e^{\pi\alpha}}{sinh(\pi\alpha)}\label{BulkEnh1}\\
+        | \alpha=&\sqrt{\frac{E_{b}}{E-E_{g}}}\label{BulkEnh2}\
+        | \end{align}
+        | Eq. (\ref{BulkEnh2}) has a pole at \(E_{g}\) coinciding with zero in JDOS (\(\rho_{r}\) in
+        | Eq. (\ref{Spectrum2})), but the combination with parabolic band edge, (\(\rho_{r}\propto \sqrt{E-E{g}}\))
+        | leads to finite spectral power densities enabling the numerical integration of Eq. (\ref{Spectrum2}).
+        | polarizations are observable. The corresponding enhancement factors are \cite{Shinada}:
+        | \begin{align}
+        | S_{TE}(E)=&\frac{e^{\pi\alpha}}{cosh(\pi\alpha)}\label{QwEnh1}\\
+        | S_{TM}(E)=&(1+4\alpha^{2})\frac{e^{\pi\alpha}}{cosh(\pi\alpha)}\label{QwEnh2}\ ~,
+        | \end{align}
+        | where \(\alpha\) is given in Eq. (\ref{BulkEnh2}) and \(E_{g}\) is the bandgap energy in the quantum well
 
 //-script(type='text/javascript').

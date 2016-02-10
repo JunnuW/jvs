@@ -5,6 +5,7 @@
  */
 
 "use strict";
+
 /* Function senData
 * posts using XMLHttpRequest, (without jquery interactions)
 * but this function is not used, kept here only for future needs
@@ -14,7 +15,6 @@ function sendData(data) {
     var urlEncodedData = "";
     var urlEncodedDataPairs = [];
     var name;
-
     // We turn the data object into an array of URL encoded key value pairs.
     for(name in data) {
         urlEncodedDataPairs.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]));
@@ -52,7 +52,7 @@ function buildStack(){
     var theStack={
         "settings": {
             "polaris": "TE",
-            "angle": 0,         //assumes perpendicular incidence in loss free cover material!!
+            "angle": 0,            //assumes perpendicular incidence in loss free cover material!!
             "RorT": "R",
             "backR": "false",
             "frontR": "false",
@@ -61,13 +61,13 @@ function buildStack(){
             "spUnit": "nm",
             "spStart": 400,
             "spStop": 1000,
-            "tunePrcnt": 0.5,   // tuning by multplication selected thicknesses with 1.005
-            "usedTarg":""       // spectral target selected for comparison
+            "tunePrcnt": 0.5,      // tuning by multplication selected thicknesses with 1.005
+            "usedTarg": "",         // spectral target selected for comparison
+            "Descriptor": ""
         },
         "Materials": [],        //[["File":"","Name":"","Owner":"","Data":[]],[],[]....]
         "Targets": [],          //[]
-        "Layers": [["Cover ", "DblClick to edit!", "bulk", "no",0],["Substrate", "DblClick to edit!", "bulk", "no",0]],
-        "ReadyForCalc":"false"
+        "Layers": [["Cover ", "DblClick to edit!", "bulk", "no",0],["Substrate", "DblClick to edit!", "bulk", "no",0]]
     };
     return theStack;
 }
@@ -79,7 +79,9 @@ function buildStack(){
 function afterStackRead(rsObj){
     stack={}; //resets stack
     stack=JSON.parse(rsObj.matrlStack);
-    //console.log('stack: ',stack);
+    /*console.log('before delete: ',stack);
+    delete stack.ReadyForCalc;
+    console.log('after delete: ',stack);*/
     stackArr=[];
     //stackArr=stack.Layers; // ei toimi, muutos stackArr:issa muuttaa myös stack.Layers:ia
     var n=stack.Layers.length;
@@ -125,7 +127,7 @@ function afterStackRead(rsObj){
 }
 
 /**
- * Function Fill matrlArr or targArr with data obtained from mongodb
+ * Function Fills matrlArr, targArr or stack with data obtained from mongodb
  * @resObj  object returned from mongodb
  * @function
  */
@@ -166,6 +168,10 @@ function respToArr(fileName,resObj) {
             $('#matEditTabl').find('th:eq(0)').text("Unit [" + matrlArr[0][0] + "]");
             plotNK(matrlArr, 8); //tämäkö?
             EnDisButt('Enabled', '#btnUseMat');
+            $.notifyBar({
+             cssClass: "success",
+             html: 'Material data was read' // "File was read:"
+             });
             break;
         case "Targets":
             var dataArrs=resObj.datArrs; //is still an object
@@ -190,14 +196,32 @@ function respToArr(fileName,resObj) {
             EnDisButt('Enabled', '#btnUseTarg');
             $('#targEditTabl').find('th:eq(0)').text("Wavel. [" + targArr[0][0] + "]")
                 .find('th:eq(1)').text(targArr[0][1] +  " -value");
+            $.notifyBar({
+                cssClass: "success",
+                html: 'Spectral target was read' // "File was read:"
+            });
             break;
-        case "Stack","intro": // at start-up default stack is read from server from 'intro' tab
+        case "Stack":
             $('#ediStack').val(fileName);
             $('#descStack').val(resObj.description);
             //console.log('respToarr: ',resObj);
             afterStackRead(resObj); //inits objects and application interface for the stack
-            //updRTspArra();
-            //updGraph();
+            $.notifyBar({
+                cssClass: "success",
+                html: 'Stack data was read' // "File was read:"
+            });
+            break;
+        case "intro": // at start-up default stack is read from server using virtual 'intro' tab
+            $('#ediStack').val(fileName);
+            var settn=JSON.parse(resObj.matrlStack);
+            //var settm=settn.settings.Descriptor;
+            $('#descStack').val(settn.settings.Descriptor);
+            //console.log('respToarr: ',resObj);
+            afterStackRead(resObj); //inits objects and application interface for the stack
+            /*$.notifyBar({
+                cssClass: "success",
+                html: 'Stack data was read' // "File was read:"
+            });*/
             break;
     }
 }
@@ -236,7 +260,7 @@ function mongoReadDesc(fileName){
                     //    html: 'File description OK' // "File was read for description:"
                     //});
                     resText = (resText.length>0)? resText : 'no description available';
-                    $('#mongFileDesc').val(resText);
+                    //$('#mongFileDesc').val(resText);
                 } else {
                     //database responds with error message
                     $.notifyBar({
@@ -259,22 +283,6 @@ function mongoReadDesc(fileName){
  */
 function mongoGetOne(fileName){
     var datColl=pickCollection();
-    /*var respnce= datColl=='materials'? 'Material data obtained from server'
-        :'Spectral target obtained from server';*/
-    var respnce;
-    switch (datColl) {
-        case 'materials':
-            respnce='Material data obtained from server';
-            break;
-        case 'targets':
-            respnce='Spectral target obtained from server';
-            break;
-        case 'stacks':
-            respnce='Stack obtained from server';
-            break;
-        default:
-            respnce='unexpected data from server';
-    }
     //console.log('mongoGetOne: ',fileName,' ',respnce);
     var tokene;
     if (userName!='No login'){
@@ -288,7 +296,7 @@ function mongoGetOne(fileName){
         replyType: 'wholeDoc'
     })
         .done(function (datas,textStatus) {
-            if (textStatus=='nocontent'){//resposed with status 204 'nocontent
+            if (textStatus=='nocontent'){//responsed with status 204 'nocontent
                 console.log('no content 204');
                 $.notifyBar({
                     cssClass: "warning",
@@ -303,10 +311,10 @@ function mongoGetOne(fileName){
                             //cut out 'documentOK' text from the response string beginning
                             // and convert back to object
                             var resObj = JSON.parse(datas.resString.slice(datas.resString.indexOf('{')));
-                            $.notifyBar({
+                            /*$.notifyBar({
                                 cssClass: "success",
                                 html: respnce // "File was read:"
-                            });
+                            });*/
                             //console.log("file was read", resObj);
                             //todo: update filename and description inputs
                             respToArr(fileName, resObj);     //updates matrlArr to opened document
@@ -442,7 +450,7 @@ function mongoDelete(flNme) {
 function mongoSave(saveUrl,flNme) {
     //this either inserts new document to database using: saveUrl= '/auth/dbInsert'
     //or updates an existing document using: saveUrl= '/auth/dbUpdate'
-    //selects a document collection:
+    //first selects a document collection:
     var datColl = pickCollection(); //collection will be embedded in request data:
     var tokene;
     if (userName!='No login'){
@@ -464,18 +472,21 @@ function mongoSave(saveUrl,flNme) {
         var descr=$('#mongFileDesc').val();
         switch (dialTitle){
             case ((dialTitle.match(/material/gi))? dialTitle: undefined) :
+                //tehdään materiaalitiedostosta JSON:
                 dJson = toJsonArr(datColl, flNme, matrlArr, descr);
                 //arrSave=matrlArr;
                 break;
             case ((dialTitle.match(/target/gi))? dialTitle: undefined) :
+                //tehdään tarkettispektristä JSON:
                 dJson = toJsonArr(datColl, flNme, targArr, descr);
                 //arrSave=targArr;
                 break;
             case ((dialTitle.match(/stack/gi))? dialTitle: undefined) :
-                //
+                //tehdään stackistä JSON
                 descr= descr.replace(/(^[\"\']+)|([\"\']+$)/g, ""); //remove leading and trailing single and double quotes
                 dJson.Filename = flNme;
-                dJson.Descr = descr;
+                //dJson.Descr = descr;
+                console.log('stack: ',stack);
                 dJson.Stack=stack;
                 break;
             default:
@@ -775,6 +786,7 @@ function toJsonArr(coLLe, filename, arrDat, desc) {
 // reading local files for materials and targets from tab delimited text files
 // cBackFun piirtää päivittää taulukot ja spektrit materiaali ja target tabseilla
 function ReadLocFle(file, cBackFun) {
+    //console.log('read local file: ',file);
     var tid; //used for timer setting
     if (file) {
         //File exists set reading timeout:
@@ -798,39 +810,49 @@ function ReadLocFle(file, cBackFun) {
 
 //Paikallisen tiedoston luvun callback: päivittää taulukot ja spektrit
 function gotTextFile(fileCont) {
-    //callback after reading local files on material editor tab
+    //callback after reading local files
+    //could be made into three separate callbacks one for: Materials, Targets and Stack
     //test timo:
     //setTimeout(function(){alert("tab oli: "+cBackTab+"  File: "+fileCont.length)},30000);
     var activeTab = $("#tabis").tabs("option", "active");
     var selecTabId = $("#tabis ul>li a").eq(activeTab).attr('id');
-    if (selecTabId == "Materials") {
-        matrlArr = splitToArr(fileCont);
-        oMatTable.fnClearTable();
-        oMatTable.fnAddData(matrlArr.slice(1));
-        $('#matEditTabl').find('th:eq(0)').text("Unit [" + matrlArr[0][0] + "]");
-        $('#descMater').val(matrlArr[0][3]);
-        plotNK(matrlArr, 8);
-        EnDisButt('Enabled', '#btnUseMat');
-    }
-    if (selecTabId == "Targets") {
-        targArr = splitToArr(fileCont);
-        $('#descTarge').val(targArr[0][2]);
-        otargTable.fnClearTable();
-        otargTable.fnAddData(targArr.slice(1));
-        //RorT = targArr[0][1];
-        if (targArr[0][1].indexOf('R')>-1){
-            $('#targMode').text('Target spectrum for reflectance:');
-        }
-        else{
-            $('#targMode').text('Target spectrum for transmission:');
-        }
-        $('#targEditTabl').find('th:eq(0)').text("Wavel. [" + targArr[0][0] + "]");
-        $('#targEditTabl').find('th:eq(1)').text(targArr[0][1] + " -value");
-        if (targArr[0][2]) {
+    switch (selecTabId){
+        case 'Materials':
+            //console.log('Material read');
+            matrlArr = splitToArr(fileCont);
+            oMatTable.fnClearTable();
+            oMatTable.fnAddData(matrlArr.slice(1));
+            $('#matEditTabl').find('th:eq(0)').text("Unit [" + matrlArr[0][0] + "]");
+            $('#descMater').val(matrlArr[0][3]);
+            plotNK(matrlArr, 8);
+            EnDisButt('Enabled', '#btnUseMat');
+            break;
+        case 'Targets':
+            //console.log('Targets read');
+            targArr = splitToArr(fileCont);
             $('#descTarge').val(targArr[0][2]);
-        }
-        plotRT(targArr, 7);
-        EnDisButt('Enabled', '#btnUseTarg');
+            otargTable.fnClearTable();
+            otargTable.fnAddData(targArr.slice(1));
+            //RorT = targArr[0][1];
+            if (targArr[0][1].indexOf('R')>-1){
+                $('#targMode').text('Target spectrum for reflectance:');
+            }
+            else{
+                $('#targMode').text('Target spectrum for transmission:');
+            }
+            $('#targEditTabl').find('th:eq(0)').text("Wavel. [" + targArr[0][0] + "]");
+            $('#targEditTabl').find('th:eq(1)').text(targArr[0][1] + " -value");
+            if (targArr[0][2]) {
+                $('#descTarge').val(targArr[0][2]);
+            }
+            plotRT(targArr, 7);
+            EnDisButt('Enabled', '#btnUseTarg');
+            break;
+        case 'Stack':
+            console.log('Stack was read');
+            stack=JSON.parse(fileCont);
+            console.log('stack: ',stack);
+            break;
     }
 }
 
@@ -974,7 +996,7 @@ var buildMongoDial=function(){
                     $('#btnLogMeOff').hide();
                 }
             },
-            //Button3: this button is for opening and saving data files
+            //Button3: this button is recycled for opening and saving data files
             {   id:'btn-mngOpenSave', //save- or open-file button
                 text: 'Open File',    //assumes 'open-file' is the first operation
                 "class": 'big-btn',
@@ -1036,7 +1058,7 @@ var buildMongoDial=function(){
                     var noodi = data.instance._model.data[fleRena];
                     if (!noodi){
                         //$('#mongFileDesc').val(matrlArr[0][3]);
-                        $('#mongFileDesc').val('');
+                        //$('#mongFileDesc').val('');
                         break;
                     }
                     var textOrig=noodi.original.text;
@@ -1046,7 +1068,7 @@ var buildMongoDial=function(){
                     }
                 }else {
                     //$('#mongFileDesc').val(matrlArr[0][3]);
-                    $('#mongFileDesc').val('');
+                    //$('#mongFileDesc').val('');
                 }
                 break;
             case 'select_node':
@@ -1073,7 +1095,7 @@ var buildMongoDial=function(){
                 }
                 else{
                     $('#mongoFileName').val('');
-                    $('#mongFileDesc').val(matrlArr[0][3]);
+                    //$('#mongFileDesc').val(matrlArr[0][3]);
                 }
                 break;
             case 'rename_node':
@@ -1200,25 +1222,34 @@ var buildMongoDial=function(){
     });
 
     $('#btnLocDir').click(function(){
+        //recycles this button on MongoDialForm for file saving and opening
         //Click is either for saving or opening a file in a local directory:
-        var dialTitle=$("#mongoDialForm").dialog("option","title");//gets the open or save options:
-        if (dialTitle.indexOf('Open')>-1){//click is for file opening operation :
-            if (dialTitle.indexOf('material')>-1){//request is to open a material file:
+        var dialTitle=$("#mongoDialForm").dialog("option","title"); //gets the options for open or save
+        switch (dialTitle) {
+            case 'Open material file from':
+                console.log('open material data');
                 $('#descMater').val('');
                 $("#ediMaterLbl").text("Local file: ");
                 $("#mongoDialForm").dialog("close");
                 $("#matLocFiles").focus().click();
-            }
-            else {//request is to open a spectral target file:
+                break;
+            case 'Open target file from':
+                console.log('open target data');
                 $('#descTarge').val('');
                 $("#ediTargeLbl").text("Local file: ");
                 $("#mongoDialForm").dialog("close");
                 $("#targLocFiles").focus().click();
-            }
-        }
-        else {//click is for local file saving operation:
-            if (dialTitle.indexOf('material')>-1){//save a material file:
+                break;
+            case 'Open stack file from':
+                console.log('open stack data');
+                $('#descStack').val('');
+                $("#ediStackLbl").text("Local file: ");
+                $("#mongoDialForm").dialog("close");
+                $("#stackLocFiles").focus().click();
+                break;
+            case 'Save material data to':
                 var failneim = $('#ediMater').val();
+                failneim=failneim.slice(failneim.lastIndexOf('/')+1);
                 //array first line, quotes around last element help opening in Notepad:
                 var seivString=matrlArr[0][0]+'\t'+matrlArr[0][1]+'\t'+matrlArr[0][2];
                 if (matrlArr[0][3]) seivString+'\t'+'\"'+matrlArr[0][3]+'\"';
@@ -1227,12 +1258,15 @@ var buildMongoDial=function(){
                     nRow=matrlArr[j][0]+'\t'+matrlArr[j][1]+'\t'+matrlArr[j][2];
                     seivString = seivString+'\r'+nRow;
                 }
-            }
-            else {//save a target file:
+                seiv_loucal(failneim,seivString,matrlToLocFile);
+                break;
+            case 'Save target data to':
                 var failneim = $('#ediTarge').val();
+                failneim=failneim.slice(failneim.lastIndexOf('/')+1);
+                //console.log('save target data to ',failneim);
                 //targArr[0][0] : wavelength unit, [0][1] : 'R' or 'T', [0][2]: '%' or 'abs', [0][3]: description
                 var seivString=targArr[0][0]+'\t'+targArr[0][1];
-                console.log('targArr[0][2]: '+targArr[0][2]);
+                //console.log('targArr[0][2]: '+targArr[0][2]);
                 if (targArr[0][2]) {
                     var desc=targArr[0][2].replace(/(^[\"\']+)|([\"\']+$)/g, ""); //remove single and double quotes
                     desc='\"'+desc+'\"'; //add double quotes for notepad opening
@@ -1242,12 +1276,16 @@ var buildMongoDial=function(){
                     nRow=targArr[j][0]+'\t'+targArr[j][1];
                     seivString = seivString+'\r'+nRow;
                 }
-            }
-            //take only the name part of the filename without server path:
-            failneim=failneim.slice(failneim.lastIndexOf('/')+1);
-            seiv_loucal(failneim, seivString,targetToLocFile);
-            $("#mongoDialForm").dialog("close");
+                seiv_loucal(failneim,seivString,targetToLocFile);
+                break;
+            case 'Save stack data to':
+                var failneim = $('#ediStack').val();
+                failneim=failneim.slice(failneim.lastIndexOf('/')+1);
+                var seivString=JSON.stringify(stack);
+                seiv_loucal(failneim,seivString,stackToLocFile);
+                break;
         }
+        $("#mongoDialForm").dialog("close");
     });
 }; //buildMongodial done
 
@@ -1452,7 +1490,7 @@ function seiv_loucal(filesname, texti,calliPakki) {
     document.body.appendChild(pom); //required in FF, optional for Chrome
     pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(texti));
     pom.setAttribute('download', filesname);
-    pom.target="_self" ; //required in FF, optional for Chrome
+    pom.target="_self" ; //required in mozilla FF, optional for Chrome
     pom.click();
     calliPakki(filesname);
     /*var pom = document.createElement('a');
@@ -1463,9 +1501,19 @@ function seiv_loucal(filesname, texti,calliPakki) {
     pom.click();*/
 }
 
+function matrlToLocFile(filesname){
+    //EnDisButt('Enabled', '#btnUseTarg');
+    console.log('Saved material to local file: '+filesname);
+}
+
 function targetToLocFile(filesname){
     EnDisButt('Enabled', '#btnUseTarg');
-    console.log('Saved to local file: '+filesname);
+    console.log('Saved target to local file: '+filesname);
+}
+
+function stackToLocFile(filesname){
+    //EnDisButt('Enabled', '#btnUseTarg');
+    console.log('Saved stack to local file: '+filesname);
 }
 
   //Tabs-7 & Tabs-8 järjestää editoidun taulukon suuruusjärjestykseen

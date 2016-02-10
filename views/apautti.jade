@@ -1,12 +1,12 @@
 extends layout
 
 block content
-  h1 Web browser and cloud storage based software
+  h1 This site studies cloud storage downloaded software running on user's web browser
   p
-    h3 Advantage potential in technical and scientific computing:
-    b  For new software, you should consider at least following benefits:
+    h3(style="color:green") Advantage potential:
+    b  You might consider at least following benefits:
     br
-    |  -  Ease of distribution and deployment,
+    |  -  Ease of application distribution and deployment,
     br
     |  -  Minimal assembly effort on customer's equipment,
     br
@@ -17,19 +17,16 @@ block content
     |  -  Application support and maintenance work is greatly simplified,
     br
     |   since only one software version needs to be supported and updated.
-    h3 Two separately developed and debugged components:
-    | The interaction between them takes place through server responses to web browser requests.
-    h4 software on the server
-    | These components are normally located on a remote machine, but for offline access and program development they can
-    | as well be run from the local machine. The local host then also stores all the required HTML pages and resources.
-    h4 software on client's browser
-    | This part is scripted to the web pages to be downloaded from the server during the browsing.
-    h3 Server side program
-    | Client's requests and the responses for the dynamic content are handled in the server,
+    h3(style="color:green") Application structure:
+    | Two separately developed and debugged components are needed; one in the server and the other in the user's browser.
+    | The interaction between these two takes place through server responses to web browser requests.
+    h4 Server side program:
+    | Server software is normally located on a remote machine, but for offline access and program development purposes it can
+    | as well be available on the local machine. In such a case, local host stores all the required HTML pages and resources.
     br
-    | which is based on a specific web-framework system, that the developer had chosen during the
-    br
-    | development process. Several alternatives are available for building the server software on.
+    | After processing the requests coming from the client's browser, the server sends back responses with dynamic content.
+    | Programs on the server machine are build on a specific web-framework system, that the developer has chosen in the beginning
+    | of the development process. Several alternatives are available for the web-framework.
     br
     u Some popular frameworks:
     br
@@ -57,30 +54,28 @@ block content
     a(href="#{Node_url}" target="_blank")  - Node.js
     |   (open source, cross-platform runtime environment for javascript, from Node.js Foundation)
     br
-    h3 Browser side program ( active on client's pc)
-    | Modern browsers (2015) use HTML, CSS and Javascript with versions 5, 3 and 1.8.5 respectively, and
-    | for safety reasons, the script on the browser as downloaded from the internet, cannot directly
+    h4 Browser side program (downloaded as script in HTML5 and runs on client's pc)
+    | Browser software is scripted into the web pages and is downloaded on demand from the server,
+    | when the user browses to the page.
+    | Modern browsers (2015) use HTML, CSS and Javascript with versions 5, 3 and 1.8.5 respectively.
+    | For safety reasons, the script on the browser as downloaded from the internet, cannot directly
     | access the client's local file system or activate any local programs on the user's equipment.
-    br
     | However, local files can be accessed and written after events, where the user by mouse click or keyboard actions
     | first authorises those operations, as is the common practice also with software updates offered through the internet.
-    | These features and the safety issues in general are among the
+    | These HTML5 File Api features and the data safety issues in general are among the
     b   flaws and downsides
-    |   in web browser based programs. Files should be downloaded only through https and pages browsed merely on safe servers
+    |   in web browser based programs: Files should be downloaded only through https and pages browsed merely on safe servers
     | and sites with safety certificates.
-    br
     br
     | Since no software is saved locally on user's hardware, a browser based program is useful only with
     | internet access, and a slow connection may cause software response time problems.
-    br
-    br
+    h3(style="color:green") Configuration in this site
     | All the applied open source components and MIT licenced software packages are listed under the
-    br
     -credits_url="/contrbs"
-    a(href="#{credits_url}") 'Credits and Acknowledgements'
-    |   menu item of this site.
+    a(href="#{credits_url}")   'Credits and Acknowledgements'
+    |     menu item of this site.
     br
-    h3 Configuration in this site
+    br
     | For this particular web site, Node.js was a natural choice for the server side framework,
     | enabling javascript coding on both sides. Though Node.js is rather recent, it already
     | serves behind numerous web pages from many front line companies (
@@ -88,10 +83,10 @@ block content
     | ) and it is also supported by most web hosting providers.
     br
     br
-    | On this particular web site, in addition to HTML web page storage and delivery, server software
+    | On this particular web site, in addition to web page storage and delivery, server software
     | is needed for:
     br
-    b   user signup and login authentication
+    b   user signup and login authentication:
     br
     -Mongo_url="https://en.wikipedia.org/wiki/MongoDB"
     a(href="#{Mongo_url}" target="_blank")  - database management
@@ -106,7 +101,7 @@ block content
     | - user data files, storage and delivery
     br
     | - user messages and comments with moderation
-    h3 Conclusions:
+    h3(style="color:green") Conclusions:
     | While coding, it turned out that Node.js runtime fits nicely for this kind of applications,
     | where major part of data processing is performed locally in the browser on the client's pc.
     | Network speed didn't cause any issues on the available, low speed (10Mbit/s) connection.

@@ -9,11 +9,11 @@
  *
  * $ character in the following function: '$(function(){xxx});',
  * is aliased to word 'jQuery' [so that $(..) is equal to jQuery(..)], and
- * jQuery library has to be included in the head section of the html-files through a line eq.:
+ * jQuery library has to be included in the head section of the html-files through a line:
  * script(src='/bower_components/jquery/dist/jquery.min.js')
  *
  * The function is included in the web-page html file through head section line:
- * script(src='/RefTran/js/jv-tfrcalc.js')
+ * script(src='/RefTran/js/jv-tfrcalci.js')
  * The script runs automatically after the HTML5 document has been loaded and parsed ready
  * on the browser. In automatic execution it is equivalent to
  * (=shorthand) to '$(document).ready(function(){xxx})'.
@@ -91,8 +91,8 @@ $(function() {
                 stack.settings.frontR=$('#frontR').is(':checked');          //front surface reflection: true/false
                 stack.settings.SubstrD=parseFloat($("#sThickn").spinner("value")*1000); //Substrate thickness in nm:
                 stack.settings.CoverD= parseFloat($("#cThickn").spinner("value")*1000); //cover thickness in nm:
-                stack.settings.Unit=$('input[name="setUnit"]:checked').val();
-                switch (stack.settings.Unit){
+                stack.settings.spUnit=$('input[name="setUnit"]:checked').val();
+                switch (stack.settings.spUnit){
                     case 'nm':
                         stack.settings.spStart=$("#SpStart").spinner("value");
                         stack.settings.spStop=$("#SpStop").spinner("value");
@@ -151,8 +151,10 @@ $(function() {
         "bAutoWidth": true
     });
 //--------------------------------------------------------------------------------
-//For tabs-2 --------------------------
+//For tabs-1 -----------------------------
+    //this tab does not include widgets or buttons
 
+//For tabs-2 --------------------------
     //Toggle titles on mode event changes handler:
     $('input[name="setCalcfor"]').change(function () {
         if (this.value == "R") {
@@ -379,6 +381,7 @@ $(function() {
     }
 
     $('#stackTargs').change(function () {
+        //select object on stack-Tab
         var selTarg = $('#stackTargs option:selected').text();
         if ($('#stackTargs option').length == 0 || selTarg == 'Select:') return;
         else {
@@ -387,6 +390,15 @@ $(function() {
             updGraph();     //update graph
         }
     });
+
+    $('#descStack').change(function () {
+        //input object on stack-Tab
+        var describe = $('#descStack').val();
+        describe= describe.replace(/(^[\"\']+)|([\"\']+$)/g, "");
+        stack.settings.Descriptor=describe;
+        //console.log('descriptor: ',describe);
+    });
+
 
 //Tabs-6: Add a custom editable number input to jeditable for film thickness
     $.editable.addInputType('qumber', {
@@ -562,7 +574,7 @@ $(function() {
         }
     });
 
-//Tabs-6: Document ready tekee kalvokerroksen lis�ykseen handlerin:
+//Tabs-6: Document ready funktio tekee kalvokerroksen lis�ykselle handlerin:
     $('#btnAddFilm').click(function () {
         var uusFilm;
         var layerCount = stackArr.length;
@@ -582,7 +594,6 @@ $(function() {
             oStackTable.fnAddData(stackArr);
         }
         stackArr.ready=false;
-        stack.ReadyForCalc=false;
     });
 
 //Tabs-6: tehdaan kalvokerroksen poiston handleri:
@@ -1193,18 +1204,24 @@ $(function() {
             case 'btnSaveMat':
                 selDirTxt = 'Materials';
                 srvrFileTxt = 'Save material data to';
+                $('#mongFileDesc').val($('#descMater').val());
+                $('#mongFileDescLbl').text('Material file description:');
                 saveLegend= (userName=='No login')?
                 "Material files in public directory":"Material files in "+userName+"\'s directory";
                 break;
             case 'btnSaveTarg':
                 selDirTxt = 'Targets';
                 srvrFileTxt = 'Save target data to';
+                $('#mongFileDesc').val($('#descTarge').val());
+                $('#mongFileDescLbl').text('Target file description:');
                 saveLegend= (userName=='No login')?
                 "Target files in public directory":"Target files in user\'s directory";
                 break;
             case 'btnSaveStack':
                 selDirTxt = 'Stacks';
                 srvrFileTxt = 'Save stack data to';
+                $('#mongFileDescLbl').text('Stack file description:');
+                $('#mongFileDesc').val($('#descStack').val());
                 saveLegend= (userName=='No login')?
                     "Stack files in public directory":"Stack files in user\'s directory";
                 break;
@@ -1333,8 +1350,8 @@ $(function() {
     }
     //var regex = /Film-No:\s[0-9]+/g;
 
-//Tabs-7 & 8 Handler for input-file, for reading local files:
-    $("#matLocFiles, #targLocFiles").on("change", function () {
+//Tabs-6, 7 & 8 Handler for input-file, for reading local files:
+    $("#matLocFiles, #targLocFiles, #stackLocFiles").on("change", function () {
         var selected_file = '';
         switch (this.id) {
             case 'matLocFiles':
@@ -1344,8 +1361,6 @@ $(function() {
                 $("#ediMaterLbl").text("Local File: ");
                 //console.log('this.value: '+this.value);
                 $('#ediMater').val(this.value);
-                $('#')
-                $('#ediMater').val(this.value);
                 break;
             case 'targLocFiles':
                 selected_file = $('#targLocFiles').get(0).files[0];
@@ -1353,8 +1368,16 @@ $(function() {
                 $('#ediTarge').val(selected_file.name);
                 $("#ediTargeLbl").text("Local File:");
                 break;
+            case 'stackLocFiles':
+                //#stackLocFiles is hidden 'file input' on Tabs-6
+                selected_file = $('#stackLocFiles').get(0).files[0];
+                //console.log('selected stack file:',selected_file);
+                if (!selected_file) return;
+                $('#ediStack').val(selected_file.name);
+                $("#ediStackLbl").text("Local File:");
+                break;
         }
-        //alert("file-name: " +selected_file.name+"  "+selected_file.type)
+        //Read local file with callback:
         ReadLocFle(selected_file, gotTextFile);
     });
 

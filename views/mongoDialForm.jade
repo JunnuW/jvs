@@ -9,6 +9,11 @@ div(id="mongoDialForm")
       button(id='btnUserDir', class='medium-btn', type='button') Private
       button(id='btnPublDir', class='medium-btn', type='button') Public
       button(id='btnLocDir', class='medium-btn', type='button') Local
+    br
+    fieldset
+      label(id='mongFileDescLbl' for="mongFileDesc") Description:
+      br
+      input(type="text" id="mongFileDesc" length="150" style='margin:5px' size="60")
       br
   br
   form(id='frm-Login', role='form' )
@@ -32,11 +37,6 @@ div(id="mongoDialForm")
       label(for="mongoFileName") Filename:
       br
       input(type="text" id="mongoFileName" length="150" style='margin:5px' size="60")
-      br
-      label(for="mongFileDesc") Description:
-      br
-      input(type="text" id="mongFileDesc" length="150" style='margin:5px' size="60")
-      br
       br
       b(id="mongoHd") Available subdirectories and files:
       div(id="mongoTree")
