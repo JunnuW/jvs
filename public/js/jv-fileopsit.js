@@ -203,8 +203,8 @@ function respToArr(fileName,resObj) {
             break;
         case "Stack":
             $('#ediStack').val(fileName);
-            $('#descStack').val(resObj.description);
-            //console.log('respToarr: ',resObj);
+            var settn=JSON.parse(resObj.matrlStack);
+            $('#descStack').val(settn.settings.Descriptor);
             afterStackRead(resObj); //inits objects and application interface for the stack
             $.notifyBar({
                 cssClass: "success",
@@ -214,14 +214,8 @@ function respToArr(fileName,resObj) {
         case "intro": // at start-up default stack is read from server using virtual 'intro' tab
             $('#ediStack').val(fileName);
             var settn=JSON.parse(resObj.matrlStack);
-            //var settm=settn.settings.Descriptor;
             $('#descStack').val(settn.settings.Descriptor);
-            //console.log('respToarr: ',resObj);
             afterStackRead(resObj); //inits objects and application interface for the stack
-            /*$.notifyBar({
-                cssClass: "success",
-                html: 'Stack data was read' // "File was read:"
-            });*/
             break;
     }
 }
