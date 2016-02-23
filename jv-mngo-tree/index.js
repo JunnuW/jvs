@@ -26,9 +26,9 @@ var messagSchema = new mongoose.Schema({
     dateRec: { type: String, required: true}
 });
 //User cannot save two messages with identical names:
-messagSchema.index({username: 1, fName:1}, {unique: true});
+messagSchema.index({username: 1, fName:1, dateRec: 1}, {unique: true});
 //Two users cannot save messages with identical names and timestamps:
-messagSchema.index({dateRec: 1, fName:1}, {unique: true});
+//messagSchema.index({dateRec: 1, fName:1}, {unique: true});
 var Message=mongoose.model('Message',messagSchema);
 //creates messages collection, if it does not exist in mongodb
 
@@ -120,8 +120,21 @@ function ApplMod(req){
     return applModel;
 }
 
-exports.saveMsg=function(req,res,callBfun){
+function saveMessage(req,res,callBfun){
     var messN=req.body.fName;
+    messN = messN.replace(/(^\/)|(\/$)/g, "");//remove leading and trailing /
+    //check chain depth:
+    var slashN=messN.match(/\//g).length;
+    if (slashN>5){
+        console.log('Prevented more than 5 message depth');
+        respOnse= {
+            statCode: 409, //user tries to save to too deep message path:
+            resString: 'Your message path is too long: '+messN,
+            error: 'Too deep path'
+        };
+        callBfun(req,res,respOnse);
+        return;
+    }
     //console.log('messageName: ',messN);
     var messUser=req.body.userNme;
     //console.log('messageUser: ',messUser);
@@ -131,14 +144,14 @@ exports.saveMsg=function(req,res,callBfun){
         username: messUser,
         fName: messN, //e.g. "branch1/parent1/parent2/file1",
         uMessage: messTxt,
-        Moderated: false,
+        moderated: false,
         dateRec: vanhenee}
     );
     //console.log('Messa: ',Messa);
     Messa.save(function (err) {
         //Jos messN:llä on jo tallennettu tämä antaa
         // virheilmoituksen E11000 duplicate key error index
-        //http:ksi statusCode 409
+        //http:ksi asetetaan statusCode 409
         if (err) {
             console.log('Error in saving to mongo-db: ',err);
             if (err.name=='MongoError' && err.code==11000){
@@ -159,12 +172,41 @@ exports.saveMsg=function(req,res,callBfun){
         } else{
             console.log("saving OK: "+messN);
             respOnse={
-            statCode: 200,
-            resString:'saving OK',
-            error:''
+                statCode: 200,
+                resString:'saving OK',
+                error:''
             };
         }
         callBfun(req,res,respOnse);
+    });
+}
+
+exports.saveMsg=function(req,res,callBfun){
+    Message.count({'username': req.user.username, 'moderated':false},function(err,countti) {
+        if (err) {
+            respOnse={
+                statCode: 500,
+                resString:'message count error for '+req.body.username+
+                ' retry after new login',
+                error:err.toString()
+            };
+            callBfun(req,res,respOnse);
+            return;
+        }else{//got the number of unmoderated messages
+            console.log(req.user.username,' unmoderated count: ',countti);
+            var inModer=countti;
+            if (countti>2){//user has too many unmoderated messages
+                respOnse={
+                    statCode: 409,
+                    resString: req.user.username+', please wait until your earlier messages ' +
+                    'have been moderated',
+                    error:countti+' messages in moderation'
+                };
+                callBfun(req,res,respOnse);
+                return;
+            }
+            saveMessage(req,res,callBfun);
+        }
     });
 };
 
@@ -607,7 +649,7 @@ exports.checkOneUserFile=function(req,res,callBfun){
 };
 
 
-/* Queries all documents with a schema from mongo db
+/* Queries all documents (materials, targets, stacks) with a schema from mongo db
  * uses collection name to select the document schema for either materials or targets
  * responces either with an error message or a string containing the directory structure
  */
@@ -628,6 +670,7 @@ exports.checkAllUserFiles=function(req,res,callBfun){
     }
     var drTree=[];
     appModel.find({username: req.body.userNme},{'_id':0,'fName':1}, function(err,obj,next) {
+        //todo: muuta jsTree-datan teko samanlaiseksi kuin messageilla
         var matFiles=obj.length;
         var dirIds=[];
         var dirArr=[];
@@ -741,7 +784,11 @@ exports.checkAllUserFiles=function(req,res,callBfun){
 exports.getOneMessa=function(req,res,callBfun){
     Message.find({_id: req.body.messageId},{'_id':1,'fName':1,
         'dateRec':1,uMessage:1,username:1}, function(err,messag) {
-        console.log('messag: ',messag[0]);
+        if (messag[0].username=='Publ'){
+            //change Publ to Admin before output
+            messag[0].username='Admin';
+        }
+        //console.log('messag: ',messag[0]);
         if (err) {
             respOnse={
                 statCode: 500,
@@ -764,18 +811,53 @@ exports.getOneMessa=function(req,res,callBfun){
  * responces either with the number of stored messages by the user an error message
  */
 exports.countUserMess=function(req,res,callBfun){
-    Message.count({username: req.body.username},function(err,countti) {
-        console.log('count: ',countti);
+    //init response
+    var messCount={'all': 0,'inModeration':0};
+    console.log('req.user: ',req.user);
+    console.log('messCount: ',messCount);
+    if (!req.user){
+        console.log('missing req.user.username in countUserMess');
+        respOnse={
+            statCode: 200,
+            resString:'no username available to count messages, try login '
+            //error:err.toString()
+        };
+        callBfun(req,res,respOnse);
+        return;
+    }
+    //valid user login continue to get count for all and in moderation messages
+    Message.count({'username': req.user.username},function(err,countti) {
+        //got number of all messages:
+        if (err) {
+            console.log('error getting message count for: ', req.user.username);
+            respOnse={
+                statCode: 500,
+                resString:'message counting failed for '+req.body.username+
+                ' retry after new login',
+                error:err.toString()
+            };
+            callBfun(req,res,respOnse);
+            return;
+        }else{
+            console.log(req.user.username,' all messages: ',countti);
+            messCount.all=countti;
+        }
+    });
+    Message.count({'username': req.user.username, 'moderated':false},function(err,countti) {
+        //got number of in moderation messages
         if (err) {
             respOnse={
                 statCode: 500,
-                resString:'message counting failed for '+req.body.username,
+                resString:'message counting failed for '+req.body.username+
+                ' retry after new login',
                 error:err.toString()
             };
         }else{
+            console.log(req.user.username,' in moderation count: ',countti);
+            messCount.inModeration=countti;
             respOnse={
                 statCode: 200,
-                MessageCount:countti,
+                MessageCount:JSON.stringify(messCount),//countti,
                 error:''
             };
         }
@@ -789,9 +871,15 @@ exports.countUserMess=function(req,res,callBfun){
  */
 exports.checkAllMessa=function(req,res,callBfun){
     //console.log("checkAllUserFiles username: ", req.body.userNme);
-    //console.log("checkAllUserFiles Collection: ", req.body.Collection);
     var drTree=[];
-    Message.find({},{'_id':1,'fName':1,'dateRec':1,'Moderated':true}, function(err,allMess) {
+    var fields = {'_id':1,'fName':1,'dateRec':1,'moderated':1};
+    var querY={'moderated':true};
+    if (req.user && req.user.username=='Publ'){
+        //Publ user can view all messages
+        querY={};
+    }
+    console.log('querY: ',JSON.stringify(querY));
+    Message.find(querY,fields, function(err,allMess) {
         var messFN=allMess.length;
         allMess.sort(function(a,b){
             if(a.fName< b.fName) return -1; //alphabetically sorts after message name
@@ -800,11 +888,13 @@ exports.checkAllMessa=function(req,res,callBfun){
             if(a.dateRec >b.dateRec) return 1;
             return 0; // should never take place, receiving times can't be identical
         });
+        console.log('allMess. ',allMess);
         //Put messages into json object for the jsTree widget
         for (var i=0;i<messFN;i++){
             var mesName=allMess[i].fName;
             var a=[];
             mesName = mesName.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
+            //console.log('mesName: ',mesName);
             a=mesName.split("/");
             if (a.length==1){//thread item
                 drTree.push({
@@ -833,13 +923,14 @@ exports.checkAllMessa=function(req,res,callBfun){
                     })
                 }
             }
-            //console.log(i,' drTree: ',drTree[i]);
+            //console.log('drTree: ',drTree);
         }
         respOnse={
             statCode: 200,
             resString:JSON.stringify(drTree),
             error:''
         };
+        //console.log('respOnse: ',respOnse);
         callBfun(req,res,respOnse);
     });
 };

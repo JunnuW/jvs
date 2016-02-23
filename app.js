@@ -22,12 +22,7 @@ var moment = require('moment');
 var session = require('express-session'); //Session cookies
 //var errorHandler = require('express-error-handler');
 var mngoTree=require('./jv-mngo-tree');
-//seuraavat kolme jqueryFileTree-tÃ¤ varten:
-// var util = require('util');
-//var fs = require('fs'); //npm install varoittaa tämän oleva core moduli
 var requestIp = require('request-ip'); //for finding request client's ip
-//var http = require('http');
-//var bson = require('bson');
 var jwtSecret='onpas_ovelaa_tämä:_node.js';
 var app = express();
 
@@ -42,21 +37,6 @@ if (typeof ipAddress === "undefined") {
 app.ipaddress=ipAddress;
 app.port=process.env.OPENSHIFT_NODEJS_PORT || 3000;
 console.log('Port: ',app.port);
-
-/*var zcache={ 'Vindex.html': '' };
-zcache['Vindex.html'] = fs.readFileSync('./views/Vindex.html');
-function cache_get(key) {return zcache[key];}
-
-app.get('/asciimo',function(req,res){
-    var link = "http://i.imgur.com/kmbjB.png";
-    res.send("<html><body><img src='" + link + "'></body></html>");
-});
-
-app.get('/',function(req,res){
-    res.setHeader('Content-Type', 'text/html');
-    res.render('./views/Vindex.html');
-    //res.send(cache_get('Vindex.html'));
-});*/
 
 app.use(express.static(__dirname)); //tämä oltava jotta bower_components hakemisto löytyy
 app.use(express.static(__dirname + '/public')); //tässä muun staattisen sisällön hakemisto
@@ -186,12 +166,6 @@ app.set('view engine', 'jade');
 app.set('SessionSecret', 'onpas_ovelaa_tämä:_node.js');
 app.use(logger('dev')); //in development neighbourhood
 
-/*logger(req, res, function (err) {
-    if (err) return done(err)
-    // respond to request
-    res.setHeader('content-type', 'text/plain')
-    res.end('hello, world!')*/
-
 //nämä kaksi:app.use(bodyParser.json())
 app.use(jsonParser);
 app.use(urlEncodedParser,function(error, req, res, next){
@@ -209,9 +183,6 @@ app.use(urlEncodedParser,function(error, req, res, next){
 //app.use(expressValidator());
 //app.use(methodOverride());
 app.use(cookieParser());
-//app.use(express.session({ secret: 'keyboard cat' })); ei toiminut ennen asennusta: npm install express-session
-//muutettu:
-//app.use(session({ secret: 'keyboard cat' })); antoi virheilmoituksen, muutettu:
 
 app.use(session({//session is require by flash and passport
     cookieName: 'TFRT-session',
@@ -274,38 +245,56 @@ function createToken(req,userN){
 function ValidateToken(req,res){
     //var secrt=app.get('jwtTokenSecret');
     //console.log('Validated token: ',req.body.rtftoken)
-    var decoded = jwt.decode(req.body.rtftoken, jwtSecret);
-    //console.log('issuer: ',decoded.iss);
-    //console.log('reqIP: ',decoded.reqIp);
-    //console.log('expires: ',decoded.expires);
+    /*if (!req.body.rtftoken||!req.user||req.user==null){
+        req.user=null;
+        return;
+    }*/
     var validResult='OK';
+    var decoded;
+    if (req.body.rtftoken && req.user){
+        decoded = jwt.decode(req.body.rtftoken, jwtSecret);
+        //console.log('issuer: ',decoded.iss);
+        //console.log('reqIP: ',decoded.reqIp);
+        //console.log('expires: ',decoded.expires);
+    }else{
+        req.user=null;
+        validResult='Invalid login';
+        return validResult;
+    }
     if (decoded.expires <= Date.now()) {
         validResult='Your login has expired, please re-login!';
+        req.user=null;
         //console.log('login has expired');
         //res.end('Access token has expired', 400);
+        return validResult;
     }
     var clientIp = requestIp.getClientIp(req);
     if (decoded.reqIP != clientIp) {
         validResult='No login from current IP';
+        req.user=null;
         //console.log('No login for '+decoded.iss+' from your location');
         //res.end('Access token has expired', 400);
+        return validResult;
     }
     if (decoded.iss != req.user.username) {
         //for Public files: req.body.userNme!=decoded.iss
         //console.log('req.user: ',req.user);
         //console.log('req.body: ',req.body);
         validResult='Invalid login for '+req.user.username+ '! Please login';
+        req.user=null;
         //console.log('Your login is invalid');
         //res.end('Access token has expired', 400);
+        return validResult;
     }
     return validResult;
 }
 
 /* GET home page. */
 app.get('/', function(req, res) {
-    console.log('get/');
+    //console.log('get/');
     // following line prevents cache usage in rendering /index ;
     // causing menus to update according to login status
+    //ValidateToken(req,res);
     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
     if (req.user) {
         //console.log('rendering with cookie username:  '+(req.session.user));
@@ -324,14 +313,14 @@ app.get('/', function(req, res) {
 
 /* GET index page. */
 app.get('/index', function(req, res) {
-    console.log('app.get/index');
-    console.log('/index req.headers: '+JSON.stringify(req.headers));
+    //console.log('app.get/index');
+    //console.log('/index req.headers: '+JSON.stringify(req.headers));
 });
 
 /* GET contributions page. */
 app.get('/contrbs', function(req, res) {
-    console.log('app.get/contrbs');
-    console.log('/contrbs req.headers: '+JSON.stringify(req.headers));
+    //console.log('app.get/contrbs');
+    //console.log('/contrbs req.headers: '+JSON.stringify(req.headers));
     res.render('contrbs', {
         title: 'Credits and acknowledgements',
         user: (req.user)  //false
@@ -405,7 +394,7 @@ app.get('/signup', function(req, res) {
 });
 
 app.get('/refletrans', function (req, res) {
-    console.log('app.get/refletrans');
+    //console.log('app.get/refletrans');
     //without login; req.user==undefined
     res.render('refletrans', {
         user: (req.user)
@@ -515,14 +504,14 @@ app.post('/signup', function (req, res) {
                     user: user.toJSON(),
                     responseStr: "Login successfull"
                 });
-                console.log('user authenticated and jwtToken made for: '+user.username);
+                //console.log('user authenticated and jwtToken made for: '+user.username);
             });
         }
     });
 });
 
 function respAllMngo(req,res,respOnse) {
-    //console.log('respAllMngo url: ',req.url);
+    console.log('respAllMngo url: ',req.url);
     //console.log('respAllMngo res: ',res);
     var statCode=respOnse.statCode;
     res.status(statCode).json(respOnse);
@@ -533,6 +522,24 @@ function respAllMngo(req,res,respOnse) {
     //res.end();
 }
 
+app.post('/checklogin', function(req,res){
+    //console.log('req.body.userNme',req.body.userNme);
+    //console.log('req.body.rtftoken',req.body.rtftoken);
+    var valResu=ValidateToken(req,res);
+    if (valResu!='OK') {//token validation not OK: expired ||[invalid (userName||client IP)]
+        res.json({
+            token : 'invalid',
+            response: valResu
+        });
+    }else {
+        res.json({
+            token : 'valid',
+            response: valResu
+        });
+    }
+});
+
+
 app.post('/auth/*', function(req,res){
     //console.log('post auth: ',req.url, ' req.body: ',req.body);
     var urli=req.url;
@@ -540,9 +547,10 @@ app.post('/auth/*', function(req,res){
     if (['/dbRename', '/dbDelete', '/dbInsert','/dbUpdate'].indexOf(urli) !== -1 &&
         req.body.userNme!=req.user.username) {
         //requested directory is not owned by user: deny all changes!
+        //only Publ save to Publ directory
         var opert=urli.slice(3);
         var messag={statCode:500, resString:'No '+opert+' permission in '+ req.body.userNme+' directory!'};
-        console.log('messag: ',messag);
+        //console.log('messag: ',messag);
         doResponse(req,res,messag);
         return;
     }
@@ -585,15 +593,19 @@ app.post('/auth/*', function(req,res){
             mngoTree.renameDocs(req,res,respAllMngo);
             break;
         case '/getMessages' :
+            console.log('getMessages');
             mngoTree.checkAllMessa(req,res,respAllMngo);
             break;
         case '/getOneMessage' :
+            console.log('getOneMessage:');
             mngoTree.getOneMessa(req,res,respAllMngo);
             break;
         case '/messageSave' :
+            console.log('messageSave');
             mngoTree.saveMsg(req,res,respAllMngo);
             break;
         case '/countMessages' :
+            console.log('countMessages:');
             mngoTree.countUserMess(req,res,respAllMngo);
             break;
         default:
@@ -615,9 +627,9 @@ app.get('/pwdEdit', function(req, res) {
 app.get('/logout', function(req, res){
     //console.log('logging out user: '+user.username+' req.session.user.username: '+req.session.user.username);
     //req.session.user=req.logout();
-    console.log('logging off user:'+JSON.stringify(req.user));
+    //console.log('logging off user:'+JSON.stringify(req.user));
     req.user='';
-    console.log('logged off user:'+JSON.stringify(req.user));
+    //console.log('logged off user:'+JSON.stringify(req.user));
     res.render('index',{
         title: 'Rock Phys. (no login)',
         user:req.user
@@ -625,14 +637,14 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/forgot', function(req, res) {
-    console.log("app.get('/forgot')");
+    //console.log("app.get('/forgot')");
     res.render('forgot', {
         user: req.user
     });
 });
 
 app.post('/forgot', function(req, res) {
-    console.log("app.post('/forgot')");
+    //console.log("app.post('/forgot')");
     //vesiputous ajaa sarjan callback funktioita perÃ¤kkÃ¤in:
     async.waterfall([
         function(done) {
@@ -767,13 +779,13 @@ app.post('/reset/:token', function(req, res) {
 });
 
 //The 404 Route is the last route if no match found earlier
-app.get('*', function(req, res){
+/*app.get('*', function(req, res){
     req.flash('error', 'This address was not found');
     res.render('error', {
         message: 'Unknown URL: '+req.url
         //error:
     });
-});
+});*/
 
 //The 404 Route (ALWAYS Keep this as the last route)
 app.post('*', function(req, res){

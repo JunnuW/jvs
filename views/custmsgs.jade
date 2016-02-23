@@ -5,9 +5,9 @@ block content
   br
   table
     //-sarake jossa message tree:
-    col(style="width:50%")
+    col(style="width:55%")
     //-sarake jossa tekstikentät:
-    col(style="width:50%")
+    col(style="width:45%")
     tr
       //-Ekan rivin eka sarake:
       td(valign='top')
@@ -34,7 +34,7 @@ block content
                 br
               //-legend(id='msgTreLege') Rock Phys messages:
               label(for="msgThread") Thread:
-              button(id='btnSaveMsg', style='margin-left:12em' class='medium-btn', type='button') Submit new message
+              button(id='btnSaveMsg', style='margin-left:12em' class='medium-btn', type='button') Create message
               br
               input(type="text" id="msgThread" length="150" style='margin:5px' size="60")
               br
@@ -49,146 +49,72 @@ block content
               br
 
   script(type='text/javascript').
-    //-t��lt�p� skripti pelaa sujuvasti my�s custmsg formin kanssa
-    //-mutta sisennyksen on oltava oikeassa kohdassa, muuten skripti ei käynnisty
-    //-scripti on viimeisenä ei tarvita document ready funktiota
-    var msgUser;
-    /*= $('#userN').text();
-    msgUser = (msgUser.substring(0, msgUser.indexOf(' :')).length > 0) ?
-      msgUser.substring(0, msgUser.indexOf(' :')) : msgUser;
-    msgUser= (msgUser.length>0)? msgUser : 'No login';
-    //-console.log('msgUser: ',msgUser);*/
-    msgUser =window.sessionStorage.getItem('RTFuser');
-    console.log('msgUser: ',msgUser);
-    if (msgUser ){
-      countMessages(msgUser);
-      //$('#userN').text(msgUser+', you have submitted: '+n+' messages');
+    $('#msgThread').prop('disabled', true); //remains always disabled for all users
+    var msgUser=window.sessionStorage.getItem('RTFuser');
+    if (msgUser && msgUser!='No login'){
+      countMessages(msgUser); //counts messages and updates userN label
       $('#btnSaveMsg').attr("disabled", false);
-    }else{
-      $('#userN').text('Please login to submit a message');
+    }else{//no login:
       $('#btnSaveMsg').attr("disabled", true);
+      $('#userN').text(msgUser); //=No login
     }
 
-    $('#userN').text(msgUser);
-    var mesTree = $('#msgTree').jstree({
-      'core': {
-        "check_callback": true
-      }
-    });
-    //init. data for message tree
     var bTreeData = [
-      {
+      {//-dummy data for message tree
         "text": "Root nod", "children": [
         {"text": "Child node 1"},
         {"text": "Child node 2"}
       ]
       }
     ];
-    $('#msgTree').jstree(true).settings.core.data = bTreeData;
-    $('#msgTree').jstree(true).refresh();
-    msgTreeUpdate();
 
-    //console.log('jstree done');
-    $('#btnSaveMsg').click(function () {
-      var msgName=fleNmr();
-      console.log('msgName: ',msgName);
-      if (!msgName) return;
-      var msgTxt=$('#msgText').val();
-      //console.log('message: ',msgTxt);
-      var tokene;
-      if (msgUser.length>0) {
-        tokene = window.sessionStorage.getItem('RTFtoken');
+    var mesTree = $('#msgTree').jstree({
+      'core': {
+        "check_callback": true,
+        "data":bTreeData
       }
-      //console.log('token: ',tokene);
-      var msgSave = $.post('/auth/messageSave', {
-        userNme: msgUser,
-        Collection: 'messages',
-        rtftoken: tokene,
-        fName:msgName,
-        Text: msgTxt
-      }).done(function (data, status, xhr) {//
-        if (data) {
-          //console.log('after saving data: ',data);
-          if (data.token == 'invalid') {//invalid token otherwise data.token==undefined
-            window.sessionStorage.setItem('RTFuser', 'No login');
-            window.sessionStorage.setItem('RTFtoken', null);
-              //console.log(data);
-            $.notifyBar({//alert reason for token failure is in data
-              //position: "bottom",
-              cssClass: "error",
-              html: data.response
-            });
-            return;
-          }
-          //console.log('data received: ',data);
-          if (data.statCode == 200) {
-            //console.log('saving response: ',data);
-            $.notifyBar({
-              cssClass: "success",
-              html: "Thank's for your message!"
-            });
-          } else {
-            $.notifyBar({
-              cssClass: "error",
-              html: data.error
-            });
-          }
-        } else {
-          console.log('no data saved');
-          $.notifyBar({
-            //position: "bottom",
-            cssClass: "error",
-            html: data.error
-          });
-        }
-      })
-      /*.fail(function () {
-        console.log('failed to save message');
-        $.notifyBar({
-        //position: "bottom",
-         cssClass: "warning",
-         html: "(Connection or database error in server)"
-        });
-      })*/
-      .error(function(XMLHttpRequest, textStatus, errorThrown){
-        //console.log('XMLHttpRequest: ',XMLHttpRequest);
-        //console.log('textStatus: ',textStatus);
-        //console.log('errorThrown: ',errorThrown);
-        if (XMLHttpRequest.status==409){
-          $.notifyBar({
-            //position: "bottom",
-            cssClass: "warning",
-            html: "You have already posted a message with identical Thread & Header combination"
-          });
-        }else{
-          $.notifyBar({
-            //position: "bottom",
-            cssClass: "warning",
-            html: "Connection or server database eror: ",errorThrown
-          });
-        }
-      });
-      msgTreeUpdate();
     });
 
+    //reads and updates msge tree with all moderated messages:
+    msgTreeUpdate();
+
+    $('#btnSaveMsg').click(function () {//-can be: 'Create message' or 'Save message':
+      if (msgUser.length < 1 || msgUser == 'No login') {
+        //should never leak here, while this button is disabled for 'No login'
+        $.notifyBar({//alert reason for token failure is in data
+          cssClass: "error",
+          html: 'Please login for messaging '
+        });
+        return;
+      }
+      //determine operation: 'Create message' or 'Save message':
+      var butCapt=$(this).text();
+      //-tai: $('#btnSaveMsg').text();
+      if (butCapt=='Create message'){
+        $("#msgText").select(); //selects textbox text
+        $("#btnSaveMsg").text('Submit message');
+        $('#msgLbl').text('New message:');
+        $('#msgHeader').val('');
+        return;
+      }
+      //-came here, button caption =='Submit message'
+      saveMessage();
+      //-counts messages in server, and saves if less than four in moderation
+    });
 
     /**
-    * Function builds and checks the message filename before it is posted to server
+    * Function builds and checks the message filename before posting to server
     * @return string mngFileN
     */
     function fleNmr() {
       var fNamed;
       var fileN = $('#msgHeader').val();
-      /*if (fileN.length < 1) {// means the filename field is empty
-        alert("Header is required");
-        return fNamed;//undefined
-      }*/
       fileN = fileN.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
       var myRegxp1 = /^[-_\/\sa-z0-9]+$/i;
-      /*if (!myRegxp1.test(fileN)) {//only alphanumerics with "-", "_" and "/" are allowed
+      if (!myRegxp1.test(fileN)) {//only alphanumerics with "-", "_" and "/" are allowed
         alert("Invalid header: " + fileN);
         return fNamed;//undefined
-      }*/
+      }
       var dirN = $('#msgThread').val();
       dirN = dirN.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
       /*if (!myRegxp1.test(dirN)) {//only alphanumerics with "-", "_" and "/" are allowed
@@ -209,13 +135,11 @@ block content
     }
 
     function msgTreeUpdate() {
-      $('#msgThread').prop('disabled', false); //these should be enabled
       $('#msgHeader').prop('disabled', false);
       $('#msgText').prop('disabled', false);
-      //var collec = pickCollection();
-      //fetches all user's file titles with their paths from server:
-      var checkAllUserMsgs = $.post('/auth/getMessages', {
-        //-directly uses messages collection in mongodb:
+      //-fetches all moderated message titles on the server:
+      //-directly uses messages collection in mongodb:
+      var checkAllMsgs = $.post('/auth/getMessages', {
         })
         .done(function (data, status, xhr) {//
           if (data) {
@@ -263,17 +187,19 @@ block content
       switch (e.type) {
         case 'deselect_all':
           //deselect all is triggered before new selected cell is activated
-          $('#msgThread').prop("disabled", true);
-          $('#msgHeader').prop("disabled", true);
-          $('#msgTxt').prop("disabled", true);
           $('#msgThread').val('');
           $('#msgHeader').val('');
           $('#msgTxt').val('');
           break;
         case 'select_node':
+          $('#btnSaveMsg').text('Create message');
           selctdNde = data.instance.get_selected(true)[0];
-          $('#msgThread').prop("disabled", true);
-          $('#msgHeader').prop("disabled", false);
+          $('#msgThread').val(selctdNde.text);
+          /*if (selctdNde.parent=="#"){//is root node
+            $('#msgThread').val(selctdNde.text);
+          }else{
+            $('#msgThread').val(selctdNde.text);
+          }*/
           $('#msgHeader').val(selctdNde.text);
           var longName=selctdNde.text;
           var n=0;
@@ -291,16 +217,14 @@ block content
             if (findIt.length>0) longName=parnt[0].text+'/'+longName;
             doIf=(parnt[0].parent.length>0 && parnt[0].parent!='#');
           }
-          $('#msgHeader').val(selctdNde.text);
-          $('#msgThread').val(longName.substring(0,longName.lastIndexOf('/')));
-
           //read message for the selected node:
           var msgRead = $.post('/auth/getOneMessage', {
             messageId: selctdNde.id
           })
             .done(function (data, status, xhr) {//
               if (data) {
-                //console.log('received data: ', data.resString);
+                //console.log('received data: ', data);
+                //console.log('received data.resString: ', data.resString);
                 //show message in the text area:
                 var thisMessa=JSON.parse(data.resString);
                 $('#msgText').val(thisMessa.uMessage);
@@ -326,61 +250,100 @@ block content
                 html: errorThrown
               });
             });
-
-
           break;
+        default:
+          console.log('default case:');
+          break;
+
       }
     }); //btree on.change ready
 
-    /**
-     * Function builds the filename and parentfolder for a jstree-node
-     * @nodeJson string jstree node id
-     * @return object {Folder: foldername, shortFile:'filename', longFile:'filename with path'}
-     */
-    function msgItem(nodeJson) {
-      //js-tree data, in bTree is used to build a folder structure for the selected node
-      var obje = {longFile: '', shortFile: '', Folder: ''};
-      //longfile: filename with directory, shortFile: only filename, Folder: directory only
-      if (!bTreeData || nodeJson.length < 1) {//return early if no data
-        return obje;
-      }
-      var pathi = '';
-      var condition = true;
-      var nodeId = nodeJson;
-      var temp = "";
-      //seuraavasta saadaan selville valittu node.id:
-      while (condition) {//grep (i.e. filters array) to find node object for nodeId:
-        var noode = $.grep(bTreeData, function (e) {
-          return e.id == nodeId;
-        })[0];
-        //Examine if this is root parent:
-        condition = (noode.parent != "#" && nodeId != 'ajason1'); //false if root parent
-        temp = noode.text;
-        temp = temp.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-        pathi = temp + "/" + pathi;
-        nodeId = noode.parent;
-      }
-      pathi = pathi.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-      var slashN = pathi.lastIndexOf('/');
 
-      obje.longFile = temp;
-      temp = pathi.slice(0, slashN + 1);
-      obje.Folder = temp.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-      obje.shortFile = pathi.slice(slashN + 1);
-      obje.longFile = obje.Folder + '/' + obje.shortFile;
-
-      /*if (fileTyp == 'jstree-file') {
-        temp = pathi.slice(0, slashN + 1);
-        obje.Folder = temp.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-        obje.shortFile = pathi.slice(slashN + 1);
-        obje.longFile = obje.Folder + '/' + obje.shortFile;
+    function saveMessage(){
+      var msgName = fleNmr(); //-builds name for a new message
+      if (!msgName) return;
+      var msgTxt = $('#msgText').val();
+      var mesLen = msgTxt.length;
+      if (mesLen > 200) {//max length of message
+        $.notifyBar({//alert reason for token failure is in data
+          cssClass: "error",
+          html: 'Your message is too long'
+        });
+        return;
       }
-      else {
-        obje.Folder = pathi;
-        obje.longFile = '';
-        obje.shortFile = '';
-      }*/
-      return obje;
+      var tokene = window.sessionStorage.getItem('RTFtoken');
+      var msgSave = $.post('/auth/messageSave', {
+        userNme: msgUser,
+        Collection: 'messages',
+        rtftoken: tokene,
+        fName: msgName,
+        Text: msgTxt
+      }).done(function (data, status, xhr) {//
+        if (data) {
+          if (data.token == 'invalid') {
+            //-token check returns invalid, otherwise data.token==undefined,
+            //-(OK saving does not return token in data)
+            window.sessionStorage.setItem('RTFuser', 'No login');
+            window.sessionStorage.setItem('RTFtoken', null);
+            $.notifyBar({//-alert reason for token failure is in data
+              cssClass: "error",
+              html: data.response
+            });
+            return;
+          }
+          if (data.statCode == 200) {//-success in saving
+            $.notifyBar({
+              cssClass: "success",
+              html: "Thank's for your message!"
+            });
+            $("#btnSaveMsg").text('Create message');
+            $('#msgHeader').val('');
+            $('#msgText').val('');
+            countMessages(msgUser);
+          } else {
+            $.notifyBar({
+              cssClass: "error",
+              html: data.error
+            });
+          }
+        } else {
+          $.notifyBar({
+            cssClass: "error",
+            html: data.error
+          });
+        }
+      })
+      .error(function (XMLHttpRequest, textStatus, errorThrown) {
+        //-console.log('XMLHttpRequest: ',XMLHttpRequest);
+        //-console.log('textStatus: ',textStatus);
+        //-console.log('errorThrown: ',errorThrown);
+        if (XMLHttpRequest.status == 409) {
+          //console.log('409 responseText: ',XMLHttpRequest.responseText);
+          var virhe=JSON.parse(XMLHttpRequest.responseText);
+          $.notifyBar({
+            cssClass: "warning",
+            html: virhe.resString
+          });
+        } else {
+          $.notifyBar({
+            //position: "bottom",
+            cssClass: "warning",
+            html: "Connection or server database eror: ", errorThrown
+          });
+        }
+      });
+    }
+
+    function userNupdate(data){
+      //show message in the text area:
+      var MessaCount = JSON.parse(data.MessageCount);
+      console.log('MessaCount: ', data);
+      console.log('MessaCount.all: ', MessaCount.all);
+      var viesti = 'You have posted ' + (MessaCount.all - MessaCount.inModeration) + ' messages';
+      if (MessaCount.inModeration > 0) {
+        viesti = viesti + ' + ' + MessaCount.inModeration + ' in moderation';
+      }
+      $('#userN').text(viesti);
     }
 
     function countMessages(userN){
@@ -390,16 +353,12 @@ block content
       .done(function (data, status, xhr) {//
         if (data) {
           console.log('received data: ', data);
-          //show message in the text area:
-          var MessaCount = data.MessageCount;
-          $('#userN').text('You have posted: '+MessaCount+' messages');
-          //show message sender and date on the lbl:
-          //var lblText = thisMessa.username + ' wrote on ' + thisMessa.dateRec;
-          //$('#msgLbl').text(lblText);
+          userNupdate(data);
+          //callback(data);//either userNupdate tai userMinsert
         } else {
-          console.log('message count was not obtained from server');
+          console.log('message count could not be obtained from server');
+          var MessaCount ={'all':false,'inModeration':data.error};
           $.notifyBar({
-            //position: "bottom",
             cssClass: "error",
             html: data.error
           });
@@ -410,7 +369,6 @@ block content
         console.log('message count textStatus: ', textStatus);
         console.log('message count errorThrown: ', errorThrown);
         $.notifyBar({
-          //position: "bottom",
           cssClass: "error",
           html: errorThrown
         });

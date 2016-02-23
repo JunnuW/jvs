@@ -22,8 +22,9 @@
  */
 
 /* *****Global Variable declarations*****
-* These should be kept out of document ready function, otherwise become  unavailable
-*
+* These should be kept out of document ready function, otherwise will not
+ * be available
+ *
 */
 var aTreeData;       //Data object for directory tree (JSON data) obtained from mongo database
 var dirUser='Publ';  //server directory user default (No Login)
@@ -52,18 +53,30 @@ var targStr = "nm\tR\t'sample data'\r\n500\t55.0\r\n510\t54.0\r\n520\t55.0";
 /* *****Document ready function ***********
 *   Runs after HTML page has been rendered
 *   Initializes variables and prepares event handlers
-*   (could be done also by placing the script calls to the bottom of the HTML-page)
+*   (Avoideable by placing the jv-tfrcalci.js script tag to the bottom of
+*   refletrans HTML body before the </body> tag. Here in refletrans.jade file)
+*   script call to jquery.min.js has to be before this called to alias the $ char
+*   for jquery
 *   $( document ).ready(function() {
 *       console.log( "ready!" );
 *   });
 */
 $(function() {
-    stack=buildStack(); //Set default calculation parameters and materials
-    //console.log('buildStack. ',stack);
-    buildMongoDial();   //creates dialogform for saving to mongodb
+    //ask confirmation on page exit:
+    window.onbeforeunload = function(){
+        return 'Unsaved data?';
+    };
+
+    //Set default calculation parameters and materials
+    stack=buildStack();
+
+    //Build dialog form for opening and saving files
+    buildMongoDial();
+
+    //open default stack from server:
     var srvrFileTxt = 'Open stack file from';
     DFmngo=$('#mongoDialForm'); //dialog form
-    DFmngo.dialog('option','title',srvrFileTxt)  // starts from stacks collection
+    DFmngo.dialog('option','title',srvrFileTxt);  // starts from stacks collection
     if (window.sessionStorage.getItem('RTFtoken') && window.sessionStorage.getItem('RTFtoken').length>0){
         userName=window.sessionStorage.getItem('RTFuser');
     }else{
@@ -71,11 +84,11 @@ $(function() {
         var fiile='Defaults/R-Default';
         mongoGetOne(fiile,dirUser);// opens default stack from Publ dierectory: dirUser='Publ'
     }
-
-    //todo: read default stack, then set: target selector, target options and material options
+    //Dummy target and material arrays
     targArr = splitToArr(targStr);
     matrlArr = splitToArr(matrlStr);
 
+    //init jquery tabs widget
     $( "#tabis" ).tabs({
         //tabs panel täyttää sen verran, kun on tarpeen:
         heightStyle: "auto",

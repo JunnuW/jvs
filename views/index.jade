@@ -10,20 +10,24 @@ block content
       | Welcome to Rock.Phys.
     br
     h2 Summary
-    | This is a private effort to study
+    | This is a private, noncommercial work to study
     //- link to cloud computing on new browser tab
     -cloud_url="https://en.wikipedia.org/wiki/Cloud_computing"
-    a(href="#{cloud_url}" target="_blank")  cloud and web browser based
-    br
-    | programming in technical and scientific computing purposes.
+    a(href="#{cloud_url}" target="_blank")      cloud storage and web browser based software
+    |      for technical and scientific computing purposes.
     br
     | More details about this site is available behind menu item:
     -cloud_url2="/aboutti"
     a(href="#{cloud_url2}")    info/about this site .
     h2 Login or not login?
-    | This site has (some) cloud based storage space for user files and messages. In order to avoid abuse
-    | (robots or malicious users), all the space is reserved for logged in users only. The email address required
+    | This site has limited cloud based storage space for user files and messages. In order to avoid abuse
+    | (from robots or malicious users), this space is reserved for logged in users only. The email address required
     | during signup is merely for password recovery, if forgotten. It will not be sold or used to pollute your mailbox
     | with commercial messages. If you want to be sure, and do not need the password recovery option, you can signup with
     | an imaginary email address. During signup, the user password will be hashed before saving and without a real email
     | address there is no easy way to recover it from the server. Passive login data will be regularly deleted from the server.
+
+  script(type='text/javascript').
+    //-t��lt�p� skripti pelaa sujuvasti my�s custmsg formin kanssa
+    //-mutta alun sisennyksen on oltava oikea, muuten skripti ei käynnisty
+    //-scripti on viimeisenä ei tarvita document ready funktiota

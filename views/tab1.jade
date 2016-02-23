@@ -33,27 +33,28 @@ div(id="tabs-1")
   | using either the 'manual-' or 'auto-tuning' mode
   p
     b Step 6:
-  div Save data either to server (uploaded) or local (downloaded) files:
+  div if desired, save data either to server (uploaded) or local (downloaded) files:
     br
     b(style="color:green")   Use save buttons on TAB's
     |    in previous steps 2,3,4
-  br
-  | Before local saving check and possibly edit the filename on the respective TAB.
+  | Before local saving check and possibly edit the filename on the respective TAB's.
   | As default, local saving takes place into the downloads folder defined in
-  br
   | your browser settings and contains the data safety risks common to data downloads
   | from the internet.
   br
   | However, Mozilla-FF provides methods to check and inspect the file contents before the saving.
   | For that, a basic text editor without scripting possibility is recommended
-  br
   | (or possibly MS-Office programs in macros disabled mode). MS-Notepad should also be OK, but does
   | not show the contents properly, while it requires CR,LF characters to start a new line.
   br
   | Google Chrome in turn provides the possibility to edit the filename and select the folder for the local saving.
-  br
   | Internet Explorer and MS-Edge browsers support HTML5 File Apis through blob objects (binary large object)
-  br
-  | and file drag and drop. As these are not used here and this application uses local saving to text files, the MS-browsers are
-  br
-  | not recommend if you want local storage. http://caniuse.com/#search=file%20api
+  | and file drag and drop. As these are not applied here (and this application uses local saving to text files),
+  | the MS-browsers are not recommend if you want local storage. see also http://caniuse.com/#search=file%20api
+  p
+    b Step 7:
+  div The easiest method to use your own material or spectral data:
+    br
+    | Open one of the files in public directory on the server, save it to your local folder,
+    | use your preferred editor to modify the contents and rename the file. Finally open your
+    | file using open local file option.
