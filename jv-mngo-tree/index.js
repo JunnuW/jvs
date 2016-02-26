@@ -158,7 +158,7 @@ function saveMessage(req,res,callBfun){
                 //console.log('dubb key Error in saving to mongo-db:');
                 respOnse= {
                     statCode: 409, //user already has this message:
-                    resString: 'We already have your message: '+messN,
+                    resString: 'Not saved! Name: '+messN+ ' already used!',
                     error: err.toString()
                 };
             }else{
@@ -785,7 +785,7 @@ exports.getOneMessa=function(req,res,callBfun){
     Message.find({_id: req.body.messageId},{'_id':1,'fName':1,
         'dateRec':1,uMessage:1,username:1}, function(err,messag) {
         if (messag[0].username=='Publ'){
-            //change Publ to Admin before output
+            //to distract change Publ to Admin before output
             messag[0].username='Admin';
         }
         //console.log('messag: ',messag[0]);
@@ -813,10 +813,10 @@ exports.getOneMessa=function(req,res,callBfun){
 exports.countUserMess=function(req,res,callBfun){
     //init response
     var messCount={'all': 0,'inModeration':0};
-    console.log('req.user: ',req.user);
-    console.log('messCount: ',messCount);
+    //console.log('req.user: ',req.user);
+    //console.log('messCount: ',messCount);
     if (!req.user){
-        console.log('missing req.user.username in countUserMess');
+        //console.log('missing req.user.username in countUserMess');
         respOnse={
             statCode: 200,
             resString:'no username available to count messages, try login '
@@ -853,7 +853,7 @@ exports.countUserMess=function(req,res,callBfun){
                 error:err.toString()
             };
         }else{
-            console.log(req.user.username,' in moderation count: ',countti);
+            //console.log(req.user.username,' in moderation count: ',countti);
             messCount.inModeration=countti;
             respOnse={
                 statCode: 200,
@@ -878,7 +878,7 @@ exports.checkAllMessa=function(req,res,callBfun){
         //Publ user can view all messages
         querY={};
     }
-    console.log('querY: ',JSON.stringify(querY));
+    //console.log('querY: ',JSON.stringify(querY));
     Message.find(querY,fields, function(err,allMess) {
         var messFN=allMess.length;
         allMess.sort(function(a,b){

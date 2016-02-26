@@ -76,9 +76,10 @@ function buildStack(){
  * Function afterStackRead
  * updates user interface after reading stack
  */
-function afterStackRead(rsObj){
+function afterStackRead(stakki){
     stack={}; //resets stack
-    stack=JSON.parse(rsObj.matrlStack);
+    //stack=JSON.parse(rsObj.matrlStack);
+    stack=stakki;
     /*console.log('before delete: ',stack);
     delete stack.ReadyForCalc;
     console.log('after delete: ',stack);*/
@@ -121,9 +122,9 @@ function afterStackRead(rsObj){
     }
     updNKspArra();
     updRTspArra();
-    updGraph();
     StackTargSelUpd();  //populate stackTargs options
     updTargSpArra();    //update selected target to target array
+    updGraph();
 }
 
 /**
@@ -204,8 +205,9 @@ function respToArr(fileName,resObj) {
         case "Stack":
             $('#ediStack').val(fileName);
             var settn=JSON.parse(resObj.matrlStack);
+            //console.log('afterstackread stack : ',settn);
             $('#descStack').val(settn.settings.Descriptor);
-            afterStackRead(resObj); //inits objects and application interface for the stack
+            afterStackRead(settn); //inits objects and application interface for the stack
             $.notifyBar({
                 cssClass: "success",
                 html: 'Stack data was read' // "File was read:"
@@ -215,7 +217,7 @@ function respToArr(fileName,resObj) {
             $('#ediStack').val(fileName);
             var settn=JSON.parse(resObj.matrlStack);
             $('#descStack').val(settn.settings.Descriptor);
-            afterStackRead(resObj); //inits objects and application interface for the stack
+            afterStackRead(settn); //inits objects and application interface for the stack
             break;
     }
 }
@@ -305,11 +307,6 @@ function mongoGetOne(fileName){
                             //cut out 'documentOK' text from the response string beginning
                             // and convert back to object
                             var resObj = JSON.parse(datas.resString.slice(datas.resString.indexOf('{')));
-                            /*$.notifyBar({
-                                cssClass: "success",
-                                html: respnce // "File was read:"
-                            });*/
-                            //console.log("file was read", resObj);
                             //todo: update filename and description inputs
                             respToArr(fileName, resObj);     //updates matrlArr to opened document
                             /*oMatTable.fnClearTable(); //clear nk table on tab-8
@@ -659,6 +656,7 @@ function treeUpdate(){
     $('#mongoFileName').prop('disabled', false);
     $('#mongFileDesc').prop('disabled', false);
     var collec=pickCollection();
+    console.log('collec: '+collec);
     var tokene;
     if (userName!='No login'){
         tokene=window.sessionStorage.getItem('RTFtoken');
@@ -780,7 +778,7 @@ function toJsonArr(coLLe, filename, arrDat, desc) {
 // reading local files for materials and targets from tab delimited text files
 // cBackFun piirtää päivittää taulukot ja spektrit materiaali ja target tabseilla
 function ReadLocFle(file, cBackFun) {
-    //console.log('read local file: ',file);
+    console.log('read local file: ',file);
     var tid; //used for timer setting
     if (file) {
         //File exists set reading timeout:
@@ -804,7 +802,7 @@ function ReadLocFle(file, cBackFun) {
 
 //Paikallisen tiedoston luvun callback: päivittää taulukot ja spektrit
 function gotTextFile(fileCont) {
-    //callback after reading local files
+    //callback after successfully reading local files
     //could be made into three separate callbacks one for: Materials, Targets and Stack
     //test timo:
     //setTimeout(function(){alert("tab oli: "+cBackTab+"  File: "+fileCont.length)},30000);
@@ -843,9 +841,10 @@ function gotTextFile(fileCont) {
             EnDisButt('Enabled', '#btnUseTarg');
             break;
         case 'Stack':
-            console.log('Stack was read');
-            stack=JSON.parse(fileCont);
-            console.log('stack: ',stack);
+            //console.log('Stack was read');
+            var stakki=stack=JSON.parse(fileCont);
+            afterStackRead(stakki)
+            //console.log('stakki: ',stakki);
             break;
     }
 }
@@ -931,7 +930,7 @@ function splitToArr(tsvFile) {
  * @function
  */
 var buildMongoDial=function(){
-// or, as well: function buildMongoDial(){
+    // or, as well: function buildMongoDial(){
     //alert('mongo folder: '+window.location.origin);
     var dialTitle;
     $("#mongoDialForm")
@@ -1221,21 +1220,21 @@ var buildMongoDial=function(){
         var dialTitle=$("#mongoDialForm").dialog("option","title"); //gets the options for open or save
         switch (dialTitle) {
             case 'Open material file from':
-                console.log('open material data');
+                //console.log('open material data');
                 $('#descMater').val('');
                 $("#ediMaterLbl").text("Local file: ");
                 $("#mongoDialForm").dialog("close");
                 $("#matLocFiles").focus().click();
                 break;
             case 'Open target file from':
-                console.log('open target data');
+                //console.log('open target data');
                 $('#descTarge').val('');
                 $("#ediTargeLbl").text("Local file: ");
                 $("#mongoDialForm").dialog("close");
                 $("#targLocFiles").focus().click();
                 break;
             case 'Open stack file from':
-                console.log('open stack data');
+                //console.log('open stack data');
                 $('#descStack').val('');
                 $("#ediStackLbl").text("Local file: ");
                 $("#mongoDialForm").dialog("close");

@@ -62,7 +62,7 @@ var targStr = "nm\tR\t'sample data'\r\n500\t55.0\r\n510\t54.0\r\n520\t55.0";
 *   });
 */
 $(function() {
-    //ask confirmation on page exit:
+    //ask confirmation before page exit:
     window.onbeforeunload = function(){
         return 'Unsaved data?';
     };
@@ -81,8 +81,9 @@ $(function() {
         userName=window.sessionStorage.getItem('RTFuser');
     }else{
         userName='No login';
+        dirUser='Publ';
         var fiile='Defaults/R-Default';
-        mongoGetOne(fiile,dirUser);// opens default stack from Publ dierectory: dirUser='Publ'
+        mongoGetOne(fiile,dirUser);// opens default stack from Publ dierectory
     }
     //Dummy target and material arrays
     targArr = splitToArr(targStr);
@@ -390,7 +391,7 @@ $(function() {
 
     if (stack.settings.usedTarg!=""){
         var targe=stack.settings.usedTarg;
-        $('#stackTargs option[value=targe]')
+        $('#stackTargs option[value=targe]');
     }
 
     $('#stackTargs').change(function () {
@@ -1196,7 +1197,7 @@ $(function() {
     });
 
 //Tabs-8: save material data to a local directory
-    $('#cl').click(function () {
+    /*$('#cl').click(function () {
         var seivString;
         var failneim = $('#ediMater').val();
         //ToDo: build saveString from materials data
@@ -1204,7 +1205,7 @@ $(function() {
         seivString = 'Hellot worldit';
         failneim = 'huihai.txt';
         seiv_loucal(failneim, seivString);
-    });
+    });*/
 
 // Tabs-7 and Tabs-8: Save button click handler:
     $('#btnSaveMat, #btnSaveTarg, #btnSaveStack').click(function(){
@@ -1343,19 +1344,6 @@ $(function() {
         return oTableLocal.$('tr.row_selected');
     }
 
-//custom event taulukoiden arvojen editoinnin aloitukseen:
-// on mukava taulukko.delegate:ssa, mutta ei toimi IE:ssa.
-    var MunEvent = new CustomEvent(
-        "contMenu",
-        {detail: {
-            message: "contextmenu trigattu",
-            time: new Date()
-        },
-        bubbles: false,
-        cancelable: true
-        }
-    );
-
     function isNumeric(value) {
         //if ((value == null) || !value.toString().match(/^[-]?\d*\.?\d*$/)) return false;
         if ((!value.toString().match(/^\d*\.?[0-9]+([eE][-][0-9]+)?$/)) || (!value)) return false;
@@ -1476,9 +1464,7 @@ function StackTargSelUpd() {
     var stckT=$('#stackTargs');
     stckT.empty();
     stckT.append('<option selected="selected" value="whatever">List is empty</option>');
-
     //$('#stackTargs option[html=selTarg]').prop('selected', 'selected').change();
-
     var n = stack.Targets.length;
     var selN;
     for (var i = 0; i < n; i++) {
@@ -1502,7 +1488,6 @@ function StackTargSelUpd() {
         $('#stackTargs option').prop('selected', false);
         $('#stackTargs option[value="' + selN + '"]').prop('selected', 'selected');
     }
-
 }
 
 /**

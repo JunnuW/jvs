@@ -463,6 +463,7 @@ function updRTspArra(){
 */
 function updTargSpArra() {
     var selTarg = $('#stackTargs option:selected').text();
+    //console.log('updTargSparra selTarg: ',selTarg);
     if (!selTarg || selTarg==="Select:" || selTarg==="List is empty" ) return;
     //alert("selected target: "+selTarg);
     var Targt = [];

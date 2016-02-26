@@ -130,7 +130,7 @@ block content
       //console.log('thread overlap: ',overLap);
       fNamed = (overLap == 0) ? fileN : dirN + '/' + fileN;
       fNamed = fNamed.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-      console.log('messageName: ',fNamed);
+      //console.log('messageName: ',fNamed);
       return fNamed;
     }
 
@@ -165,7 +165,7 @@ block content
           }
         })
         .fail(function () {
-          console.log('failed to read user messages ');
+          //console.log('failed to read user messages ');
           $.notifyBar({
           //-position: "bottom",
           cssClass: "warning",
@@ -180,10 +180,6 @@ block content
 
     $('#msgTree').on("change.jstree deselect_all.jstree select_node.jstree",
       function (e, data) {
-      //console.log("jstree-changed: "+Object.keys(data));
-      //console.log("jstree-changed e: ",e);
-      //console.log("jstree-changed data: ",data);
-      //responds: action,node,selected,event,instance copy_node.jstree move_node.jstree
       switch (e.type) {
         case 'deselect_all':
           //deselect all is triggered before new selected cell is activated
@@ -195,12 +191,6 @@ block content
           $('#btnSaveMsg').text('Create message');
           selctdNde = data.instance.get_selected(true)[0];
           $('#msgThread').val(selctdNde.text);
-          /*if (selctdNde.parent=="#"){//is root node
-            $('#msgThread').val(selctdNde.text);
-          }else{
-            $('#msgThread').val(selctdNde.text);
-          }*/
-          $('#msgHeader').val(selctdNde.text);
           var longName=selctdNde.text;
           var n=0;
           var findIt=selctdNde.parent;
@@ -223,8 +213,6 @@ block content
           })
             .done(function (data, status, xhr) {//
               if (data) {
-                //console.log('received data: ', data);
-                //console.log('received data.resString: ', data.resString);
                 //show message in the text area:
                 var thisMessa=JSON.parse(data.resString);
                 $('#msgText').val(thisMessa.uMessage);
@@ -232,7 +220,7 @@ block content
                 var lblText=thisMessa.username+' wrote on '+thisMessa.dateRec;
                 $('#msgLbl').text(lblText);
               } else {
-                console.log('message text was not received');
+                //console.log('message text was not received');
                 $.notifyBar({
                   //position: "bottom",
                   cssClass: "error",
@@ -242,8 +230,8 @@ block content
             })
             .error(function (XMLHttpRequest, textStatus, errorThrown) {
               //console.log('XMLHttpRequest: ',XMLHttpRequest);
-              console.log('message read textStatus: ',textStatus);
-              console.log('message read errorThrown: ',errorThrown);
+              //console.log('message read textStatus: ',textStatus);
+              //console.log('message read errorThrown: ',errorThrown);
               $.notifyBar({
                 //position: "bottom",
                 cssClass: "error",
@@ -252,7 +240,7 @@ block content
             });
           break;
         default:
-          console.log('default case:');
+          //console.log('default case:');
           break;
 
       }
@@ -337,8 +325,8 @@ block content
     function userNupdate(data){
       //show message in the text area:
       var MessaCount = JSON.parse(data.MessageCount);
-      console.log('MessaCount: ', data);
-      console.log('MessaCount.all: ', MessaCount.all);
+      //console.log('MessaCount: ', data);
+      //console.log('MessaCount.all: ', MessaCount.all);
       var viesti = 'You have posted ' + (MessaCount.all - MessaCount.inModeration) + ' messages';
       if (MessaCount.inModeration > 0) {
         viesti = viesti + ' + ' + MessaCount.inModeration + ' in moderation';
@@ -352,11 +340,10 @@ block content
       })
       .done(function (data, status, xhr) {//
         if (data) {
-          console.log('received data: ', data);
+          //console.log('received data: ', data);
           userNupdate(data);
-          //callback(data);//either userNupdate tai userMinsert
         } else {
-          console.log('message count could not be obtained from server');
+          //console.log('message count could not be obtained from server');
           var MessaCount ={'all':false,'inModeration':data.error};
           $.notifyBar({
             cssClass: "error",
@@ -366,8 +353,8 @@ block content
       })
       .error(function (XMLHttpRequest, textStatus, errorThrown) {
         //console.log('XMLHttpRequest: ',XMLHttpRequest);
-        console.log('message count textStatus: ', textStatus);
-        console.log('message count errorThrown: ', errorThrown);
+        //console.log('message count textStatus: ', textStatus);
+        //console.log('message count errorThrown: ', errorThrown);
         $.notifyBar({
           cssClass: "error",
           html: errorThrown
