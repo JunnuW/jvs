@@ -1,14 +1,14 @@
 extends layout
 
 block content
-  h1 This site uses cloud storage downloaded software, that runs locally in user's web browser
+  h1 This site examines cloud downloadable software running locally on your browser
   p
-    h3(style="color:green") Advantage potential:
-    b  You might consider at least following benefits:
+    h3(style="color:green") This concept has a remarkable advantage potential:
+    b  You might consider at least the following benefits:
     br
     |  -  Ease of application distribution and deployment,
     br
-    |  -  Minimal assembly effort on customer's equipment,
+    |  -  Minimal assembly effort on user's equipment,
     br
     |  -  With a standard web browser, the user can stick to any OS (Win, Linux, OS X, Android, ...)
     br
@@ -54,9 +54,9 @@ block content
     a(href="#{Node_url}" target="_blank")  - Node.js
     |   (open source, cross-platform runtime environment for javascript, from Node.js Foundation)
     br
-    h4 Browser side program (downloaded as script in HTML5 and runs on client's pc)
-    | Browser software is scripted into the web pages and is downloaded on demand from the server,
-    | when the user browses to the page.
+    h4 Browser side program:
+    | Browser software is scripted into the web pages (script tags in html-files) and is downloaded on
+    | demand from the server, when the user browses to the page.
     | Modern browsers (2015) use HTML, CSS and Javascript with versions 5, 3 and 1.8.5 respectively.
     | For safety reasons, the script on the browser as downloaded from the internet, cannot directly
     | access the client's local file system or activate any local programs on the user's equipment.
@@ -102,6 +102,23 @@ block content
     br
     | - user messages and comments with moderation
     h3(style="color:green") Conclusions:
-    | While coding, it turned out that Node.js runtime fits nicely for this kind of applications,
+    | While coding, it turned out that Node.js runtime fits nicely to this kind of applications,
     | where major part of data processing is performed locally in the browser on the client's pc.
-    | Network speed didn't cause any issues on the available, low speed (10Mbit/s) connection.
+    | Network speed didn't cause any issues on the available, low speed (<10Mbit/s) connection.
+    br
+    | Coding in javascript is fast and easy enough, with a vast number of MIT licensed widgets and components
+    | downloadable directly from the web. A major difference to traditional programming work is the frequent
+    | use of callback structures, which is necessary to maintain the user interface responsiveness during data
+    | requests from the server. The software on the browser runs in a single string, but the asynchronous
+    | operation of the callback loops comes with increased coding and debugging difficulty.
+    br
+    | Practically all modern computers are equipped with internet access. With the already named conceptual benefits
+    | it is very obvious that 'browser based software' will become more and more frequent decreasing the
+    | the number of traditional, locally installed programs.
+    br
+    | As a final example you might consider software development environments, that earlier were among the heaviest
+    | locally operating software components and now are directly available on the web browser with minimal local installations.
+    | (see for example:
+    -Cloud9_url="https://c9.io/"
+    a(href="#{Cloud9_url}" target="_blank")  - Cloud9 development environment in the cloud
+    |   )
