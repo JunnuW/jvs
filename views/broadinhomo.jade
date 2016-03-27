@@ -240,7 +240,8 @@ block levenee
             $('#enhTM').attr('disabled',false);
           }
           else if (this.value == 'perpend') {
-            $('#enhTE').attr('checked',true);
+            $('#enhTE').prop('checked',true);
+            $('#enhTM').prop('checked',false);
             $('#enhTE').attr('disabled',true);
             $('#enhTM').attr('disabled',true);
           }
