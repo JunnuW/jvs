@@ -1,0 +1,122 @@
+//
+   Created by Juha on 3/8/2016.
+extends broaden
+block levenee
+    h3 Homogeneous broadening in dw LED's
+    h4 Homogeneous and inhomogeneous broadening
+    | Inhomogeneous and homogeneous broadening effects coexist in most cases and are observed
+    | separately only in special situations.
+    | An basic example case, where homogeneous lifetime broadening takes over from inhomogeneous broadening is observed in the
+    | pressure broadening of gases. At low pressures, the gas atom thermal velocity distribution produces Doppler
+    | shifts to photons. The emitted spectrum has Gaussian shape arising from the thermal velocity distribution
+    | of individual gas atoms. Therefore, Doppler effect produces inhomogeneous spectral broadening.
+    | However, when the pressure is increased the gas atoms collide more frequently with each other. Collisions interrupt
+    | the electronic relaxation processes in the photon emission (in optical absorption the atom excitation process).
+    | This sets on the lifetime broadening effect. With increasing pressure, first the spectral shape is a Voigt function,
+    | a convolution between the original inhomogeneous Gaussian and the homogeneous, Lorentzian lifetime broadened spectrum.
+    | At still higher pressures the broadening becomes almost purely Lorentzian in shape.
+    h4 Spectral shape in homogeneous broadening
+    | Homogeneous broadening arises from the relaxation (excitation) in a population of identical (homogeneous) emitters.
+    br
+    | Assuming \(N\) is the number of identically relaxing members in the population the relaxation rate can be
+    | developed into a time function:
+    | \begin{equation}
+    | \label{HomogDiffe1}
+    | -dN/dt=N\cdot(A+B\cdot t+C\cdot t^2...),
+    | \end{equation}
+    | Separating the variables we get:
+    | \begin{equation}
+    | \label{HomogDiffe2}
+    | -dN/N=A\cdot dt +(B\cdot t+C\cdot t^2+...)\cdot dt,
+    | \end{equation}
+    | In this equation, terms inside the parenthetis are problematic, because a zero instance is required for the
+    | time variable. The homogeneity assumption inturn means that all population members have identical relaxation
+    | probabilities all the time, requiring all members start relaxing at the same time and have a memory property for
+    |the elapsed time from the zero instance. In other words for memoryless relaxation processes (with
+    -Markov_urli="https://en.wikipedia.org/wiki/Markov_property"
+    a(href="#{Markov_urli}" target="_blank")    Markov Property
+    |    ), we have \(B=C=D.....=0\). Assuming \(N=N_{0}\) at \(t=0\), we get after integration:
+    | \begin{equation}
+    | \label{HomogDiffe3}
+    | ln(N)=-A\cdot t + ln(N_{0}),
+    | \end{equation}
+    | where \(ln(N_{0})\) is a constant of integration. Setting: \(A=1/\tau\) , results in:
+    | \begin{equation}
+    | \label{HomogDiffe4}
+    | N(t)=N_{0}\cdot e^{-t/\tau},
+    | \end{equation}
+    | where \(\tau\) is called the relaxation time in the process. Often, more than one phenomenon exists behind the
+    | relaxation. Without any other phenomena, the spontaneous emission rate (stimulated emission by zero point fluctuations)
+    | determines the relaxation time of the population in the excited state. With several independent mechanisms the
+    | resulting relaxation time is obtained as:
+    | \begin{equation}
+    | \label{HomogDiffe5}
+    | 1/\tau_{r}= 1/\tau_{1}+1/\tau_{2}+.... ~,
+    | \end{equation}
+    | In the above pressure broadening example \(\tau_{1}\) would equal the spontaneous emission lifetime and
+    | \(\tau_{2}\) the pressure collision lifetime.
+    br
+    | The spectral shape for homogeneous broadening is now obtained by
+    -Fourier_urli="https://en.wikipedia.org/wiki/Fourier_transform"
+    a(href="#{Fourier_urli}" target="_blank")    Fourier transforming
+    |         the time decay in
+    | Eq. (\ref{HomogDiffe4}) into
+    -Lorentzian_urli="http://mathworld.wolfram.com/LorentzianFunction.html"
+    a(href="#{Lorentzian_urli}" target="_blank")    Lorentzian function
+    |    :
+    | \begin{equation}
+    | \label{HomogDiffe6}
+    | I(\Delta E)=\frac{\tau_{r}/(\pi\hbar)}{1+\tau_{r}^{2}\Delta E^{2}/\hbar^{2}}~,
+    | \end{equation}
+    | where \(\Delta E\) is the photon energy deviation from the emission line center. This function integrates to
+    | unity (\(\Delta E: -\infty \rightarrow +\infty\)) and if it originates from spontaneous emission, the line shape is known as
+    -NB_urli="https://en.wikipedia.org/wiki/Spectral_line"
+    a(href="#{NB_urli}" target="_blank")    natural broadening.
+    |       The above 'derivation' suggests that
+    b       homogeneous broadening should always produce Lorentzian line shapes.
+    br
+    | However, at least one contradicting case seems to exist in the lifetime broadening of qw-LED's. The physical
+    | situation extensively resembles the above described pressure broadening example, but in stead of gas atom collisions
+    | in quantum wells, the excitonic emission processes are interrupted by collisions with electrons and holes.
+    center
+      img(src="images/viuhka-1.png" alt="EL-viuhka" align="middle" style="width:404px;height:300px;")
+      p Luminescence spectra in a semiconductor qw LD (horizontal scale in eV).
+        br
+        |  With a low current value (0.5mA), Urbach tail like spectrum is recorded (Eu=10.5meV, Eg=1.53eV).
+        br
+        | With larger currents lifetime broadening spreads the spectra more and more below the semiconductor bandgap.
+    | In the above picture, it is quite obvious that the Lorentzian function (\(\tau_{r}\)=65fs) poorly matches the
+    | experimental semiconductor diode spectra. A Lorentzian shape fitting the spectral peak will always be too broad
+    | elsewhere, but would be a natural starting point, if we assume that electrons and holes pair into excitons, in the
+    | quantum well before they recombine and emit their energy in a photon. If we insist on this before emission defined
+    | exciton model and want a better fitting spectral function it is necessary to abandon the Markov property of the
+    | relaxation. Fortunately, a significantly easier solution exists assuming that in addition to a defined exciton
+    | partner, each electron may randomly recombine with any neighbouring hole, if only the wave vector conservation
+    | condition is satisfied in the process. The high density of charge carriers in the qw and the pn-junction electric
+    | field eliminate the exciton details from electric current induced diode spectra. Optically excited photo
+    | luminescent spectra have more spectral details in open circuit situation.
+
+    h4 Homogeneous broadening in qw light emitting diodes
+    | At the band edge, the energy states of electrons and holes experience this material imperfection related
+    | inhomogeneous broadening. However, at higher light intensities (larger diode currents), the tail cannot anymore be resolved
+    | in the spectrum. With increasing current, the density of carriers increases in the quantum wells. Charge carrier
+    | collision rate against each other increases significantly reducing the lifetime of all electronic states.
+    | Typically, when the average collision time shortens below 100fs (femto seconds),
+    b
+        em    lifetime broadening
+    |    becomes the dominant phenomenon and buries the inhomogeneous broadening.
+    | All that remains observable is the diode current magnitude dependent lifetime broadening.
+    br
+    b
+        em    Exciton effects
+    |      In bulk semiconductors, electron hole pairs
+    | build three dimensional excitons having hydrogen atom like s, p, d,... orbitals. The binding energy on the lowest
+    | s-orbital being around 5meV and have with special arrangements been identified as spectral peaks below the bandgap
+    | energy. The higher orbitals smear into a quasi and true continua below and above the bandgap edge. Though the
+    | exciton peaks were absent in the experimental spectra, it is a common practice to include the exciton quasin and
+    | true continua as oscillator strengths for spectral absorption behaving like final state degeneracy in the
+    | Fermi's golden rule. For the three degree case of bulk semiconductors, the situation is well described through
+    | the Elliot formulas. However, in quantumwell diodes the excitons are two dimensional existing in the qw-plane.
+    br
+
+

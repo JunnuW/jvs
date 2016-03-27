@@ -1,0 +1,23 @@
+fieldset {
+    border: 1px solid green;
+    padding: 1em;
+    /*font:80%/1 sans-serif;*/
+}
+label {
+    /*float:left;*/
+    width:25%;
+    /*margin-right:0.5em;*/
+    margin-right:5px;
+    /*padding-top:0.2em;*/
+    /*padding:7px;*/
+    text-align:right;
+    font-weight:bold;
+}
+.inputti {
+    width:40px;
+    margin-left:15px;
+}
+
+.testi {
+    margin-right:15px;
+}

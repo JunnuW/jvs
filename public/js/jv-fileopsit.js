@@ -250,11 +250,6 @@ function mongoReadDesc(fileName){
                 if (datas.resString.indexOf("DocumentOK")==0){//gives -1 if not found
                     var resText=datas.resString.slice(datas.resString.indexOf(':')+1);
                     //cuts out 'documentOK' from the beginning
-                    //console.log('resText: '+resText);
-                    //$.notifyBar({
-                    //    cssClass: "success",
-                    //    html: 'File description OK' // "File was read for description:"
-                    //});
                     resText = (resText.length>0)? resText : 'no description available';
                     //$('#mongFileDesc').val(resText);
                 } else {

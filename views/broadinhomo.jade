@@ -1,0 +1,273 @@
+//-Created by Juha on 3/7/2016.
+extends broaden
+block levenee
+    h3 Inhomogeneous broadening in light emitting diodes
+    h4 Inhomogeneous broadening in bulk semiconductor materials
+    |   In semiconductor materials, optical emission and absorption spectra have tails penetrating into the
+    | material band gap. These tails decrease exponentially with photon energy and may span up to 4-5 intensity decades.
+    | This behaviour, known as the
+    -Urbach_urli="http://www.physics.utoronto.ca/~john/john/p1777_1.pdf"
+    a(href="#{Urbach_urli}" target="_blank")   Urbach tail
+    |    is commonly observed in the optical absorption of disordered solid materials. It arises from local imperfections
+    | and fluctuations, which in semiconductors can be either frozen into the material during the device fabrication
+    | or induced by phonon fields oscillating inside the chrystal.
+    | \begin{equation}
+    | \label{UrbachTail}
+    | I(E)/I_{f}=exp[(E - E_{f})/E_{u}]~,
+    | \end{equation}
+    | Here \(I_{f}\) is the spectral value at
+    -Urbach_focus="http://soukoulis.physics.iastate.edu/publications/077.pdf"
+    a(href="#{Urbach_focus}" target="_blank")   Urbach focus
+    |       energy \(E_{f}\), and \(E_{u}\) the Urbach tail parameter (6-9 meV values have been reported for \(E_{u}\)
+    | in high quality GaAs at 300K temperature).
+    | The temperature dependent part in \(E_{u}\) has been associated to phonon created disorder and
+    | the exponential shape is explained by the Gaussian depth distribution of the potential wells in the disorder.
+    | The phonon created disorder is not permanent and static, but when compared against the fast photon
+    | emission and absorption processes it appears like a frozen, spatial variation distributed in the chrystal lattice.
+    | Urbach tail therefore is a form of inhomogeneous spectral broadening of the band gap.
+    center
+      img(src="images/Bulkit3.png" alt="Three Urbach tails" align="middle" style="width:304px;height:228px;")
+      p Experimental photoluminescence spectra for three semiconductor
+        br
+        | materials common in LED and LD production
+    | With each material in the above figure, \(E_{f}\) was taken to equal the material band gap \(E_{g}\) and
+    | the Urbach tail (left side of the curve) is seen to span more than three intensity decades.
+    | For the used calculation methods to obtain the simulated spectra (broken lines in the figure above), click the
+    -generally="/broadgeneral"
+    a(href="#{generally}")     \(Generally\)
+    |       item in the \(Broadenings\) menu at the top of this page.
+    h4 Inhomogeneous broadening in quantum well diodes
+    |     At low excitation conditions, similar exponential band gap tail, spanning several intensity decades
+    | can be observed also in the emission spectrum of qw LED's. The tail behaves as the broadening minimum at small diode
+    | currents and is by shape identical with the Urbach tail, and is related to spatial variations in the quantum well
+    | dimensions and materials. At low current levels, on small devices, the spectral tail loses its diode current
+    | sensitivity, but through phonon interactions shows some sensitivity on the diode's temperature.
+    //-| http://soukoulis.physics.iastate.edu/publications/077.pdf
+    center
+      img(src="images/inhomog2a.png" alt="qw inhomog" align="middle" style="width:404px;height:300px;")
+      p Urbach tail like (Eu=12meV) inhomogeneous broadening in a semiconductor qw LD, where \(E_{f}\) was taken as
+        |\(E_{t}\),
+        br
+        | the energy difference between the first conduction band qw energy level (cb1) to the highest
+        | valence band qw light hole level (lh1).
+    br
+    h4 Spectral shape calculator for inhomogeneous broadening
+    |   The calculated spectral shape (broken lines in the two figures above) was obtained using equation:
+    | \begin{equation}
+    | \label{inhomobr}
+    | R_{sp}(E)\propto\int_0^\infty \epsilon\rho_{r}(\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)
+    | \times L_{ih}(E-\epsilon)\mathrm{d}\epsilon~,
+    | \end{equation}
+    | where \(L_{ih}\) stands for inhomogeneous broadening according to Eq.(\ref{UrbachTail}) and the other variables
+    | are explained in
+    a(href="#{generally}")     \(Generally\)
+    |       item in the \(Broadenings\) menu at the top of this web-page.
+    div(id="inhomog1" style="width:100%;display:block;" class="ui-widget-content")
+      div(id="ph1_inhomog" style="width:100%; height:400px; display:run-in;")
+
+    div(id="settnDial" title="Graphing details")
+      b Joint density of states (JDOS):
+      fieldset
+        input(type="radio" id="bulkJDOS" name="jdos" value="bulk" checked="checked" style="margin-left:5px")
+        |  Bulk-JDOS (parabolic)
+        br
+        input(type="radio" id="qwJDOS" name="jdos" value="qw" style="margin-left:5px")
+        |  QW-JDOS (Heaviside step function)
+      b Spectral range [eV's]:
+      fieldset
+        label(for="eVStart") Starts at:
+        input(id="eVStart" name="eVStart" class='inputti')
+        label(for="eVStop") Stops at:
+        input(id="eVStop" name="eVStop" class='inputti')
+        br
+        label(for="eV_Eg") Eg:
+        input(id="eV_Eg" name="eV_Eg" class='inputti')
+        label(for="eV_Et" id='etLbl' style='display:none') Et:
+        input(id="eV_Et" name="eV_Et" class='inputti' style="display:none")
+        br
+        label(for="temp") Temp [K]:
+        input(id="temp" name="temp" class='inputti')
+      b(style='margin-right:7px') Apply exciton enhancement:
+      input(id="exEnch" type="checkbox" value='No')
+      br
+      b(id='exBndLbl' class='testi' style='display:none') Exciton binding energy [meV]:
+      input(id="eV_Bind" name="eV_Bind" class='inputti' style="display:none")
+      br
+      fieldset(id="qwEnha" style='display:none')
+        b QW viewing direction:
+        b(style='padding-left:60px') Polarization:
+        br
+        label(for="dirPar") Parallel:
+        input(type="radio" id="dirPar" name="dirBut" value="parallel" checked="checked" style="margin-right:7px")
+        label(for="enhTE") TE:
+        input(type="radio" id="enhTE" name="enhBut" value="polTE" checked="checked" style="margin-right:7px")
+        //-| TE-polarization
+        br
+        label(for="dirPerp") Normal:
+        input(type="radio" id="dirPerp" name="dirBut" value="perpend" style="margin-right:7px")
+        label(for="enhTM") TM:
+        input(type="radio" id="enhTM" name="enhBut" value="polTM" style="margin-right:7px")
+
+    script(type='text/javascript').
+      //-alert('javascript starts exec');
+      var PloArr=[[0,0],[1,1],[2,0.5]];
+      inhombr(PloArr);
+      $("#settnDial").dialog({
+        width:600,
+        autoOpen: false,
+        show: {
+          effect: "blind",
+          duration: 500
+        },
+        hide: {
+          effect: "explode",
+          duration: 500
+        }
+      });
+      //$("#settnDial").dialog('option','title','Graphing options');
+      $('#ph1_inhomog').dblclick(function(){
+          $( "#settnDial" ).dialog( "open" );
+          //alert('huuhaa');
+      });
+
+      $("#eVStart").spinner({
+          max: 2.5,
+          min: 0,
+          step: 0.01,
+          spin: function (event, ui) {
+              //this.value; antaisi olleen arvon
+              //ui.value antaisi tulevan uuden arvon
+              var tmp1 = ui.value.toFixed(0);
+          },
+          change: function (event, ui) {
+          }
+      }).val(1.0);
+
+      $("#eVStop").spinner({
+          max: 2.5,
+          min: 0,
+          step: 0.01,
+          spin: function (event, ui) {
+              //this.value; antaisi olleen arvon
+              //ui.value antaisi tulevan uuden arvon
+              var tmp1 = ui.value.toFixed(0);
+          },
+          change: function (event, ui) {
+          }
+      }).val(2.5);
+
+      $("#eV_Eg").spinner({
+          max: 2.5,
+          min: 0,
+          step: 0.01,
+          spin: function (event, ui) {
+              //this.value; antaisi olleen arvon
+              //ui.value antaisi tulevan uuden arvon
+              var tmp1 = ui.value.toFixed(0);
+          },
+          change: function (event, ui) {
+          }
+      }).val(1.4);
+
+      $("#eV_Et").spinner({
+          max: 2.5,
+          min: 0,
+          step: 0.01,
+          spin: function (event, ui) {
+              //this.value; antaisi olleen arvon
+              //ui.value antaisi tulevan uuden arvon
+              var tmp1 = ui.value.toFixed(0);
+          },
+          change: function (event, ui) {
+          }
+      }).val(1.5);
+
+      $("#eV_Bind").spinner({
+          max: 20,
+          min: 0,
+          step: 0.01,
+          spin: function (event, ui) {
+              //this.value; antaisi olleen arvon
+              //ui.value antaisi tulevan uuden arvon
+              var tmp1 = ui.value.toFixed(0);
+          },
+          change: function (event, ui) {
+          }
+      }).val(8);
+
+      $("#temp").spinner({
+          max: 600,
+          min: 0,
+          step: 1,
+          spin: function (event, ui) {
+              //this.value; antaisi olleen arvon
+              //ui.value antaisi tulevan uuden arvon
+              var tmp1 = ui.value.toFixed(0);
+          },
+          change: function (event, ui) {
+          }
+      }).val(293);
+
+      $("#exEnch").change(function(){
+        if (this.checked) {
+          //-$("#qwEnha").show();
+          $("#eV_Bind").show();
+          $("#exBndLbl").show();
+        }else{
+          //-$("#qwEnha").hide();
+          $("#eV_Bind").hide();
+          $("#exBndLbl").hide();
+        }
+        // alert(this.checked);
+      });
+
+      $('input[type=radio][name=jdos]').change(function () {
+        if (this.value == 'bulk') {
+          $("#etLbl").hide();
+          $("#eV_Et").hide();
+          $("#qwEnha").hide();
+          }
+          else if (this.value == 'qw') {
+            $("#etLbl").show();
+            $("#eV_Et").show();
+            $("#qwEnha").show();
+          }
+      });
+
+      $('input[type=radio][name=dirBut]').change(function () {
+          if (this.value == 'parallel') {
+            $('#enhTE').attr('disabled',false);
+            $('#enhTM').attr('disabled',false);
+          }
+          else if (this.value == 'perpend') {
+            $('#enhTE').attr('checked',true);
+            $('#enhTE').attr('disabled',true);
+            $('#enhTM').attr('disabled',true);
+          }
+      });
+
+      /**
+       * Function for graphing inhomog broadening
+       * @function
+       * @param {Array} PloArr - contains the numeric data to be plotted
+       * @param {Number} graphNO - flot-graph placeholder number according to tabs-no
+       */
+      function inhombr(PloArr) {
+        if (!PloArr) return; //exit plotting if no data
+        var plotsRT = [];
+        var graphType='Relative Intensity';
+        var graphXunit= 'Energy eV';
+        var jj;
+        for (jj = 0; jj < PloArr.length; jj++) {
+          plotsRT.push([PloArr[jj][0], PloArr[jj][1]]);
+        }
+        $.plot("#ph1_inhomog", [{data: plotsRT, label: graphType}],
+          {
+            xaxes: [{position: "bottom", axisLabel: graphXunit}],
+            yaxes: [{axisLabel: graphType}],
+            legend: {
+            position: "ne"
+            //,canvas:true
+            }
+          });
+      }

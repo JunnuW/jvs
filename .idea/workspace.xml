@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/apautti.jade" afterPath="$PROJECT_DIR$/views/apautti.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/images/Bulkit3.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/broadn.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/broadgeneral.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/broadhomo.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/broadinhomo.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/jv-fileopsit.js" afterPath="$PROJECT_DIR$/public/js/jv-fileopsit.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/broaden.jade" afterPath="$PROJECT_DIR$/views/broaden.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.jade" afterPath="$PROJECT_DIR$/views/index.jade" />
     </list>
     <ignored path="jvs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -23,43 +32,51 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app.js">
+      <file leaf-file-name="broadhomo.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/broadhomo.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.9722223">
-              <caret line="166" column="14" selection-start-line="166" selection-start-column="8" selection-end-line="166" selection-end-column="14" />
+            <state vertical-scroll-proportion="-0.6111111">
+              <caret line="65" column="10" selection-start-line="65" selection-start-column="10" selection-end-line="65" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jv-fileopsit.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/jv-fileopsit.js">
+      <file leaf-file-name="broadinhomo.jade" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/broadinhomo.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.805555">
-              <caret line="208" column="59" selection-start-line="208" selection-start-column="59" selection-end-line="208" selection-end-column="59" />
-              <folding>
-                <element signature="n#!!block;n#sendData#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="refletrans.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/refletrans.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="51" column="23" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.7155172">
+              <caret line="244" column="46" selection-start-line="244" selection-start-column="46" selection-end-line="244" selection-end-column="46" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="apautti.jade" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/apautti.jade">
+      <file leaf-file-name="broadn.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/css/broadn.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8981481">
-              <caret line="123" column="9" selection-start-line="123" selection-start-column="9" selection-end-line="123" selection-end-column="9" />
+            <state vertical-scroll-proportion="-13.4838705">
+              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jv-tfrcalcs.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/css/jv-tfrcalcs.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tab2.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/tab2.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.6944447">
+              <caret line="83" column="17" selection-start-line="80" selection-start-column="0" selection-end-line="91" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -68,28 +85,40 @@
       <file leaf-file-name="jv-tfrcalci.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/jv-tfrcalci.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.9722223">
-              <caret line="402" column="25" selection-start-line="402" selection-start-column="12" selection-end-line="402" selection-end-column="25" />
-              <folding />
+            <state vertical-scroll-proportion="-5.4722223">
+              <caret line="241" column="14" selection-start-line="239" selection-start-column="0" selection-end-line="251" selection-end-column="75" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jv-tablandplotit.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/jv-tablandplotit.js">
+      <file leaf-file-name="broaden.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/broaden.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.9722223">
-              <caret line="463" column="22" selection-start-line="463" selection-start-column="9" selection-end-line="463" selection-end-column="22" />
+            <state vertical-scroll-proportion="15.4">
+              <caret line="16" column="50" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/index.jade">
+      <file leaf-file-name="broadgeneral.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/broadgeneral.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.75">
+              <caret line="154" column="7" selection-start-line="154" selection-start-column="6" selection-end-line="154" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mongoDialForm.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/mongoDialForm.jade">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -102,6 +131,8 @@
       <list>
         <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="Jade File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -111,7 +142,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/zapp.js" />
         <option value="$PROJECT_DIR$/views/error.jade" />
         <option value="$PROJECT_DIR$/index.js" />
         <option value="$PROJECT_DIR$/public/jv-mngo-tree/package.json" />
@@ -138,15 +168,12 @@
         <option value="$PROJECT_DIR$/views/tab2.jade" />
         <option value="$PROJECT_DIR$/views/signup.jade" />
         <option value="$PROJECT_DIR$/views/contrbs.jade" />
-        <option value="$PROJECT_DIR$/views/broaden.jade" />
         <option value="$PROJECT_DIR$/views/mongoDialForm.jade" />
         <option value="$PROJECT_DIR$/bower.json" />
         <option value="$PROJECT_DIR$/bower_components/jQuery-Easy-Confirm-Dialog-plugin/.bower.json" />
         <option value="$PROJECT_DIR$/views/refletrans.jade" />
         <option value="$PROJECT_DIR$/views/login.jade" />
         <option value="$PROJECT_DIR$/jv-mngo-tree/kokeilu.html" />
-        <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/views/index.jade" />
         <option value="$PROJECT_DIR$/views/layout.jade" />
         <option value="$PROJECT_DIR$/views/custmsgs.jade" />
         <option value="$PROJECT_DIR$/jv-mngo-tree/index.js" />
@@ -155,9 +182,17 @@
         <option value="$PROJECT_DIR$/views/tab6.jade" />
         <option value="$PROJECT_DIR$/public/js/jv-tfrcalci.js" />
         <option value="$PROJECT_DIR$/public/js/jv-tablandplotit.js" />
-        <option value="$PROJECT_DIR$/public/js/jv-fileopsit.js" />
         <option value="$PROJECT_DIR$/views/tab1.jade" />
         <option value="$PROJECT_DIR$/views/apautti.jade" />
+        <option value="$PROJECT_DIR$/views/broadeninhomo.jade" />
+        <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/views/broadgeneral.jade" />
+        <option value="$PROJECT_DIR$/views/broadhomo.jade" />
+        <option value="$PROJECT_DIR$/public/js/jv-fileopsit.js" />
+        <option value="$PROJECT_DIR$/views/index.jade" />
+        <option value="$PROJECT_DIR$/views/broaden.jade" />
+        <option value="$PROJECT_DIR$/public/css/broadn.css" />
+        <option value="$PROJECT_DIR$/views/broadinhomo.jade" />
       </list>
     </option>
   </component>
@@ -199,7 +234,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -267,6 +301,7 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -284,17 +319,18 @@
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
     <property name="javascript.nodejs.core.library.configured.version" value="0.10.31" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Juha\jvs\views" />
-      <recent name="C:\Users\Juha\jvs\public\js" />
-      <recent name="C:\Users\Juha\jvs\public" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Juha\jvs\views" />
       <recent name="C:\Users\Juha\jvs" />
       <recent name="C:\Users\Juha\jvs\public\jv-mngo-tree" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Juha\jvs\views" />
+      <recent name="C:\Users\Juha\jvs\public\js" />
+      <recent name="C:\Users\Juha\jvs\public" />
     </key>
   </component>
   <component name="RunManager" selected="Node.js.server.js">
@@ -390,15 +426,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1384" height="786" extended-state="6" />
+    <frame x="-9" y="-9" width="1384" height="786" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15309933" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17862372" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31629393" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32861635" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2028754" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18376723" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24981245" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5698282" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32933232" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -461,42 +497,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/js/jv-tfrcalci.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="92" column="35" selection-start-line="92" selection-start-column="34" selection-end-line="92" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/mongoose/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14206128">
-          <caret line="3" column="16" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jv-mngo-tree/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/async/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.538462">
-          <caret line="50" column="21" selection-start-line="50" selection-start-column="21" selection-end-line="50" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongo-ohje.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2556391">
@@ -605,13 +605,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/tab2.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.6666667">
-          <caret line="65" column="11" selection-start-line="65" selection-start-column="11" selection-end-line="65" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/passport/lib/middleware/authenticate.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.32307693">
@@ -637,7 +630,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -663,21 +655,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/broaden.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.5539217">
-          <caret line="103" column="10" selection-start-line="103" selection-start-column="10" selection-end-line="103" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/jv-tfrcalcs.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.419354">
-          <caret line="24" column="75" selection-start-line="24" selection-start-column="68" selection-end-line="24" selection-end-column="84" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bower.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -689,7 +666,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -704,7 +680,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="60" column="13" selection-start-line="60" selection-start-column="13" selection-end-line="60" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -712,7 +687,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -720,7 +694,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="363" column="0" selection-start-line="363" selection-start-column="0" selection-end-line="363" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -731,52 +704,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/tab7.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33255813">
-          <caret line="23" column="55" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/mongoDialForm.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="25" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/jv-tfrcalci.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.9722223">
-          <caret line="402" column="25" selection-start-line="402" selection-start-column="12" selection-end-line="402" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/tab1.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8472222">
           <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/jv-fileopsit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.805555">
-          <caret line="208" column="59" selection-start-line="208" selection-start-column="59" selection-end-line="208" selection-end-column="59" />
-          <folding>
-            <element signature="n#!!block;n#sendData#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9055794">
-          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -784,7 +715,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="3.8240345">
           <caret line="81" column="47" selection-start-line="81" selection-start-column="47" selection-end-line="81" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -792,39 +722,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5511628">
           <caret line="53" column="38" selection-start-line="53" selection-start-column="38" selection-end-line="53" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/jv-tablandplotit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.9722223">
-          <caret line="463" column="22" selection-start-line="463" selection-start-column="9" selection-end-line="463" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/refletrans.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="23" selection-start-line="51" selection-start-column="23" selection-end-line="51" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.9722223">
-          <caret line="166" column="14" selection-start-line="166" selection-start-column="8" selection-end-line="166" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -832,6 +729,143 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8981481">
           <caret line="123" column="9" selection-start-line="123" selection-start-column="9" selection-end-line="123" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="329" column="12" selection-start-line="329" selection-start-column="7" selection-end-line="329" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/tab7.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.04238921">
+          <caret line="38" column="52" selection-start-line="38" selection-start-column="52" selection-end-line="38" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jv-fileopsit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="195" column="18" selection-start-line="195" selection-start-column="12" selection-end-line="195" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jv-tablandplotit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="11.190751">
+          <caret line="264" column="13" selection-start-line="264" selection-start-column="13" selection-end-line="264" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/index.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/layout.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="3.645472">
+          <caret line="86" column="4" selection-start-line="86" selection-start-column="0" selection-end-line="87" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/broadgeneral.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.75">
+          <caret line="154" column="7" selection-start-line="154" selection-start-column="6" selection-end-line="154" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/broadhomo.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.6111111">
+          <caret line="65" column="10" selection-start-line="65" selection-start-column="10" selection-end-line="65" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/broaden.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="15.4">
+          <caret line="16" column="50" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/refletrans.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.12716763">
+          <caret line="13" column="6" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/mongoDialForm.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/tab2.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.6944447">
+          <caret line="83" column="17" selection-start-line="80" selection-start-column="0" selection-end-line="91" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jv-tfrcalci.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.4722223">
+          <caret line="241" column="14" selection-start-line="239" selection-start-column="0" selection-end-line="251" selection-end-column="75" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Roaming/npm/node_modules/jade/lib/compiler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.61276597">
+          <caret line="217" column="18" selection-start-line="217" selection-start-column="18" selection-end-line="217" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/jv-tfrcalcs.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/broadn.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.4838705">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/broadinhomo.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7155172">
+          <caret line="244" column="46" selection-start-line="244" selection-start-column="46" selection-end-line="244" selection-end-column="46" />
           <folding />
         </state>
       </provider>

@@ -337,6 +337,28 @@ app.get('/broadmod', function(req, res) {
     });
 });
 
+app.get('/broadgeneral', function(req, res) {
+    res.render('broadgeneral', {
+        title: 'Spectral broadening in quantum well LED\'s and LD\'s below laser threshold',
+        user: (req.user)  //false
+    });
+});
+
+app.get('/inhomo', function(req, res) {
+    res.render('broadinhomo', {
+        title: 'Spectral broadening in quantum well LED\'s and LD\'s below laser threshold',
+        user: (req.user)  //false
+    });
+});
+
+app.get('/homo', function(req, res) {
+    res.render('broadhomo', {
+        title: 'Spectral broadening in quantum well LED\'s and LD\'s below laser threshold',
+        user: (req.user)  //false
+    });
+});
+
+
 /* GET About page. */
 app.get('/aboutti', function(req, res) {
     //console.log('app.get/BroadMod');
