@@ -108,7 +108,8 @@ block levenee
     -hombroadUrli="http://epjb.epj.org/articles/epjb/abs/2013/05/b120957/b120957.html"
     a(href="#{hombroadUrli}" target="_blank")    product of two Lorentzian functions:
     | \begin{equation}
-    | L_{t}(\Delta E)= \frac{(\tau_{be}+\tau_{bh})/(\pi\hbar)}{1+\tau_{be}^{2}\Delta E^{2}/\hbar^{2}}\times\frac{1}{1+\tau_{bh}^{2}\Delta E^{2}/\hbar^{2}}\label{DLorentz}~,
+    | L_{t}(\Delta E)= \frac{(\tau_{be}+\tau_{bh})/(\pi\hbar)}{1+\tau_{be}^{2}\Delta E^{2}/\hbar^{2}}\times\frac{1}
+    | {1+\tau_{bh}^{2}\Delta E^{2}/\hbar^{2}}\label{DLorentz}~,
     | \end{equation}
     | Like Eq. (\ref{HomogDiffe6}) also this function integrates to unity. It can be expressed also as a difference of
     | two Lorentzians:
@@ -122,3 +123,10 @@ block levenee
     | \tau_{be}=\frac{\tau_{e}m_{h}}{m_{h}+m_{e}} \quad\textrm{and}\quad\tau_{bh}=\frac{\tau_{h}m_{e}}{m_{h}+m_{e}}
     | \label{Reducedtau}
     | \end{equation}
+    h4 Calculation of homogeneous qw-spectra
+    | If the homogeneous broadening exists it can be calculated by convolving the inhomogeneous spectra having Urbach
+    | broadening with the homogeneous line shape in Eq. (\ref{DLorentz}). This is an analogy to Voigt profile between
+    | the Gaussian and Lorentzian functions. A
+    -DSP_urli="https://github.com/corbanbrook/dsp.js/"
+    a(href="#{DSP_urli}" target="_blank")    DSP package exists
+    |       for javascript. With that convolutions can be performed more effectively using FFT.
