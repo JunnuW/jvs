@@ -4,8 +4,8 @@ extends broaden
 block levenee
     h3 Homogeneous broadening in qw diodes
     h4 Homogeneous and inhomogeneous broadening
-    | Normally inhomogeneous and homogeneous broadening phenomena coexist in the spectra, but they can also be observed
-    | separately in specific conditions.
+    | Inhomogeneous and homogeneous broadening always coexist in the spectra, but they can also be observed
+    | separately under specific conditions.
     | A classic example, where homogeneous (lifetime) broadening takes over the inhomogeneous effects is the
     | impact pressure broadening of gases. At low pressures, the velocity distribution of atoms produces Doppler
     | shifts to the photons and the emission spectrum has Gaussian shape following the thermal velocity distribution
@@ -104,7 +104,9 @@ block levenee
     | electron and hole relaxation times using Eq. (\ref{HomogDiffe5}). However, the k-vector (impulse) of the emitted
     | photon is small. Therefore, it is generally assumed that k-vector is conserved in the recombination
     | (\(k_{e}=k_{h}\)). This couples the electron and hole energy broadenings together and the resulting spectrum is
-    | instead of a convolution a product of two Lorentzian functions:
+    | instead of a convolution a
+    -hombroadUrli="http://epjb.epj.org/articles/epjb/abs/2013/05/b120957/b120957.html"
+    a(href="#{hombroadUrli}" target="_blank")    product of two Lorentzian functions:
     | \begin{equation}
     | L_{t}(\Delta E)= \frac{(\tau_{be}+\tau_{bh})/(\pi\hbar)}{1+\tau_{be}^{2}\Delta E^{2}/\hbar^{2}}\times\frac{1}{1+\tau_{bh}^{2}\Delta E^{2}/\hbar^{2}}\label{DLorentz}~,
     | \end{equation}
