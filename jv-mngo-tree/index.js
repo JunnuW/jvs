@@ -32,6 +32,28 @@ messagSchema.index({username: 1, fName:1, dateRec: 1}, {unique: true});
 var Message=mongoose.model('Message',messagSchema);
 //creates messages collection, if it does not exist in mongodb
 
+/* Emission data structure in MongoDb:
+ * Each document belongs to a named user: 'username'
+ * Each document has a filename: fName
+ * filenames incude directory structure like: Bulk/GaAs/10C-500uW
+ * 'description' field contains information about the material data
+ * 'unit' is always 'eV' in the future possibbly also 'nm, 'um'
+ * 'datArrs' is the array for photon energy and emission intensity.
+ * 'dataExpires' timestamps the document
+ */
+var emittedSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    fName: { type: String, required: true },
+    description:{type: String, required: false},
+    unit:{type: String, required: false},
+    datArrs:{ type: Array, required: false},
+    dataExpires: { type: String, required: true}
+});
+//User cannot save two documents with identical names:
+emittedSchema.index({username: 1, fName:1}, {unique: true});
+var Emission=mongoose.model('Emission',emittedSchema);
+//creates emission collection, if it does not exist in mongodb
+
 /* Material data structure in MongoDb:
  * Each document belongs to a named user: 'username'
  * Each document has a filename: fName
@@ -88,7 +110,7 @@ var Target=mongoose.model('Target',targSchema);
 var stackSchema = new mongoose.Schema({
     username: { type: String, required: true },
     fName: { type: String, required: true },
-    //description:{type: String, required: false},
+    description:{type: String, required: false},
     matrlStack:{ type: String, required: false},
     dataExpires: { type: String, required: false}
 });
@@ -109,6 +131,9 @@ function ApplMod(req){
             break;
         case "stacks":
             applModel= Stack; //model name for 'stacks' collection
+            break;
+        case "emissions":
+            applModel= Emission; //model name for 'emissions' collection
             break;
         case "messages":
             applModel= Message; //model name for 'messages' collection
@@ -428,7 +453,7 @@ function renOneOk(req,res,toBeRen,callBfun){
 }
 
 exports.updateDoc=function(req,res,callBfun) {
-    console.log("updateDoc req.body.data: "+JSON.stringify(req.body.data));
+    //console.log("updateDoc req.body.data: "+JSON.stringify(req.body.data));
     //overwrites existing mongo db document with new data
     var applModel;
     applModel=ApplMod(req);
@@ -480,6 +505,15 @@ exports.updateDoc=function(req,res,callBfun) {
                 dataExpires: vanhenee
             };
             break;
+        case "emissions":
+            upDates = {
+                username: req.body.userNme,
+                fName: trimmed, //e.g. "branch1/parent1/parent2/file1",
+                description: dataa.Descr,
+                matrlStack: JSON.stringify(dataa.Stack),
+                dataExpires: vanhenee
+            };
+            break;
         //applModel=Stack; //model for 'stacks' collection
         default:
             respOnse={
@@ -498,9 +532,9 @@ exports.updateDoc=function(req,res,callBfun) {
     applModel.update(querY, upDates, options,
         function(err,numAffected){
             // numAffected is the number of updated documents
-            console.log("query: "+JSON.stringify(querY));
-            console.log("upDates: "+JSON.stringify(upDates));
-            console.log("updated numAffected: "+JSON.stringify(numAffected));
+            //console.log("query: "+JSON.stringify(querY));
+            //console.log("upDates: "+JSON.stringify(upDates));
+            //console.log("updated numAffected: "+JSON.stringify(numAffected));
             if (!err && (numAffected===1)) {
                 respOnse={
                     statCode: 200,
@@ -564,8 +598,19 @@ exports.insertDoc=function(req,res,callBfun){
             newDocu = new Stack({
                 username: req.body.userNme,
                 fName: trim, //e.g. "branch1/parent1/parent2/file1",
-                //description: dataa.Descr,
+                description: dataa.Descr,
                 matrlStack: JSON.stringify(dataa.Stack),
+                dataExpires: vanhenee}
+            );
+            break;
+        case "emissions":
+            newDocu = new Emission({
+                username: req.body.userNme,
+                fName:trim, //e.g. "branch1/parent1/parent2/file1",
+                description:dataa.Descr,
+                unit:dataa.Unit,
+                spType:dataa.type,
+                datArrs:[{"eVs":dataa.absc}, {'Inte':dataa.Sv}],
                 dataExpires: vanhenee}
             );
             break;
@@ -671,6 +716,7 @@ exports.checkAllUserFiles=function(req,res,callBfun){
     var drTree=[];
     appModel.find({username: req.body.userNme},{'_id':0,'fName':1}, function(err,obj,next) {
         //todo: muuta jsTree-datan teko samanlaiseksi kuin messageilla
+        // tulee paremmaksi ja lyhyemmäksi
         var matFiles=obj.length;
         var dirIds=[];
         var dirArr=[];

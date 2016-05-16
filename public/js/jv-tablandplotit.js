@@ -10,8 +10,8 @@
 *
 */
 function buildSpArray(){
-    //Calculations are always in nm units.
-    //For results display units can be: nm, um or eV
+    //Calculations always perfoed in nm units.
+    //but results display can be in: nm, um or eV
     //Spectral array has uniform grid in all units, which means that:
     //if eV axis is chosen, [1/nm] axis has uniform grid and spectral
     //energies are uniformly spaced on 1/wavelength scale
@@ -815,4 +815,87 @@ function createTargOptsTable(){
         "bScrollCollapse": true
     });
     oTargOptTable.fnClearTable();
+}
+
+/**
+ * Function buildStack
+ * initializes thin film stack
+ */
+function buildStack(){
+    var theStack={
+        "settings": {
+            "polaris": "TE",
+            "angle": 0,            //assumes perpendicular incidence in loss free cover material!!
+            "RorT": "R",
+            "backR": "false",
+            "frontR": "false",
+            "SubstrD": 1000000,    //assumed 1mm thickness, multiplied by 1000000 to get nm's
+            "CoverD": 1000000,     //assumed 1mm thickness, multiplied by 1000000 to get nm's
+            "spUnit": "nm",
+            "spStart": 400,
+            "spStop": 1000,
+            "tunePrcnt": 0.5,      // tuning by multplication selected thicknesses with 1.005
+            "usedTarg": "",         // spectral target selected for comparison
+            "Descriptor": ""
+        },
+        "Materials": [],        //[["File":"","Name":"","Owner":"","Data":[]],[],[]....]
+        "Targets": [],          //[]
+        "Layers": [["Cover ", "DblClick to edit!", "bulk", "no",0],["Substrate", "DblClick to edit!", "bulk", "no",0]]
+    };
+    return theStack;
+}
+
+/**
+ * Function afterStackRead
+ * updates user interface after reading stack
+ */
+function afterStackRead(stakki){
+    stack={}; //resets stack
+    //stack=JSON.parse(rsObj.matrlStack);
+    stack=stakki;
+    /*console.log('before delete: ',stack);
+     delete stack.ReadyForCalc;
+     console.log('after delete: ',stack);*/
+    stackArr=[];
+    //stackArr=stack.Layers; // ei toimi, muutos stackArr:issa muuttaa myös stack.Layers:ia
+    var n=stack.Layers.length;
+    for (var i=0;i<n;i++){
+        if (i==0||i==n){
+            stack.Layers[i][4]='bulk';
+        }
+        stackArr.push(stack.Layers[i]);
+        stack.Layers[i][4]=stack.Layers[i][2]; //stack.Layers[i][4] layer thickness for tuning revertion
+    }
+
+    //update material options on tabs 8:
+    var matOptsArr = makeOptsArr(stack.Materials);
+    oMatOptTable.fnClearTable();
+    if (matOptsArr.length > 0) {
+        oMatOptTable.fnAddData(matOptsArr);
+    }
+    //update target options on tabs 7
+    var trgOptsArr = makeOptsArr(stack.Targets);
+    oTargOptTable.fnClearTable();
+    if (trgOptsArr.length > 0) {
+        oTargOptTable.fnAddData(trgOptsArr);
+    }
+    oStackTable.fnClearTable();
+    oStackTable.fnAddData(stackArr);
+
+    var layers=stackArr.length;
+    var tuneds=false;
+    for (var j=0;j<layers;j++){
+        //stackArr[j].push(stackArr[j][2]);
+        if (stackArr[j][3]==="Yes") tuneds=true; //check if tuning checkbox has 'Yes'
+    }
+    if (tuneds) {//atleast one tuning checkbox has 'Yes'
+        $("#adjustThs").show(); //show tuning toolbox
+    }else{
+        $("#adjustThs").hide();
+    }
+    updNKspArra();
+    updRTspArra();
+    StackTargSelUpd();  //populate stackTargs options
+    updTargSpArra();    //update selected target to target array
+    updGraph();
 }

@@ -5,7 +5,9 @@
 div(id="mongoDialForm")
   form(id='frm-DirSel', role='form' )
     fieldset
-      legend Directories available on:
+      b(style='font-size:14px') Select directory:
+      br
+      //-legend Select directory:
       button(id='btnUserDir', class='medium-btn', type='button') Private
       button(id='btnPublDir', class='medium-btn', type='button') Public
       button(id='btnLocDir', class='medium-btn', type='button') Local
@@ -18,18 +20,23 @@ div(id="mongoDialForm")
   br
   form(id='frm-Login', role='form' )
     fieldset
-      legend Login user required to access private directories
-      label(for='mngUsrnm') Username:
-      input(id='mngUsrnm', type='text', name='username', maxlength='50', style='margin:5px', autofocus)
-      button(id='btnLogInni', class='medium-btn', type='button') Log in
+      //-legend Log in to access private directories:
+      b(style='font-size:14px') Log in to access private directories:
       br
-      label(for="mngPWD") Password:
-      input(id='mngPWD', type='password', name='password', maxlength='50', style='margin-left:10px')
+      label(for='mngUsrnm' class='labelMongo') Username:
+      //-input(id='mngUsrnm', type='text', name='username', maxlength='50', style='margin-left:5px', autofocus)
+      input(id='mngUsrnm', type='text', name='username', maxlength='50', style='margin-left:5px', autofocus)
+      br
+      label(for="mngPWD" class='labelMongo') Password:
+      input(id='mngPWD', type='password', name='password', maxlength='50', style='margin-left:5px')
+      button(id='btnLogInni', class='medium-btn', type='button') Log in
       br
     br
   form(id='frm-FileTree', role='form')
     fieldset
-      legend(id='FilTreLege') Files available on server:
+      //-legend(id='FilTreLege') Files on server:
+      b(style='font-size:14px' id='FilTreLege') Files on server:
+      br
       label(for="directoName") Directory:
       br
       input(type="text" id="directoName" length="150" style='margin:5px' size="60")
@@ -38,5 +45,5 @@ div(id="mongoDialForm")
       br
       input(type="text" id="mongoFileName" length="150" style='margin:5px' size="60")
       br
-      b(id="mongoHd") Available subdirectories and files:
+      b(id="mongoHd") Subdirectories and files:
       div(id="mongoTree")

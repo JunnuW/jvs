@@ -351,6 +351,13 @@ app.get('/inhomo', function(req, res) {
     });
 });
 
+app.get('/spectralmodel', function(req, res) {
+    res.render('spectralmodel', {
+        title: 'Spectral modelling of quantum well LED\'s and LD\'s below laser threshold',
+        user: (req.user)  //false
+    });
+});
+
 app.get('/homo', function(req, res) {
     res.render('broadhomo', {
         title: 'Spectral broadening in quantum well LED\'s and LD\'s below laser threshold',
@@ -589,13 +596,13 @@ app.post('/auth/*', function(req,res){
     }
     switch (urli){
         case '/checkAllUserF' :
-            //console.log('checking all user files');
+            console.log('checking all user files');
             mngoTree.checkAllUserFiles(req,res,respAllMngo);
             //Response to user's browser via callback respAllMngo
             //trying to avoid 'can't set headers after they are sent' error
             break;
         case '/checkOneUserF' :
-            //console.log('checking one user files');
+            console.log('checking one user files');
             mngoTree.checkOneUserFile(req,res,respAllMngo);
             break;
         case '/dbFindOne' :

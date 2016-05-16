@@ -34,6 +34,14 @@ form .file {
     margin-bottom: 0.2em;
     }
 
+.labelMongo {
+    display:inline-block;
+    width:15%;
+    margin-right:5px;
+    text-align:right;
+    font-weight:bold;
+}
+
 /*.dialForm {
     width: 250px;
     height: 250px;
@@ -114,7 +122,7 @@ form .file {
   		solid #fff;border-right:1px solid #fff;padding:1px 1px 0 }
   		.ModForm1{text-align: left; width: 100%; border: 1px;}
   		.editTabs{vertical-align:top; text-align: left; border: 1px solid white;}
-        .editTabs2{vertical-align:top; width: 50%; border: 1px solid blue; color:blue;font-size: 17px; font-weight:bold;}
+        .editTabs2{vertical-align:top; width: 50%; border: 1px solid lightgrey; color:blue;font-size: 17px; font-weight:bold;}
   		.setTabs{text-align: left; width: 50%; border: 1px;background-color:#FFD700;}
   		.TabKontti{text-align: left; width: 80%; border: 1px;}
   		.leftis{text-align: left}
@@ -145,6 +153,7 @@ form .file {
 .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
     float: none !important;
 }
+
 /* without '!important' definition is ineffective while it can be overwritten by jquery's css*/
 .big-btn-left {
     width: 90px;

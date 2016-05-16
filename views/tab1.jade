@@ -1,69 +1,65 @@
 div(id="tabs-1")
   p
-    b For easy start:
-    br
-    | Open one of the default material stacks in the "Film Stack Editor's" Public directory (on the server).
-    br
-    | To apply your own (local) material or target files, open and locally save one file in the 'Public' directory on the
-    |    'Material Data Editor' or 'Spectral Target Editor' Tabs. Edit it in your favorite editor program to represent
-    |    your own data keeping the original file format. Save renaming the file and re-open here using the earlier
-    |    applied tab and 'Film Stack Editor'.
+    b Easy start:
+  div  On the:
+  b(style="color:green")  Film Stack Editor
+  |   TAB open a default stack in the Public directory (on the server).
+  br
+  br
   p
     b Step 1:
-  div Define calculation mode and settings (Reflectance/Transmittance, wavelength range etc.) on
+  div Use the
     br
     b(style="color:green")    Calculation Settings
-    |   TAB
+    |   TAB for calculation parameter values
+  br
   p
     b Step 2:
   div Populate 'materials list' with refractive index data from local or server files using:
     br
     b(style="color:green")   Materials Data Editor
     |   TAB
+  br
   p
     b Step 3:
   div Populate 'Spectral targets list' with spectral data from local or server files using:
     br
     b(style="color:green")   Spectral Targets Editor
     |   TAB
+  br
   p
     b Step 4:
   div Define the film stack structure and select target spectrum on:
     br
     b(style="color:green")   Film Stack Editor
     |   TAB
+    br
+    | Perform calculations using either the 'manual-' or 'auto-tuning' mode.
+  br
   p
     b Step 5:
-  div Perform calculations on:
+  div Save data either to server (uploaded) or local (downloaded) files:
     br
-    b(style="color:green")   Film Stack Editor
-    |   TAB
-  | Adjust the film thicknesses in the stack to match the target spectrum (if is selected)
-  | using either the 'manual-' or 'auto-tuning' mode
-  p
-    b Step 6:
-  div if desired, save data either to server (uploaded) or local (downloaded) files:
-    br
-    b(style="color:green")   Use save buttons on TAB's
-    |    in previous steps 2,3,4
-  | Before local saving check and possibly edit the filename on the respective TAB's.
-  | As default, local saving takes place into the downloads folder defined in
-  | your browser settings and contains the data safety risks common to data downloads
-  | from the internet.
+    b(style="color:green")   Use save buttons on the earlier used TAB's.
+  | By default, local saving takes place into the downloads folder defined in your browser settings
   br
-  | However, Mozilla-FF provides methods to check and inspect the file contents before the saving.
-  | For that, a basic text editor without scripting possibility is recommended
-  | (or possibly MS-Office programs in macros disabled mode). MS-Notepad should also be OK, but does
+  | As a safety check, Mozilla-FF provides methods to check and inspect the file contents before the saving.
+  br
+  | For the checking, a basic text editor without scripting possibility is recommended. MS-Notepad is OK, but does
+  br
   | not show the contents properly, while it requires CR,LF characters to start a new line.
   br
   | Google Chrome in turn provides the possibility to edit the filename and select the folder for the local saving.
+  br
   | Internet Explorer and MS-Edge browsers support HTML5 File Apis through blob objects (binary large object)
+  br
   | and file drag and drop. As these are not applied here (and this application uses local saving to text files),
+  br
   | the MS-browsers are not recommend if you want local storage. see also http://caniuse.com/#search=file%20api
+  br
   p
-    b Step 7:
+    b Step 6:
   div The easiest method to use your own material or spectral data:
     br
     | Open one of the files in public directory on the server, save it to your local folder,
-    | use your preferred editor to modify the contents and rename the file. Finally open your
-    | file using open local file option.
+    | use your preferred editor to modify the contents and rename the file.

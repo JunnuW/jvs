@@ -26,10 +26,9 @@
  * be available
  *
 */
-var aTreeData;       //Data object for directory tree (JSON data) obtained from mongo database
-var dirUser='Publ';  //server directory user default (No Login)
+//var aTreeData;       //Data object for directory tree (JSON data) obtained from mongo database
+var dirUser='Publ';  //default (i.e. No Login) username for server directory
 var DFmngo;          //Dialogform for file operations
-var locReader = new FileReader();
 var matrlArr=[];     //first row: [nm|um|eV, n, k]
 //initializes material string with some n and k values to show in table and graph:
 var matrlStr = "nm\tn\tk\r\n500\t1.0\t0.0\r\n510\t1.5\t0.2\r\n520\t1.2\t0.4";

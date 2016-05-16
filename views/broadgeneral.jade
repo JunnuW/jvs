@@ -60,61 +60,7 @@ block levenee
     br
     | -graphing measured and calculated spectra
     br
-    br
-    b Inserting potentially needed equations.
-    br
-    br
-    | When \(a \ne 0 \), there are two solutions to \( ax^2 + bx + c = 0 \) and they are
-    | $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
-    br
-    | \begin{equation}
-    | \label{Relaxation-appr}
-    | 1/\tau_{c}= 1/\tau_{ce}+1/\tau_{ch}+1/\tau_{cph}+1/\tau_{ci} ~,
-    | \end{equation}
-    | relaxation times from other electrons \(\tau_{ce}\) or holes \(\tau_{ch}\), phonons \(\tau_{cph}\),
-    | and crystal defects or impurities \(\tau_{ci}\)
-    br
-    | \begin{equation}
-    | \label{UrbachTail}
-    | I(E)/I_{g}=exp[(E - E_{g})/E_{u}]~,
-    | \end{equation}
-    br
-    | where \(I_{g}\) is the spectral value at bandgap energy \(E_{g}\), and \(E_{u}\) is the Urbach parameter.
-    | In GaAs, at 300K, 6-9 meV values have been reported for \(E_{u}\). The temperature dependent contributions in
-    | \(E_{u}\) have been associated to disorder created by phonons
-    br
-    | \begin{align}
-    | \label{Lorentz1}
-    | p_{e}(\Delta E_{e})=&\frac{\tau_{e}/(\pi\hbar)}{1+\tau_{e}^{2}\Delta E_{e}^{2}/\hbar^{2}}\\
-    | p_{h}(\Delta E_{h})=&\frac{\tau_{h}/(\pi\hbar)}{1+\tau_{h}^{2}\Delta E_{h}^{2}/\hbar^{2}}~,
-    | \end{align}
-    | where \(p_{e}\) and \(p_{h}\) are probability densities and \(\Delta E_{e}\) and \(\Delta E_{h}\) the deviations
-    | from the center energies, as depicted in Fig.
-    br
-    | \begin{equation}
-    |\label{Exciton-K}
-    |\bf{K}=\bf{k_{e}-k_{h}}
-    |\end{equation}
-    br
-    | \begin{align}
-    | \label{LorentzianLB}
-    | L_{t}(\Delta E)=&\frac{\tau_{r}/(\pi\hbar)}{1+\tau_{r}^{2}\Delta E^{2}/\hbar^{2}}\\
-    | \tau_{r}=&\frac{\tau_{e}\tau_{h}}{\tau_{e}+\tau_{h}}\label{TauR}\
-    | \end{align}
-    br
-    | \begin{align}
-    |\Delta E_{e}=&\frac{\hbar^{2}}{2m_{e}}[(k_{e}+\Delta k_{e})^{2}-k_{e}^{2}]\label{Deltak1}\\
-    |\Delta E_{h}=&\frac{\hbar^{2}}{2m_{h}}[(k_{h}+\Delta k_{h})^{2}-k_{h}^{2}]\label{Deltak2}\\
-    |\Delta E=&\Delta E_{e}+\Delta E_{h}\label{totdE2}\
-    |\end{align}
-    |Line broadening permits transitions also in the bandgap, where \(\Delta E_{e}\) and \(\Delta E_{h}\) have
-    |negative values, which requires imaginary \( \Delta k \) values.
-    | This means that, for exciton \((E_{e},E_{h})\), broadening energy \(\Delta E\) is possible only with these
-    | simultaneous \(\Delta E_{e}\) and \(\Delta E_{h}\) values. Their probability densities are:
-    |\begin{align}
-    |p_{e}(\Delta E_{e})=&\frac{\tau_{be}/(\pi\hbar)}{1+\tau_{be}^{2}\Delta E^{2}/\hbar^{2}}\label{Pe}\\
-    |p_{h}(\Delta E_{h})=&\frac{\tau_{bh}/(\pi\hbar)}{1+\tau_{bh}^{2}\Delta E^{2}/\hbar^{2}}\label{Ph}\
-    |\end{align}
+
     |where
     |\begin{equation}
     |\tau_{be}=\frac{\tau_{e}m_{h}}{m_{h}+m_{e}} \quad\textrm{and}\quad\tau_{bh}=\frac{\tau_{h}m_{e}}{m_{h}+m_{e}}
@@ -152,7 +98,7 @@ block levenee
     | S_{s}(E)=&\pi\alpha\frac{e^{\pi\alpha}}{sinh(\pi\alpha)}\label{BulkEnh1}\\
     | \alpha=&\sqrt{\frac{E_{b}}{E-E_{g}}}\label{BulkEnh2}\
     | \end{align}
-    | Eq. (\ref{BulkEnh2}) has a pole at \(E_{g}\) coinciding with zero in JDOS (\(\rho_{r}\) in
+    | , before the emission, has a pole at \(E_{g}\) coinciding with zero in JDOS (\(\rho_{r}\) in
     | Eq. (\ref{Spectrum2})), but the combination with parabolic band edge, (\(\rho_{r}\propto \sqrt{E-E{g}}\))
     | leads to finite spectral power densities enabling the numerical integration of Eq. (\ref{Spectrum2}).
     | polarizations are observable. The corresponding enhancement factors are \cite{Shinada}:
