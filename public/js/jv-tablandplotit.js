@@ -222,8 +222,11 @@ function iterEnd(){
     }
     stackArr[0][2]='bulk'; //cover and substrate thicknesses do not participate in interference
     stackArr[stackArr.length-1][2]='bulk';
-    oStackTable.fnClearTable();
-    oStackTable.fnAddData(stackArr);
+    //oStackTable.fnClearTable();
+    oStackTable.clear();
+    //oStackTable.fnAddData(stackArr);
+    oStackTable.rows.add(stackArr);
+    oStackTable.draw();
     updRTspArra();
     updGraph();
     $('#tuneVar').val(diffs.difVar);
@@ -247,8 +250,11 @@ function revertTune(){
     }
     stackArr[0][2]='bulk'; //cover and substrate thicknesses do not participate in interference
     stackArr[stackArr.length-1][2]='bulk';
-    oStackTable.fnClearTable();
-    oStackTable.fnAddData(stackArr);
+    //oStackTable.fnClearTable();
+    oStackTable.clear();
+    //oStackTable.fnAddData(stackArr);
+    oStackTable.rows.add(stackArr);
+    oStackTable.draw();
     updRTspArra();
     updGraph();
 }
@@ -420,9 +426,12 @@ function updGraph(){
         //alert("graafi päivitettiin");
     }
     else {
-        var layerX =oStackTable.$('tr.row_selected');
-        if (layerX.length < 1) return; //no nk-graphing, since all layers unselected
-        var rowInd = oStackTable.fnGetPosition($(layerX).closest('tr')[0]);
+        var layerX =oStackTable.$('tr.row_selected').index();
+        //console.log('layerX: ',layerX);
+        if (layerX< 1) return; //no nk-graphing, since all layers unselected
+        //var rowInd = oStackTable.fnGetPosition($(layerX).closest('tr')[0]);
+        //console.log('rowInd: ',rowInd);
+        var rowInd =layerX;
         var nkArra = [];
         var tmp = [stack.settings.spUnit,'n','k'];
         nkArra.push(tmp);
@@ -702,7 +711,7 @@ function intpolData(optName,optArr,trIndex){
 * @function
 */
 function createStackTable() {
-    oStackTable = $('#StackEdit').dataTable({
+    oStackTable = $('#StackEdit').DataTable({
         "aaData": stackArr,
         "bPaginate": false,
         "bLengthChange": false,
@@ -719,6 +728,8 @@ function createStackTable() {
                 checkbox: {trueValue: 'Yes', falseValue: 'No'}
             }]
     });
+    oStackTable.clear();
+    oStackTable.draw();
 }
 /**
 * Initializes material nk-data editing table on tabs-8. Uses dataTables jquery plugin
@@ -728,7 +739,7 @@ function createMatEditTable(){
     var sTitle1="Unit [" + matrlArr[0][0] + "]";
     var sTitle2="n";
     var sTitle3="k";
-    oMatTable = $('#matEditTabl').dataTable({
+    oMatTable = $('#matEditTabl').DataTable({
         "bPaginate": true,
         "bLengthChange": true,
         "bFilter": true,
@@ -741,7 +752,9 @@ function createMatEditTable(){
             {"sTitle":sTitle3, "sWidth": "15%", "sType": "numeric", "sClass": "centtis"}],
         "bScrollCollapse": true
     });
-    oMatTable.fnClearTable();
+    //oMatTable.fnClearTable();
+    oMatTable.clear();
+    oMatTable.draw();
 }
 
 /**
@@ -750,7 +763,7 @@ function createMatEditTable(){
 * @function
 */
 function createMatOptsTable(){
-    oMatOptTable = $('#matOpsTabl').dataTable({
+    oMatOptTable = $('#matOpsTabl').DataTable({
         "autoWidth": true,
         "bPaginate": false,
         "bLengthChange": false,
@@ -766,7 +779,9 @@ function createMatOptsTable(){
             { "sTitle": "File", "sType": "text", "sClass": "centtis" }],
         "bScrollCollapse": true
     });
-    oMatOptTable.fnClearTable();
+    //oMatOptTable.fnClearTable();
+    oMatOptTable.clear();
+    oMatOptTable.draw();
 }
 
 /**
@@ -777,7 +792,7 @@ function createMatOptsTable(){
 function createTargEditTable(){
     var sTitle1="Unit: [" + targArr[0][0] + "]";
     var sTitle2=targArr[0][1]+ " %-value";
-    otargTable = $('#targEditTabl').dataTable({
+    otargTable = $('#targEditTabl').DataTable({
         //"sScrollY": "300px",
         "bPaginate": true,
         "bLengthChange": true,
@@ -790,7 +805,9 @@ function createTargEditTable(){
             {"sTitle":sTitle2, "sWidth": "15%", "sType": "numeric", "sClass": "centtis"}],
         "bScrollCollapse": true
     });
-    otargTable.fnClearTable();
+    //otargTable.fnClearTable();
+    otargTable.clear();
+    otargTable.draw();
 }
 
 /**
@@ -798,7 +815,7 @@ function createTargEditTable(){
  * @function
  */
 function createTargOptsTable(){
-    oTargOptTable = $('#targOptsTabl').dataTable({
+    oTargOptTable = $('#targOptsTabl').DataTable({
         "autoWidth": true,
         "bPaginate": false,
         "bLengthChange": false,
@@ -814,7 +831,9 @@ function createTargOptsTable(){
             { "sTitle": "File", "sType": "text", "sClass": "centtis" }],
         "bScrollCollapse": true
     });
-    oTargOptTable.fnClearTable();
+    //oTargOptTable.fnClearTable();
+    oTargOptTable.clear();
+    oTargOptTable.draw();
 }
 
 /**
@@ -869,19 +888,27 @@ function afterStackRead(stakki){
 
     //update material options on tabs 8:
     var matOptsArr = makeOptsArr(stack.Materials);
-    oMatOptTable.fnClearTable();
+    //oMatOptTable.fnClearTable();
+    oMatOptTable.clear();
     if (matOptsArr.length > 0) {
-        oMatOptTable.fnAddData(matOptsArr);
+        //oMatOptTable.fnAddData(matOptsArr);
+        oMatOptTable.rows.add(matOptsArr);
+        oMatOptTable.draw();
     }
     //update target options on tabs 7
     var trgOptsArr = makeOptsArr(stack.Targets);
-    oTargOptTable.fnClearTable();
+    //oTargOptTable.fnClearTable();
+    oTargOptTable.clear();
     if (trgOptsArr.length > 0) {
-        oTargOptTable.fnAddData(trgOptsArr);
+        //oTargOptTable.fnAddData(trgOptsArr);
+        oTargOptTable.rows.add(trgOptsArr);
+        oTargOptTable.draw();
     }
-    oStackTable.fnClearTable();
-    oStackTable.fnAddData(stackArr);
-
+    //oStackTable.fnClearTable();
+    oStackTable.clear();
+    //oStackTable.fnAddData(stackArr);
+    oStackTable.rows.add(stackArr);
+    oStackTable.draw();
     var layers=stackArr.length;
     var tuneds=false;
     for (var j=0;j<layers;j++){

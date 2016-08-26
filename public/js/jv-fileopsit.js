@@ -85,8 +85,11 @@ function respToArr(fileName,resObj) {
             $('#ediMater').val(fileName);
             //console.log('matrlArr[0][3]: '+matrlArr[0][3]);
             if (matrlArr[0][3]) $('#descMater').val(matrlArr[0][3]);
-            oMatTable.fnClearTable();
-            oMatTable.fnAddData(matrlArr.slice(1));
+            //oMatTable.fnClearTable();
+            oMatTable.clear();
+            //oMatTable.fnAddData(matrlArr.slice(1));
+            oMatTable.rows.add(matrlArr.slice(1));
+            oMatTable.draw();
             $('#matEditTabl').find('th:eq(0)').text("Unit [" + matrlArr[0][0] + "]");
             plotNK(matrlArr, 8); //tämäkö?
             EnDisButt('Enabled', '#btnUseMat');
@@ -111,8 +114,11 @@ function respToArr(fileName,resObj) {
             }
             $('#ediTarge').val(fileName);
             if (targArr[0][2]) $('#descTarge').val(targArr[0][2]);
-            otargTable.fnClearTable();
-            otargTable.fnAddData(targArr.slice(1));
+            //otargTable.fnClearTable();
+            otargTable.clear();
+            //otargTable.fnAddData(targArr.slice(1));
+            otargTable.rows.add(targArr.slice(1));
+            otargTable.draw();
             //$('#ediTarge').val(targarr)
             plotRT(targArr, 7);
             EnDisButt('Enabled', '#btnUseTarg');
@@ -217,14 +223,13 @@ function mongoReadDesc(fileName,callsback){
 }
 
 /**
- * Function open selected document in server mongodatabase
+ * Function reads selected document in server mongodatabase
  * @fileName string Document new name
  * @collec   string Document collection 'Materials', 'Targets', 'Stacks'
  * @function
  */
 function mongoGetOne(fileName){
     var datColl=pickCollection();
-    //console.log('mongoGetOne: ',fileName);
     var tokene;
     if (userName!='No login'){
         tokene=window.sessionStorage.getItem('RTFtoken');
@@ -253,10 +258,18 @@ function mongoGetOne(fileName){
                             //and convert back to object
                             var resObj = JSON.parse(datas.resString.slice(datas.resString.indexOf('{')));
                             if (datColl=='emissions'){
-                                experArr=makeEmisArr(fileName,resObj);
+                                var dialoogi= $('#settnDial').dialog('option','title');
+                                if (dialoogi=='Inhomogeneous spectrum'){
+                                    inhomExp=makeEmisArr(fileName,resObj);
+                                    experArr1=makeEmisArr(fileName,resObj);
+                                    inhombr();
+                                }else if(dialoogi=='Homogeneous spectrum'){
+                                    experArr2=makeEmisArr(fileName,resObj);
+                                    homogExp=makeEmisArr(fileName,resObj);
+                                    hombr();
+                                }
                                 filNam=fileName;
-                                inhombr();
-                            break;
+                                break;
                             }
                             //todo: update filename and description inputs
                             respToArr(fileName, resObj);     //updates matrlArr to opened document
@@ -312,7 +325,7 @@ function mongoRename(oldFile,newFile,icon){
             if (datas){
                 console.log('Renaming response: '+datas);
                 if (datas.resString.indexOf("renaming OK")>-1){
-                    $('#btn-mngOpenSave').text("Save current data");//return original caption
+                    $('#btn-mngOpenSave').text("Save data");//return original caption
                     $.notifyBar({
                         cssClass: "success",
                         html: datas.resString // "Your file was renamed:"
@@ -357,7 +370,7 @@ function mongoDelete(flNme) {
             if (datas && datas.statCode==200) {
                 console.log('Deleting response: ' + datas.resString);
                 if (datas.resString.indexOf('deleting OK') > -1) {
-                    $('#btn-mngOpenSave').text("Save current data");//return original caption
+                    $('#btn-mngOpenSave').text("Save data");//return original caption
                     $.notifyBar({
                         cssClass: "success",
                         html: "You deleted:" + datas.resString.slice(17)
@@ -421,7 +434,7 @@ function mongoSave(saveUrl,flNme) {
                 break;
             case ((dialTitle.match(/emission/gi))? dialTitle: undefined) :
                 //tehdään tarkettispektristä JSON:
-                dJson = toJsonArr(datColl, flNme, experArr, descr);
+                dJson = toJsonArr(datColl, flNme, experArr1, descr);
                 //arrSave=experArr;
                 break;
             case ((dialTitle.match(/stack/gi))? dialTitle: undefined) :
@@ -697,7 +710,7 @@ function toJsonArr(coLLe, filename, arrDat, desc) {
     }else{// real material or spectral data exist (stack data already in JSON format)
         var unit=arrDat[0][0]; //should be
         if (unit!="nm" && unit!="um" && unit!="eV") {
-            throw new Error("Unknown spectral unit"+unit);
+            throw new Error("Unknown spectral unit "+unit);
             return;
         }
         resu.Unit = unit; //wavelength unit: nm, um or eV
@@ -732,6 +745,8 @@ function toJsonArr(coLLe, filename, arrDat, desc) {
     return resu;
 }
 
+
+
 //*****************************************************************************************************
 // reading local files for materials and targets from tab delimited text files
 // cBackFun piirtää päivittää taulukot ja spektrit materiaali ja target tabseilla
@@ -763,11 +778,23 @@ function ReadLocFle(file, cBackFun) {
  * @function
  * @fileCont has the read text content
  */
-function gotEmisFile(fileCont) {
-    //callback after successfully reading local files
-    experArr = splitToArr(fileCont);
+function gotInhomFile(fileCont) {
+    //callback after successfully reading a local emission file
+    experArr1 = splitToArr(fileCont);
+    inhomExp = splitToArr(fileCont);
     inhombr();
-    //console.log('emis: ',experArr);
+}
+
+/**
+ * Function for callback operation after reading local emission spectrum file
+ * @function
+ * @fileCont has the read text content
+ */
+function gotHomogFile(fileCont) {
+    //callback after successfully reading a local emission file
+    experArr2 = splitToArr(fileCont);
+    homogExp = splitToArr(fileCont);
+    hombr();
 }
 
 
@@ -788,8 +815,11 @@ function gotTextFile(fileCont) {
     switch (selecTabId){
         case 'Materials':
             matrlArr = splitToArr(fileCont);
-            oMatTable.fnClearTable();
-            oMatTable.fnAddData(matrlArr.slice(1));
+            //oMatTable.fnClearTable();
+            oMatTable.clear();
+            //oMatTable.fnAddData(matrlArr.slice(1));
+            oMatTable.rows.add(matrlArr.slice(1));
+            oMatTable.draw();
             $('#matEditTabl').find('th:eq(0)').text("Unit [" + matrlArr[0][0] + "]");
             $('#descMater').val(matrlArr[0][3]);
             plotNK(matrlArr, 8);
@@ -799,8 +829,11 @@ function gotTextFile(fileCont) {
             //console.log('Targets read');
             targArr = splitToArr(fileCont);
             $('#descTarge').val(targArr[0][2]);
-            otargTable.fnClearTable();
-            otargTable.fnAddData(targArr.slice(1));
+            //otargTable.fnClearTable();
+            otargTable.clear();
+            //otargTable.fnAddData(targArr.slice(1));
+            otargTable.rows.add(targArr.slice(1));
+            otargTable.draw();
             //RorT = targArr[0][1];
             if (targArr[0][1].indexOf('R')>-1){
                 $('#targMode').text('Target spectrum for reflectance:');
@@ -932,7 +965,7 @@ var buildMongoDial=function(){
                 $('#btnPublDir').show(); //file opening allowed also on public area
             }
             else {
-                $('#btn-mngOpenSave').text('Save current data');
+                $('#btn-mngOpenSave').text('Save data');
                 $('#btnPublDir').hide(); //saving is not allowed to public dir area
             }
         },
@@ -945,9 +978,23 @@ var buildMongoDial=function(){
             //Button1: this button is always available for cancelling file operations (Open or Save)
             {   id:'btnMngoCancel',
                 text: "Cancel",
-                "class": 'big-btn',
+                "class": 'medium-btn',
                 click: function () {
                     $('#FilTreLege').text('Files available on server:');
+                    var dialoogi= $('#settnDial').dialog('option','title');
+                    if (dialoogi=='Inhomogeneous spectrum'){
+                        inhomExp=[];
+                        experArr1=[];
+                        filNam='';
+                        makeExpArrs();
+                        inhombr();
+                    }else if(dialoogi=='Homogeneous spectrum'){
+                        homogExp=[];
+                        experArr2=[];
+                        filNam='';
+                        makeExpArrs();
+                        hombr();
+                    }
                     $(this).dialog("close");
                 }
             },
@@ -955,7 +1002,7 @@ var buildMongoDial=function(){
             //with another username
             {   id:'btnLogMeOff',
                 text: "Log me off",
-                "class": 'big-btn',
+                "class": 'medium-btn',
                 click: function(){
                     //alert('logging off: '+userName);
                     $.get('/logout');
@@ -969,7 +1016,7 @@ var buildMongoDial=function(){
             //Button3: this button is recycled for opening and saving data files
             {   id:'btn-mngOpenSave', //save- or open-file button
                 text: 'Open File',    //assumes 'open-file' is the first operation
-                "class": 'big-btn',
+                "class": 'medium-btn',
                 click: function(){
                     var a=$('#btn-mngOpenSave').text();
                     if (a.indexOf('Open')>-1){//this is a file open operation
@@ -1053,7 +1100,7 @@ var buildMongoDial=function(){
                     $('#btn-mngOpenSave').text('Open File');
                 }
                 else {
-                    $('#btn-mngOpenSave').text('Save current data');
+                    $('#btn-mngOpenSave').text('Save data');
                 }
                 //console.log('node was selected OK: '+selctdNde.id);
                 var repl=mongoColle(selctdNde.id);
@@ -1109,7 +1156,7 @@ var buildMongoDial=function(){
     $('#directoName, #mongoFileName').focus(function(){
         //user starts to edit filename, then revert button title to
         //force existence check before file saving,
-        $('#btn-mngOpenSave').text("Save current data");
+        $('#btn-mngOpenSave').text("Save data");
     });
 
     $('#btnUserDir').click(function(){
@@ -1203,14 +1250,14 @@ var buildMongoDial=function(){
         var dialTitle=$("#mongoDialForm").dialog("option","title"); //gets the options for open or save
         switch (dialTitle) {
             case 'Open material file from':
-                //console.log('open material data');
+                console.log('open material data');
                 $('#descMater').val('');
                 $("#ediMaterLbl").text("Local file: ");
                 $("#mongoDialForm").dialog("close");
                 $("#matLocFiles").focus().click();
                 break;
             case 'Open target file from':
-                //console.log('open target data');
+                console.log('open target data');
                 $('#descTarge').val('');
                 $("#ediTargeLbl").text("Local file: ");
                 $("#mongoDialForm").dialog("close");
@@ -1224,7 +1271,7 @@ var buildMongoDial=function(){
                 $("#stackLocFiles").focus().click();
                 break;
             case 'Open emission spectrum':
-                //console.log('open stack data');
+                //console.log('open rmission data');
                 $('#descStack').val('');
                 $("#mongoDialForm").dialog("close");
                 $("#emisLocFiles").focus().click();
@@ -1354,7 +1401,7 @@ function operDispatcher(operatSel){
         return;
     }
     switch (operatSel) {
-        case 'Save current data':
+        case 'Save data':
             saveToMngoDb(mngFileN);
             //$('#mongFileDesc').val('');
             break;
@@ -1421,7 +1468,6 @@ function operDispatcher(operatSel){
             console.log('element: '+JSON.stringify($.jstree.reference('#mongoTree').element));
             var selctdNde=$.jstree.reference('#mongoTree').get_selected(true)[0];
             console.log('Selected node: '+JSON.stringify(selctdNde));*/
-            //todo: laita
             //var newFile=selctdNde.text;
             //var oldName=selctdNde.original.text;
             //var ikoni=selctdNde.original.icon;

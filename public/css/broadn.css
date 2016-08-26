@@ -1,11 +1,12 @@
 fieldset {
+    /* for spectralmodel dialog box fieldsets*/
     border: 1px solid green;
     padding: 1em;
     /*font:80% sans-serif;*/
 }
 
 label {
-    /*float:left;*/
+    /* for spectralmodel dialog box labels*/
     width:23%;
     /*margin-right:0.5em;*/
     margin-right:5px;
@@ -16,20 +17,13 @@ label {
 }
 
 .otsikko {
+    /* for spectralmodel dialog box fieldset titles*/
     font-size:16px;
     display:none;
 }
 
-/*.ui-dialog {position: absolute;}*/
-.huuhaa {
-    position:absolute;
-    /*overflow:auto;*/
-    /*height:500px;*/
-    /*width:600px;*/
-}
-
 .label2 {
-    /*float:left;*/
+    /* for spectralmodel dialog box fieldset labels*/
     width:40%;
     /*margin-right:0.5em;*/
     margin-right:5px;
@@ -40,16 +34,45 @@ label {
     font-weight:bold;
 }
 
+.label3 {
+    /* for spectralmodel dialog box fieldset labels*/
+    width:15%;
+    /*margin-right:0.5em;*/
+    margin-right:5px;
+    /*margin-left:20px;*/
+    /*padding-top:0.2em;*/
+    /*padding:7px;*/
+    text-align:left;
+    font-weight:bold;
+}
+
+.label4 {
+    /* for spectralmodel dialog box fieldset labels*/
+    width:32%;
+    /*margin-right:0.5em;*/
+    margin-right:5px;
+    /*margin-left:20px;*/
+    /*padding-top:0.2em;*/
+    /*padding:7px;*/
+    text-align:right;
+    font-weight:bold;
+}
+
 .inputti {
+    /* for spectralmodel dialog box inputs*/
     width:45px;
     margin-left:13px;
 }
 
-.boldsFrmt {
-    margin-right:15px;
+.inputti2 {
+    /* for spectralmodel dialog box inputs*/
+    width:45px;
+    margin-left:13px;
+    text-align:left;
 }
 
 .demo-placeholder {
+    /*For simulation graph placeholders*/
     width: 100%;
     height: 100%;
     font-size: 14px;
@@ -57,6 +80,7 @@ label {
 }
 
 .demo-container {
+    /*For simulation graph containers*/
     box-sizing: border-box;
     width: 850px;
     height: 450px;
@@ -74,9 +98,12 @@ label {
     -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
     -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
     -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    margin-left:10px;
 }
 
 #mongoDialForm {
+    /*for dialog form*/
+    z-index: 1000 !important ;
     display:none;
 }
 
@@ -117,6 +144,7 @@ label {
     float: right;
     margin-right: 30px;
 }
+
 /* not in use */
 .small-btn {
     width: 50px;
@@ -130,6 +158,17 @@ label {
     background: transparent;*/
 }
 .ui-widget-content {
-    opacity:0.8;
+    opacity:0.85;
     /*background: transparent;*/
 }
+
+.ui-dialog { /*ilman tätä saattaa dialog boxin yläreuna jäädä bootstrapin alle*/
+    z-index: 1000 !important ;
+    background:lightyellow !important;
+    /*position: fixed;*/
+}
+
+.vaaleankelt {/* muuttaa dialogin vaaleankeltaiseksi*/
+    background:lightyellow !important;
+}
+

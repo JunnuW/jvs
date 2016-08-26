@@ -3,24 +3,24 @@
 extends broaden
 block levenee
     h3 Homogeneous broadening in qw diodes
-    h4 Homogeneous and inhomogeneous broadening
-    | Inhomogeneous and homogeneous broadening always coexist in the spectra, but they can also be observed
-    | separately under specific conditions.
-    | A classic example, where homogeneous (lifetime) broadening takes over the inhomogeneous effects is the
-    | impact pressure broadening of gases. At low pressures, the velocity distribution of atoms produces Doppler
+    h4 Homogeneous and inhomogeneous effects
+    | Both effects normally coexist in the spectra, but under specific conditions they can also be observed
+    | separately.
+    | A classic example, where homogeneous lifetime broadening determines the spectral shape is the
+    | impact pressure broadening in gases. At low pressures, the velocity distribution of atoms produces Doppler
     | shifts to the photons and the emission spectrum has Gaussian shape following the thermal velocity distribution
-    | of emitting gas atoms. Since the emitters behave differently (follow a distribution), Doppler effect produces
+    | of the emitting gas atoms. Since the emitters are not identical (have Gaussian distribution), Doppler effect produces
     | inhomogeneous broadening.
     | However, when the pressure is increased the gas atoms collide more frequently with each other. Collisions interrupt
-    | the photonic relaxation process in the emission (excitation process in optical absorption).
-    | This sets on lifetime broadening effect. Increasing the pressure, first the spectral shape is a Voigt function,
-    | a convolution between the original inhomogeneous Gaussian and the homogeneous, Lorentzian lifetime broadened spectrum.
-    | At reasonably higher pressures the broadening becomes purely Lorentzian (homogeneous) in shape.
-    h4 Spectral shape in homogeneous broadening
-    | Homogeneous broadening arises from the relaxation (excitation) in a population of identical (homogeneous) emitters.
+    | the photonic relaxation processes in the emission (excitation process in optical absorption).
+    | This sets on the impact lifetime broadening effect. With increasing pressure, the spectral shape first follows a
+    | Voigt function, a convolution between the original inhomogeneous Gaussian and the homogeneous, Lorentzian impact
+    | broadened shape. At somewhat higher pressures the broadening becomes purely Lorentzian (homogeneous) in shape.
+    h4 Homogeneous shape
+    | Homogeneous shape describes the relaxation in a population of mutually identical (=homogeneous) emitters.
     br
-    | Assuming \(N\) is the number of identically relaxing members in the population the relaxation rate can be
-    | developed into a time function:
+    | Assuming \(N\) is the number of members in such a population, the relaxation rate can be
+    | developed into a time function using a Taylor expansion:
     | \begin{equation}
     | \label{HomogDiffe1}
     | -dN/dt=N\cdot(A+B\cdot t+C\cdot t^2...),
@@ -30,10 +30,10 @@ block levenee
     | \label{HomogDiffe2}
     | -dN/N=A\cdot dt +(B\cdot t+C\cdot t^2+...)\cdot dt,
     | \end{equation}
-    | In this equation, terms inside the parenthetis are problematic, because a zero instance is required for the
-    | time variable. The homogeneity assumption inturn means that all population members have identical relaxation
-    | probabilities all the time, requiring all members start relaxing at the same time and have a memory property for
-    |the elapsed time from the zero instance. In other words for memoryless relaxation processes (with
+    | In this equation, the terms inside parenthetis are problematic, because a zero time instance has to be set and
+    | remembered throughout the entire relaxation. The homogeneity assumption means that all members have identical
+    | relaxation probabilities all the time in the process requiring all members start relaxing simultaneously and
+    | remember their elapsed time from the zero instance. In other words for a memoryless relaxation process (with
     -Markov_urli="https://en.wikipedia.org/wiki/Markov_property"
     a(href="#{Markov_urli}" target="_blank")    Markov Property
     |    ), we have \(B=C=D.....=0\). Assuming \(N=N_{0}\) at \(t=0\), we get after integration:
@@ -46,11 +46,9 @@ block levenee
     | \label{HomogDiffe4}
     | N(t)=N_{0}\cdot e^{-t/\tau},
     | \end{equation}
-    | where \(\tau\) is called the relaxation time in the process. Often, more than one phenomenon exists behind the
-    | relaxation. Without other relaxation mechanisms, the spontaneous emission rate (stimulated emission by zero
-    | point energy fluctuations )
-    | determines the relaxation time in the population. With several independent mechanisms the
-    | resulting relaxation time is obtained as:
+    | where \(\tau\) is called the relaxation time in the process. Normally, more than one phenomenon produces the
+    | relaxation. Without all other mechanisms, spontaneous emission (stimulated by zero point energy fluctuations)
+    | determines the relaxation time. With several independent mechanisms the resulting relaxation time is obtaineda as:
     | \begin{equation}
     | \label{HomogDiffe5}
     | 1/\tau_{r}= 1/\tau_{1}+1/\tau_{2}+.... ~,
@@ -75,17 +73,17 @@ block levenee
     -NB_urli="https://en.wikipedia.org/wiki/Spectral_line"
     a(href="#{NB_urli}" target="_blank")    natural broadening.
     h4 Does homogeneous broadening always produce Lorentzian line shapes?
-    | The above derivation seems to suggest that homogeneously broadened lines should always have Lorentzian shapes.
+    | The above derivation suggests that homogeneously broadened lines should always have Lorentzian shapes.
     | However, at least one contradicting case is known to exist in the lifetime broadening of qw-LED's, where the physical
-    | situation extensively resembles that of the impact pressure broadening, but in stead of plain gas atom
-    | collisions, the emission process can be interrupted by two processes, either by the electron or the hole relaxation.
-    | If the electron hole pair, before the emission, is examined as a single entity (a bound exciton),
-    | one ends up summing the electron and hole relaxation times according to Eq. (\ref{HomogDiffe5}) and gets the spectrum
-    | from Eq. (\ref{HomogDiffe6}) poorly fitting the observed quantum well diode spectra (below, overlaps less than one intensity
-    | decade with best fitting \(\tau_{r}\)=65fs). The high density of charge carriers injected into the qw
-    | through the diode currend and the high electric field in the pn-junction area effectively eliminate all exciton
-    | related peaks. In optically excited photo luminescent spectra, pn-junction field can be eliminated and correspondingly
-    | the PL-emission often shows more spectral details.
+    | situation extensively resembles that of the impact pressure broadening, but in stead of plain gas atom collisions,
+    | the emission process can be interrupted by two incidents, either by the electron or the hole relaxation.
+    | If the electron hole pair, before the recombination and photon emission, is examined as a single entity
+    | (a bound exciton), one ends up summing the electron and hole relaxation times according to Eq. (\ref{HomogDiffe5})
+    | and gets the spectrum from Eq. (\ref{HomogDiffe6}), which poorly fits the observed quantum well diode spectra
+    | (below, overlaps less than one intensity decade with best fitting \(\tau_{r}\)=65fs). The high density of charge
+    | carriers injected into the qw through the diode currend and the high electric field in the pn-junction area
+    | effectively eliminate all exciton related peaks. In optically excited photo luminescent spectra, pn-junction field
+    | can be eliminated and correspondingly the PL-emission often shows more spectral details.
 
     center
       img(src="images/viuhka-1.png" alt="EL-viuhka" align="middle" style="width:404px;height:300px;")
@@ -102,7 +100,7 @@ block levenee
     | cases: If k-vector is not conserved in the process one ends up convolving the electron and hole Lorentzians into
     | a new and broader Lorentzian shape. This result is identical with the 'exciton entity model' obtained by summing the
     | electron and hole relaxation times using Eq. (\ref{HomogDiffe5}). However, the k-vector (impulse) of the emitted
-    | photon is small. Therefore, it is generally assumed that k-vector is conserved in the recombination
+    | photon is small. Therefore, it is generally considered that k-vector is conserved in the recombination
     | (\(k_{e}=k_{h}\)). This couples the electron and hole energy broadenings together and the resulting spectrum is
     | instead of a convolution a
     -hombroadUrli="http://epjb.epj.org/articles/epjb/abs/2013/05/b120957/b120957.html"
@@ -124,9 +122,16 @@ block levenee
     | \label{Reducedtau}
     | \end{equation}
     h4 Calculation of homogeneous qw-spectra
-    | If the homogeneous broadening exists it can be calculated by convolving the inhomogeneous spectra having Urbach
-    | broadening with the homogeneous line shape in Eq. (\ref{DLorentz}). This is an analogy to Voigt profile between
-    | the Gaussian and Lorentzian functions. A
+    | Homogeneous broadening can be identified by convolving the inhomogeneously broadened spectra (in inhomogeneous menu:
+    | Urbach, Gaussian or Sech) with the homogeneous line shapes either according to Eq. (\ref{HomogDiffe6}) or Eq.
+    | (\ref{DLorentz}) (in the homogeneous menu). The combination of Lorentzian and Gaussian results into Voigt profile,
+    | which is therefore also available here for the fitting of experimental spectra. Fortunately
+    | handy FFT (Fast Fourier Transform)
     -DSP_urli="https://github.com/corbanbrook/dsp.js/"
-    a(href="#{DSP_urli}" target="_blank")    DSP package exists
-    |       for javascript. With that convolutions can be performed more effectively using FFT.
+    a(href="#{DSP_urli}" target="_blank")    DSP packages are available
+    |       for javascript. With FFT, convolutions can be performed 'in real time' on the web page user interface.
+    br
+    | By changing the JDOS in the model, it is possible to calculate homogeneous broadening graphs for bulk materials as well.
+    | However, the experimental observation of homogeneously broadened bulk material PL-spectra is utterly difficult
+    | because the required high charge carrier densities cannot be achieved in large volumes on bulk materials without
+    | any lateral charge carrier confinements.

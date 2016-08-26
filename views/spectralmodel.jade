@@ -1,34 +1,42 @@
 //-Created by Juha on 3/7/2016.
 extends broaden
 block levenee
-    h3 Spectrum calculator for inhomogeneous broadening
-    |   Calculated spectra are obtained using equation (2) on the
-    -equation2="/inhomo"
-    a(href="#{equation2}")     Inhomogeneous details
-    |    page. (It was also used to evaluate the broken line curves on that page.)
+    div(id='wrapper')
+      div(id='main')
+        h3 Simulation with inhomogeneous broadening
+        |   Calculated spectra are obtained using equation (2) on the
+        -equation2="/inhomogen"
+        a(href="#{equation2}" target="_blank")     Inhomogeneous details
+        |    page. (Used to evaluate the broken line curves on that page.)
 
-    div(id="content")
-      //this contains the playground for the simulation graph
-      div(class="demo-container")
-        div(id="ph1_inhomog" class="demo-placeholder")
-          //-p With multiple axes, you sometimes need to interact with them. A simple way to do this
-          //-|  is to draw the plot, deduce the axis placements and insert a couple of divs on top to
-          //-|  catch events.
-          //-p Try clicking an axis.
-        //-p(id="clicked")
-    div(id="footer" style="paddig-left:50px")
-        Copyright &copy; 2007 - 2014 IOLA and Ole Laursen
+        div(id="content")
+          //this contains the playground for the simulation graph
+          div(class="demo-container")
+            div(id="ph1_inhomog" target="_blank" class="demo-placeholder")
+            //div(id="ph1_inhomog" class="demo-placeholder")
+              //-p With multiple axes, you sometimes need to interact with them. A simple way to do this
+              //-|  is to draw the plot, deduce the axis placements and insert a couple of divs on top to
+              //-|  catch events.
+              //-p Try clicking an axis.
+            //-p(id="clicked")
+        div(id="footer" style="paddig-left:50px")
+            Copyright &copy; 2007 - 2014 IOLA and Ole Laursen
 
-    h3 Spectrum calculator for homogeneous broadening
-    |   Calculated spectra are obtained using equation (x) on the
-    -equation3="/homo"
-    a(href="#{equation3}")     Homogeneous details
-    |    page.
+        h3 Simulation with homogeneous broadening
+        |   Calculated spectra are obtained using equation (x) on the
+        -equation3="/homogen"
+        a(href="#{equation3}" target="_blank")     Homogeneous details
+        |    page.
 
-    div(id="content2")
-      //this contains the playground for the simulation graph
-      div(class="demo-container")
-        div(id="ph2_homog" class="demo-placeholder")
+        div(id="content2")
+          //this contains the playground for the simulation graph
+          div(class="demo-container")
+            div(id="ph2_homog" class="demo-placeholder")
+
+        //-img(id="huuhaa" src="" alt="Tallennettava kuva" width="42" height="42")
+        //-flot graph 0.8.3 versiossa canvas ei sisällä akselien tekstejä eikä
+        //-käyrien captioneja. Nämä on luvattu vasta 0.9. versioon
+        //-Ei kannata satsata kuvan kopiointiin canvaksesta ennen sitä.
 
     div(id="settnDial" title="Graphing details")
       //- x-axis: spectral range settings
@@ -65,7 +73,7 @@ block levenee
         br
         input(type="radio" id="bulkJDOS" name="jdos" value="bulk" style="margin-left:5px")
         |   Bulk-JDOS
-        i   (\(\rho_{r}\propto Sqrt(E)\))
+        i   (\(\rho_{r}\propto \sqrt{\epsilon-E_{t}}\))
         br
         input(type="radio" id="qwJDOS" name="jdos" value="qw" style="margin-left:5px")
         |   QW-JDOS
@@ -74,9 +82,9 @@ block levenee
 
       //-Exciton enhancement:
       fieldset(id="exEnha" style='display:none')
-        b(id='bulklege' class='otsikko') Bulk matrl. exciton enhancement
+        b(id='bulklege' class='otsikko') Exciton enhancement for bulk material
         i(id='bulk_i' style='display:none')   ( 3D-exciton model )
-        b(id='qwlege' class='otsikko') QW exciton enhancement
+        b(id='qwlege' class='otsikko') Eciton enhancement for QW-material
         i(id='qw_i' style='display:none')   ( 2D-exciton model )
         //-br
         //-p(id='bulklege' style='display:none')   For bulk materials (3D-excitons)
@@ -101,69 +109,202 @@ block levenee
             input(type="radio" id="enhTM" name="enhBut" value="TM" style="margin-right:7px")
         br
         //- b(id='exBndLbl' class='boldsFrmt') Exciton binding energy [meV]:
-        label(for="eV_Bind" class='label2') Binding energy [meV]:
+        label(for="eV_Bind" class='label3') \(\mathbf{E_{b}}\) [meV]:
         input(id="eV_Bind" name="eV_Bind" class='inputti')
-        button(id='exenhaok' style="margin:0px 100px") OK
+        label(for="eV_0" class="label4") Shape param [meV]:
+        input(id="eV_0" name="eV_0" class='inputti')
+        button(id='exenhaok' style="margin:0px 10px") OK
 
       fieldset(id='spUrbach' style='display:none')
-        b(style='font-size:16px') Urbach tail
-        //-i       (\(L_{ih}=exp[(E - E_{f})/E_{u}],\quad (E\leq E_{u})\))
+        b(style='font-size:16px') Asymmetric Urbach tail
         br
-        i Inhomogeneous broadening function
+        i Inhomogeneous broadening for populations with exponential energy distributions
+        i   (plotted alone if no plotting selections)
         br
-        i (plotted in convolution integral, unless selected alone below)
+        b Line shape:
         br
-        | \(E_{f}=E_{t}\quad\)
-        | i (to set \(E_{f}\), apply the energy state occupancy option)
+        i       \(L_{ih}(\epsilon)=\frac{1}{2}(1-sgn(E_{f}-\epsilon))\cdot\exp[-(E_{f}-\epsilon)/E_{u}]\)
         br
+        i Here \(E_{f}=E_{t}\quad\)  (for adjustment apply the transition energy option)
         br
-        label(for="eveu") Eu [meV]:
+        b Broadening parameter [meV]
+        br
+        label(for="eveu") \(E_{u}\):
         input(id="eveu" class="inputti")
         button(id='urbachok' style="margin:0px 15px") OK
+        br
+        i (Applied as convolution kernel, if selected with 'Plotting selector' items)
+
+      fieldset(id='spSurbach' style='display:none')
+        b(style='font-size:16px') Symmetric Urbach tail
+        br
+        i Inhomogeneous broadening for populations with exponential energy distributions
+        i   (plotted alone if no plotting selections)
+        br
+        b Line shape:
+        br
+        i       \(L_{ih}(\epsilon)=\exp[-|E_{f}-\epsilon|/E_{u}]\)
+        br
+        i Here \(E_{f}=E_{t}\quad\)  (for adjustment apply the transition energy option)
+        br
+        b Broadening parameter [meV]
+        br
+        label(for="evSeu") \(E_{u}\):
+        input(id="evSeu" class="inputti")
+        button(id='sUrbachok' style="margin:0px 15px") OK
+        br
+        i (Applied as convolution kernel, if selected with 'Plotting selector' items)
+
+      fieldset(id='spLorentz' style='display:none')
+        b(style='font-size:16px') Lorentzian function
+        br
+        i Homogeneous broadening with
+        br
+        b Line shape: \(\ L_{t}(\Delta E)=\frac{\tau_{r}/(\pi\hbar)}{1+\tau_{r}^{2}\Delta E^{2}/\hbar^{2}}\)
+        br
+        label(for="tauR" class='label2') Relaxation time \(\mathbf{\tau_{r}}\) [fs]:
+        input(id="tauR" class="inputti")
+        button(id='lorentzok' style="margin:0px 15px") OK
+        br
+        i (Applied as convolution kernel, if selected with 'Plotting selector' items)
+
+      fieldset(id='spDlorentz' style='display:none')
+        //if user clicks on Dlorentz title this becomes visible
+        b(style='font-size:16px') Product of two Lorentzians
+        br
+        i Homogeneous broadening with
+        br
+        b Line shape:
+        br
+        | \(\ L_{t}(\Delta E)= \frac{(\tau_{be}+\tau_{bh})/(\pi\hbar)}{1+\tau_{be}^{2}
+        | \Delta E^{2}/\hbar^{2}}\times\frac{1}
+        | {1+\tau_{bh}^{2}\Delta E^{2}/\hbar^{2}}\)
+        br
+        b Relaxation times [fs]:
+        br
+        label(for="tauBe")  \(\tau_{be}\):
+        input(id="tauBe" class="inputti")
+        label(for="tauBh") \(\tau_{bh}\):
+        input(id="tauBh" class="inputti")
+        button(id='dlorentzok' style="margin:0px 15px") OK
+        br
+        i (Applied as convolution kernel, if selected with 'Plotting selector' items)
+
+      fieldset(id='spGaussian' style='display:none')
+        //if user clicks on Dlorentz title this becomes visible
+        b(style='font-size:16px') Gaussian function
+        br
+        i Inhomogeneous broadening for populations with Gaussian energy distribution. (or non-Markovian homogeneous
+          | populations)
+        br
+        b Line shape:
+        br
+        | \(\ L_{ih}(\Delta E)=\frac{1}{\sigma\sqrt{2\pi}}exp(-\frac{\Delta E^{2}}{2\sigma^{2}})\)
+        br
+        b Broadening parameter [meV]:
+        br
+        label(for="gauSig")  \(\sigma\):
+        input(id="gauSig" class="inputti")
+        button(id='gaussianok' style="margin:0px 15px") OK
+        br
+        i (Applied as convolution kernel, if selected with 'Plotting selector' items)
+
+      fieldset(id='spSech' style='display:none')
+        //if user clicks on Dlorentz title this becomes visible
+        b(style='font-size:16px') Spectral broadening from \(Sech^{n}\) time relaxation
+        br
+        i A non-Markovian relaxation time function for the e-h pair population is given without descriptions of its origin.
+          | (i.e. proposed ad hoc to explain the non-Lorentzian line shapes from qw-emitters)
+        br
+        b Line shape:
+        br
+        | \(\ L_{t}(\Delta E)=\mathfrak{F}[sech^{n}(\frac{t}{\tau \times n})]\),
+        br
+        | where \(\mathfrak{F}\)  stands for Fourier transform. Sech is the hyperbolic secant function and \(\tau\ \) the
+        | relaxation time.
+        br
+        b Broadening parameters:
+        br
+        label(for="sechN")  \(Power\ n\):
+        input(id="sechN" class="inputti")
+        label(for="sechTau")  \(\tau\ [fs]:\)
+        input(id="sechTau" class="inputti")
+        button(id='sechok' style="margin:0px 15px") OK
+        br
+        i (Applied as convolution kernel, if selected with 'Plotting selector' items)
 
       fieldset(id='spWhat' style='display:none')
-        b(style='font-size:16px') Plotting selector:
-        i(style='float:right')    (click titles to edit their parameters)
+        b(id='bPlotSel' style='font-size:16px') Plotting selector for: \(\int_0^\infty \epsilon\rho_{r}
+          |(\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)\times L_{ih}(E-\epsilon)\mathrm{d}\epsilon\)
+        br
+        //i(style='float:right')    (click selection titles to edit parameters)
+        i(style='float:left')    (click selector titles to edit parameters)
         br
         //-legend(style="font-size:100%") Plotting selector
-        input(id="pltEpsilon" style='margin-left:7px' type="checkbox" value='No')
-        //-p(style='padding-left:30px') Photon energy: \(\epsilon\)
-        a(href="javascript:void(0);", id="hrefEpsilon", style='padding-left:30px')
-          | Photon energy: \(\epsilon\)
-        br
-        input(id="pltJdos" style='margin-left:7px' type="checkbox" value='No')
-        a(href="javascript:void(0);", id="hrefJdos", style='padding-left:30px')
-          | Joint Density of States:  \(\rho_{r}\)  (Select bulk or QW model)
-        br
-        input(id="pltSommerf" style='margin-left:7px' type="checkbox" value='No')
-        a(href="javascript:void(0);", id="hrefSommerf", style='padding-left:30px')
-          | Sommerfeldt enhancement: \(S(\epsilon)\)
-        br
-        input(id="pltFcv" style='margin-left:7px' type="checkbox" value='No')
-        a(href="javascript:void(0);", id="hrefExcito", style='padding-left:30px')
-          | Transition energy, \(E_{t}\), and temp.dep. in energy state occupancy
-          br
-        input(id="pltUrbach" style='margin-left:7px' type="checkbox" value='No')
-        a(href="javascript:void(0);", id="hrefUrbach", style='padding-left:30px')
-          | Asym. Urbach:  \(L_{ih}(\epsilon)=\frac{1}{2}(1-sgn(E_{f}-\epsilon))\cdot\exp[-(E_{f}-\epsilon)/E_{u}]\)
-          br
-        input(id="pltsUrbach" style='margin-left:7px' type="checkbox" value='No')
-        //-hidden input for file name to open local file using HTML5 file API
-        input(type="file" id="emisLocFiles" style="display:none" name="emisLocFiles")
-        a(href="javascript:void(0);", id="hrefsUrbach", style='padding-left:30px')
-          |  Symm. Urbach:  \(L_{ih}(\epsilon)=\exp[-|E_{f}-\epsilon|/E_{u}]\)
-          br
-          //- input(id="normalized" style='margin-left:7px' type="checkbox" value='No')
-          //  | Normalize to unity maximum
-        br
-        button(id='whatok' style="margin:0px 5px") OK
-        i(style="float:right")   (in graph legend asterix '*' stands for convolution)
+        div(id='divEpsilon' style='display:none')
+          input(id="pltEpsilon" style='margin-left:7px' type="checkbox" value='No')
+          //-p(style='padding-left:30px') Photon energy: \(\epsilon\)
+          //prevent scrolling to top of link page by using: javascript:void(0);
+          a(href="javascript:void(0);", id="hrefEpsilon", style='padding-left:30px')
+            | Photon energy, \(\epsilon\) with range [eV]:
+        div(id='divJdos' style='display:none')
+          input(id="pltJdos" style='margin-left:7px' type="checkbox" value='No')
+          a(href="javascript:void(0);", id="hrefJdos", style='padding-left:30px')
+            | Joint Density of States:  \(\rho_{r}\)  (Bulk or QW model)
+        div(id='divSommerf' style='display:none')
+          input(id="pltSommerf" style='margin-left:7px' type="checkbox" value='No')
+          a(href="javascript:void(0);", id="hrefSommerf", style='padding-left:30px')
+            | Sommerfeldt enhancement: \(S(\epsilon)\)
+        div(id='divFcv' style='display:none')
+          input(id="pltFcv" style='margin-left:7px' type="checkbox" value='No')
+          a(href="javascript:void(0);", id="hrefTransito", style='padding-left:30px')
+            | Transition energy, \(E_{t}\ \), and temperature [K]
+        //div(id='divHomog' style='display:none')
+          input(id="pltHomConv" style='margin-left:7px' type="checkbox" value='No')
+          a(href="javascript:void(0);", id="hrefHomConv", style='padding-left:30px')
+            | Broaden (convolve) using the following function:
+        b(id='bConvolOpt' style='font-size:16px') Broadening (convolution) options [Lih]:
+        div(id='divUrbach' style='display:none')
+          input(id="pltUrbach" style='margin-left:7px' type="checkbox" value='No')
+          a(href="javascript:void(0);", id="hrefUrbach", style='padding-left:30px')
+            | Asymmetric Urbach tail
+        div(id='divSurbach' style='display:none')
+          input(id="pltsUrbach" style='margin-left:7px' type="checkbox" value='No')
+          //-hidden input for file name to open local file using HTML5 file API
+          input(type="file" id="emisLocFiles" style="display:none" name="emisLocFiles")
+          a(href="javascript:void(0);", id="hrefsUrbach", style='padding-left:30px')
+            | Symmetric Urbach distribution
+        div(id='divLorentz' style='display:none')
+          input(id="pltLorentz" style='margin-left:7px' type="checkbox" value='No')
+          a(href="javascript:void(0);", id="hrefLorentz", style='padding-left:30px')
+           | Lorentzian line
+        div(id='divDLorentz' style='display:none')
+          input(id="pltDlorentz" style='margin-left:7px' type="checkbox" value='No')
+          a(href="javascript:void(0);", id="hrefdLorentz", style='padding-left:30px')
+           | Product of Lorentzians line shape
+        div(id='divGaussian' style='display:none')
+          input(id="pltGaussian" style='margin-left:7px' type="checkbox" value='No')
+          a(href="javascript:void(0);", id="hrefGaussian", style='padding-left:30px')
+            | Gaussian line shape
+        div(id='divSech' style='display:none')
+          input(id="pltSech" style='margin-left:7px' type="checkbox" value='No')
+          a(href="javascript:void(0);", id="hrefSech", style='padding-left:30px')
+            | Sech function line shape
+        div(id='divHomogConv' style='display:none')
+          input(id="pltHomConv" style='margin-left:7px' type="checkbox" value='No')
+          i(style='padding-left:30px')
+            |  Calculate broadening (convolve) using selected lineshape
+        div(id='divNormalize' style='display:none')
+          input(id="pltNormalize" style='margin-left:7px' type="checkbox" value='No')
+          i(style='padding-left:30px')
+            |  Normalize spectrum to unity peak value
+        div
+
       br
       button(id='openFile' style="margin:0px 5px") Open file
       button(id='saveFile' style="display:none") Save file
     include mongoDialForm.jade
     //indenting of previous include has to correct
-
 
     script(type='text/javascript').
       var userName = 'No login';   // after login obtained from web-server
@@ -171,44 +312,67 @@ block levenee
       var kBoltz = 1.38064852E-23; //Boltzmann constant
       var eCha = 1.60217662E-19;   //electron charge
       var hBar = 1.05457180E-34;   //reduced Planck constant hbar
-      var calcSpectr= new Object();
-      calcSpectr.numPoints=101;
-      calcSpectr.inPlot={e:true,jdos:false,Se:false,fcv:false,
-          Lih:false,Lsih:false,convo:false};
-      calcSpectr.eVstart=1.3;      //start energy for plotting
-      calcSpectr.eVstop=1.7;       //stop energy for plotting
-      calcSpectr.eTr=1.4;          //Transition energy
-      calcSpectr.eVarr=[];         //photon energy array (x-axis points)
-      calcSpectr.jdosArr=[];       //jdos
-      calcSpectr.jdostype="qw";    //bulk or qw: parabolic or Heaviside step function
-      calcSpectr.exenArr=[];       //exciton enhancement array
-      calcSpectr.viewDir='parallel';
-      calcSpectr.polarizat='TE';
-      calcSpectr.exEb=5;           //exciton binding energy meV
-      //calcSpectr.exenh={include:false,exiten:'5',viewdir:'parallel',polarisat:'TM'};
-      calcSpectr.fcvArr=[];        //boltzmann function
-      calcSpectr.Lih=[];           //urbach array
-      calcSpectr.SymLih=[];        //Symmetric urbach array
-      calcSpectr.plotArr=[];       //plotted array
-      calcSpectr.legend='';        //legend for graph
-      calcSpectr.kelvin=293;       //kelvin temperature
-      calcSpectr.eU=8;             //Urbach energy meV
-      calcSpectr.linlog='lin';     //linear or logarithmic
-      // Other initial values *******************************************:
+      var hPlanck = 6.62607004E-34; //Plank's constant [Js]
+      var fftN = 2048;             //number of points in Cooley Tukey fft circular algorithm
+      var inhomSpectr= new Object();
+      inhomSpectr.numPoints=1000;
+      inhomSpectr.inPlot={eV:true,jdos:false,Se:false,fcv:false,Lurb:false,Lsurb:false,Lgaus:false,
+        Lsech:false,convo:false};
+      inhomSpectr.eVstart=1.3;           //start energy for plotting
+      inhomSpectr.eVstop=1.7;            //stop energy for plotting
+      inhomSpectr.eTr=1.4;               //Transition energy
+      inhomSpectr.eVarr=[];              //photon energy array (x-axis points)
+      inhomSpectr.jdosArr=[];            //jdos
+      inhomSpectr.jdostype="qw";         //bulk or qw: parabolic or Heaviside step function
+      inhomSpectr.exenArr=[];            //exciton enhancement array
+      inhomSpectr.viewDir='parallel';    //viewed along qw-plane
+      inhomSpectr.polarizat='TE';        //TE or TM
+      inhomSpectr.exEb=5;                //exciton binding energy meV
+      inhomSpectr.ex0=0.05;              //exciton spectrum shape parameter
+      inhomSpectr.fcvArr=[];             //boltzmann function array
+      inhomSpectr.Lih=[];                //Lih array centre at Etr
+      inhomSpectr.plotArr=[];            //plotted array
+      inhomSpectr.legend='';             //legend for graph
+      inhomSpectr.kelvin=293;            //kelvin temperature
+      inhomSpectr.eU=8;                  //Urbach energy meV
+      inhomSpectr.linlog='lin';          //linear or logarithmic
+      inhomSpectr.GauSig = 7;            //variance [meV] in gaussian broadening
+      inhomSpectr.SechTau = 100;
+      inhomSpectr.SechN = 1;
+
+      var homSpectr = new Object();
+      homSpectr.numPoints = inhomSpectr.numPoints;
+      homSpectr.inPlot = {
+        convo: false,
+        exper:false,
+        inhom:false,
+        line:true
+      };
+      homSpectr.plotArr = [];            //plotted array
+      homSpectr.legend = '';             //legend for graph
+      homSpectr.linlog = 'log';          //linear or logarithmic
+      homSpectr.LorTau=100;              //reduced relaxation time femtoseconds
+      homSpectr.DlTau1=100;              //reduced relaxation time femtoseconds
+      homSpectr.DlTau2=100;              //reduced relaxation time femtoseconds
+
+      // Additional initial values *******************************************:
       // ****************************************************************
-      var experArr=[];
-      var filNam='';               //filename for experimental spectrum
-      makespArr();  //creates spectral points array and stores to calcSpectr.eVarr
+      var experArr1=[]; //inhomog exper array read from file
+      var experArr2=[]; //homog exper Arr read from file
+      var inhomExp=[];  //inhom exp arr displayed in graph
+      var homogExp=[];  //homog exp arr displayed in graph
+      var filNam='';    //filename for experimental spectrum
+      makespArr();  //creates spectral points array and stores to inhomSpectr.eVarr
       var optiot = {//initial plotting options
-          xaxes: [{position: 'bottom', axisLabel: 'Energy eV'}],
-          yaxes: [{position: 'left', axisLabel: 'Relative Intensity'}],
-          legend: {position: "ne"},
-          grid: {//This one set can be hovered:
-              margin: {
-                  top: 35
-              },
-              hoverable: 'Relative Intensity'
+        xaxes: [{position: 'bottom', axisLabel: 'Energy eV'}],
+        yaxes: [{position: 'left', axisLabel: 'Relative Intensity'}],
+        legend: {position: "ne"},
+        grid: {//This one set can be hovered:
+          margin: {
+            top: 35
           },
+          hoverable: 'Relative Intensity'
+        },
           canvas: true
       };
 
@@ -217,14 +381,15 @@ block levenee
       var srvrFileTxt = 'Open emission spectrum';
       var DFmngo = $('#mongoDialForm'); //dialog form
       DFmngo.dialog('option', 'title', srvrFileTxt);  // starts from LED collection
-
-      var plot = $.plot("#ph1_inhomog", [], optiot); //var plot = $.plot("#ph1_inhomog", dataa, optiot);
-
-      var dataa = [//initializes data for graph plotting
-          {//only one x,y and axis pair
-              data: LinOrLog(),
-              xaxis: 1, yaxis: 1, label: calcSpectr.legend
-          }
+      var plot = $.plot("#ph1_inhomog", [], optiot);
+      var plot2 = $.plot("#ph2_homog", [], optiot);
+      var dataa = [
+        //initializes data for graph plotting
+        {//only one x,y and axis pair
+         //data: LinOrLog(inhomSpectr.plotArr),
+          data: LinOrLogs(inhomSpectr.linlog,inhomSpectr.plotArr,plot),
+            xaxis: 1, yaxis: 1, label: inhomSpectr.legend
+        }
       ];
 
       /*if (window.sessionStorage.getItem('RTFtoken') && window.sessionStorage.getItem('RTFtoken').length > 0) {
@@ -237,56 +402,54 @@ block levenee
       }*/
 
       function drawCanvas() {
-          var graphTitle=(calcSpectr.jdostype=='qw')? 'with QW-model':'with bulk model';
-          graphTitle=filNam+' '+graphTitle;
-          var canvas = plot.getCanvas();
-          var context = canvas.getContext('2d');
-          context.lineWidth = 2;
-          context.strokeStyle = "rgba(35, 70, 237, .8)";
-          context.font = "14pt sans-serif";
-          //context.fillText("Fill, Stroke Text, 12pt, sans-serif", 80, 30);
-          context.strokeText(graphTitle, 10, 0);
+        var graphTitle=(inhomSpectr.jdostype=='qw')? 'QW-model:':'Bulk model:';
+        graphTitle=filNam+' '+graphTitle;
+        var canvas = plot.getCanvas();
+        var context = canvas.getContext('2d');
+        context.lineWidth = 2;
+        context.strokeStyle = "rgba(35, 70, 237, .8)";
+        context.font = "14pt sans-serif";
+        //context.fillText("Fill, Stroke Text, 12pt, sans-serif", 80, 30);
+        context.strokeText(graphTitle, 10, 0);
       }
 
       function setQwRadio(){
-          if (calcSpectr.viewDir == 'parallel'){
-            $('#dirPar').prop('checked',true);
-            $('#dirPerp').prop('checked',false);
-          }else{
-            $('#dirPar').prop('checked',false);
-            $('#dirPerp').prop('checked',true);
-          }
-          if (calcSpectr.polarizat == 'TE') {
-              $('#enhTE').prop('checked',true);
-              $('#enhTM').prop('checked',false);
-          }else{
-              $('#enhTE').prop('checked',false);
-              $('#enhTM').prop('checked',true);
-          }
+        if (inhomSpectr.viewDir == 'parallel'){
+          $('#dirPar').prop('checked',true);
+          $('#dirPerp').prop('checked',false);
+        }else{
+          $('#dirPar').prop('checked',false);
+          $('#dirPerp').prop('checked',true);
+        }
+        if (inhomSpectr.polarizat == 'TE') {
+          $('#enhTE').prop('checked',true);
+          $('#enhTM').prop('checked',false);
+        }else{
+          $('#enhTE').prop('checked',false);
+          $('#enhTM').prop('checked',true);
+        }
       }
 
       function setJdosRadio(){
-          if (calcSpectr.jdostype == "bulk") {
-              $('#bulkJDOS').prop("checked", true);
-              $('#bulklege').css('display','inline');
-              $('#bulk_i').css('display','inline');
-              $('#qwlege').css('display','none');
-              $('#qw_i').css('display','none');
-              $('#qwendetls').css('display','none');
-          } else {
-              $('#qwJDOS').prop("checked", true);
-              $('#bulklege').css('display','none');
-              $('#bulk_i').css('display','none');
-              $('#qwlege').css('display','inline');
-              $('#qw_i').css('display','inline');
-              $('#qwendetls').css('display','inline');
-          }
+        if (inhomSpectr.jdostype == "bulk") {
+          $('#bulkJDOS').prop("checked", true);
+          $('#bulklege').css('display','inline');
+          $('#bulk_i').css('display','inline');
+          $('#qwlege').css('display','none');
+          $('#qw_i').css('display','none');
+          $('#qwendetls').css('display','none');
+        } else {
+          $('#qwJDOS').prop("checked", true);
+          $('#bulklege').css('display','none');
+          $('#bulk_i').css('display','none');
+          $('#qwlege').css('display','inline');
+          $('#qw_i').css('display','inline');
+          $('#qwendetls').css('display','inline');
+        }
       }
 
       makeJdos();       //density of states
       makeBoltz();      //creates Boltzmann distribution
-      makeLih();        //Urbach distribution
-      makeSymLih();
       setChkboxes();    //updates checkbox status
       setLegend();      //makes plotting legend
       makeSommer();     //exciton enhanchements
@@ -323,210 +486,378 @@ block levenee
       });
 
       $('#ph1_inhomog').dblclick(function(){
-          $('#spWhat').css('display','block');
-          $( "#settnDial" ).dialog( "open" );
-          if (experArr.length>0){
-              $('#saveFile').css('display','inline');
-              //var srvrFileTxt = 'Save emission spectrum';
-              //var DFmngo = $('#mongoDialForm'); //dialog form
-              //DFmngo.dialog('option', 'title', srvrFileTxt);  // starts from LED collection
-          }
-          else{
-              $('#saveFile').css('display','none');
-          }
-          setJdosRadio();
-          setQwRadio();
+        $('#spWhat').css('display','block');
+        $('#spLorentz').css('display','none');
+        $('#spDlorentz').css('display','none');
+        //$('#bPlotSel').text('Plotting selector:');
+        $('#bConvolOpt').text('Broadening (convolution) options for Lih:');
+        $('#divEpsilon').css('display','block');
+        $('#divJdos').css('display','block');
+        $('#divSommerf').css('display','block');
+        $('#divFcv').css('display','block');
+        $('#divUrbach').css('display','block');
+        $('#divSurbach').css('display','block');
+        $('#divGaussian').css('display', 'block');
+        $('#divSech').css('display', 'block');
+        $('#divLorentz').css('display', 'none');
+        $('#divDLorentz').css('display', 'none');
+        $('#divHomogConv').css('display', 'none');
+        //$('#divHomog').css('display', 'block');
+        $('#divNormalize').css('display', 'block');
+        $('#settnDial').dialog('option', 'title', 'Inhomogeneous spectrum');
+        $( "#settnDial" ).dialog( "open" );
+        if (experArr1.length>0){
+          $('#saveFile').css('display','inline');
+          //var srvrFileTxt = 'Save emission spectrum';
+          //var DFmngo = $('#mongoDialForm'); //dialog form
+          //DFmngo.dialog('option', 'title', srvrFileTxt);  // starts from LED collection
+        } else{
+          $('#saveFile').css('display','none');
+        }
+        setJdosRadio();
+        setQwRadio();
+      });
+
+      $('#ph2_homog').dblclick(function () {
+        $("#spSech").css('display', 'none');
+        $("#spGaussian").css('display', 'none');
+        $("#spSurbach").css('display', 'none');
+        $("#spUrbach").css('display', 'none');
+        $('#spWhat').css('display', 'block');
+        //$('#bPlotSel').text('Plotting selector');
+        $('#bConvolOpt').text('Broadening (convolution) options for Lh:');
+        $('#divEpsilon').css('display','block');
+        $('#divJdos').css('display','block');
+        $('#divSommerf').css('display','block');
+        $('#divFcv').css('display','block');
+        $('#divUrbach').css('display', 'none');
+        $('#divSurbach').css('display', 'none');
+        $('#divGaussian').css('display', 'none');
+        $('#divSech').css('display', 'none');
+        $('#divLorentz').css('display', 'block');
+        $('#divDLorentz').css('display', 'block');
+        //$('#divHomog').css('display', 'block');
+        $('#divHomogConv').css('display', 'block');
+        $('#divNormalize').css('display', 'block');
+        $('#settnDial').dialog('option', 'title', 'Homogeneous spectrum');
+        $("#settnDial").dialog("open");
+        if (experArr2.length > 0) {
+          $('#saveFile').css('display', 'inline');
+          //var srvrFileTxt = 'Save emission spectrum';
+          //var DFmngo = $('#mongoDialForm'); //dialog form
+          //DFmngo.dialog('option', 'title', srvrFileTxt);  // starts from LED collection
+        } else {
+          $('#saveFile').css('display', 'none');
+        }
       });
 
       $("#eVStart").spinner({
-          max: calcSpectr.eVstop-0.01,
-          min: 0,
-          step: 0.001,
-          spin: function (event, ui) {
-              //this.value; antaisi olleen arvon
-              //ui.value antaisi tulevan uuden arvon
-              //var tmp1 = ui.value.toFixed(3)+0.01;
-          },
-          change: function (event, ui) {
-              var tmp1 = Number(this.value)+0.01;
-              tmp1 = tmp1.toFixed(3);
-              $("#eVStop").spinner('option','min',tmp1);
-          }
-      }).val(calcSpectr.eVstart);
+        max: inhomSpectr.eVstop-0.01,
+        min: 0,
+        step: 0.001,
+        spin: function (event, ui) {
+          //this.value; antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value)+0.01;
+          tmp1 = tmp1.toFixed(3);
+          $("#eVStop").spinner('option','min',tmp1);
+        }
+      }).val(inhomSpectr.eVstart);
 
       $("#eVStop").spinner({
-          max: 2.5,
-          min: calcSpectr.eVstart+0.1,
-          step: 0.001,
-          spin: function (event, ui) {
-              //this.value; antaisi olleen arvon
-              //ui.value antaisi tulevan uuden arvon
-              //var tmp1 = ui.value.toFixed(3)-0.01;
-          },
-          change: function (event, ui) {
-              var tmp1 = Number(this.value)-0.01;
-              tmp1=tmp1.toFixed(3);
-              $("#eVStart").spinner('option','max',tmp1);
-          }
-      }).val(calcSpectr.eVstop);
+        max: 2.5,
+        min: inhomSpectr.eVstart+0.1,
+        step: 0.001,
+        spin: function (event, ui) {
+          //this.value; antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value)-0.01;
+          tmp1=tmp1.toFixed(3);
+          $("#eVStart").spinner('option','max',tmp1);
+        }
+      }).val(inhomSpectr.eVstop);
 
       $("#eV_Et").spinner({
-          max: 2.5,
-          min: 0,
-          step: 0.001,
-          spin: function (event, ui) {
-              //this.value; antaisi olleen arvon
-              //ui.value antaisi tulevan uuden arvon
-              var tmp = ui.value.toFixed(3);
-              calcSpectr.eTr = tmp;
-              makeJdos();       //density of states
-              makeBoltz();      //Boltzmann distribution
-              makeLih();        //asym Urbach distribution
-              makeSymLih();     //symmetric Urbach
-              makeSommer();     //exciton enhanchements
-              calcPlotted();
-          },
-          change: function (event, ui) {
-              var tmp1 = Number(this.value);
-              tmp1 = tmp1.toFixed(3);
-              calcSpectr.eTr=tmp1;
-              makeJdos();       //density of states
-              makeBoltz();      //creates Boltzmann distribution
-              makeLih();        //Urbach distribution
-              makeSymLih();
-              makeSommer();     //exciton enhanchements
-              calcPlotted();
-              //inhombr();
-              //makespArr();
-          }
-      }).val(calcSpectr.eTr);
+        max: 2.5,
+        min: 0,
+        step: 0.001,
+        spin: function (event, ui) {
+          //this.value; antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+          var tmp = ui.value.toFixed(3);
+          inhomSpectr.eTr = tmp;
+          makeJdos();       //density of states
+          makeBoltz();      //Boltzmann distribution
+          makeSommer();     //exciton enhanchements
+          calcInhom();
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value);
+          tmp1 = tmp1.toFixed(3);
+          inhomSpectr.eTr=tmp1;
+          makeJdos();       //density of states
+          makeBoltz();      //creates Boltzmann distribution
+          makeSommer();     //exciton enhanchements
+          calcInhom();
+         }
+      }).val(inhomSpectr.eTr);
 
       $("#eV_Bind").spinner({
-          max: 20,
-          min: 0,
-          step: 0.01,
-          spin: function (event, ui) {
-              //this.value; antaisi olleen arvon
-              //ui.value antaisi tulevan uuden arvon
-              var tmp = ui.value.toFixed(3);
-              calcSpectr.exEb = tmp;
-              makeSommer();     //exciton enhanchements
-              calcPlotted();
-          },
-          change: function (event, ui) {
-              var tmp1 = Number(this.value);
-              tmp1 = tmp1.toFixed(3);
-              calcSpectr.exEb = tmp1;
-              makeSommer();     //exciton enhanchements
-              calcPlotted();
-          }
-      }).val(calcSpectr.exEb);
+        max: 20,
+        min: 0,
+        step: 0.01,
+        spin: function (event, ui) {
+          //this.value; antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+          var tmp = ui.value.toFixed(3);
+          inhomSpectr.exEb = tmp;
+          makeSommer();     //exciton enhanchements
+          calcInhom();
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value);
+          tmp1 = tmp1.toFixed(3);
+          inhomSpectr.exEb = tmp1;
+          makeSommer();     //exciton enhanchements
+          calcInhom();
+        }
+      }).val(inhomSpectr.exEb);
+
+      $("#eV_0").spinner({
+        max: 50,
+        min: 0.01,
+        step: 0.01,
+        spin: function (event, ui) {
+          //this.value; antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+          var tmp = ui.value.toFixed(3);
+          inhomSpectr.ex0 = tmp;
+          makeSommer();     //exciton enhanchements
+          calcInhom();
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value);
+          tmp1 = tmp1.toFixed(3);
+          inhomSpectr.ex0 = tmp1;
+          makeSommer();     //exciton enhanchements
+          calcInhom();
+        }
+      }).val(inhomSpectr.ex0);
 
       $("#temp").spinner({
-          max: 600,
-          min: 0,
-          step: 1,
-          spin: function (event, ui) {
-              //this.value; antaisi olleen arvon
-              //ui.value antaisi tulevan uuden arvon
-              var tmp = ui.value.toFixed(0);
-              calcSpectr.kelvin = tmp;
-              makeBoltz();      //creates Boltzmann distribution
-              calcPlotted();
-          },
-          change: function (event, ui) {
-              var tmp1 = Number(this.value);
-              tmp1 = tmp1.toFixed(3);
-              calcSpectr.kelvin = tmp1;
-              makeBoltz();      //creates Boltzmann distribution
-              calcPlotted();
-              //makespArr();
-          }
-      }).val(calcSpectr.kelvin);
+        max: 600,
+        min: 0,
+        step: 1,
+        spin: function (event, ui) {
+          //this.value; antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+          var tmp = ui.value.toFixed(0);
+          inhomSpectr.kelvin = tmp;
+          makeBoltz();      //creates Boltzmann distribution
+          calcInhom();
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value);
+          tmp1 = tmp1.toFixed(3);
+          inhomSpectr.kelvin = tmp1;
+          makeBoltz();      //creates Boltzmann distribution
+          calcInhom();
+        }
+      }).val(inhomSpectr.kelvin);
 
-      $("#eveu").spinner({
-          max: 20,
-          min: 0,
-          step: 0.1,
-          spin: function (event, ui) {
-              //this.value; antaisi olleen arvon
-              //ui.value antaisi tulevan uuden arvon
-              var tmp = ui.value.toFixed(3);
-              calcSpectr.eU = tmp;
-              makeLih();        //Urbach distribution
-              makeSymLih();
-              calcPlotted();
-          },
-          change: function (event, ui) {
-              var tmp1 = Number(this.value);
-              tmp1 = tmp1.toFixed(3);
-              calcSpectr.eU = tmp1;
-              makeLih();        //Urbach distribution
-              makeSymLih();
-              calcPlotted();
-          }
-      }).val(calcSpectr.eU);
+      $("#eveu, #evSeu").spinner({//Urbach parameter
+        max: 20,
+        min: 0,
+        step: 0.1,
+        spin: function (event, ui) {
+          //this.value antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+          var tmp = ui.value.toFixed(3);
+          inhomSpectr.eU = tmp;
+          calcInhom();
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value);
+          tmp1 = tmp1.toFixed(3);
+          inhomSpectr.eU = tmp1;
+          calcInhom();
+        }
+      }).val(inhomSpectr.eU);
+
+      $("#gauSig").spinner({
+        max: 100,
+        min: 1,
+        step: 0.1,
+        spin: function (event, ui) {
+          //this.value antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+          var tmp1 = Number(ui.value);
+          inhomSpectr.GauSig = tmp1;
+          calcInhom();
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value);
+          inhomSpectr.GauSig = tmp1;
+          calcInhom();
+        }
+      }).val(inhomSpectr.GauSig);
+
+      $("#sechN").spinner({
+        max: 10,
+        min: 0.01,
+        step: 0.01,
+        spin: function (event, ui) {
+          //this.value antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+          var tmp1 = Number(ui.value);
+          inhomSpectr.SechN = tmp1;
+          calcInhom();
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value);
+          inhomSpectr.SechN = tmp1;
+          calcInhom();
+        }
+      }).val(inhomSpectr.SechN);
+
+      $("#sechTau").spinner({
+        max: 1000,
+        min: 10,
+        step: 1,
+        spin: function (event, ui) {
+          //this.value antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+          var tmp1 = Number(ui.value);
+          inhomSpectr.SechTau = tmp1;
+          calcInhom();
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value);
+          inhomSpectr.SechTau = tmp1;
+          calcInhom();
+        }
+      }).val(inhomSpectr.SechTau);
+
+      $("#tauR").spinner({
+        //reduced tau [fs] for Lorentz distribution
+        max: 2000,
+        min: 1,
+        step: 1,
+        spin: function (event, ui) {
+          //this.value antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+          var tmp1 = Number(ui.value);
+            homSpectr.LorTau=tmp1;
+            selBroadFun(Lorentz, 'Lorentz');
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value);
+            homSpectr.LorTau=tmp1;
+            selBroadFun(Lorentz, 'Lorentz');
+        }
+      }).val(homSpectr.LorTau);
+
+      $("#tauBe").spinner({
+        //tau for electron (or hole) relaxation in dual Lorentz distribution
+        //plotted to homogeneous graph (second graph)
+        max: 500,
+        min: 1,
+        step: 1,
+        spin: function (event, ui) {
+          //this.value antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+          var tmp1 = Number(ui.value);
+          homSpectr.DlTau1 = tmp1;
+          selBroadFun(Dlorentz, 'Dlorentz');
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value);
+          homSpectr.DlTau1 = tmp1;
+          selBroadFun(Dlorentz, 'Dlorentz');
+        }
+      }).val(homSpectr.DlTau1);
+
+      $("#tauBh").spinner({
+        //tau for hole (or electron) relaxation in dual Lorentz distribution
+        //plotted into homogeneous graph (secong graph)
+        max: 500,
+        min: 1,
+        step: 1,
+        spin: function (event, ui) {
+          //this.value antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+          var tmp1 = Number(ui.value);
+          homSpectr.DlTau2 = tmp1;
+          selBroadFun(Dlorentz, 'Dlorentz');
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value);
+          homSpectr.DlTau2 = tmp1;
+          selBroadFun(Dlorentz, 'Dlorentz');
+        }
+      }).val(homSpectr.DlTau2);
+
+      function selBroadFun(fun, funName){
+        //fun:
+        if ($("#pltHomConv").is(':checked')) {
+          var kernel = makeFftKernel(fun);//use Lorentzian function in kernel
+          var signal = padArray(inhomSpectr.plotArr);
+          homSpectr.plotArr = unPad(fftConvo(signal, kernel));
+        } else {
+          broadFuns(funName);
+        }
+        hombr();
+      }
 
       setJdosRadio();
       setQwRadio();
 
-      /*$("#exEnch").change(function(){
-        if (this.checked) {
-          $("#eV_Bind").show();
-          $("#exBndLbl").show();
-          if ($('input[name=jdos]:checked').val()=='qw'){
-            $('#qwendetls').show();
-            setQwRadio();
-          }else{
-            $('#qwendetls').hide();
-          }
-        }else{
-          $("#eV_Bind").hide();
-          $("#exBndLbl").hide();
-          $("#qwendetls").hide();
-        }
-      });*/
-
       $('input[type=radio][name=jdos]').change(function () {
+          //console.log('jdos changed');
         if (this.value == 'bulk') {
-          calcSpectr.jdostype='bulk';
+          inhomSpectr.jdostype='bulk';
           $("#qwendetls").css('display','none');
         } else if (this.value == 'qw') {
-          calcSpectr.jdostype='qw';
+          inhomSpectr.jdostype='qw';
           $("#qwendetls").css('display','block');
         }
           setJdosRadio();
           makeJdos();       //density of states
           makeSommer();
-          calcPlotted();
+          calcInhom();
       });
 
       $('input[type=radio][name=dirBut]').change(function () {
-          if (this.value == 'parallel') {
-            $('#enhTE').attr('disabled',false);
-            $('#enhTM').attr('disabled',false);
-            calcSpectr.viewDir='parallel';
-          }
-          else if (this.value == 'perpend') {
-            $('#enhTE').prop('checked',true);
-            $('#enhTM').prop('checked',false);
-            $('#enhTE').attr('disabled',true);
-            $('#enhTM').attr('disabled',true);
-            calcSpectr.viewDir='perpend';
-          }
-          calcPlotted();
-          //inhombr();
+        //viewing direction: Parallel or perpendicular to quantum well
+        if (this.value == 'parallel') {
+          $('#enhTE').attr('disabled',false);
+          $('#enhTM').attr('disabled',false);
+          inhomSpectr.viewDir='parallel';
+        } else if (this.value == 'perpend') {
+          $('#enhTE').prop('checked',true);
+          $('#enhTM').prop('checked',false);
+          $('#enhTE').attr('disabled',true);
+          $('#enhTM').attr('disabled',true);
+          inhomSpectr.viewDir='perpend';
+        }
+        makeSommer();
+        calcInhom();
       });
 
       $('input[type=radio][name=enhBut]').change(function () {
-          if (this.value == 'TE') {
-              calcSpectr.polarizat = 'TE';
-          }
-          else if (this.value == 'TM') {
-              calcSpectr.polarizat = 'TM';
-          }
-          calcPlotted();
-          //inhombr();
+        //Polarization selector:TE or TM
+        if (this.value == 'TE') {
+          inhomSpectr.polarizat = 'TE';
+        }
+        else if (this.value == 'TM') {
+          inhomSpectr.polarizat = 'TM';
+        }
+        makeSommer();
+        calcInhom();
       });
 
       /**
@@ -537,23 +868,23 @@ block levenee
        */
       function inhombr() {
         var opts = plot.getOptions(); // get a reference to the options
-        if (calcSpectr.plotArr.length<calcSpectr.numPoints) {
-            alert('no data for plotting!');
-            return; //exit plotting if no data
+        if (inhomSpectr.plotArr.length<inhomSpectr.numPoints) {
+          alert('no data for plotting!');
+          return; //exit plotting if no data
         }
-        if (calcSpectr.linlog=='log') {
+        if (inhomSpectr.linlog=='log') {
           opts.yaxes[0].axisLabel='Log10  Intensity';
         }else{
           opts.yaxes[0].axisLabel='Rel. Intensity';
         }
         var newData = [
-          {data: LinOrLog(), xaxis: 1, yaxis: 1, label: calcSpectr.legend},
-          {data: LinOrLogExp(), xaxis: 1, yaxis: 1, label: 'Measured'}
+          {data:LinOrLogs(inhomSpectr.linlog,inhomSpectr.plotArr,plot), xaxis: 1, yaxis: 1, label: inhomSpectr.legend},
+          {data:LinOrLogExp(experArr1,inhomSpectr.linlog), xaxis: 1, yaxis: 1, label: 'Measured'}
         ];
         plot.setData(newData);
         plot.setupGrid();
         plot.draw();
-        var graphTitle = (calcSpectr.jdostype == 'qw') ? 'with qw-model' : 'with bulk model';
+        var graphTitle = (inhomSpectr.jdostype == 'qw') ? 'with qw-model' : 'with bulk model';
         graphTitle=filNam+' '+graphTitle;
         var canvas = plot.getCanvas();
         var context = canvas.getContext('2d');
@@ -562,527 +893,989 @@ block levenee
         context.font = "14pt sans-serif";
         //context.fillText("Fill, Stroke Text, 12pt, sans-serif", 80, 30);
         context.strokeText(graphTitle, 20, 15);
+        //var start = performance.now();
+        hombr();
+        //var imgs = canvas.toDataURL("image/png");
+        //$("#huuhaa").html('<img src="' + imgs + '"/>');
+      }
+
+      /**
+       * Function for graphing of homog broadening
+       * @function
+       * @param {Array} PloArr - contains the numeric data to be plotted
+       * @param {Number} graphNO - flot-graph placeholder number according to tabs-no
+       */
+      function hombr() {
+        var opts = plot2.getOptions(); // get a reference to the options
+        var homLege='';
+        if (homSpectr.linlog == 'log') {
+          opts.yaxes[0].axisLabel = 'Log10  Intensity';
+        } else {
+          opts.yaxes[0].axisLabel = 'Rel. Intensity';
+        }
+        if ($("#pltNormalize").is(':checked')) {
+          arrNormalize(homSpectr.plotArr);
+        }
+        if ($("#pltHomConv").is(':checked')) {
+          homLege=inhomSpectr.legend+"*Lh";
+        }else{
+          homLege="Lh";
+        }
+        var newData=[];
+        if (homSpectr.plotArr.length == homSpectr.numPoints && experArr2.length>1) {
+          //console.log('pitäis olla kolme käyrää');
+          newData = [
+            {data: LinOrLogs(homSpectr.linlog, inhomSpectr.plotArr, plot2), xaxis: 1, yaxis: 1, label: inhomSpectr.legend},
+            {data: LinOrLogs(homSpectr.linlog, homSpectr.plotArr, plot2), xaxis: 1, yaxis: 1, label: homLege},
+            {data: LinOrLogExp(experArr2, homSpectr.linlog), xaxis: 1, yaxis: 1, label: 'Measured'}
+          ];
+        }else if (homSpectr.plotArr.length == homSpectr.numPoints && experArr2.length<1){
+          //console.log('pitäis olla kaksi käyrää');
+          newData = [
+            {data: LinOrLogs(homSpectr.linlog,inhomSpectr.plotArr,plot2), xaxis: 1, yaxis: 1, label: inhomSpectr.legend},
+            {data: LinOrLogs(homSpectr.linlog,homSpectr.plotArr,plot2), xaxis: 1, yaxis: 1, label: homLege}
+          ];
+        }else if (homSpectr.plotArr.length < homSpectr.numPoints && experArr2.length>1){
+          //console.log('pitäis olla kaksi käyrää');
+          newData = [
+            {data: LinOrLogs(homSpectr.linlog, inhomSpectr.plotArr, plot2), xaxis: 1, yaxis: 1, label: inhomSpectr.legend},
+            {data: LinOrLogExp(experArr2, homSpectr.linlog), xaxis: 1, yaxis: 1, label: 'Measured'}
+          ];
+        }else {
+          //console.log('pitäis olla yksi käyrä');
+          newData = [
+            {data: LinOrLogs(homSpectr.linlog, inhomSpectr.plotArr, plot2),xaxis: 1,yaxis: 1,label: inhomSpectr.legend}
+          ];
+        }
+
+        //var graphTitle = (inhomSpectr.jdostype == 'qw') ? 'with qw-model' : 'with bulk model';
+        //graphTitle = filNam + ' ' + graphTitle;
+        var canvas = plot2.getCanvas();
+        var context = canvas.getContext('2d');
+        context.lineWidth = 2;
+        context.strokeStyle = "rgba(35, 70, 237, .8)";
+        context.font = "14pt sans-serif";
+        //context.fillText("Fill, Stroke Text, 12pt, sans-serif", 80, 30);
+        context.strokeText('Homogeneous spectr', 20, 15);
+        //context.strokeText(graphTitle, 20, 15);
+        plot2.setData(newData);
+        plot2.setupGrid();
+        plot2.draw();
       }
 
       function makespArr(){
-          var Start = parseFloat(calcSpectr.eVstart);//does not work without parseFloats
-          var Stop = parseFloat(calcSpectr.eVstop);
-          var n = parseInt(calcSpectr.numPoints);
-          var Del = (Stop - Start) / (n - 1);
-          var helppi;
-          calcSpectr.eVarr=[];
-          for (var i = 0; i < n; i++) {
-              helppi = (Start + i * Del).toFixed(7);
-              calcSpectr.eVarr.push(helppi);
-          }
+        var Start = parseFloat(inhomSpectr.eVstart);//does not work without parseFloats
+        var Stop = parseFloat(inhomSpectr.eVstop);
+        var n = parseInt(inhomSpectr.numPoints);
+        var Del = (Stop - Start) / (n - 1);
+        var helppi;
+        inhomSpectr.eVarr=[];
+        for (var i = 0; i < n; i++) {
+          helppi = (Start + i * Del).toFixed(7);
+          inhomSpectr.eVarr.push(helppi);
+        }
       }
 
       function makeSommer(){
-          //does not work without parseFloats
-          var n = parseInt(calcSpectr.numPoints);
-          var Etr=parseFloat(calcSpectr.eTr);
-          var Eb=parseFloat(calcSpectr.exEb);
-          var eVs;
-          calcSpectr.exenArr=[];
-          for (var i = 0; i < n; i++) {
-              eVs = parseFloat(calcSpectr.eVarr[i]);
-              calcSpectr.exenArr.push(Sommerf(eVs,Etr,Eb));
-          }
+        //does not work without parseFloats
+        var n = parseInt(inhomSpectr.numPoints);
+        var Etr=parseFloat(inhomSpectr.eTr);
+        var Eb=parseFloat(inhomSpectr.exEb);
+        var eVs;
+        inhomSpectr.exenArr=[];
+        for (var i = 0; i < n; i++) {
+          eVs = parseFloat(inhomSpectr.eVarr[i]);
+          inhomSpectr.exenArr.push(Sommerf(eVs,Etr,Eb));
+        }
       }
 
       function Sommerf(E,Etr,Eb) {
-          var Pi_alfa;
-          var Se=0;
-          if (E > Etr) {
-              Pi_alfa = Math.PI * Math.sqrt(Eb / 1000 / (E - Etr));
-              if (calcSpectr.jdostype == 'bulk') {
-                  Se = 2 * Pi_alfa * Math.exp(Pi_alfa) / (Math.exp(Pi_alfa) -
-                          Math.exp(-Pi_alfa));
-              } else{ // jdostype = qw
-                  Se = 2 * Math.exp(Pi_alfa) / (Math.exp(Pi_alfa) +
-                          Math.exp(-Pi_alfa));
-                  if ((calcSpectr.viewDir == 'parallel') && (calcSpectr.polarizat == 'TM')) {
-                      Se *=(1 + 4 * Eb/(E - Etr)/1000);
-                  }
-              }
+        var Pi_alfa;
+        var Se=0;
+        if (inhomSpectr.jdostype == 'bulk'){
+          if (E > Etr){
+            Pi_alfa = Math.PI * Math.sqrt(Eb / 1000 / (E - Etr));
+            Se = 2 * Pi_alfa * Math.exp(Pi_alfa) / (Math.exp(Pi_alfa) -
+                    Math.exp(-Pi_alfa));
           }
-          return Se.toFixed(7);
+          //return Se.toFixed(7);
+        } else if (inhomSpectr.jdostype == 'qw'){//jdos on qw
+          if (inhomSpectr.polarizat == 'TE'){
+            if (E > Etr){
+              Pi_alfa = Math.PI * Math.sqrt(Eb / 1000 / (E - Etr));
+              Se = 2 * Math.exp(Pi_alfa) / (Math.exp(Pi_alfa) +
+                      Math.exp(-Pi_alfa));
+            }
+            //return Se.toFixed(7);
+          } else{
+            //TM polarisaatio:
+            if (E > Etr){
+              // use bias: inhomSpectr.ex0 to prevent infinity at Etr
+              Pi_alfa = Math.PI * Math.sqrt(Eb / 1000 / (E - Etr+inhomSpectr.ex0/1000));
+              Se = 2 * Math.exp(Pi_alfa) / (Math.exp(Pi_alfa) + Math.exp(-Pi_alfa));
+              Se *=(1 + 4 * Eb/(E - Etr+inhomSpectr.ex0/1000)/1000);
+            }
+            //return Se.toFixed(7);
+          }
+        }
+        return Se.toFixed(7);
       }
 
       function makeBoltz(){
-          var Etr = parseFloat(calcSpectr.eTr);
-          var Temp = parseFloat(calcSpectr.kelvin);
-          var n=parseInt(calcSpectr.numPoints);
-          var eVs;
-          calcSpectr.fcvArr=[];
-          for (var i = 0; i < n; i++) {
-              eVs=parseFloat(calcSpectr.eVarr[i]);
-              calcSpectr.fcvArr.push(Boltzman(eVs,Etr,Temp));
-          }
-      }
-
-      function makeConvolve(){
-          var n = parseInt(calcSpectr.numPoints);
-          var eVs;
-          calcSpectr.plotArr = [];
-          for (var i = 0; i < n; i++) {
-              eVs = parseFloat(calcSpectr.eVarr[i]);
-              calcSpectr.plotArr.push(convolve(eVs));
-          }
-          //console.log('convolution: ',calcSpectr.plotArr[n-500]);
+        var Etr = parseFloat(inhomSpectr.eTr);
+        var Temp = parseFloat(inhomSpectr.kelvin);
+        var n=parseInt(inhomSpectr.numPoints);
+        var eVs;
+        inhomSpectr.fcvArr=[];
+        for (var i = 0; i < n; i++) {
+          eVs=parseFloat(inhomSpectr.eVarr[i]);
+          inhomSpectr.fcvArr.push(Boltzman(eVs,Etr,Temp));
+        }
       }
 
       function Boltzman(E, Etr, T) {
-          var arvo = 0;
-          if ((E - Etr) >= 0) {
-              arvo = Math.exp(-eCha * (E - Etr) / (kBoltz * T));
-          }
-          return arvo;
-      }
-
-      function convStrt(Ez){
-          var strt=parseFloat(calcSpectr.eTr); //jdos=0; if epsilon<etr
-          if (calcSpectr.inPlot.Lih && (Ez>=strt)){
-              strt=Ez;//+Math.log(0.95)*parseFloat(calcSpectr.eU)/1000;
-          }
-          if(calcSpectr.inPlot.e && !calcSpectr.inPlot.fcv && !calcSpectr.inPlot.jdos &&
-          !calcSpectr.inPlot.Se){//vain energia valittu konvoluutioon:
-              strt= (calcSpectr.inPlot.Lih)? Ez: Ez+Math.log(1E-6)*parseFloat(calcSpectr.eU)/1000;
-          }
-          return strt;
-      }
-
-      function convStp(Ez){
-          var stp=Ez-Math.log(1E-7)*parseFloat(calcSpectr.eU)/1000;
-          if(calcSpectr.inPlot.fcv){
-              stp=parseFloat(calcSpectr.eTr)-Math.log(1E-8)*kBoltz*parseFloat(calcSpectr.kelvin)/eCha;
-          }
-          return stp;
-      }
-
-      function convolve(Ey){
-          if (calcSpectr.inPlot.convo == false){
-              alert('nothing to convolve');
-              return;
-          }
-          var Ex=parseFloat(Ey);
-          var Eu=parseFloat(calcSpectr.eU);
-          var Ef=parseFloat(calcSpectr.eTr);
-          var Eb=parseFloat(calcSpectr.exEb);
-          var type=calcSpectr.jdostype;
-          var T=parseFloat(calcSpectr.kelvin);
-          var convPoints=800;//nonuniform grid size 1,2,3,4...200
-          var convF;         //integrand value at gridpoint
-          var convInt=0;     //convolution integral
-          var convStart=convStrt(Ey); //start point integral variable (integrand zero in bandgap)
-          var convStop=convStp(Ey);
-          if (convStop<=convStart) return 0;
-          var convDelt=(convStop-convStart)/(convPoints-1);
-          var convE=convStart; //integral variable (energy axis)
-          var Lih; //value of broadening function;
-          for (var i=0;i<convPoints+1;i++){//(var i=0;i<convPoints;i++){
-              //convE=convE+i*convDelt;
-              //convE=convE+convDelt;
-              convF=1; //enables the separate plotting of integrand components
-              if (calcSpectr.inPlot.e) {
-                  convF=convF*convE;
-              }
-              if (calcSpectr.inPlot.jdos){
-                  convF=convF*Jdos(Ef,convE,type);
-              }
-              if (calcSpectr.inPlot.Se) {
-                  convF=convF*Sommerf(convE,Ef,Eb);
-              }
-              if (calcSpectr.inPlot.fcv){
-                  convF=convF*Boltzman(convE,Ef,T);
-              }
-              Lih=(calcSpectr.inPlot.Lih==true)? Urbach(Eu,-Ex,-convE): symUrbach(Eu,-Ex,-convE);
-              if (i==0) {
-                  //console.log('n=0 Lih*convF',Lih*convF);
-                  convF*=(0.5*Lih*convDelt);
-              }else if (i==convPoints){//else if (i==convPoints-1){
-                  //convF*=(0.5*Lih*(i)*convDelt);
-                  convF*=(0.5*Lih*convDelt);
-              }else {
-                  //convF*=(Lih*(i+0.5)*convDelt);
-                  convF*=(Lih*convDelt);
-              }
-              convInt+=convF;
-              convE=convE+convDelt;
-          }
-          //convInt*=convDelt;
-          return convInt;
+        var arvo = 0.0;
+        if ((E - Etr) >= 0) {
+          arvo = Math.exp(-eCha * (E - Etr) / (kBoltz * T));
+        }
+        return arvo;
       }
 
       function makeJdos() {
-          calcSpectr.jdosArr = [];
-          var eVs;
-          var num = parseInt(calcSpectr.numPoints);
-          var Etr = parseFloat(calcSpectr.eTr);
-          var type=calcSpectr.jdostype;
-          for (var i = 0; i < num; i++) {
-              eVs = parseFloat(calcSpectr.eVarr[i]);
-              calcSpectr.jdosArr.push(Jdos(Etr,eVs,type));
+        inhomSpectr.jdosArr = [];
+        var eVs;
+        var num = parseInt(inhomSpectr.numPoints);
+        var Etr = parseFloat(inhomSpectr.eTr);
+        var type = inhomSpectr.jdostype;
+        for (var i = 0; i < num; i++) {
+          eVs = parseFloat(inhomSpectr.eVarr[i]);
+          inhomSpectr.jdosArr.push(Jdos(Etr, eVs, type));
+        }
+      }
+
+      /* functions for fft convolution
+      *padArray pads values to array end making it equal in length with fft kernel
+      */
+
+      function padArray(toPad){
+        var padded=[];
+        var toInsert;
+        for (var i=0;i<fftN;i++){
+          if (i<toPad.length) {
+            toInsert=parseFloat(toPad[i]);
+          }else{
+            if (i<(fftN+toPad.length)/2){
+              //pads empty cells half with previous value and half with zero
+              //this eliminates artifacts at both spectrum ends
+              toInsert=parseFloat(toPad[toPad.length-1]);
+              //without this padding spectrum end bends down
+            }else{
+              toInsert=0;
+              //without this padding spectrum beginning bends up
+            }
           }
+          padded.push(toInsert);
+        }
+        return padded;
+      }
+
+      /* Function for fft convolution
+       *function unPad removes padded values from the convolved array making it equal in length
+       * with original array before convolution
+       */
+      function unPad(toUnpad){
+        //console.log('unPadding');
+        var unPadded = toUnpad.slice(0,inhomSpectr.numPoints);
+        return unPadded;
+      }
+
+      function makeFftKernel(toKern){
+        //toKern is zero centered broadening function with Energy as parameter
+        //toKern: Urbach, symUrbach, Lorentz, Gaussian, DLorentz
+        //Sech: funktiolla kerneli tehdään eri tavalla
+        var kerneli=new Array(fftN);
+        var Del=(parseFloat(inhomSpectr.eVstop)-parseFloat(inhomSpectr.eVstart))/
+          (parseInt(inhomSpectr.numPoints)-1);
+        var sum=0;
+        for (var i=0;i<fftN;i++){
+          if (i<fftN/2){
+            kerneli[i]=toKern(-i*Del);
+          }else{
+            kerneli[i]=toKern(-(i-fftN)*Del);
+          }
+            sum+=kerneli[i];
+        }
+        for (var i=0;i<fftN;i++){
+          kerneli[i]/=sum;
+        }
+        return kerneli;
+      }
+
+      function fftConvo(signal,kernel){
+        var convoRes=new Array(fftN);
+        var kernelSum=0;
+        for (var i=0;i<kernel.length;i++){
+          kernelSum+=kernel[i];
+        }
+        convolveReal(signal, kernel, convoRes);
+        for (var i= 0;i<fftN;i++){
+          convoRes[i]/=kernelSum;
+          //estetään kuvaajan asteikon menon 0:n alle Gaussianissa
+          if (convoRes[i]<1E-6) convoRes[i]=1E-6;
+        }
+        return convoRes;
       }
 
       function Jdos(Etr,E,type){
-          var arvo=0;
-          if (E >= Etr) {
-              if (type=='bulk'){
-                  arvo = Math.sqrt(E - Etr); //bulk materials
-              }else{
-                  arvo=1;  //Heaviside step function for quantum wells
-              }
+        var arvo=0;
+        if (E >= Etr) {
+          if (type=='bulk'){
+            arvo = Math.sqrt(E - Etr); //bulk materials
+          }else{
+            arvo=1;  //Heaviside step function for quantum wells
           }
-          return arvo.toFixed(7);
+        }
+        return arvo.toFixed(7);
       }
 
       function makeLih() {
-          var Ef = parseFloat(calcSpectr.eTr);
-          var n = parseInt(calcSpectr.numPoints);
-          var Eu = parseFloat(calcSpectr.eU);
-          var helppi;
-          var eVs;
-          calcSpectr.Lih=[];
-          for (var i = 0; i < n; i++) {
-              eVs=parseFloat(calcSpectr.eVarr[i]);
-              calcSpectr.Lih.push(Urbach(Eu,Ef,eVs));
+        //produces inhomog spectrum  at Ef
+        //used only for function shape plotting
+        var Ef = parseFloat(inhomSpectr.eTr);
+        var n = parseInt(inhomSpectr.numPoints);
+        var eVs;
+        inhomSpectr.Lih=[];
+        for (var i = 0; i < n; i++) {
+          eVs=parseFloat(inhomSpectr.eVarr[i]);
+          if ($('#pltUrbach').prop('checked')==true){
+            inhomSpectr.Lih.push(Urbach(Ef-eVs));
+          } else if ($('#pltsUrbach').prop('checked')==true) {
+            inhomSpectr.Lih.push(symUrbach(Ef-eVs));
+          } else if ($('#pltGaussian').prop('checked')==true){
+            inhomSpectr.Lih.push(Gaussian(Ef-eVs));
           }
+        }
+        if ($('#pltSech').prop('checked') == true) {
+          var sechBroad=sechFun();// palauttaa kaksi vektoria reali ja imagi fourier muunnoksesta
+          inhomSpectr.Lih=sechUnpad(sechBroad);
+        }
       }
 
-      function makeSymLih() {
-          var Ef = parseFloat(calcSpectr.eTr);
-          var n = parseInt(calcSpectr.numPoints);
-          var Eu = parseFloat(calcSpectr.eU);
-          var helppi;
-          var eVs;
-          calcSpectr.SymLih = [];
-          for (var i = 0; i < n; i++) {
-              eVs = parseFloat(calcSpectr.eVarr[i]);
-              calcSpectr.SymLih.push(symUrbach(Eu, Ef, eVs));
+      function broadFuns(funk) {
+        //plots a function with max value at Etr
+        var Etr = parseFloat(inhomSpectr.eTr);
+        var Estart=parseFloat(inhomSpectr.eVstart);
+        var Estop=parseFloat(inhomSpectr.eVstop);
+        var n = parseInt(inhomSpectr.numPoints);
+        var delE=(Estop-Estart)/(n-1);
+        var helppi=0;
+        var E;
+        var max=-1;
+        var hjelppi = [];
+        for (var i= 0;i<n;i++) {
+          E = Etr - (Estart + i * delE);//maximum will be at Etr
+          switch (funk) {
+            case 'Lorentz':
+              helppi=Lorentz(E);
+              break;
+            case 'Dlorentz':
+              helppi = Dlorentz(E);
+              break;
           }
+          max = (max > helppi) ? max : helppi;
+          hjelppi.push(helppi);
+        }
+        if (!max>0) max=1;
+        homSpectr.plotArr=[];
+        for (var i = 0; i < n; i++) {
+          homSpectr.plotArr.push(hjelppi[i] / max);
+        }
       }
 
-      function LinOrLog(){
-          var arr=[];
-          var max=0;
-          for (var i=0;i<calcSpectr.numPoints;i++){
-              var tempi=[];
-              tempi.push(parseFloat(calcSpectr.eVarr[i]));
-              tempi.push(parseFloat(calcSpectr.plotArr[i]));
-              arr.push(tempi);
-              max=(max<tempi[1])? tempi[1]:max;
-          }
-          max=Math.ceil(Math.log10(max)); //autoscale log axis max
-          var min=max-5;                  //autoscale log axis min
-          if (calcSpectr.linlog == 'log') {
-              for (var i = 0; i < calcSpectr.numPoints; i++) {
-                  arr[i][1] = (arr[i][1]>1E-6)? Math.log10(arr[i][1]):-6;
-              }
-              plot.getAxes().yaxis.options.min = min; //scale log axis min
-              plot.getAxes().yaxis.options.max = max;  //scale log axis max
-          }else{
-              plot.getAxes().yaxis.options.min = null; //autoscale
-              plot.getAxes().yaxis.options.max = null; //autoscale
-          }
-          return arr;
-      }
-
-      function LinOrLogExp() {
+      function LinOrLog(graphed){
         var arr=[];
-        for (var i = 1; i < experArr.length; i++) {
+        var max=0;
+        for (var i=0;i<inhomSpectr.numPoints;i++){
+          var tempi=[];
+          tempi.push(parseFloat(inhomSpectr.eVarr[i]));
+          tempi.push(parseFloat(graphed[i]));
+          arr.push(tempi);
+          max=(max<tempi[1])? tempi[1]:max;
+        }
+        max=Math.ceil(Math.log10(max)); //autoscale log axis max
+        var min=max-5;                  //autoscale log axis min
+        if (inhomSpectr.linlog == 'log') {
+          for (var i = 0; i < inhomSpectr.numPoints; i++) {
+            arr[i][1] = (arr[i][1]>1E-6)? Math.log10(arr[i][1]):-6;
+          }
+          plot.getAxes().yaxis.options.min = min; //scale log axis min
+          plot.getAxes().yaxis.options.max = max;  //scale log axis max
+        }else{
+          plot.getAxes().yaxis.options.min = null; //autoscale
+          plot.getAxes().yaxis.options.max = null; //autoscale
+        }
+        return arr;
+      }
+
+      function LinOrLogs(linOlog,graphed,kuva) {
+        //LinOrLogs:  joko lin tai log
+        //graphed:    on piirrettävän käyrän vektori
+        //kuva:       on joko plot tai plot2
+        var arr = [];
+        var max = 0;
+        var nPoints=inhomSpectr.numPoints;
+        for (var i = 0; i < nPoints; i++) {
           var tempi = [];
-          tempi.push(experArr[i][0]);
-          tempi.push(experArr[i][1]);
+          tempi.push(parseFloat(inhomSpectr.eVarr[i]));
+          tempi.push(parseFloat(graphed[i]));
+          arr.push(tempi);
+          max = (max < tempi[1]) ? tempi[1] : max;
+        }
+        max = Math.ceil(Math.log10(max));   //autoscale log axis max
+        var min = max - 5;                  //autoscale log axis min
+        if (linOlog == 'log') {
+          for (var i = 0; i < nPoints; i++) {
+            arr[i][1] = (arr[i][1] > 1E-6) ? Math.log10(arr[i][1]) : -6;
+          }
+          kuva.getAxes().yaxis.options.min = min; //scale log axis min
+          kuva.getAxes().yaxis.options.max = max;  //scale log axis max
+        } else {
+          kuva.getAxes().yaxis.options.min = null; //autoscale
+          kuva.getAxes().yaxis.options.max = null; //autoscale
+        }
+        return arr;
+      }
+
+      function LinOrLogExp(measArr,lineLoga) {
+        console.log('linorlog length: ',measArr.length);
+        var arr=[];
+        for (var i = 1; i < measArr.length; i++) {
+          var tempi = [];
+          tempi.push(measArr[i][0]);
+          tempi.push(measArr[i][1]);
           arr.push(tempi);
         }
-        if (calcSpectr.linlog == 'log') {
-          for (var i = 0; i < experArr.length-1; i++) {
+        if (lineLoga == 'log') {
+          for (var i = 0; i < measArr.length-1; i++) {
             arr[i][1] = (arr[i][1] > 1E-6) ? Math.log10(arr[i][1]) : -6;
           }
         }
         return arr;
       }
 
-      function Urbach(Eu, Ef, E) {
-          var helppi = 0;
-          if ((Ef - E) >= 0) {
-              helppi = Math.exp(-(Ef - E) * 1000 / Eu);
+      function Urbach(E) {
+        var helppi = 0;
+        var Eu = parseFloat(inhomSpectr.eU);
+        if (E >= 0) {
+          helppi = Math.exp(-E * 1000 / Eu)*1000/Eu; //integrates to unity
+        }
+        return helppi;
+      }
+
+      function symUrbach(E) {
+        var Eu = parseFloat(inhomSpectr.eU);
+        var helppi = Math.exp(-Math.abs(E) * 1000 / Eu)*500 / Eu; //integrates to unity
+        return helppi;
+      }
+
+      function Lorentz(E){
+        var tau = homSpectr.LorTau * 1.0E-15; //to femtoseconds
+        var helppi = eCha * hBar * tau / Math.PI / (hBar * hBar + tau * tau
+          * E * E * eCha * eCha);
+        return helppi;
+      }
+
+      function Dlorentz(E) {
+        var tau1 = homSpectr.DlTau1 * 1.0E-15; //in seconds
+        var tau2 = homSpectr.DlTau2 * 1.0E-15;
+        var helppi = eCha * (tau1 + tau2) / Math.PI / hBar / (1 + tau1 * tau1 * E * E / hBar
+           / hBar * eCha * eCha) / (1 + tau2 * tau2 * E * E / hBar / hBar * eCha * eCha);
+        return helppi;
+      }
+
+      function Gaussian(E) {
+        var sigma = inhomSpectr.GauSig/1000; //meV to eV
+        var helppi = (Math.exp(-E * E / 2 / sigma / sigma)) / sigma /
+          Math.sqrt(2 * Math.PI);
+        return helppi;
+      }
+
+      function sechFun() {
+        var schN =inhomSpectr.SechN;
+        var schTau =inhomSpectr.SechTau*1E-15; //Convert femtoseconds into seconds
+        var E0=inhomSpectr.eVstart;
+        var E999=inhomSpectr.eVstop;
+        //fft time delta after padding:
+        var eDelta=fftN*(E999-E0)/(inhomSpectr.numPoints-1)*eCha;
+        // missä huomioitu paddingin tuoma lisäys spektrin pituuteen
+        // h/deltaE=1/deltaf; Energy range determines frequency resolution,
+        var tDelta=hPlanck/eDelta;
+        //antaa saman kuin excelin sech-fun.xslx sheet
+        // number of samples determines spectral (frequency) range
+        tDelta=tDelta/schN/schTau; //for variable in: p(t) = sech^n(t/n/tau)
+        // tehdään relaksaation aikafunktio p(t) prop. sech^n(t/n/tau)
+        // mistä leviämisspectri sitten fft:llä
+        var reali=[]; //fft:n reaaliosa
+        var imagi=[]; //fft:n imaginääriosa
+        var helppi;
+        for (var i=0;i<(fftN);i++){
+          var temp=(i-fftN/2)*tDelta;
+          //raja jottei tule div. by zeroa:
+          if(temp<Math.log(1E300) && temp>Math.log(1E-300)){
+            helppi=Math.pow(2/(Math.exp(temp)+Math.exp(-temp)),schN); //sech(x)=1/cosh(x)
+          }else {
+            helppi=1E-300;
           }
-          return helppi;
+          reali.push(helppi);
+          imagi.push(0);
+        }
+        //tehdään fourier muunnos fft:llä
+        transform(reali, imagi); //tässä on fft:n määräämä vektorien pituus (fftN)
+        return [reali,imagi];
       }
 
-      function symUrbach(Eu, Ef, E) {
-          var helppi = Math.exp(-Math.abs(Ef - E) * 1000 / Eu);
-          return helppi;
+      function sechUnpad(sechBroad){
+        //tarvitaan redusoimaan fft:n tuottamat vektorit inhomSpectr.numPoints pituiseksi
+        // vain leviämisspektrin piirtorutiinissa
+        var Ef = parseFloat(inhomSpectr.eTr);
+        var n = parseInt(inhomSpectr.numPoints);
+        var absVal=[];
+        var TEMp;
+        var positio = (Ef - inhomSpectr.eVstart) / (inhomSpectr.eVstop - inhomSpectr.eVstart) * n;
+        positio = Math.round(positio); //indexi johon sech spectrin huippu tulee
+        for (var i = 0; i < n; i++) {
+          var x = positio - i;
+          if (x > 0) {
+            TEMp=sechBroad[0][fftN - 1 - x] * sechBroad[0][fftN - 1 - x] + sechBroad[1][fftN - 1 - x] * sechBroad[1][fftN - 1 - x];
+          } else {
+            TEMp = sechBroad[0][-x] * sechBroad[0][-x] + sechBroad[1][-x] * sechBroad[1][-x];
+          }
+          absVal.push(Math.sqrt(TEMp));
+        }
+        return absVal;
       }
 
-      // Create a div for each axis
+      // inhomogeneous plot Create a div for each axis
       $.each(plot.getAxes(), function (i, axis) {
-          if (!axis.show)
-              return;
-          var box = axis.box;
-          $("<div class='axisTarget' style='position:absolute; left:" + box.left + "px; top:"
-                  + box.top +"px; width:" + box.width + "px; height:" + box.height + "px'></div>")
-                  .data("axis.direction", axis.direction)
-                  .data("axis.n", axis.n)
-                  .css({backgroundColor: "#f00", opacity: 0, cursor: "pointer"})
-                  .appendTo(plot.getPlaceholder())
-                  .hover(
-                          function () {//handler for hover in:
-                              $(this).css({opacity: 0.10});
-                              //-$("#clicked").text("You hovered 0.1 " + axis.direction + axis.n + "axis!");
-                              if (axis.direction=='y') {
-                                  showTooltip(box.left+box.width, box.top+box.height/2, 'Click to toggle lin/log');
-                              }else{
-                                  showTooltip(box.left+box.width/2, box.top-box.height, 'Click to edit range');
-                              }
-                          },
-                          function () {//handler for hover out:
-                              $(this).css({opacity: 0});
-                              //-$("#clicked").text("You hovered 0 " + axis.direction + axis.n + "axis!");
-                              $("#tooltip").remove();
-                          }
-                  )
-                  .click(function () {
-                      if  (axis.direction=='y'){
-                        calcSpectr.linlog = (calcSpectr.linlog == 'lin') ? 'log' : 'lin';
-                          inhombr();
-                      }else{
-                        $("#spRange").css('display','block');
-                        //-$("#spWhat").css('display','block');
-                        $( "#settnDial" ).dialog( "open" );
-                      }
-                      //$("#clicked").text("You clicked the " + axis.direction + axis.n + "axis!");
-                  });
+        if (!axis.show)
+          return;
+        var box = axis.box;
+        $("<div class='axisTarget' style='position:absolute; left:" + box.left + "px; top:"
+          + box.top +"px; width:" + box.width + "px; height:" + box.height + "px'></div>")
+          .data("axis.direction", axis.direction)
+          .data("axis.n", axis.n)
+          .css({backgroundColor: "#f00", opacity: 0, cursor: "pointer"})
+          .appendTo(plot.getPlaceholder())
+          .hover(
+            function () {//handler for hover in:
+              $(this).css({opacity: 0.10});
+              //-$("#clicked").text("You hovered 0.1 " + axis.direction + axis.n + "axis!");
+              if (axis.direction=='y') {
+                showTooltip(box.left+box.width, box.top+box.height/2, 'Click to toggle lin/log');
+              }else{
+                showTooltip(box.left+box.width/2, box.top-box.height, 'Click to edit range');
+                }
+            },
+            function () {//handler for hover out:
+              $(this).css({opacity: 0});
+              //-$("#clicked").text("You hovered 0 " + axis.direction + axis.n + "axis!");
+              $("#tooltip").remove();
+            }
+          )
+          .click(function () {
+            if  (axis.direction=='y') {
+              inhomSpectr.linlog = (inhomSpectr.linlog == 'lin') ? 'log' : 'lin';
+              inhombr();
+            }else{
+              //click on x-axis: displays spectral range editor
+              $("#spRange").css('display','block');
+              $( "#settnDial" ).dialog( "open" );
+              }
+              //$("#clicked").text("You clicked the " + axis.direction + axis.n + "axis!");
+          });
+      });
+
+      // inhomogeneous plot Create a div for each axis
+      $.each(plot2.getAxes(), function (i, axis) {
+        if (!axis.show)
+          return;
+        var box = axis.box;
+        $("<div class='axisTarget' style='position:absolute; left:" + box.left + "px; top:"
+          + box.top + "px; width:" + box.width + "px; height:" + box.height + "px'></div>")
+          .data("axis.direction", axis.direction)
+          .data("axis.n", axis.n)
+          .css({backgroundColor: "#f00", opacity: 0, cursor: "pointer"})
+          .appendTo(plot2.getPlaceholder())
+          .hover(
+            function () {//handler for hover in:
+              $(this).css({opacity: 0.10});
+              //-$("#clicked").text("You hovered 0.1 " + axis.direction + axis.n + "axis!");
+              if (axis.direction == 'y') {
+                showTooltip2(box.left + box.width, box.top + box.height / 2, 'Click to toggle lin/log');
+              } else {
+                showTooltip2(box.left + box.width / 2, box.top - box.height, 'Click to edit range');
+              }
+            },
+            function () {//handler for hover out:
+              $(this).css({opacity: 0});
+              //-$("#clicked").text("You hovered 0 " + axis.direction + axis.n + "axis!");
+              $("#tooltip").remove();
+            }
+          )
+          .click(function () {
+            if (axis.direction == 'y') {
+              homSpectr.linlog = (homSpectr.linlog == 'lin') ? 'log' : 'lin';
+                hombr();
+            } else {
+              //clicked on x-axis: display spectral range editor
+              $("#spRange").css('display', 'block');
+              //-$("#spWhat").css('display','block');
+              $("#settnDial").dialog("open");
+              }
+            //$("#clicked").text("You clicked the " + axis.direction + axis.n + "axis!");
+          });
       });
 
       inhombr();
 
       $("#ph1_inhomog").mouseleave(function() {
-          $("#tooltip").remove();
+        $("#tooltip").remove();
+      });
+      $("#ph2_homog").mouseleave(function () {
+        $("#tooltip").remove();
       });
 
       $("#ph1_inhomog").bind("plothover", function (event, pos, item) {
-          //$("#clicked").text("You hovered at: " + pos.x + ','+ pos.y+'event.target: '+event.target);
-          showTooltip(40, 30, 'DblClick to edit graph');
-          //-alert("You clicked at " + pos.x + ", " + pos.y);
-          // axis coordinates for other axes, if present, are in pos.x2, pos.x3, ...
-          // if you need global screen coordinates, they are pos.pageX, pos.pageY
-          if (item) {
-              var point='E: '+(pos.x).toFixed(4)+' val: '+ (pos.y).toFixed(4);
-              showTooltip(40, 30, point);
-              //highlight(item.series, item.datapoint);
-              //$("#clicked").text("You hovered at: " + item.series + ',' +item.datapoint);
-              //alert("You clicked a point!");
-          }
+        //$("#clicked").text("You hovered at: " + pos.x + ','+ pos.y+'event.target: '+event.target);
+        showTooltip(40, 30, 'DblClick to edit graph');
+        //-alert("You clicked at " + pos.x + ", " + pos.y);
+        // axis coordinates for other axes, if present, are in pos.x2, pos.x3, ...
+        // if you need global screen coordinates, they are pos.pageX, pos.pageY
+        if (item) {
+          var point='E: '+(pos.x).toFixed(4)+' val: '+ (pos.y).toFixed(4);
+          showTooltip(40, 30, point);
+          //highlight(item.series, item.datapoint);
+          //$("#clicked").text("You hovered at: " + item.series + ',' +item.datapoint);
+          //alert("You clicked a point!");
+        }
+      });
+
+      $("#ph2_homog").bind("plothover", function (event, pos, item) {
+        //$("#clicked").text("You hovered at: " + pos.x + ','+ pos.y+'event.target: '+event.target);
+        showTooltip2(40, 30, 'DblClick to edit graph');
+        //-alert("You clicked at " + pos.x + ", " + pos.y);
+        // axis coordinates for other axes, if present, are in pos.x2, pos.x3, ...
+        // if you need global screen coordinates, they are pos.pageX, pos.pageY
+        if (item) {
+          var point = 'E: ' + (pos.x).toFixed(4) + ' val: ' + (pos.y).toFixed(4);
+          showTooltip2(100, 30, point);
+          //highlight(item.series, item.datapoint);
+          //$("#clicked").text("You hovered at: " + item.series + ',' +item.datapoint);
+          //alert("You clicked a point!");
+        }
       });
 
       function showTooltip(x, y, contents) {
-          //console.log('showing tooltip: ',x,' ',y, ' ',contents);
-          if ($("#tooltip").length > 0) {
-              $("#tooltip").remove();
-          }
-          $('<div id="tooltip">' + contents + '</div>').css({
-              position: 'absolute', display: 'none', top: y + 5, left: x + 5,
-              border: '1px solid #fdd', padding: '2px', 'background-color': '#fee', opacity: 0.80
-          }).appendTo("#ph1_inhomog").fadeIn(200);
+        //console.log('showing tooltip: ',x,' ',y, ' ',contents);
+        if ($("#tooltip").length > 0) {
+          $("#tooltip").remove();
+        }
+        $('<div id="tooltip">' + contents + '</div>').css({
+          position: 'absolute', display: 'none', top: y + 5, left: x + 5,
+          border: '1px solid #fdd', padding: '2px', 'background-color': '#fee', opacity: 0.80
+        }).appendTo("#ph1_inhomog").fadeIn(200);
+      }
+
+      function showTooltip2(x, y, contents) {
+        //console.log('showing tooltip: ',x,' ',y, ' ',contents);
+        if ($("#tooltip").length > 0) {
+          $("#tooltip").remove();
+        }
+        $('<div id="tooltip">' + contents + '</div>').css({
+          position: 'absolute', display: 'none', top: y + 5, left: x + 5,
+          border: '1px solid #fdd', padding: '2px', 'background-color': '#fee', opacity: 0.80
+        }).appendTo("#ph2_homog").fadeIn(200);
       }
 
       function setChkboxes(){
-          $('#pltEpsilon').prop('checked', calcSpectr.inPlot.e);
-          $('#pltJdos').prop('checked', calcSpectr.inPlot.jdos);
-          $('#pltSommerf').prop('checked', calcSpectr.inPlot.Se);
-          $('#pltFcv').prop('checked', calcSpectr.inPlot.fcv);
-          $('#pltUrbach').prop('checked', calcSpectr.inPlot.Lih);
-          $('#pltsUrbach').prop('checked', calcSpectr.inPlot.Lsih);
+        $('#pltEpsilon').prop('checked', inhomSpectr.inPlot.eV);
+        $('#pltJdos').prop('checked', inhomSpectr.inPlot.jdos);
+        $('#pltSommerf').prop('checked', inhomSpectr.inPlot.Se);
+        $('#pltFcv').prop('checked', inhomSpectr.inPlot.fcv);
+        $('#pltUrbach').prop('checked', inhomSpectr.inPlot.Lurb);
+        $('#pltsUrbach').prop('checked', inhomSpectr.inPlot.Lsurb);
+        $('#pltGaussian').prop('checked', inhomSpectr.inPlot.Lgaus);
+        $('#pltSech').prop('checked', inhomSpectr.inPlot.Lsech);
+        calcInhom();
       }
 
       function setLegend(){
-          calcSpectr.legend = '';
-          var dotti = '\u00B7'; //multiplication dot
-          var regexi = /^\u00B7+/;
-          if (calcSpectr.inPlot.e) calcSpectr.legend = 'E';
-          if (calcSpectr.inPlot.jdos) calcSpectr.legend += dotti + 'Jdos';
-          if (calcSpectr.inPlot.Se) calcSpectr.legend += dotti + 'Se';
-          if (calcSpectr.inPlot.fcv) calcSpectr.legend += dotti + 'Fcv';
-          if ((calcSpectr.inPlot.Lih || calcSpectr.inPlot.Lsih) &&
-             !calcSpectr.inPlot.convo) calcSpectr.legend='Lih';
-          calcSpectr.legend.trim();
-          //remove leading multiplication dot(s):
-          calcSpectr.legend = calcSpectr.legend.replace(regexi,'');
-          if (calcSpectr.inPlot.convo){
-              calcSpectr.legend = '(' + calcSpectr.legend + ')*Lih';
-          }
-          //console.log('calcSpectr.legend: '+calcSpectr.legend);
-          calcPlotted();
+        inhomSpectr.legend = '';
+        var dotti = '\u00B7'; //multiplication dot
+        var regexi = /^\u00B7+/;
+        if (inhomSpectr.inPlot.eV) inhomSpectr.legend = 'E';
+        if (inhomSpectr.inPlot.jdos) inhomSpectr.legend += dotti + 'Jdos';
+        if (inhomSpectr.inPlot.Se) inhomSpectr.legend += dotti + 'Se';
+        if (inhomSpectr.inPlot.fcv) inhomSpectr.legend += dotti + 'Fcv';
+        if ((inhomSpectr.inPlot.Lurb || inhomSpectr.inPlot.Lsurb) &&
+          !inhomSpectr.inPlot.convo) inhomSpectr.legend='Lih';
+        inhomSpectr.legend.trim();
+        //remove leading multiplication dot(s):
+        inhomSpectr.legend = inhomSpectr.legend.replace(regexi,'');
+        if (inhomSpectr.inPlot.convo){
+          inhomSpectr.legend = '(' + inhomSpectr.legend + ')*Lih';
+        }
+        //console.log('inhomSpectr.legend: '+inhomSpectr.legend);
+        //calcInhom();
       }
 
       function multPlotted(arra){
-          //console.log('multPlotted arra: ', JSON.stringify(arra));
-          num=calcSpectr.numPoints;
-          if (calcSpectr.plotArr.length<1){
-              for (var i=0;i<num;i++) {
-                  calcSpectr.plotArr.push(arra[i]);
-              }
-          }else{
-              for (var i=0;i<num;i++) {
-                  calcSpectr.plotArr[i]*=arra[i];
-              }
+        //console.log('multPlotted arra: ', JSON.stringify(arra));
+        num=inhomSpectr.numPoints;
+        if (inhomSpectr.plotArr.length<1){
+          for (var i=0;i<num;i++) {
+            inhomSpectr.plotArr.push(arra[i]);
           }
+        }else{
+          for (var i=0;i<num;i++) {
+            inhomSpectr.plotArr[i]*=arra[i];
+          }
+        }
       }
 
-      function calcPlotted(){
-          calcSpectr.plotArr=[];
-          if (calcSpectr.inPlot.e){
-              multPlotted(calcSpectr.eVarr);
+      function calcInhom(){
+        inhomSpectr.plotArr=[];
+        //inhomSpectr.convArr=[];
+        //tehdään valinnoista piirrettävä array:
+        if (inhomSpectr.inPlot.eV){
+          multPlotted(inhomSpectr.eVarr);
+        }
+        if (inhomSpectr.inPlot.jdos) {
+          multPlotted(inhomSpectr.jdosArr);
+        }
+        if (inhomSpectr.inPlot.Se) {
+          multPlotted(inhomSpectr.exenArr);
+        }
+        if (inhomSpectr.inPlot.fcv) {
+          multPlotted(inhomSpectr.fcvArr);
+        }//piirrettävä funktio saatiin valmiiksi konvoluutioon tai piirtoon
+        //jos mitään ollut valittuna leviämisfunktion lisäksi piirretään vain leviämisfunktio:
+        if (!inhomSpectr.inPlot.convo && (inhomSpectr.inPlot.Lurb || inhomSpectr.inPlot.Lsurb
+          || inhomSpectr.inPlot.Lgaus || inhomSpectr.inPlot.Lsech)) {
+          //siis ei konvoluutiota vain joku levenemisfunktioista piirtoon
+          makeLih(); //laskee valitun levimisfunktion Etr kohtaan
+          inhomSpectr.plotArr=[]; //tyhjennys
+          multPlotted(inhomSpectr.Lih); //täyttö uudelleen
+        }
+        if (inhomSpectr.inPlot.convo) {
+          //valittu leviämisfunktio ja 'plotting selectorista' itemi(t):
+          //vuorossa konvoluution laskeminen:
+          var kernel=[]; //nollataan konvoluutiokernel
+          var signal=padArray(inhomSpectr.plotArr); //tehdään konvolutoitavasta fftN pituinen
+          if (inhomSpectr.inPlot.Lsurb) {//symmetrinen Urbach
+            kernel = makeFftKernel(symUrbach); //symUrbach konvoluution kerneliksi
+          } else if (inhomSpectr.inPlot.Lurb) {//asymmetric urbach
+            kernel = makeFftKernel(Urbach); //Urbach konvoluution kerneliksi
+          } else if (inhomSpectr.inPlot.Lgaus){//gaussian broadening
+            kernel = makeFftKernel(Gaussian); //gaussin funktio konvoluution kerneliksi
+          } else if (inhomSpectr.inPlot.Lsech){//sech functio laskettu fft:llä,
+            // eroava  kernelin laskenta:
+            var ckernel=sechFun(); //saadaan 2 (fftN-pituista) vektoria: ckernel[0] and ckernel[1]
+            for (var I=0;I<fftN;I++){
+              //kompleksiluvun abs arvot kerneliin
+              kernel.push(Math.sqrt(ckernel[0][I]*ckernel[0][I]+ckernel[1][I]*ckernel[1][I]));
+            }
           }
-          if (calcSpectr.inPlot.jdos) {
-              //console.log('multPlotted jdos: ',JSON.stringify(calcSpectr.jdosArr));
-              multPlotted(calcSpectr.jdosArr);
-          }
-          if (calcSpectr.inPlot.Se) {
-              //console.log('multPlotted exenArr: ',JSON.stringify(calcSpectr.exenArr));
-              multPlotted(calcSpectr.exenArr);
-          }
-          if (calcSpectr.inPlot.fcv) {
-              //console.log('multPlotted fcvArr: ',JSON.stringify(calcSpectr.fcvArr));
-              multPlotted(calcSpectr.fcvArr);
-          }
-          if (calcSpectr.inPlot.Lih && !calcSpectr.inPlot.convo) {
-              //console.log('Plotted Lih: ',JSON.stringify(calcSpectr.Lih));
-              calcSpectr.plotArr=[];
-              multPlotted(calcSpectr.Lih);
-          }
-          if (calcSpectr.inPlot.Lsih && !calcSpectr.inPlot.convo) {
-              //console.log('Plotted Lih: ',JSON.stringify(calcSpectr.Lih));
-              calcSpectr.plotArr=[];
-              multPlotted(calcSpectr.SymLih);
-          }
-          if (calcSpectr.inPlot.convo) {
-              calcSpectr.plotArr = [];
-              makeConvolve();
-          }
-          normalizeConvo();
-          inhombr();
-      }
-
-      function normalizeConvo(){
-          if ((calcSpectr.inPlot.Lsih||calcSpectr.inPlot.Lih) && calcSpectr.inPlot.e && calcSpectr.inPlot.Se
-          && calcSpectr.inPlot.fcv) {
-              var n=calcSpectr.numPoints;
-              var max=0;
-              var i;
-              for (i=0;i<n;i++){
-                  max=(calcSpectr.plotArr[i]>max)? max=calcSpectr.plotArr[i]:max;
-              }
-              for (i = 0; i < n; i++) {
-                  calcSpectr.plotArr[i]=calcSpectr.plotArr[i]/max;
-              }
-          }
-      }
-
-      $("#pltUrbach, #pltsUrbach").click(function(){
-          if ($(this).attr('id') == 'pltUrbach' && $(this).prop('checked')==true) {
-              $('#pltsUrbach').prop('checked', false);
-              calcSpectr.inPlot.Lsih=false;
-              calcSpectr.inPlot.Lih=true;
-          }
-          if ($(this).attr('id') == 'pltsUrbach' && $(this).prop('checked')==true) {
-              $('#pltUrbach').prop('checked', false);
-              calcSpectr.inPlot.Lih=false;
-              calcSpectr.inPlot.Lsih=true;
-          }
-          setLegend();
-      });
-
-      //response checkbox change events:
-      $("#pltEpsilon, #pltJdos, #pltSommerf, #pltFcv, #pltUrbach, #pltsUrbach").change(function () {
-          /*if ($(this).attr('id')=='pltUrbach' || $(this).attr('id'=='pltsUrbach')){
-             $(this).prop('checked',!$(this).prop('checked'));
-          }
-          if ($(this).attr('id')=='pltUrbach' && $(this).prop('checked',true)){
-              $('#pltsUrbach').prop('checked',false);
-          }
-          if ($(this).attr('id') == 'pltsUrbach' && $(this).prop('checked', true)) {
-              $('#pltUrbach').prop('checked', false);
+          inhomSpectr.plotArr=unPad(fftConvo(signal,kernel));//konvoluutio ja unpadding
+          /*if ((inhomSpectr.inPlot.Lsurb || inhomSpectr.inPlot.Lurb || inhomSpectr.inPlot.Lgaus || inhomSpectr.inPlot.Lsech ) && inhomSpectr.inPlot.eV && inhomSpectr.inPlot.Se
+            && inhomSpectr.inPlot.fcv){
+            arrNormalize(inhomSpectr.plotArr);
           }*/
-          calcSpectr.inPlot.e = ($('#pltEpsilon').prop('checked'))? true : false;
-          calcSpectr.inPlot.jdos = ($('#pltJdos').prop('checked'))? true : false;
-          calcSpectr.inPlot.Se = ($('#pltSommerf').prop('checked')) ? true : false;
-          calcSpectr.inPlot.fcv = ($('#pltFcv').prop('checked')) ? true : false;
-          calcSpectr.inPlot.Lih = ($('#pltUrbach').prop('checked')) ? true : false;
-          calcSpectr.inPlot.Lsih = ($('#pltsUrbach').prop('checked')) ? true : false;
-          calcSpectr.inPlot.convo = false;
-          if ((calcSpectr.inPlot.e || calcSpectr.inPlot.jdos || calcSpectr.inPlot.Se || calcSpectr.inPlot.fcv)
-              && (calcSpectr.inPlot.Lih==true || calcSpectr.inPlot.Lsih==true)) {
-              calcSpectr.inPlot.convo = true;
-          }
-          //makeJdos();       //density of states
-          setLegend();
+        }
+        if ($("#pltNormalize").is(':checked')) {
+          arrNormalize(inhomSpectr.plotArr);
+        }
+        inhombr();
+      }
+
+      /*function normalizes convolution max value to 1
+      *
+      */
+      function arrNormalize(arr){
+        var n=arr.length;
+        var max = 0;
+        var i;
+        for (i = 0; i < n; i++) {
+          max = (arr[i] > max) ? max = arr[i] : max;
+        }
+        for (i = 0; i < n; i++) {
+          arr[i] = arr[i] / max;
+        }
+      }
+
+      $("#pltUrbach, #pltsUrbach, #pltGaussian, #pltSech").click(function(){
+        //selection for inhomogeneous broadening
+        if ($(this).attr('id') == 'pltUrbach' && $(this).prop('checked')==true) {
+          $('#pltsUrbach, #pltGaussian, #pltSech').prop('checked', false);//uncheck other broadenings:
+        }
+        if ($(this).attr('id') == 'pltsUrbach' && $(this).prop('checked')==true) {
+          $('#pltUrbach, #pltGaussian, #pltSech').prop('checked', false);//uncheck other broadenings:
+        }
+        if ($(this).attr('id') == 'pltGaussian' && $(this).prop('checked') == true) {
+          $('#pltUrbach, #pltsUrbach, #pltSech').prop('checked', false);//uncheck other broadenings:
+        }
+        if ($(this).attr('id') == 'pltSech' && $(this).prop('checked') == true) {
+          $('#pltUrbach, #pltGaussian, #pltsUrbach').prop('checked', false);//uncheck other broadenings:
+        }
+        setLegend();
+        calcInhom();
       });
 
-      $("#rangeok, #evetok, #jdosok, #exenhaok, #urbachok, #whatok").click(function(){
-          switch ($(this).attr('id')){
-              case 'rangeok':
-                  calcSpectr.eVstart=parseFloat($("#eVStart").spinner("value")).toFixed(3);
-                  calcSpectr.eVstop=parseFloat($("#eVStop").spinner("value")).toFixed(3);
-                  $("#eVStart").spinner("option", "value", calcSpectr.eVstart);
-                  $("#eVStop").spinner("option", "value", calcSpectr.eVstop);
-                  makespArr();       //recreate spectral array
-                  makeJdos();
-                  makeBoltz();       //recreate Boltzmann distribution
-                  makeSommer();
-                  makeLih();         //recreate Urbach distribution
-                  makeSymLih();
-                  calcPlotted();
+      $("#pltHomConv").click(function(){
+        if ($(this).is(':checked')){
+          homSpectr.inPlot.convo=true;
+        }else{
+          homSpectr.inPlot.convo=false;
+        }
+      });
+
+      //response inhomog checkbox change events:
+      $("#pltEpsilon, #pltJdos, #pltSommerf, #pltFcv, #pltUrbach, #pltsUrbach, #pltGaussian, #pltSech").change(function () {
+        inhomSpectr.inPlot.eV = ($('#pltEpsilon').prop('checked'))? true : false;
+        inhomSpectr.inPlot.jdos = ($('#pltJdos').prop('checked'))? true : false;
+        inhomSpectr.inPlot.Se = ($('#pltSommerf').prop('checked')) ? true : false;
+        inhomSpectr.inPlot.fcv = ($('#pltFcv').prop('checked')) ? true : false;
+        inhomSpectr.inPlot.Lurb = ($('#pltUrbach').prop('checked')) ? true : false;
+        inhomSpectr.inPlot.Lsurb = ($('#pltsUrbach').prop('checked')) ? true : false;
+        inhomSpectr.inPlot.Lgaus = ($('#pltGaussian').prop('checked')) ? true : false;
+        inhomSpectr.inPlot.Lsech = ($('#pltSech').prop('checked')) ? true : false;
+        inhomSpectr.inPlot.convo = false;
+        if ((inhomSpectr.inPlot.eV || inhomSpectr.inPlot.jdos || inhomSpectr.inPlot.Se
+          || inhomSpectr.inPlot.fcv) && (inhomSpectr.inPlot.Lurb==true || inhomSpectr.inPlot.Lsurb==true
+          || inhomSpectr.inPlot.Lgaus==true || inhomSpectr.inPlot.Lsech==true)) {
+          inhomSpectr.inPlot.convo = true;
+        }
+        //makeJdos();       //density of states
+        setLegend();
+        calcInhom();
+      });
+
+      //response to homog checkbox change events:
+      $("#pltLorentz, #pltDlorentz").change(function () {
+          var poksi = $(this).is(':checked'); //tai: var poksi=$(this).prop('checked'));
+          //First uncheck both checkboxes:
+          $('#pltLorentz, #pltDlorentz').prop('checked', false);
+          $(this).prop('checked', poksi);//sets only clicked back to chosen state:
+          if (!$(this).is(':checked')) {//valinnat ovat pois päältä
+              homSpectr.plotArr = [];
+          } else {
+            switch ($(this).attr('id')) {
+              case 'pltLorentz':
+                  if ($("#pltHomConv").is(':checked')) {//convolution plot:
+                      var kernel = makeFftKernel(Lorentz);//use Lorentzian function in kernel
+                      var signal = padArray(inhomSpectr.plotArr);
+                      homSpectr.plotArr = unPad(fftConvo(signal, kernel));
+                  } else {//only plot function
+                      broadFuns('Lorentz');
+                  }
                   break;
-              case 'evetok':
-                  makeBoltz();
-                  calcPlotted();
+              case 'pltDlorentz':
+                  if ($("#pltHomConv").is(':checked')) {//calculate and plot convolution:
+                      var kernel = makeFftKernel(Dlorentz);//use DLorentzian function in kernel
+                      var signal = padArray(inhomSpectr.plotArr);
+                      homSpectr.plotArr = unPad(fftConvo(signal, kernel));
+                      //arrNormalize(homSpectr.plotArr);
+                  } else {
+                      broadFuns('Dlorentz');
+                  }
                   break;
-              case 'jdosok':
-                  break;
-              case 'exenhaok':
-                  makeSommer();
-                  calcPlotted();
-                  break;
-              case 'urbachok':
-                  makeLih();
-                  calcPlotted();
-                  break;
-              case 'whatok':
-                  break;
+            }
           }
-          var parentti = $(this).parent();
-          parentti.css('display', 'none');
-          var onkojoku=0;
-          $('fieldset','#settnDial').each(function(){
-              var a=$(this).attr('style');
-              onkojoku += (a.search('block')>-1)? 1:0;
-              //fsetit.push([$(this).attr('id'),a]);
-          });
-          //if all fieldsets are closed close also dialogform:
-          $('#settnDial').dialog('close');
+          hombr(); //piirtää käyrän
+      });
+
+      $("#pltHomConv").click(function () {
+          homSpectr.inPlot.convo = ($(this).is(':checked'));
+      });
+
+      $("#pltHomConv").change(function () {
+        if (!($("#pltDlorentz").is(':checked')) && !($("#pltLorentz").is(':checked'))) {
+           homSpectr.plotArr = []; //kumpikaan leviämisfunktio ei ole valittuna
+        } else {//jompikumpi levenemisistä on valittuna
+            if (homSpectr.inPlot.convo==true) {//konvoluutio on valittuna
+                if ($("#pltLorentz").is(':checked')) {
+                    var kernel = makeFftKernel(Lorentz);//use Lorentzian function in kernel
+                } else {
+                    var kernel = makeFftKernel(Dlorentz);//use Dlorentzian function in kernel
+                }
+                var signal = padArray(inhomSpectr.plotArr);
+                homSpectr.plotArr = unPad(fftConvo(signal, kernel));
+            } else {//ei konvoluutiota vain toinen funktioista piirretään
+                if ($('#pltLorentz').is(':checked')) {
+                    broadFuns('Lorentz');
+                } else if ($('#pltDlorentz').is(':checked')){
+                    broadFuns('Dlorentz');
+                }
+            }
+        }
+        hombr();
+      });
+
+      $("#pltNormalize").change(function () {
+        //calcHom();
+        //hombr();
+        if ($(this).is(':checked')) {
+          arrNormalize(inhomSpectr.plotArr);
+          inhombr();
+        }else{
+          calcInhom();
+        }
+      });
+
+      function calcHom(){
+        //check if any of the broadening functions is checked
+        var broadSel = $('#pltLorentz').is(':checked');
+        broadSel = broadSel || $('#pltDlorentz').is(':checked');
+        if ($("#pltHomConv").is(':checked') && broadSel) {
+          //convolution calculated and plotted
+          if ($('#pltLorentz').is(':checked')) {
+            //use Lorentzian function in kernel
+            var kernel = makeFftKernel(Lorentz);
+            var signal = padArray(inhomSpectr.plotArr);
+          } else if ($('#pltDlorentz').is(':checked')) {
+            //use Dlorentz in kernel
+            var kernel = makeFftKernel(Dlorentz);
+            var signal = padArray(inhomSpectr.plotArr);
+          }
+            homSpectr.plotArr = unPad(fftConvo(signal, kernel));
+            //hombr();
+        } else {
+          //convolution not calculated only broadening function plotted
+          if ($('#pltLorentz').is(':checked')) {
+            broadFuns('Lorentz');
+          } else if ($('#pltDlorentz').is(':checked')) {
+            broadFuns('Dlorentz');
+          }
+        }
+        hombr();
+      }
+
+      function makeExpArrs(){
+        //treat experimental results for spectral range change;
+        var m = inhomExp.length; //data read from file
+        var n = homogExp.length; //data read from file
+        console.log('inhomExp.length: ',inhomExp.length);
+        console.log('homExp.length: ',homogExp.length);
+        var k = inhomSpectr.numPoints - 1;
+        console.log('experArr1.length: ',experArr1.length," m: ",m);
+        console.log('experArr2.length: ',experArr2.length," n: ",n);
+        experArr1 = [];
+        experArr2 = [];
+        for (var j = 0; j < m; j++) {
+          var tmp1 = [];
+          if (m > 0 && inhomExp[j][0] > inhomSpectr.eVarr[0] && inhomExp[j][0] < inhomSpectr.eVarr[k]) {
+            tmp1.push(inhomExp[j][0]);
+            tmp1.push(inhomExp[j][1]);
+            experArr1.push(tmp1);
+          }
+        }
+        for (var i=0;i<n;i++){
+          var tmp2 = [];
+          if (n > 0 && homogExp[i][0] > inhomSpectr.eVarr[0] && homogExp[i][0] < inhomSpectr.eVarr[k]) {
+            tmp2.push(homogExp[i][0]);
+            tmp2.push(homogExp[i][1]);
+            experArr2.push(tmp2);
+          }
+        }
+        //console.log('experArr1.length: ',experArr1.length);
+        //console.log('experArr2.length: ',experArr2.length);
+      }
+
+      $("#rangeok, #evetok, #jdosok, #exenhaok, #urbachok, #sUrbachok, #whatok").click(function(){
+        switch ($(this).attr('id')){
+          case 'rangeok':
+            inhomSpectr.eVstart=parseFloat($("#eVStart").spinner("value")).toFixed(3);
+            inhomSpectr.eVstop=parseFloat($("#eVStop").spinner("value")).toFixed(3);
+            $("#eVStart").spinner("option", "value", inhomSpectr.eVstart);
+            $("#eVStop").spinner("option", "value", inhomSpectr.eVstop);
+            makespArr();       //recreate spectral array
+            makeExpArrs();
+            makeJdos();
+            makeBoltz();       //recreate Boltzmann distribution
+            makeSommer();
+            calcInhom();
+            calcHom();
+
+            break;
+          case 'evetok':
+            makeBoltz();
+            calcInhom();
+            calcHom();
+            break;
+          case 'jdosok':
+            makeJdos();
+            calcInhom();
+            calcHom();
+            break;
+          case 'exenhaok':
+            makeSommer();
+            calcInhom();
+            calcHom();
+            break;
+          case 'urbachok':
+          case 'sUrbachok':
+            calcInhom();
+            calcHom();
+            break;
+          case 'whatok':
+            break;
+        }
+        var parentti = $(this).parent();
+        parentti.css('display', 'none');
+        var onkojoku=0;
+        $('fieldset','#settnDial').each(function(){
+          var a=$(this).attr('style');
+          onkojoku += (a.search('block')>-1)? 1:0;
+        });
+        //if all fieldsets are closed close also dialogform:
+        $('#settnDial').dialog('close');
           if (onkojoku>0) {
-              $('#settnDial').dialog('open');
-              setJdosRadio();
-              setQwRadio();
+            $('#settnDial').dialog('open');
+            setJdosRadio();
+            setQwRadio();
           }
       });
+
+      $("#lorentzok").click(function(){
+        $("#spLorentz").css('display','none');
+      });
+
+      $("#dlorentzok").click(function () {
+        $("#spDlorentz").css('display', 'none');
+      });
+
+      $("#gaussianok").click(function () {
+        $("#spGaussian").css('display', 'none');
+      });
+
+      $("#sechok").click(function () {
+        $("#spSech").css('display', 'none');
+      });
+
       $('#hrefEpsilon').click(function(){
         $("#spRange").css('display','block');
         $("#settnDial").dialog("close");
         $("#settnDial").dialog("open");
         setJdosRadio();
       });
+
       $('#hrefJdos').click(function () {
         $("#spJdos").css('display','block');
         $("#settnDial").dialog("close");
         $("#settnDial").dialog("open");
         setJdosRadio();
       });
+
       $('#hrefSommerf').click(function(){
         $("#exEnha").css('display','block');
         $("#settnDial").dialog("close");
@@ -1090,27 +1883,64 @@ block levenee
         setJdosRadio();
         setQwRadio();
       });
-      $('#hrefExcito').click(function () {
+
+      $('#hrefTransito').click(function () {
+        //click on transition energy title
         $("#eg_et").css('display','block');
         $("#settnDial").dialog("close");
         $("#settnDial").dialog("open");
         setJdosRadio();
         setQwRadio();
       });
-      $('#hrefUrbach, #hrefsUrbach').click(function () {
-        $("#spUrbach").css('display','block');
+
+      $('#hrefUrbach, #hrefsUrbach, #hrefLorentz, #hrefdLorentz, #hrefGaussian, #hrefSech').
+      click(function (eventData) {
+        var targClick=eventData.target.id;
+        $("#spSurbach").css('display', 'none');
+        $("#spUrbach").css('display', 'none');
+        $("#spDlorentz").css('display', 'none');
+        $("#spLorentz").css('display', 'none');
+        $("#spGaussian").css('display', 'none');
+        $("#spSech").css('display', 'none');
         $("#settnDial").dialog("close");
+        switch (targClick) {
+            case 'hrefUrbach':
+                $("#spUrbach").css('display', 'block');
+                break;
+            case 'hrefsUrbach':
+                $("#spSurbach").css('display', 'block');
+                break;
+            case 'hrefLorentz':
+                $("#spLorentz").css('display', 'block');
+                break;
+            case 'hrefdLorentz':
+                $("#spDlorentz").css('display', 'block');
+                break;
+            case 'hrefGaussian':
+                $("#spGaussian").css('display', 'block');
+                break;
+            case 'hrefSech':
+                $("#spSech").css('display', 'block');
+                break;
+        }
         $("#settnDial").dialog("open");
-        setJdosRadio();
       });
-      // Add the Flot version string to the footer
 
       //Tabs-6, 7 & 8 Handler for input-file, for reading local files:
       $("#emisLocFiles").on("change", function () {
-          var selected_file = '';
-          selected_file = $('#emisLocFiles').get(0).files[0];
-          if (!selected_file) return;
-          ReadLocFle(selected_file, gotEmisFile);
+        //alert('file input toimii ok');
+        var selected_file = '';
+        selected_file = $('#emisLocFiles').get(0).files[0];
+        if (!selected_file) return;
+        var dialoogi= $('#settnDial').dialog('option','title');
+        //console.log('dialoogi: ',dialoogi);
+        if (dialoogi=='Inhomogeneous spectrum'){
+          ReadLocFle(selected_file, gotInhomFile);
+        }else if(dialoogi=='Homogeneous spectrum'){
+          ReadLocFle(selected_file, gotHomogFile);
+        }
       });
 
       $("#footer").prepend("Flot graph" + $.plot.version + " &ndash; ");
+
+

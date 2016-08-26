@@ -155,7 +155,7 @@ $(function() {
     });
 //Set datatables jquery widget defaults:
 //observe: dataTables uses jquery interface, but DataTables (with capital D) has it's own interface
-    $.extend($.fn.dataTable.defaults, {
+    $.extend($.fn.DataTable.defaults, {
         "bPaginate": true,
         "bLengthChange": true,
         "bFilter": true,
@@ -370,13 +370,17 @@ $(function() {
         },
         "callback": function (value, settings) {
             //kelpuutetun uuden arvon prosessointi:
-            var aPos = oStackTable.fnGetPosition(this);
+            //var aPos = oStackTable.fnGetPosition(this);
+            var aPos = oStackTable.cell(this)[0][0];
             //kakkossarakkeeseen tulee valitun materiaalin nimi
-            stackArr[aPos[0]][aPos[1]] = value;
-            stack.Layers[aPos[0]][aPos[1]] = value;  //aPos[1]=1; p.o. toinen sarake
+            stackArr[aPos["row"]][aPos["column"]] = value;
+            stack.Layers[aPos["row"]][aPos["column"]] = value;  //aPos[1]=1; p.o. toinen sarake
             //console.log('stack.Layers[aPos[0]][aPos[1]]: ',value);
-            oStackTable.fnClearTable();
-            oStackTable.fnAddData(stackArr);
+            //oStackTable.fnClearTable();
+            oStackTable.clear();
+            //oStackTable.fnAddData(stackArr);
+            oStackTable.rows.add(stackArr);
+            oStackTable.draw();
             updNKspArra();
             updRTspArra();
             updGraph();
@@ -491,14 +495,18 @@ $(function() {
             submit: 'OK',       //text on submit button
             callback: function (value, settings) {//is called once editable is submitted
                 //processing the newly obtained thickness:
-                var aPos = oStackTable.fnGetPosition(this);
-                stackArr[aPos[0]][aPos[1]] = value; //aPos[1]=2; p.o. toinen l. paksuussarake
+                //var aPos = oStackTable.fnGetPosition(this);
+                var aPos = oStackTable.cell(this)[0][0];
+                stackArr[aPos["row"]][aPos["column"]] = value; //aPos[1]=2; p.o. toinen l. paksuussarake
                 //console.log('aPos[0]: '+aPos[0]+' aPos[1]: '+aPos[1]+' value: '+value);
-                stack.Layers[aPos[0]][aPos[1]] = value;
-                stack.Layers[aPos[0]][4] = value; //tallennetaan myös peruutussarakkeeseen
+                stack.Layers[aPos["row"]][aPos["column"]] = value;
+                stack.Layers[aPos["row"]][4] = value; //tallennetaan myös peruutussarakkeeseen
                 //console.log('stack.Layers: ',stack.Layers);
-                oStackTable.fnClearTable();
-                oStackTable.fnAddData(stackArr);
+                //oStackTable.fnClearTable();
+                oStackTable.clear();
+                //oStackTable.fnAddData(stackArr);
+                oStackTable.rows.add(stackArr);
+                oStackTable.draw();
                 updNKspArra();
                 updRTspArra();
                 updGraph();
@@ -535,13 +543,17 @@ $(function() {
             submit: 'OK',
             checkbox: {trueValue: 'Yes', falseValue: 'No' },
             callback: function (value, settings) {//runs on submit
-                var aPos = oStackTable.fnGetPosition(this); //gets the selected cell in the table:
-                stackArr[aPos[0]][aPos[1]] = value;         //gets checkbox value: Yes/No
+                //var aPos = oStackTable.fnGetPosition(this); //gets the selected cell in the table:
+                var aPos = oStackTable.cell(this)[0][0]; //gets the selected cell in the table:
+                stackArr[aPos["row"]][aPos["column"]] = value;         //gets checkbox value: Yes/No
                 //console.log('aPos[0]: '+aPos[0]+' aPos[1]: '+aPos[1]+' value: '+value);
-                stack.Layers[aPos[0]][aPos[1]] = value;
-                stack.Layers[aPos[0]][4]=stackArr[aPos[0]][2]; //save start value for revertion
-                oStackTable.fnClearTable();
-                oStackTable.fnAddData(stackArr); //redraws stack on browser
+                stack.Layers[aPos["row"]][aPos["column"]] = value;
+                stack.Layers[aPos["row"]][4]=stackArr[aPos["row"]][2]; //save start value for revertion
+                //oStackTable.fnClearTable();
+                oStackTable.clear();
+                //oStackTable.fnAddData(stackArr); //redraws stack on browser
+                oStackTable.rows.add(stackArr); //redraws stack on browser
+                oStackTable.draw();
                 var jj=stackArr.length;
                 var tuneds = false;
                 for (var j=0;j<jj;j++){ //check if atleast one tuning checkbox has 'Yes'
@@ -563,6 +575,7 @@ $(function() {
         // clicked element will also be set as selected: now 'td' gets selected but 'tr' remains unselected
         var layerCount = stackArr.length;
         var rowIndex = $(this).parent().index();
+        //console.log('oStackTable rowIndex: ',rowIndex);
         EnDisButt('Disabled', '#btnAddFilm');
         EnDisButt('Disabled', '#btnDelFilm');
         if ($(this).closest('tr').hasClass('row_selected')) {
@@ -594,7 +607,8 @@ $(function() {
         //console.log("kalvoja: " + layerCount);
         uusFilm = [];
         var anSelected = fnGetSelected(oStackTable);
-        var rowIndex = oStackTable.fnGetPosition($(anSelected).closest('tr')[0]);
+        //var rowIndex = oStackTable.fnGetPosition($(anSelected).closest('tr')[0]);
+        var rowIndex = oStackTable.row($(anSelected).closest('tr')[0]).index();
         if (anSelected.length !== 0 && rowIndex !== 0) {//Ylin kerros on indeksillä 0, sen päälle ei saa lisätä
             uusFilm = [" ", "Select material", "0", "no",0]; //viimeinen nolla on paksuus peruutusta varten
             stackArr.splice(rowIndex, 0, uusFilm);
@@ -603,8 +617,11 @@ $(function() {
                 stackArr[i][0] = "Film#: " + (layerCount - i);
                 stack.Layers[i][0]="Film#: " + (layerCount - i);
             }
-            oStackTable.fnClearTable();
-            oStackTable.fnAddData(stackArr);
+            //oStackTable.fnClearTable();
+            oStackTable.clear();
+            //oStackTable.fnAddData(stackArr);
+            oStackTable.rows.add(stackArr);
+            oStackTable.draw();
         }
         stackArr.ready=false;
     });
@@ -615,15 +632,19 @@ $(function() {
         EnDisButt('Disabled', '#btnDelFilm');
         var anSelected = fnGetSelected(oStackTable);
         if (anSelected.length !== 0 && stackArr.length > 2) {
-            var rowIndex = oStackTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            //var rowIndex = oStackTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            var rowIndex = oStackTable.row($(anSelected).closest('tr')[0]).index();
             stackArr.splice(rowIndex, 1); //removes one row at rowIndex
             stack.Layers.splice(rowIndex, 1);
             for (var i = 1; i < layerCount - 2; i++) {
                 stackArr[i][0] = "Film#: " + (layerCount - 2 - i);
                 stack.Layers[i][0] = "Film#: " + (layerCount - 2 - i);
             }
-            oStackTable.fnClearTable();
-            oStackTable.fnAddData(stackArr);
+            //oStackTable.fnClearTable();
+            oStackTable.clear();
+            //oStackTable.fnAddData(stackArr);
+            oStackTable.rows.add(stackArr);
+            oStackTable.draw();
             updNKspArra();
             updRTspArra();
             updGraph();
@@ -718,8 +739,11 @@ $(function() {
 //Tabs-7: alustetaan reflectanssitargetti:
     //targArr = splitToArr(targStr);
     createTargEditTable(); //voisi nimet� paremmin, kun luodaan otargTable
-    otargTable.fnClearTable();
-    otargTable.fnAddData(targArr.slice(1));
+    //otargTable.fnClearTable();
+    otargTable.clear();
+    //otargTable.fnAddData(targArr.slice(1));
+    otargTable.rows.add(targArr.slice(1));
+    otargTable.draw();
     //RorT = targArr[0][1];
     plotRT(targArr, 7);//tämäkö
     otargTable.on('click contextmenu', 'td', function (evt) {
@@ -783,12 +807,16 @@ $(function() {
             },
             "callback": function (value, settings) {
                 //kelpuutetun uuden arvon prosessointi:
-                var aPos = otargTable.fnGetPosition(this);
-                targArr[aPos[0] + 1][aPos[1]] = value;
+                //var aPos = otargTable.fnGetPosition(this);
+                var aPos = otargTable.cell(this)[0][0];
+                targArr[aPos["row"] + 1][aPos["column"]] = value;
                 //sort the array after new data:
                 targArr = sorttaa(targArr);
-                otargTable.fnClearTable();
-                otargTable.fnAddData(targArr.slice(1));
+                //otargTable.fnClearTable();
+                otargTable.clear();
+                //otargTable.fnAddData(targArr.slice(1));
+                otargTable.rows.add(targArr.slice(1));
+                otargTable.draw();
                 plotRT(targArr, 7);//tämäkö?
                 $('#ediTarge').val('Unsaved target');
                 $('#descTarge').val('Edited target data');
@@ -817,17 +845,22 @@ $(function() {
         var rowS = targArr.length;
         var rowIndex;
         if (anSelected.length !== 0 && rowS > 1) {
-            rowIndex = otargTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            //rowIndex = otargTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            rowIndex = otargTable.row($(anSelected).closest('tr')[0]).index();
             targArr.splice(rowIndex + 1, 1);
-            otargTable.fnClearTable();
-            otargTable.fnAddData(targArr.slice(1));
+            //otargTable.fnClearTable();
+            otargTable.clear();
+            //otargTable.fnAddData(targArr.slice(1));
+            otargTable.row.add(targArr.slice(1));
+            otargTable.draw();
             plotRT(targArr, 7); //tämäkö?
             $('#ediTarge').val('Unsaved target data');
             $('#descTarge').val('Edited target data');
             EnDisButt('Disabled', '#btnUseTarg');
             //RTPlot(targArr, 7);
         }else {
-            rowIndex = otargTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            //rowIndex = otargTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            rowIndex = otargTable.row($(anSelected).closest('tr')[0]).index();
             alert("Cannot remowe row No: " + rowIndex + " !");
         }
         EnDisButt('Disabled', '#btnDelTargRow');
@@ -841,12 +874,16 @@ $(function() {
         var anSelected = fnGetSelected(otargTable);
         var rowIndex;
         if (anSelected.length !== 0) {
-            rowIndex = oMatTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            //rowIndex = oMatTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            rowIndex = oMatTable.row($(anSelected).closest('tr')[0]).index();
             uusDat = [anSelected.find('td:eq(0)').html(), "0.0"];
             targArr.splice(rowIndex + 1, 0, uusDat);
             targArr = sorttaa(targArr);
-            otargTable.fnClearTable();
-            otargTable.fnAddData(targArr.slice(1));
+            //otargTable.fnClearTable();
+            otargTable.clear();
+            //otargTable.fnAddData(targArr.slice(1));
+            otargTable.rows.add(targArr.slice(1));
+            otargTable.draw();
             plotRT(targArr, 7);//tämäkö?
             $('#ediTarge').val('Unsaved target data');
             $('#descTarge').val('Edited target data');
@@ -861,7 +898,8 @@ $(function() {
     oTargOptTable.on('click', 'td', function (evt) {
         //huom ei toimi jos 'td':n sijalla 'tr' (klikattu rivi on aina selected)
         //valittu target spektri graafiin ja editointitaulukkoon:
-        var rowIndex=oTargOptTable.fnGetPosition($(this).closest('tr')[0]);
+        //var rowIndex=oTargOptTable.fnGetPosition($(this).closest('tr')[0]);
+        var rowIndex=oTargOptTable.row($(this).closest('tr')[0]).index();
         targArr=[];//suora:'targArr=stack.Targets[rowIndex].Data' tekee editoinnit suoraan stackiin
         var n=stack.Targets[rowIndex].Data.length;
         for (var i=0;i<n;i++){
@@ -876,8 +914,11 @@ $(function() {
         plotRT(targArr, 7); //vaihdettiin graafiin, vielä input bokseihin:
         $('#descTarge').val((targArr[0][3])? matrlArr[0][3]:'');
         $('#ediTarge').val(stack.Targets[rowIndex].File);
-        otargTable.fnClearTable(); //laitetaan taulukkoon:
-        otargTable.fnAddData(targArr.slice(1)); //poistettiin otsikkorivi, muutetaan aallonpituusyksikkö:
+        //otargTable.fnClearTable(); //laitetaan taulukkoon:
+        otargTable.clear(); //laitetaan taulukkoon:
+        //otargTable.fnAddData(targArr.slice(1)); //poistettiin otsikkorivi, muutetaan aallonpituusyksikkö:
+        otargTable.rows.add(targArr.slice(1)); //poistettiin otsikkorivi, muutetaan aallonpituusyksikk
+        otargTable.draw();
         $('#targEditTabl').find('th:eq(0)').text("Unit [" + targArr[0][0] + "]");
 
         if ($(this).closest('tr').hasClass('row_selected')) {
@@ -916,10 +957,13 @@ $(function() {
             var menuName=menuTitle(targtFileNme);
             addTo_specOpts(targtFileNme, menuName, owneri, targArr);
             trgOptsArr = makeOptsArr(stack.Targets);
-            oTargOptTable.fnClearTable();
+            //oTargOptTable.fnClearTable();
+            oTargOptTable.clear();
             rivit = trgOptsArr.length;
             if (rivit > 0) {
-                oTargOptTable.fnAddData(trgOptsArr);
+                //oTargOptTable.fnAddData(trgOptsArr);
+                oTargOptTable.rows.add(trgOptsArr);
+                oTargOptTable.draw();
             }
         }
         StackTargSelUpd();
@@ -936,12 +980,16 @@ $(function() {
         if (anSelected.length !== 0 && stack.Targets.length > 0) {
             var rowIndex;
             var tmpRow;
-            rowIndex = oTargOptTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            //rowIndex = oTargOptTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            rowIndex = oTargOptTable.row($(anSelected).closest('tr')[0]).index();
             stack.Targets.splice(rowIndex, 1);
             targOptsArr = makeOptsArr(stack.Targets);
-            oTargOptTable.fnClearTable();
+            //oTargOptTable.fnClearTable();
+            oTargOptTable.clear();
             if (targOptsArr.length > 0) {
-                oTargOptTable.fnAddData(targOptsArr)
+                //oTargOptTable.fnAddData(targOptsArr)
+                oTargOptTable.rows.add(targOptsArr);
+                oTargOptTable.draw();
             }
         }
         StackTargSelUpd();
@@ -978,12 +1026,15 @@ $(function() {
             "callback": function (value, settings) {
                 //uuden arvon prosessointi taulukkoon:
                 var targOptsArr = [];
-                var aPos = oTargOptTable.fnGetPosition(this);
-                stack.Targets[aPos[0]].Name = value;
+                //var aPos = oTargOptTable.fnGetPosition(this);
+                var aPos = oTargOptTable.cell(this)[0][0];
+                stack.Targets[aPos["row"]].Name = value;
                 targOptsArr = makeOptsArr(stack.Targets);
                 if (targOptsArr.length > 0) {
-                    oTargOptTable.fnClearTable();
-                    oTargOptTable.fnAddData(targOptsArr);
+                    //oTargOptTable.fnClearTable();
+                    oTargOptTable.clear();
+                    //oTargOptTable.fnAddData(targOptsArr);
+                    oTargOptTable.rows.add(targOptsArr);
                 }
             },
             "height": "14px",
@@ -1002,8 +1053,11 @@ $(function() {
     //matrlArr = splitToArr(matrlStr);
     plotNK(matrlArr, 8);//tämäkö
     createMatEditTable(); //Voisi olla parempi funktion nimi; luodaan oMatTable
-    oMatTable.fnClearTable();
-    oMatTable.fnAddData(matrlArr.slice(1));
+    //oMatTable.fnClearTable();
+    oMatTable.clear();
+    //oMatTable.fnAddData(matrlArr.slice(1));
+    oMatTable.rows.add(matrlArr.slice(1));
+    oMatTable.draw();
     /* lis�t��n click handler riveille
     * Jotta handler toimii my�s j�ljest� lis�ttyjen rivien kanssa
     * pit�� k�ytt�� .on('click',.....) tyyli�, kuten alla.
@@ -1087,9 +1141,12 @@ $(function() {
             }
             addTo_matOpt(matrlFileNme, menuName, owneri, matrlArr);
             matOptsArr = makeOptsArr(stack.Materials);
-            oMatOptTable.fnClearTable();
+            //oMatOptTable.fnClearTable();
+            oMatOptTable.clear();
             if (matOptsArr.length > 0) {
-                oMatOptTable.fnAddData(matOptsArr);
+                //oMatOptTable.fnAddData(matOptsArr);
+                oMatOptTable.rows.add(matOptsArr);
+                oMatOptTable.draw();
             }
         }
     });
@@ -1106,7 +1163,8 @@ $(function() {
         //huom ei toimi jos 'td':n sijalla 'tr' (klikattu rivi on aina selected)
 
         //klikattu materiaali graafiin ja editointitaulukkoon:
-        var rowIndex=oMatOptTable.fnGetPosition($(this).closest('tr')[0]);
+        //var rowIndex=oMatOptTable.fnGetPosition($(this).closest('tr')[0]);
+        var rowIndex=oMatOptTable.row($(this).closest('tr')[0]).index();
         matrlArr=[];//suora:'matrlArr=stack.Materials[rowIndex].Data' tekee editoinnit suoraan stackiin
         var n=stack.Materials[rowIndex].Data.length;
         for (var i=0;i<n;i++){
@@ -1121,8 +1179,11 @@ $(function() {
         plotNK(matrlArr, 8); //vaihdettiin graafiin, input bokseihin:
         $('#descMater').val((matrlArr[0][3])? matrlArr[0][3]:'');
         $('#ediMater').val(stack.Materials[rowIndex].File);
-        oMatTable.fnClearTable(); //laitetaan taulukkoon:
-        oMatTable.fnAddData(matrlArr.slice(1)); //poistettiin otsikkorivi, muutetaan aallonpituusyksikkö:
+        //oMatTable.fnClearTable(); //laitetaan taulukkoon:
+        oMatTable.clear(); //laitetaan taulukkoon:
+        //oMatTable.fnAddData(matrlArr.slice(1)); //poistettiin otsikkorivi, muutetaan aallonpituusyksikkö:
+        oMatTable.rows.add(matrlArr.slice(1)); //poistettiin otsikkorivi, muutetaan aallonpituusyksikk
+        oMatTable.draw();
         $('#matEditTabl').find('th:eq(0)').text("Unit [" + matrlArr[0][0] + "]");
 
         //enabloidaan/disabloidaan poistonappula:
@@ -1140,12 +1201,16 @@ $(function() {
         EnDisButt('Disabled','#btnUseMat');
         var anSelected = fnGetSelected(oMatOptTable);
         if (anSelected.length !== 0 && stack.Materials.length > 0) {
-            var rowIndex = oMatOptTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            //var rowIndex = oMatOptTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            var rowIndex = oMatOptTable.row($(anSelected).closest('tr')[0]).index();
             stack.Materials.splice(rowIndex, 1);
             matOptsArr = makeOptsArr(stack.Materials);
-            oMatOptTable.fnClearTable();
+            //oMatOptTable.fnClearTable();
+            oMatOptTable.clear();
             if (matOptsArr.length > 0) {
-                oMatOptTable.fnAddData(matOptsArr);
+                //oMatOptTable.fnAddData(matOptsArr);
+                oMatOptTable.rows.add(matOptsArr);
+                oMatOptTable.draw();
             }
         }
             //console.log('stack.Materials: ',stack.Materials);
@@ -1181,12 +1246,16 @@ $(function() {
         "callback": function (value, settings) {
             //kelpuutetun uuden arvon prosessointi taulukkoon:
             var matOptsArr = [];
-            var aPos = oMatOptTable.fnGetPosition(this);
-            stack.Materials[aPos[0]].Name = value;
+            //var aPos = oMatOptTable.fnGetPosition(this);
+            var aPos = oMatOptTable.cell(this)[0][0];
+            stack.Materials[aPos["row"]].Name = value;
             matOptsArr = makeOptsArr(stack.Materials);
                 if (matOptsArr.length > 0) {
-                    oMatOptTable.fnClearTable();
-                    oMatOptTable.fnAddData(matOptsArr);
+                    //oMatOptTable.fnClearTable();
+                    oMatOptTable.clear();
+                    //oMatOptTable.fnAddData(matOptsArr);
+                    oMatOptTable.rows.add(matOptsArr);
+                    oMatOptTable.draw();
                 }
         },
         "height": "14px",
@@ -1257,16 +1326,21 @@ $(function() {
         var rowS = matrlArr.length - 1;
         var rowIndex;
         if (anSelected.length !== 0 && rowS > 1) {
-            rowIndex = oMatTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            //rowIndex = oMatTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            rowIndex = oMatTable.row($(anSelected).closest('tr')[0]).index();
             matrlArr.splice(rowIndex + 1, 1);
-            oMatTable.fnClearTable();
-            oMatTable.fnAddData(matrlArr.slice(1));
+            //oMatTable.fnClearTable();
+            oMatTable.clear();
+            //oMatTable.fnAddData(matrlArr.slice(1));
+            oMatTable.rows.add(matrlArr.slice(1));
+            oMatTable.draw();
             $('#matEditTabl').find('th:eq(0)').text("Wavel. [" + matrlArr[0][0] + "]");
             plotNK(matrlArr, 8); //tämäkö?
             $('#ediMater').val('Unsaved material');
             $('#descMater').val('Edited material data');
         }else {
-            rowIndex = oMatTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            //rowIndex = oMatTable.fnGetPosition($(anSelected).closest('tr')[0]);
+            rowIndex = oMatTable.row($(anSelected).closest('tr')[0]).index();
             alert("Cannot remowe row No: " + rowIndex + " !");
         }
         EnDisButt('Disabled', '#btnDelMatRow');
@@ -1279,14 +1353,18 @@ $(function() {
         uusDat = [];
         var anSelected = fnGetSelected(oMatTable);
         EnDisButt('Disabled','#btnUseMat');
-        rowIndex = oMatTable.fnGetPosition($(anSelected).closest('tr')[0]);
+        //rowIndex = oMatTable.fnGetPosition($(anSelected).closest('tr')[0]);
+        rowIndex = oMatTable.row($(anSelected).closest('tr')[0]).index();
         if (anSelected.length !== 0) {
             uusDat = [anSelected.find('td:eq(0)').html(), "n", "k"];
             matrlArr.splice(rowIndex + 1, 0, uusDat);
             //sortataan data aallonpituuden mukaan:
             matrlArr = sorttaa(matrlArr);
-            oMatTable.fnClearTable();
-            oMatTable.fnAddData(matrlArr.slice(1));
+            //oMatTable.fnClearTable();
+            oMatTable.clear();
+            //oMatTable.fnAddData(matrlArr.slice(1));
+            oMatTable.rows.add(matrlArr.slice(1));
+            oMatTable.draw();
             $('#matEditTabl').find('th:eq(0)').text("Wavel. [" + matrlArr[0][0] + "]");
             plotNK(matrlArr, 8);
             $('#ediMater').val('Unsaved material');
@@ -1321,11 +1399,15 @@ $(function() {
         },
         "callback": function (value, settings) {
             //kelpuutetun uuden arvon prosessointi:
-            var aPos = oMatTable.fnGetPosition(this);
-            matrlArr[aPos[0] + 1][aPos[1]] = value;
+            //var aPos = oMatTable.fnGetPosition(this); deprecated datTables liittymässä
+            var aPos = oMatTable.cell(this)[0][0];
+            matrlArr[aPos["row"] + 1][aPos["column"]] = value;
             matrlArr = sorttaa(matrlArr);
-            oMatTable.fnClearTable();
-            oMatTable.fnAddData(matrlArr.slice(1));
+            //oMatTable.fnClearTable();
+            oMatTable.clear();
+            //oMatTable.fnAddData(matrlArr.slice(1));
+            oMatTable.rows.add(matrlArr.slice(1));
+            oMatTable.draw();
             $('#matEditTabl').find('th:eq(0)').text("Wavel. [" + matrlArr[0][0] + "]");
             plotNK(matrlArr, 8);
             $('#ediMater').val('Unsaved material');
@@ -1350,36 +1432,7 @@ $(function() {
     }
     //var regex = /Film-No:\s[0-9]+/g;
 
-//Tabs-6, 7 & 8 Handler for input-file, for reading local files:
-    $("#matLocFiles, #targLocFiles, #stackLocFiles").on("change", function () {
-        var selected_file = '';
-        switch (this.id) {
-            case 'matLocFiles':
-                selected_file = $('#matLocFiles').get(0).files[0];
-                if (!selected_file) return;
-                //matrlFileNme = selected_file.name;
-                $("#ediMaterLbl").text("Local File: ");
-                //console.log('this.value: '+this.value);
-                $('#ediMater').val(this.value);
-                break;
-            case 'targLocFiles':
-                selected_file = $('#targLocFiles').get(0).files[0];
-                if (!selected_file) return;
-                $('#ediTarge').val(selected_file.name);
-                $("#ediTargeLbl").text("Local File:");
-                break;
-            case 'stackLocFiles':
-                //#stackLocFiles is hidden 'file input' on Tabs-6
-                selected_file = $('#stackLocFiles').get(0).files[0];
-                //console.log('selected stack file:',selected_file);
-                if (!selected_file) return;
-                $('#ediStack').val(selected_file.name);
-                $("#ediStackLbl").text("Local File:");
-                break;
-        }
-        //Read local file with callback:
-        ReadLocFle(selected_file, gotTextFile);
-    });
+
 
     function sorttaa(aRRay) {
         var tmpR1 = aRRay.slice(0, 1); //t�ss� vain ensimm�inen rivi
@@ -1436,6 +1489,38 @@ $(function() {
         //plotNK(matrlArr, 8);
         //ToDo:check resize-scaling in stack plot
     });
+
+    //Tabs-6, 7 & 8 Handler for input-file, for reading local files:
+    //p.o. tässä document ready functionin alla muuten ei toimi
+    $("#matLocFiles, #targLocFiles, #stackLocFiles").on("change", function () {
+        //$("#matLocFiles").change(function () {
+        var selected_file = '';
+        switch (this.id) {
+            case 'matLocFiles':
+                selected_file = $('#matLocFiles').get(0).files[0];
+                if (!selected_file) return;
+                //matrlFileNme = selected_file.name;
+                $("#ediMaterLbl").text("Local File: ");
+                $('#ediMater').val(this.value);
+                break;
+            case 'targLocFiles':
+                selected_file = $('#targLocFiles').get(0).files[0];
+                if (!selected_file) return;
+                $('#ediTarge').val(selected_file.name);
+                $("#ediTargeLbl").text("Local File:");
+                break;
+            case 'stackLocFiles':
+                //#stackLocFiles is hidden 'file input' on Tabs-6
+                selected_file = $('#stackLocFiles').get(0).files[0];
+                if (!selected_file) return;
+                $('#ediStack').val(selected_file.name);
+                $("#ediStackLbl").text("Local File:");
+                break;
+        }
+        //Read local file with callback:
+        ReadLocFle(selected_file, gotTextFile);
+    });
+
 });
 //***********************************************************************
 //**End of document ready  jQuery  function
@@ -1450,8 +1535,11 @@ function tuneOneTime(){
             //stack.Layers[i][2]=stackArr[i][2];
         }
     }
-    oStackTable.fnClearTable();
-    oStackTable.fnAddData(stackArr);
+    //oStackTable.fnClearTable();
+    oStackTable.clear();
+    //oStackTable.fnAddData(stackArr);
+    oStackTable.rows.add(stackArr);
+    oStackTable.draw();
     var diffs=evalDif();
     $('#tuneVar').val(diffs.difVar);
     $('#tuneDif').val(diffs.difAve);
