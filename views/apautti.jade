@@ -1,10 +1,10 @@
 extends layout
 
 block content
-  h1 This site uses cloud downloadable software, which then runs locally on your browser
+  h1 This site uses cloud downloadable software running locally on your browser
   p
     h3(style="color:green") Advantage potential in this concept:
-    b  You should consider at least the following benefits:
+    b  Consider at least the following benefits:
     br
     |  -  Ease of softwre distribution and deployment,
     br
@@ -14,7 +14,7 @@ block content
     br
     |     and hardware (pc, laptop, tablet or phone),
     br
-    |  -  Application support and maintenance work is greatly simplified,
+    |  -  Application support and maintenance efforts are greatly simplified,
     br
     |   since only one software version (the one on server) needs to be supported and updated.
     h3(style="color:green") Application structure:
@@ -22,9 +22,9 @@ block content
     | The interaction between these two takes place through server responses to the requests send by the user's web browser.
     h4 Server side program:
     | Server software is normally located on a remote machine, but for offline access and program development purposes it can
-    | as well be assembled on the local machine, 'local host' storing all the required HTML pages and resources.
+    | as well be assembled on the local machine. In that case 'local host' stores all the required HTML pages and resources.
     br
-    | After processing the requests coming from the client's browser, the server sends back responses with dynamic content.
+    | After processing the requests coming from client's browser, the server sends back responses with dynamic content.
     | Programs on the server machine are based on a specific web-framework system, the developer chose before beginning
     | the development process. Several alternatives are available for the web-framework.
     br
@@ -103,22 +103,28 @@ block content
     br
     | - user messages and comments with moderation
     h3(style="color:green") Conclusions:
-    | It turned out that Node.js runtime fits nicely to this kind of applications,
+    | It turned out that Node.js runtime fits nicely to applications,
     | where major part of data processing is performed locally in the browser on the client's pc.
     | Network speed didn't cause any issues on the available, low speed (<10Mbit/s) connection.
     br
     | Coding in javascript is fast and easy enough, with a vast number of MIT licensed widgets and components
     | downloadable directly from the web. A major difference to 'traditional programming work' is the frequent
-    | use of callback structures, which is necessary to maintain the user interface responsiveness during data
-    | requests from the server. The software on the browser runs in a single string, but the asynchronous
-    | operation of the callback loops comes with increased coding and debugging difficulty.
+    | use of
+    -cb_url="https://en.wikipedia.org/wiki/Callback_(computer_programming)"
+    a(href="#{cb_url}" target="_blank")  callback structures
+    |     , which are necessary to maintain user interface responsiveness during data
+    | requests from the server. The software on the browser runs in a single string, but the
+    -async_url="http://code.tutsplus.com/tutorials/event-based-programming-what-async-has-over-sync--net-30027"
+    a(href="#{async_url}" target="_blank")  asynchronous
+    |     nature of the callback loops comes with increased coding and debugging difficulties.
     br
-    | Practically all modern computers are equipped with internet access. With the already named conceptual benefits
-    | it is very obvious that 'browser based software' will become more and more frequent, decreasing the
+    | Practically all modern computers are equipped with internet access. Admitting the already named conceptual benefits
+    | it is very obvious that 'browser based software' will become more and more frequent, and decrease the
     | the number of traditional, locally installed programs.
     br
-    | As a final and convincing example you might consider software development environments, that earlier were among the heaviest
-    | locally assembled software components and now are directly available on the web browser with minimal local installations.
+    b(style="color:green") As a final and convincing example
+    |   you might consider software development environments, that earlier were among the heaviest
+    | locally assembled software products, but now are directly available on the web browser with minimal local installations.
     | (see for example:
     -Cloud9_url="https://c9.io/"
     a(href="#{Cloud9_url}" target="_blank")  - Cloud9 development environment in the cloud
