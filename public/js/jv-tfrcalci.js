@@ -795,8 +795,6 @@ $(function() {
             onsubmit: function (settings, td) {
                 var input = $(td).find('input');
                 var original = input.val();
-                //console.log('targ edited : '+original);
-                //console.log('targ edited is numeric: '+isNumeric(original));
                 return isNumeric(original);
                 // if (isNumeric(original)) {
                 //    return true;

@@ -8,19 +8,16 @@ block levenee
         -equation2="/inhomogen"
         a(href="#{equation2}" target="_blank")     Inhomogeneous details
         |    page. (Used to evaluate the broken line curves on that page.)
-
+        br
+        br
+        div(id="footer" style="paddig-left:50px")
+          Copyright &copy; 2007 - 2014 IOLA and Ole Laursen :
         div(id="content")
           //this contains the playground for the simulation graph
           div(class="demo-container")
             div(id="ph1_inhomog" target="_blank" class="demo-placeholder")
-            //div(id="ph1_inhomog" class="demo-placeholder")
-              //-p With multiple axes, you sometimes need to interact with them. A simple way to do this
-              //-|  is to draw the plot, deduce the axis placements and insert a couple of divs on top to
-              //-|  catch events.
-              //-p Try clicking an axis.
-            //-p(id="clicked")
-        div(id="footer" style="paddig-left:50px")
-            Copyright &copy; 2007 - 2014 IOLA and Ole Laursen
+          b(id='inhDescLbl' style='color:Brown') Measured details:
+          b(id='inhDesc' style="color:Indigo; margin-left:10px;")
 
         h3 Simulation with homogeneous broadening
         |   Calculated spectra are obtained using equation (x) on the
@@ -32,7 +29,8 @@ block levenee
           //this contains the playground for the simulation graph
           div(class="demo-container")
             div(id="ph2_homog" class="demo-placeholder")
-
+          b(id='homDescLbl' style='color:Brown') Measured details:
+          b(id='homDesc' style="color:Indigo; margin-left:10px;")
         //-img(id="huuhaa" src="" alt="Tallennettava kuva" width="42" height="42")
         //-flot graph 0.8.3 versiossa canvas ei sisällä akselien tekstejä eikä
         //-käyrien captioneja. Nämä on luvattu vasta 0.9. versioon
@@ -111,8 +109,8 @@ block levenee
         //- b(id='exBndLbl' class='boldsFrmt') Exciton binding energy [meV]:
         label(for="eV_Bind" class='label3') \(\mathbf{E_{b}}\) [meV]:
         input(id="eV_Bind" name="eV_Bind" class='inputti')
-        label(for="eV_0" class="label4") Shape param [meV]:
-        input(id="eV_0" name="eV_0" class='inputti')
+        label(for="eV_0" class="label4" style="display:none") Shape param [meV]:
+        input(id="eV_0" name="eV_0" class='inputti' style="display:none")
         button(id='exenhaok' style="margin:0px 10px") OK
 
       fieldset(id='spUrbach' style='display:none')
@@ -258,7 +256,7 @@ block levenee
         div(id='divFcv' style='display:none')
           input(id="pltFcv" style='margin-left:7px' type="checkbox" value='No')
           a(href="javascript:void(0);", id="hrefTransito", style='padding-left:30px')
-            | Transition energy, \(E_{t}\ \), and temperature [K]
+            | Boltzmann distribution, \(E_{t}\ \), and temperature [K]
         //div(id='divHomog' style='display:none')
           input(id="pltHomConv" style='margin-left:7px' type="checkbox" value='No')
           a(href="javascript:void(0);", id="hrefHomConv", style='padding-left:30px')
@@ -339,6 +337,9 @@ block levenee
       inhomSpectr.GauSig = 7;            //variance [meV] in gaussian broadening
       inhomSpectr.SechTau = 100;
       inhomSpectr.SechN = 1;
+      inhomSpectr.experArr=[];
+      inhomSpectr.experPlot=[];
+      inhomSpectr.fileN='';
 
       var homSpectr = new Object();
       homSpectr.numPoints = inhomSpectr.numPoints;
@@ -351,17 +352,18 @@ block levenee
       homSpectr.plotArr = [];            //plotted array
       homSpectr.legend = '';             //legend for graph
       homSpectr.linlog = 'log';          //linear or logarithmic
-      homSpectr.LorTau=100;              //reduced relaxation time femtoseconds
-      homSpectr.DlTau1=100;              //reduced relaxation time femtoseconds
-      homSpectr.DlTau2=100;              //reduced relaxation time femtoseconds
-
+      homSpectr.LorTau=100;              //Lorentzian reduced relaxation time femtoseconds
+      homSpectr.DlTau1=100;              //electron/hole relaxation time femtoseconds
+      homSpectr.DlTau2=100;              //hole/electron relaxation time femtoseconds
+      homSpectr.experArr=[];             //experimental array as read from file
+      homSpectr.experPlot=[];            //experimental array for plotting
+      homSpectr.fileN='';
       // Additional initial values *******************************************:
       // ****************************************************************
-      var experArr1=[]; //inhomog exper array read from file
-      var experArr2=[]; //homog exper Arr read from file
-      var inhomExp=[];  //inhom exp arr displayed in graph
-      var homogExp=[];  //homog exp arr displayed in graph
-      var filNam='';    //filename for experimental spectrum
+      //var experArr1=[]; //inhomog exper array read from file
+      //var experArr2=[]; //homog exper Arr read from file
+      //var inhomExp=[];  //inhom exp arr displayed in graph
+      //var homogExp=[];  //homog exp arr displayed in graph
       makespArr();  //creates spectral points array and stores to inhomSpectr.eVarr
       var optiot = {//initial plotting options
         xaxes: [{position: 'bottom', axisLabel: 'Energy eV'}],
@@ -403,7 +405,7 @@ block levenee
 
       function drawCanvas() {
         var graphTitle=(inhomSpectr.jdostype=='qw')? 'QW-model:':'Bulk model:';
-        graphTitle=filNam+' '+graphTitle;
+        graphTitle=inhomSpectr.fileN+' '+graphTitle;
         var canvas = plot.getCanvas();
         var context = canvas.getContext('2d');
         context.lineWidth = 2;
@@ -414,6 +416,7 @@ block levenee
       }
 
       function setQwRadio(){
+        //console.log('setQwRadio');
         if (inhomSpectr.viewDir == 'parallel'){
           $('#dirPar').prop('checked',true);
           $('#dirPerp').prop('checked',false);
@@ -506,7 +509,7 @@ block levenee
         $('#divNormalize').css('display', 'block');
         $('#settnDial').dialog('option', 'title', 'Inhomogeneous spectrum');
         $( "#settnDial" ).dialog( "open" );
-        if (experArr1.length>0){
+        if (inhomSpectr.experArr.length>0){
           $('#saveFile').css('display','inline');
           //var srvrFileTxt = 'Save emission spectrum';
           //var DFmngo = $('#mongoDialForm'); //dialog form
@@ -541,7 +544,7 @@ block levenee
         $('#divNormalize').css('display', 'block');
         $('#settnDial').dialog('option', 'title', 'Homogeneous spectrum');
         $("#settnDial").dialog("open");
-        if (experArr2.length > 0) {
+        if (homSpectr.experArr.length > 0) {
           $('#saveFile').css('display', 'inline');
           //var srvrFileTxt = 'Save emission spectrum';
           //var DFmngo = $('#mongoDialForm'); //dialog form
@@ -628,6 +631,7 @@ block levenee
       }).val(inhomSpectr.exEb);
 
       $("#eV_0").spinner({
+        //Exciton enhancement shape for qw TM-polarization only
         max: 50,
         min: 0.01,
         step: 0.01,
@@ -669,7 +673,8 @@ block levenee
         }
       }).val(inhomSpectr.kelvin);
 
-      $("#eveu, #evSeu").spinner({//Urbach parameter
+      $("#eveu, #evSeu").spinner({
+        //Urbach parameter spinner for Urbach distribution
         max: 20,
         min: 0,
         step: 0.1,
@@ -689,6 +694,7 @@ block levenee
       }).val(inhomSpectr.eU);
 
       $("#gauSig").spinner({
+        //Gaussian broadening parameter
         max: 100,
         min: 1,
         step: 0.1,
@@ -707,6 +713,7 @@ block levenee
       }).val(inhomSpectr.GauSig);
 
       $("#sechN").spinner({
+        //exponent parameter for Sech^n(t/(n*tau)) relaxation
         max: 10,
         min: 0.01,
         step: 0.01,
@@ -725,6 +732,7 @@ block levenee
       }).val(inhomSpectr.SechN);
 
       $("#sechTau").spinner({
+        //Relaxation time for Sech^n(t/(n*tau))
         max: 1000,
         min: 10,
         step: 1,
@@ -879,13 +887,13 @@ block levenee
         }
         var newData = [
           {data:LinOrLogs(inhomSpectr.linlog,inhomSpectr.plotArr,plot), xaxis: 1, yaxis: 1, label: inhomSpectr.legend},
-          {data:LinOrLogExp(experArr1,inhomSpectr.linlog), xaxis: 1, yaxis: 1, label: 'Measured'}
+          {data:LinOrLogExp(inhomSpectr.experArr,inhomSpectr.linlog), xaxis: 1, yaxis: 1, label: 'Measured'}
         ];
         plot.setData(newData);
         plot.setupGrid();
         plot.draw();
         var graphTitle = (inhomSpectr.jdostype == 'qw') ? 'with qw-model' : 'with bulk model';
-        graphTitle=filNam+' '+graphTitle;
+        graphTitle=inhomSpectr.fileN+' '+graphTitle;
         var canvas = plot.getCanvas();
         var context = canvas.getContext('2d');
         context.lineWidth = 2;
@@ -922,24 +930,24 @@ block levenee
           homLege="Lh";
         }
         var newData=[];
-        if (homSpectr.plotArr.length == homSpectr.numPoints && experArr2.length>1) {
+        if (homSpectr.plotArr.length == homSpectr.numPoints && homSpectr.experArr.length>1) {
           //console.log('pitäis olla kolme käyrää');
           newData = [
             {data: LinOrLogs(homSpectr.linlog, inhomSpectr.plotArr, plot2), xaxis: 1, yaxis: 1, label: inhomSpectr.legend},
             {data: LinOrLogs(homSpectr.linlog, homSpectr.plotArr, plot2), xaxis: 1, yaxis: 1, label: homLege},
-            {data: LinOrLogExp(experArr2, homSpectr.linlog), xaxis: 1, yaxis: 1, label: 'Measured'}
+            {data: LinOrLogExp(homSpectr.experArr, homSpectr.linlog), xaxis: 1, yaxis: 1, label: 'Measured'}
           ];
-        }else if (homSpectr.plotArr.length == homSpectr.numPoints && experArr2.length<1){
+        }else if (homSpectr.plotArr.length == homSpectr.numPoints && homSpectr.experArr.length<1){
           //console.log('pitäis olla kaksi käyrää');
           newData = [
             {data: LinOrLogs(homSpectr.linlog,inhomSpectr.plotArr,plot2), xaxis: 1, yaxis: 1, label: inhomSpectr.legend},
             {data: LinOrLogs(homSpectr.linlog,homSpectr.plotArr,plot2), xaxis: 1, yaxis: 1, label: homLege}
           ];
-        }else if (homSpectr.plotArr.length < homSpectr.numPoints && experArr2.length>1){
+        }else if (homSpectr.plotArr.length < homSpectr.numPoints && homSpectr.experArr.length>1){
           //console.log('pitäis olla kaksi käyrää');
           newData = [
             {data: LinOrLogs(homSpectr.linlog, inhomSpectr.plotArr, plot2), xaxis: 1, yaxis: 1, label: inhomSpectr.legend},
-            {data: LinOrLogExp(experArr2, homSpectr.linlog), xaxis: 1, yaxis: 1, label: 'Measured'}
+            {data: LinOrLogExp(homSpectr.experArr, homSpectr.linlog), xaxis: 1, yaxis: 1, label: 'Measured'}
           ];
         }else {
           //console.log('pitäis olla yksi käyrä');
@@ -949,7 +957,6 @@ block levenee
         }
 
         //var graphTitle = (inhomSpectr.jdostype == 'qw') ? 'with qw-model' : 'with bulk model';
-        //graphTitle = filNam + ' ' + graphTitle;
         var canvas = plot2.getCanvas();
         var context = canvas.getContext('2d');
         context.lineWidth = 2;
@@ -1762,33 +1769,33 @@ block levenee
 
       function makeExpArrs(){
         //treat experimental results for spectral range change;
-        var m = inhomExp.length; //data read from file
-        var n = homogExp.length; //data read from file
-        console.log('inhomExp.length: ',inhomExp.length);
-        console.log('homExp.length: ',homogExp.length);
+        var m = inhomSpectr.experPlot.length; //data read from file
+        var n = homSpectr.experPlot.length; //data read from file
+        console.log('inhomSpectr.experPlot.length: ',m);
+        console.log('homSpectr.experPlot.length: ',n);
         var k = inhomSpectr.numPoints - 1;
-        console.log('experArr1.length: ',experArr1.length," m: ",m);
-        console.log('experArr2.length: ',experArr2.length," n: ",n);
-        experArr1 = [];
-        experArr2 = [];
+        //console.log('inhomSpectr.experArr.length: ',inhomSpectr.experArr.length," m: ",m);
+        //console.log('homSpectr.experArr.length: ',homSpectr.experArr.length," n: ",n);
+        inhomSpectr.experArr = [];
+        homSpectr.experArr = [];
         for (var j = 0; j < m; j++) {
           var tmp1 = [];
-          if (m > 0 && inhomExp[j][0] > inhomSpectr.eVarr[0] && inhomExp[j][0] < inhomSpectr.eVarr[k]) {
-            tmp1.push(inhomExp[j][0]);
-            tmp1.push(inhomExp[j][1]);
-            experArr1.push(tmp1);
+          if (m > 0 && inhomSpectr.experPlot[j][0] > inhomSpectr.eVarr[0] && inhomSpectr.experPlot[j][0] < inhomSpectr.eVarr[k]) {
+            tmp1.push(inhomSpectr.experPlot[j][0]);
+            tmp1.push(inhomSpectr.experPlot[j][1]);
+            inhomSpectr.experArr.push(tmp1);
           }
         }
         for (var i=0;i<n;i++){
           var tmp2 = [];
-          if (n > 0 && homogExp[i][0] > inhomSpectr.eVarr[0] && homogExp[i][0] < inhomSpectr.eVarr[k]) {
-            tmp2.push(homogExp[i][0]);
-            tmp2.push(homogExp[i][1]);
-            experArr2.push(tmp2);
+          if (n > 0 && homSpectr.experPlot[i][0] > inhomSpectr.eVarr[0] && homSpectr.experPlot[i][0] < inhomSpectr.eVarr[k]) {
+            tmp2.push(homSpectr.experPlot[i][0]);
+            tmp2.push(homSpectr.experPlot[i][1]);
+            homSpectr.experArr.push(tmp2);
           }
         }
-        //console.log('experArr1.length: ',experArr1.length);
-        //console.log('experArr2.length: ',experArr2.length);
+        //console.log('inhomSpectr.experArr.length: ',inhomSpectr.experArr.length);
+        //console.log('homSpectr.experArr.length: ',homSpectr.experArr.length);
       }
 
       $("#rangeok, #evetok, #jdosok, #exenhaok, #urbachok, #sUrbachok, #whatok").click(function(){
@@ -1805,7 +1812,6 @@ block levenee
             makeSommer();
             calcInhom();
             calcHom();
-
             break;
           case 'evetok':
             makeBoltz();
@@ -1929,14 +1935,15 @@ block levenee
       //Tabs-6, 7 & 8 Handler for input-file, for reading local files:
       $("#emisLocFiles").on("change", function () {
         //alert('file input toimii ok');
-        var selected_file = '';
-        selected_file = $('#emisLocFiles').get(0).files[0];
+        var selected_file = $('#emisLocFiles').get(0).files[0];
         if (!selected_file) return;
+        //var dialTitle=$("#mongoDialForm").dialog("option","title");
         var dialoogi= $('#settnDial').dialog('option','title');
-        //console.log('dialoogi: ',dialoogi);
-        if (dialoogi=='Inhomogeneous spectrum'){
+        //console.log('dialogFormTitle: ',dialTitle);
+        console.log('dialoogi: ',dialoogi);
+        if (dialoogi == 'Inhomogeneous spectrum') {
           ReadLocFle(selected_file, gotInhomFile);
-        }else if(dialoogi=='Homogeneous spectrum'){
+        } else if (dialoogi == 'Homogeneous spectrum') {
           ReadLocFle(selected_file, gotHomogFile);
         }
       });

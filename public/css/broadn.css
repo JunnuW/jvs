@@ -103,14 +103,14 @@ label {
 
 #mongoDialForm {
     /*for dialog form*/
-    z-index: 1000 !important ;
+    z-index: 999 !important ;
     display:none;
 }
 
 .vakata-context {
     /*Required for jsTree contextmenu plugin
           otherwise contextmenu not visible:*/
-    z-index:999 !important;
+    z-index:1000 !important;
 }
 
 .big-btn-left {

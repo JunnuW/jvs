@@ -27,14 +27,13 @@
   "dependencies": {
     "bootstrap": "~3.3.5",
     "datatables": "~1.10.9",
-    "jeditable": "~1.7.3",
     "jqnotifybar": "~1.5.3",
     "flot-axislabels": "*",
     "jquery-ui": "~1.11.4",
-    "jquery-validation": "jquery-validate#~1.14.0",
     "jquery": "~2.1.4",
     "js-math-complex": "git://github.com/dankogai/js-math-complex.git",
     "jstree": "~3.2.1",
-    "Flot": "flot#^0.8.3"
+    "Flot": "flot#^0.8.3",
+    "jeditable": "^1.7.3"
   }
 }

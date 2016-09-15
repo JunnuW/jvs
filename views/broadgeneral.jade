@@ -3,9 +3,15 @@
 extends broaden
 block levenee
     h2 Spectral broadening in semiconductor diodes
+    h3(style="color:Green; font-style:italic;") Application for other emitter types ('spectral line emitters'):
+    p
+    | Modelling of single line spectral emitters has also been made possible. In this case it is necessary to activate only the
+    | Boltzman distribution item in the plotting selector and set the temperature parameter (T) to zero (0).
+    | Using both included graphs (homogeneous and inhomogeneous) also combined broadening
+    | effects can be simulated, like the Voigt function.
     h3(style="color:Brown") Motivation and Purpose:
     p
-    | LED's and laser diodes (LD) have rapidly gained amazing popularity in many applications often because of
+    | LED's and laser diodes (LD) have rapidly gained amazing popularity in many applications, often because of
     | their high power efficiency. For their unbeatable properties LED's are usually constructed with one or more quantum
     | wells in the diode's pn-junction area. There, the quantum wells concentrate the charge carriers to a tightly confined area
     | dramatically increasing their density and recombination probability. Each recombining electron hole pair may produce
@@ -19,15 +25,15 @@ block levenee
     br
     br
     b
-        i  The emission wavelength
-    |   (spectral color) is determined by the semiconductor material bandgap in combination
+        i  Emission wavelength
+    |   (the spectral color) is determined by the semiconductor material bandgap in combination
     | with the dimensions (depth and width) of the included quantum well(s). These three parameters are tailored in the
     | material deposition processes during the fabrication. Emitted photons typically have energies close to the bandgap
     | value, and the quantum well structure significantly reduces the photon reabsorption risk in the
     | surrounding host materials.
     br
     br
-    | Typically, emission spectra are rather broad in LED's (also in LD's below the lazing threshold),
+    | Typical emission spectra are rather broad in LED's (also in LD's below the lazing threshold),
     | at least significantly broader than evaluated before the broadening mechanisms are accounted for.
     | A correct spectral broadening function is required also for semiconductor laser modelling to calculate the laser
     | gain spectra. Several alternative functions have been proposed for qw LED and LD calculations.
@@ -40,6 +46,16 @@ block levenee
     |   or
     b
         em   homogeneous.
+    |   In the optoelectric behaviour, a description deadlock arises from the spectral dependency on diode current.
+    | Diode spectra typically broaden with increasing current (before the onset of stimulated emission) and
+    | in well defined diodes, this feature has sought for explanations. Because the emitted photons are particles without
+    | rest mass they carry very small momentum (\(p=h/\lambda\)) compared to electrons (\(p_{e}=m_{e}v\)) and holes
+    | (\(p_{h}=m_{h}v\)) moving with thermal velocity distributions inside the quantum wells.
+    | The conservation of energy and linear momentum are required for the e-h pair recombination and it is generally assumed
+    | that only pairs with zero or very small linear momentum participate in the process, which makes the active exciton
+    | populations homogeneous at the available transition energies. However, the resulting spectral lines do not show the
+    | Lorentzian line shapes as expected and characteristic for homogeneous relaxations and as are discussed here
+    | using the analogy to lifetime broadening in gases.
     h3(style="color:Brown") Applied methods:
     p
     |In order to focus on spectral modelling, the number of clarifying drawings remains small, which possibly decreases
@@ -76,7 +92,7 @@ block levenee
     | from line center.
     br
     br
-    b Fourier transform for time relaxation function:
+    b Fourier transform of following time relaxation function:
     br
     | \(p(t)=Sech^{n}(\frac{t}{\tau \times n})\)
     br
@@ -93,7 +109,7 @@ block levenee
     | where \(\tau_{r}\) is the reduced relaxation time for the electron hole pair polpulation.
     br
     br
-    b Product of Lorentzian functions:
+    b Product of (two) Lorentzian functions:
     br
     | \(\ L_{t}(\Delta E)= \frac{(\tau_{be}+\tau_{bh})/(\pi\hbar)}{1+\tau_{be}^{2}
     | \Delta E^{2}/\hbar^{2}}\times\frac{1}

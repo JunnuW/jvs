@@ -190,7 +190,7 @@
  * @example $('input.date-picker').datePicker();
  * @desc Creates a date picker button next to all matched input elements. When the button is clicked on the value of the selected date will be placed in the corresponding input (formatted according to Date.format).
  *
- * @example demo/Vindex.html
+ * @example demo/index.html
  * @desc See the projects homepage for many more complex examples...
  **/
 		datePicker : function(s)

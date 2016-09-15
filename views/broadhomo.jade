@@ -17,9 +17,10 @@ block levenee
     | Voigt function, a convolution between the original inhomogeneous Gaussian and the homogeneous, Lorentzian impact
     | broadened shape. At somewhat higher pressures the broadening becomes purely Lorentzian (homogeneous) in shape.
     h4 Homogeneous shape
-    | Homogeneous shape describes the relaxation in a population of mutually identical (=homogeneous) emitters.
+    | Homogeneous shape describes the relaxation in a population of mutually identical (=homogeneous) emitters. Emitters
+    | are identical if they have equal transition energies and equal radiation probabilities.
     br
-    | Assuming \(N\) is the number of members in such a population, the relaxation rate can be
+    | Assuming \(N\) is the number of members in such a population, the relaxation rate (and the emission intensity) can be
     | developed into a time function using a Taylor expansion:
     | \begin{equation}
     | \label{HomogDiffe1}
@@ -31,7 +32,7 @@ block levenee
     | -dN/N=A\cdot dt +(B\cdot t+C\cdot t^2+...)\cdot dt,
     | \end{equation}
     | In this equation, the terms inside parenthetis are problematic, because a zero time instance has to be set and
-    | remembered throughout the entire relaxation. The homogeneity assumption means that all members have identical
+    | remembered throughout the entire relaxation. For them, the homogeneity assumption means that all members have identical
     | relaxation probabilities all the time in the process requiring all members start relaxing simultaneously and
     | remember their elapsed time from the zero instance. In other words for a memoryless relaxation process (with
     -Markov_urli="https://en.wikipedia.org/wiki/Markov_property"
