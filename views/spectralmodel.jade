@@ -3,7 +3,7 @@ extends broaden
 block levenee
     div(id='wrapper')
       div(id='main')
-        h3 Simulation with inhomogeneous broadening
+        h3 Simulation for inhomogeneous broadening
         |   Calculated spectra are obtained using equation (2) on the
         -equation2="/inhomogen"
         a(href="#{equation2}" target="_blank")     Inhomogeneous details
@@ -19,7 +19,7 @@ block levenee
           b(id='inhDescLbl' style='color:Brown') Measured details:
           b(id='inhDesc' style="color:Indigo; margin-left:10px;")
 
-        h3 Simulation with homogeneous broadening
+        h3 Simulation for homogeneous broadening
         |   Calculated spectra are obtained using equation (x) on the
         -equation3="/homogen"
         a(href="#{equation3}" target="_blank")     Homogeneous details
@@ -1033,10 +1033,21 @@ block levenee
         var Temp = parseFloat(inhomSpectr.kelvin);
         var n=parseInt(inhomSpectr.numPoints);
         var eVs;
+        var m=0;
         inhomSpectr.fcvArr=[];
         for (var i = 0; i < n; i++) {
           eVs=parseFloat(inhomSpectr.eVarr[i]);
-          inhomSpectr.fcvArr.push(Boltzman(eVs,Etr,Temp));
+          if (Temp>0){//LED simulation:
+            inhomSpectr.fcvArr.push(Boltzman(eVs,Etr,Temp));
+          }else{// line emitter simulation:
+            if (eVs<Etr || m>0){//no emission
+              inhomSpectr.fcvArr.push(1E-30);
+            }else {//emission only at one point, at or next to Etr
+              inhomSpectr.fcvArr.push(1.0);
+              m=1;
+            }
+          }
+
         }
       }
 
@@ -1063,7 +1074,6 @@ block levenee
       /* functions for fft convolution
       *padArray pads values to array end making it equal in length with fft kernel
       */
-
       function padArray(toPad){
         var padded=[];
         var toInsert;
@@ -1096,10 +1106,13 @@ block levenee
         return unPadded;
       }
 
+      /* Function for fft convolution
+       * function makeFftKernel produces convolution kernel for FFT convolution
+       */
       function makeFftKernel(toKern){
-        //toKern is zero centered broadening function with Energy as parameter
+        //toKern is zero centered broadening (filter) function with Energy as parameter
         //toKern: Urbach, symUrbach, Lorentz, Gaussian, DLorentz
-        //Sech: funktiolla kerneli tehdään eri tavalla
+        // Sech: funktiolle tätä funktiota ei käytetä. Kerneli tuotetaan FFT:llä
         var kerneli=new Array(fftN);
         var Del=(parseFloat(inhomSpectr.eVstop)-parseFloat(inhomSpectr.eVstart))/
           (parseInt(inhomSpectr.numPoints)-1);
@@ -1121,14 +1134,15 @@ block levenee
       function fftConvo(signal,kernel){
         var convoRes=new Array(fftN);
         var kernelSum=0;
-        for (var i=0;i<kernel.length;i++){
+        var i=0;
+        for (i=0;i<kernel.length;i++){
+          //obtain normalization parameter:
           kernelSum+=kernel[i];
         }
+        //apply FFT-script:
         convolveReal(signal, kernel, convoRes);
-        for (var i= 0;i<fftN;i++){
+        for (i= 0;i<fftN;i++){//normalize result:
           convoRes[i]/=kernelSum;
-          //estetään kuvaajan asteikon menon 0:n alle Gaussianissa
-          if (convoRes[i]<1E-6) convoRes[i]=1E-6;
         }
         return convoRes;
       }
@@ -1227,7 +1241,7 @@ block levenee
       function LinOrLogs(linOlog,graphed,kuva) {
         //LinOrLogs:  joko lin tai log
         //graphed:    on piirrettävän käyrän vektori
-        //kuva:       on joko plot tai plot2
+        //kuva:       on joko plot (inhomog) tai plot2 (homog)
         var arr = [];
         var max = 0;
         var nPoints=inhomSpectr.numPoints;
@@ -1247,7 +1261,7 @@ block levenee
           kuva.getAxes().yaxis.options.min = min; //scale log axis min
           kuva.getAxes().yaxis.options.max = max;  //scale log axis max
         } else {
-          kuva.getAxes().yaxis.options.min = null; //autoscale
+          kuva.getAxes().yaxis.options.min = 0; //autoscale
           kuva.getAxes().yaxis.options.max = null; //autoscale
         }
         return arr;
