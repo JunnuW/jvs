@@ -109,7 +109,7 @@ block levenee
         //- b(id='exBndLbl' class='boldsFrmt') Exciton binding energy [meV]:
         label(for="eV_Bind" class='label3') \(\mathbf{E_{b}}\) [meV]:
         input(id="eV_Bind" name="eV_Bind" class='inputti')
-        label(for="eV_0" class="label4" style="display:none") Shape param [meV]:
+        label(id="lbl_eV0" for="eV_0" class="label4" style="display:none") Shape param [meV]:
         input(id="eV_0" name="eV_0" class='inputti' style="display:none")
         button(id='exenhaok' style="margin:0px 10px") OK
 
@@ -326,7 +326,7 @@ block levenee
       inhomSpectr.viewDir='parallel';    //viewed along qw-plane
       inhomSpectr.polarizat='TE';        //TE or TM
       inhomSpectr.exEb=5;                //exciton binding energy meV
-      inhomSpectr.ex0=0.05;              //exciton spectrum shape parameter
+      inhomSpectr.ex0=2.0;              //exciton spectrum shape parameter meV
       inhomSpectr.fcvArr=[];             //boltzmann function array
       inhomSpectr.Lih=[];                //Lih array centre at Etr
       inhomSpectr.plotArr=[];            //plotted array
@@ -631,7 +631,7 @@ block levenee
       }).val(inhomSpectr.exEb);
 
       $("#eV_0").spinner({
-        //Exciton enhancement shape for qw TM-polarization only
+        //Exciton enhancement shape parameter for qw TM-polarization only
         max: 50,
         min: 0.01,
         step: 0.01,
@@ -860,9 +860,13 @@ block levenee
         //Polarization selector:TE or TM
         if (this.value == 'TE') {
           inhomSpectr.polarizat = 'TE';
+          $('#eV_0').css('display','none');
+          $('#lbl_eV0').css('display','none');
         }
         else if (this.value == 'TM') {
           inhomSpectr.polarizat = 'TM';
+          $('#eV_0').css('display', 'inline');
+          $('#lbl_eV0').css('display', 'inline');
         }
         makeSommer();
         calcInhom();
@@ -1015,7 +1019,7 @@ block levenee
             }
             //return Se.toFixed(7);
           } else{
-            //TM polarisaatio:
+            //on TM polarisaatio:
             if (E > Etr){
               // use bias: inhomSpectr.ex0 to prevent infinity at Etr
               Pi_alfa = Math.PI * Math.sqrt(Eb / 1000 / (E - Etr+inhomSpectr.ex0/1000));
@@ -1047,7 +1051,6 @@ block levenee
               m=1;
             }
           }
-
         }
       }
 

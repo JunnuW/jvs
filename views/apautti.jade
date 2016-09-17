@@ -16,19 +16,19 @@ block content
     br
     |  -  Application support and maintenance efforts are greatly simplified,
     br
-    |   since only one software version (the one on server) needs to be supported and updated.
+    |   since only one software version (this one) needs to be supported and updated.
     h3(style="color:green") Application structure:
-    | Two separately developed and debugged components are needed; one for the server and the other for the user's browser.
-    | The interaction between these two takes place through server responses to the requests send by the user's web browser.
+    | Two separately developed and debugged components are needed; one for the server and another for the user's browser.
+    | Interactions between these two take place through server responses to requests from the user's web browser.
     h4 Server side program:
     | Server software is normally located on a remote machine, but for offline access and program development purposes it can
-    | as well be assembled on the local machine. In that case 'local host' stores all the required HTML pages and resources.
+    | as well be assembled on the local machine. In that case, 'local host' stores all the required HTML pages and resources.
     br
     | After processing the requests coming from client's browser, the server sends back responses with dynamic content.
     | Programs on the server machine are based on a specific web-framework system, the developer chose before beginning
     | the development process. Several alternatives are available for the web-framework.
     br
-    u Some popular frameworks:
+    u Some popular options:
     br
     -Django_url="https://en.wikipedia.org/wiki/Django_(web_framework)"
     a(href="#{Django_url}" target="_blank")  - Django
