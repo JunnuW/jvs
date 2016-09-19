@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/broadn.css" afterPath="$PROJECT_DIR$/public/css/broadn.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/apautti.jade" afterPath="$PROJECT_DIR$/views/apautti.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.jade" afterPath="$PROJECT_DIR$/views/spectralmodel.jade" />
     </list>
     <ignored path="jvs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,7 +22,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="spectralmodel.jade" pinned="false" current-in-tab="true">
+      <file leaf-file-name="spectralmodel.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="184">
@@ -33,6 +31,16 @@
                 <marker date="1474144569338" expanded="true" signature="55008:55138" ph="..." />
                 <marker date="1474144569338" expanded="true" signature="56800:56931" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="apautti.jade" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/apautti.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="151">
+              <caret line="115" column="69" selection-start-line="115" selection-start-column="69" selection-end-line="115" selection-end-column="69" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -133,9 +141,9 @@
         <option value="$PROJECT_DIR$/views/mongoDialForm.jade" />
         <option value="$PROJECT_DIR$/views/broadgeneral.jade" />
         <option value="$PROJECT_DIR$/public/js/jv-fileopsit.js" />
-        <option value="$PROJECT_DIR$/views/apautti.jade" />
         <option value="$PROJECT_DIR$/public/css/broadn.css" />
         <option value="$PROJECT_DIR$/views/spectralmodel.jade" />
+        <option value="$PROJECT_DIR$/views/apautti.jade" />
       </list>
     </option>
   </component>
@@ -399,7 +407,7 @@
       <workItem from="1473447144136" duration="91000" />
       <workItem from="1473447352921" duration="62605000" />
       <workItem from="1473928511852" duration="17765000" />
-      <workItem from="1474100758748" duration="10582000" />
+      <workItem from="1474100758748" duration="11940000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -412,7 +420,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="364266000" />
+    <option name="totallyTimeSpent" value="365624000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -805,14 +813,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/apautti.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="30" column="26" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/css/broadn.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
@@ -829,6 +829,14 @@
             <marker date="1474144569338" expanded="true" signature="55008:55138" ph="..." />
             <marker date="1474144569338" expanded="true" signature="56800:56931" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/apautti.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="115" column="69" selection-start-line="115" selection-start-column="69" selection-end-line="115" selection-end-column="69" />
+          <folding />
         </state>
       </provider>
     </entry>
