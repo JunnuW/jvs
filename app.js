@@ -540,7 +540,7 @@ app.post('/signup', function (req, res) {
 });
 
 function respAllMngo(req,res,respOnse) {
-    console.log('respAllMngo url: ',req.url);
+    //console.log('respAllMngo url: ',req.url);
     //console.log('respAllMngo res: ',res);
     var statCode=respOnse.statCode;
     res.status(statCode).json(respOnse);

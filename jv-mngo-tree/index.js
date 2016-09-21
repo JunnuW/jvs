@@ -21,7 +21,7 @@ var respOnse; //response to db operation
 var messagSchema = new mongoose.Schema({
     username: { type: String, required: true },
     fName: { type: String, required: true },
-    uMessage:{type: String, required: true},
+    uMessage:{type: String, required: false},
     moderated:{type: Boolean, required:true},
     dateRec: { type: String, required: true}
 });
@@ -148,8 +148,10 @@ function ApplMod(req){
 function saveMessage(req,res,callBfun){
     var messN=req.body.fName;
     messN = messN.replace(/(^\/)|(\/$)/g, "");//remove leading and trailing /
+    console.log('messN: ',messN);
     //check chain depth:
-    var slashN=messN.match(/\//g).length;
+    var slashes=messN.match(/\//g); //jos ei ainuttakaan tulee null muuten '/,/,/'
+    var slashN=(slashes==null || slashes==false)? 0:slashes.length;
     if (slashN>5){
         console.log('Prevented more than 5 message depth');
         respOnse= {
@@ -162,14 +164,17 @@ function saveMessage(req,res,callBfun){
     }
     //console.log('messageName: ',messN);
     var messUser=req.body.userNme;
+    var moder=(messUser=='Publ')? true : false;
     //console.log('messageUser: ',messUser);
+    //console.log('moder: ',moder);
     var messTxt=req.body.Text;
     //console.log('messageText: ',messTxt);
+
     var Messa = new Message({
         username: messUser,
         fName: messN, //e.g. "branch1/parent1/parent2/file1",
         uMessage: messTxt,
-        moderated: false,
+        moderated: moder,
         dateRec: vanhenee}
     );
     //console.log('Messa: ',Messa);

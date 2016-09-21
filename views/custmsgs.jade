@@ -38,9 +38,9 @@ block content
               br
               input(type="text" id="msgThread" length="150" style='margin:5px' size="60")
               br
-              label(for="msgHeader") Header:
+              label(for="msgHeader" id='lblHeader' style='display:none') Header:
               br
-              input(type="text" id="msgHeader" length="150" style='margin:5px' size="60")
+              input(type="text" id="msgHeader" length="150" style='margin:5px; display:none' size="60")
               br
               label(for="msgText" id="msgLbl") Message:
               br
@@ -49,8 +49,11 @@ block content
               br
 
   script(type='text/javascript').
-    $('#msgThread').prop('disabled', true); //remains always disabled for all users
     var msgUser=window.sessionStorage.getItem('RTFuser');
+    //console.log('msgUser: ',msgUser);
+    var disa=(msgUser && msgUser=='Publ')? false:true;
+    //console.log('disa: ',disa);
+    $('#msgThread').prop('disabled', disa); //remains always disabled for all users except Publ
     if (msgUser && msgUser!='No login'){
       countMessages(msgUser); //counts messages and updates userN label
       $('#btnSaveMsg').attr("disabled", false);
@@ -91,7 +94,10 @@ block content
       var butCapt=$(this).text();
       //-tai: $('#btnSaveMsg').text();
       if (butCapt=='Create message'){
-        $("#msgText").select(); //selects textbox text
+        $("#lblHeader").css('display','inline');
+        $("#msgHeader").css('display','inline');
+        //$("#msgText").select(); //selects textbox text
+        $("#msgText").val('');
         $("#btnSaveMsg").text('Submit message');
         $('#msgLbl').text('New message:');
         $('#msgHeader').val('');
@@ -111,7 +117,7 @@ block content
       var fileN = $('#msgHeader').val();
       fileN = fileN.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
       var myRegxp1 = /^[-_\/\sa-z0-9]+$/i;
-      if (!myRegxp1.test(fileN)) {//only alphanumerics with "-", "_" and "/" are allowed
+      if (msgUser!='Publ' && !myRegxp1.test(fileN)) {//only alphanumerics with "-", "_" and "/" are allowed
         alert("Invalid header: " + fileN);
         return fNamed;//undefined
       }
@@ -122,7 +128,7 @@ block content
         return fNamed;//undefined
       }*/
 
-      if ($('#msgText').val().length<1) {//no message has been typed
+      if (msgUser!='Publ' && $('#msgText').val().length<1) {//no message has been typed
         alert("No message content!");
         return fNamed;//undefined
       }
@@ -130,7 +136,7 @@ block content
       //console.log('thread overlap: ',overLap);
       fNamed = (overLap == 0) ? fileN : dirN + '/' + fileN;
       fNamed = fNamed.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-      //console.log('messageName: ',fNamed);
+      console.log('messageName: ',fNamed);
       return fNamed;
     }
 
@@ -189,6 +195,8 @@ block content
           break;
         case 'select_node':
           $('#btnSaveMsg').text('Create message');
+          $('#lblHeader').css('display','none');
+          $('#msgHeader').css('display','none');
           selctdNde = data.instance.get_selected(true)[0];
           $('#msgThread').val(selctdNde.text);
           var longName=selctdNde.text;
@@ -245,7 +253,6 @@ block content
 
       }
     }); //btree on.change ready
-
 
     function saveMessage(){
       var msgName = fleNmr(); //-builds name for a new message
