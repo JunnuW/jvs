@@ -259,7 +259,7 @@ block content
       if (!msgName) return;
       var msgTxt = $('#msgText').val();
       var mesLen = msgTxt.length;
-      if (mesLen > 200) {//max length of message
+      if (mesLen > 500) {//max length of message
         $.notifyBar({//alert reason for token failure is in data
           cssClass: "error",
           html: 'Your message is too long'
