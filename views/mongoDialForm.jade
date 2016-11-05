@@ -389,7 +389,7 @@ div(id="mongoDialForm")
      * @function
      */
      function mongoRename(oldFile, newFile, icon) {
-       console.log('rename oldfile: ' + oldFile + ' newFile: ' + newFile);
+       //console.log('rename oldfile: ' + oldFile + ' newFile: ' + newFile);
        var datColl = pickCollection();
        var tokene;
        if (userName != 'No login') {
@@ -437,7 +437,7 @@ div(id="mongoDialForm")
      * @fileN string Filename to delete
      * @collN string Collection name of the to be deleted
      * @function
-     */
+     **/
      function mongoDelete(flNme) {
        var datColl = pickCollection();
        var tokene;
@@ -479,7 +479,6 @@ div(id="mongoDialForm")
 
      /**
      * Function picks the correct collection name from mongo database
-     *
      * @function pickCollection
      * @return string Collection name to be used in server database
      */
@@ -553,6 +552,7 @@ div(id="mongoDialForm")
            //console.log('data received: ',data);
            if (data.statCode == 200) {
              aTreeData = JSON.parse(data.resString);
+             //console.log('aTreeData: ',aTreeData);
              $('#mongoTree').jstree(true).settings.core.data = aTreeData;
              $('#mongoTree').jstree(true).refresh();
              var dialTitle = $("#mongoDialForm").dialog("option", "title");

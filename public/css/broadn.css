@@ -111,7 +111,7 @@ label {
 .vakata-context {
     /*Required for jsTree contextmenu plugin
           otherwise contextmenu not visible:*/
-    z-index:1000 !important;
+    z-index:998 !important;
 }
 
 .big-btn-left {
@@ -172,4 +172,3 @@ label {
 .vaaleankelt {/* muuttaa dialogin vaaleankeltaiseksi*/
     background:lightyellow !important;
 }
-

@@ -2,23 +2,23 @@
    Created by Juha on 3/6/2016
 extends broaden
 block levenee
-    h2 Spectral broadening in semiconductor diodes
-    h3(style="color:Green; font-style:italic;") Application for other emitter types ('spectral line emitters'):
-    p
-    | Modelling of single line spectral emitters has also been made possible. In this case it is necessary to activate only the
-    | Boltzman distribution item in the plotting selector and set the temperature parameter (T) to zero (0).
-    | Using both included graphs (homogeneous and inhomogeneous) also combined broadening
-    | effects can be simulated, like the Voigt function.
+    h2 Modelling spectral broadening in semiconductor diodes
+    h4(style='margin-left:50px;')
+      a(href='#otherHeader' style="font-style:italic;") (To use with other emitter types: )
+    p(id='otherText') With spectral line emitters activate only the Boltzman distribution item
+      | in the simulation selector and set the temperature parameter (T) to zero (0).
+      | Using both simulation graphs (homogeneous and inhomogeneous) it is possible to produce
+      | also combined broadening effects, like the Voigt function.
     h3(style="color:Brown") Motivation and Purpose:
     p
     | LED's and laser diodes (LD) have rapidly gained amazing popularity in many applications, often because of
     | their high power efficiency. For their unbeatable properties LED's are usually constructed with one or more quantum
-    | wells in the diode's pn-junction area. There, the quantum wells concentrate the charge carriers to a tightly confined area
+    | wells in the pn diode's junction area. There, the quantum wells concentrate the charge carriers to a tightly confined area
     | dramatically increasing their density and recombination probability. Each recombining electron hole pair may produce
     | an emitted photon and contribute to the emission of light from the diode. The photon energy (
     span(style="font-weight:bold") wavelength
-    | ) roughly equals the bandgap of the emitting material layer, but in oder to truly describe the conversion of electric power
-    | into a flux of photons, we additionally need a detailed understanding also on the
+    | ) roughly equals the bandgap of the emitting material layer, but in oder to describe the conversion of electric power
+    | into a flux of photons more in detail, we additionally need a detailed understanding also on the
     b
         em    broadening
     |    mechanisms hidden in the spectra of emitted photons.
@@ -46,7 +46,7 @@ block levenee
     |   or
     b
         em   homogeneous.
-    |   In the optoelectric behaviour, a description deadlock arises from the spectral dependency on diode current.
+    |   With LED's, a description bottleneck exists in the spectral dependency on diode current.
     | Diode spectra typically broaden with increasing current (before the onset of stimulated emission) and
     | in well defined diodes, this feature has sought for explanations. Because the emitted photons are particles without
     | rest mass they carry very small momentum (\(p=h/\lambda\)) compared to electrons (\(p_{e}=m_{e}v\)) and holes
@@ -92,21 +92,21 @@ block levenee
     | from line center.
     br
     br
-    b Fourier transform of following time relaxation function:
+    b Fourier transform of the time relaxation as:
     br
     | \(p(t)=Sech^{n}(\frac{t}{\tau \times n})\)
     br
     | Spectral distributions and the necessary convolution kernels are calculated through FFT. This function was ad hoc
-    | given to explain the photoluminescence deviations from the Lorentzian shapes obtained also from this relaxation
-    | function when parameter \(n\) approaches 0 (zero). With other parameter values this function
-    | produces non-Markovian time relaxations and is here grouped among the inhomogeneous spectra.
+    | given to explain the photoluminescence deviations from the Lorentzian shapes that can be obtained also from this relaxation
+    | when parameter \(n\) approaches 0 (zero). With other parameter values this function
+    | requires non-Markovian time relaxations and is here grouped among the inhomogeneous spectra.
     br
     h4(style="color:Indigo") Homogeneous shapes:
     b Lorentzian function:
     br
     | \(\ L_{t}(\Delta E)=\frac{\tau_{r}/(\pi\hbar)}{1+\tau_{r}^{2}\Delta E^{2}/\hbar^{2}}\quad\),
     br
-    | where \(\tau_{r}\) is the reduced relaxation time for the electron hole pair polpulation.
+    | where \(\tau_{r}\) is the reduced relaxation time for the electron hole pairs in the population.
     br
     br
     b Product of (two) Lorentzian functions:
@@ -121,7 +121,7 @@ block levenee
 
     h3(style="color:Brown") Calculation details:
     h4(style="color:Indigo") User options:
-    | For a usefull application, users need the possibilities to upload spectral measurement data,
+    | For a usefull application, users desire possibilities to upload spectral measurement data,
     | methods to adjust spectral parameters and to compare broadening functions by graphing measured
     | and calculated spectra.
     br
@@ -205,13 +205,20 @@ block levenee
     | exciton continuum, Eq. (\ref{QwEnh2}) results in infinite values and the qw JDOS is not zero at
     | \(E_{t}\), but has there a Heaviside step point. It has been commented that also Eq. (\ref{QwEnh1})
     | overestimates the exciton enhancement in real quantum wells. However, it may also have a wrong
-    | spectral shape. Without any profound physical reasoning, we take here a pragmatic approach to avoid
-    | the infinity values and to simultaneously get an alternative spectral dependency for the TM enhancement
-    | spectrum by applying a small energy bias in Eq. (\ref{BulkEnh2}).
+    | spectral shape. To avoid the infinity values and obtain an improved spectral shape
+    | for the TM enhancement, we without a profound physical analysis take a pragmatic approach
+    | and apply a small energy bias in Eq. (\ref{BulkEnh2}).
     | This is done by using energy \(E_{qw}\) for the \(E_{g}\) in Eq. (\ref{BulkEnh2}).
     | If \(E_{qw}=E_{t}-E_{0}\), the infinities in exciton enhancement are avoided, since the qw density of states
     | \(\rho_{r}(\epsilon)\) still has the Heaviside step at \(E_{t}\) and the spectral shape in
     | \(S(\epsilon)\) can be fine tuned with \(E_{0}\), named as shape parameter on the modelling page of
     | this project.
 
-//-script(type='text/javascript').
+    script(type='text/javascript').
+      var otherHeader=$('a[href = "#otherHeader"]');
+      var otherText=$('#otherText');
+      otherText.css('display', 'none');
+      otherHeader.click(function () {
+        var stats= (otherText.css('display')=='none')? 'inline': 'none';
+        otherText.css('display', stats);
+      });

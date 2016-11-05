@@ -184,7 +184,7 @@ app.use(urlEncodedParser,function(error, req, res, next){
 //app.use(methodOverride());
 app.use(cookieParser());
 
-app.use(session({//session is require by flash and passport
+app.use(session({//session is required by flash and passport
     cookieName: 'TFRT-session',
     secret: app.get('SessionSecret'),//'onpa kuulia tää noode.js',
     saveUninitialized: true,
@@ -383,13 +383,20 @@ app.get('/custmsgs', function(req, res) {
     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
     if (req.user) {
         //console.log('rendering with cookie username:  '+(req.session.user));
-        res.render('custmsgs', {
-            title: 'Rock Phys comments and messages',
-            user: (req.user)
-        });
+        if (req.user.username == 'Publ') {
+            res.render('msgsadmin', {
+                title: 'Comments and messages admin',
+                user: (req.user)
+            });
+        } else {
+            res.render('custmesgs', {
+                title: 'Rock Phys comments and messages',
+                user: (req.user)
+            });
+        }
     } else {
         //console.log('rendering / with or without user: ');
-        res.render('custmsgs', {
+        res.render('custmesgs', {
             title: 'Message posting requires login',
             user: (req.user)  //false
         });
@@ -568,7 +575,6 @@ app.post('/checklogin', function(req,res){
     }
 });
 
-
 app.post('/auth/*', function(req,res){
     //console.log('post auth: ',req.url, ' req.body: ',req.body);
     var urli=req.url;
@@ -599,7 +605,7 @@ app.post('/auth/*', function(req,res){
             console.log('checking all user files');
             mngoTree.checkAllUserFiles(req,res,respAllMngo);
             //Response to user's browser via callback respAllMngo
-            //trying to avoid 'can't set headers after they are sent' error
+            //avoiding 'can't set headers after they are sent' error
             break;
         case '/checkOneUserF' :
             console.log('checking one user files');
@@ -636,6 +642,10 @@ app.post('/auth/*', function(req,res){
         case '/countMessages' :
             console.log('countMessages:');
             mngoTree.countUserMess(req,res,respAllMngo);
+            break;
+        case '/toggleModeration' :
+            console.log('toggleModeration:');
+            mngoTree.toggleModeration(req,res,respAllMngo);
             break;
         default:
             res.render('error', {
@@ -678,10 +688,12 @@ app.post('/forgot', function(req, res) {
     async.waterfall([
         function(done) {
             crypto.randomBytes(20, function(err, buf) {
+                //where buf contains the asynchronously generated pseudo-random bytes
+                // for synchronous generation: const buf = crypto.randomBytes(20);
                 var token = buf.toString('hex');
                 console.log('Have %d bytes of random data password change token: %s',token.length,token);
                 console.log('err: '+err);
-                done(err, token);
+                done(err, token); //call the next function with the token
             });
         },
         function(token, done) {
@@ -700,7 +712,7 @@ app.post('/forgot', function(req, res) {
                 });
             });
         },
-        function(token, user, done) {
+        function(token, user) {
             /*var smtpTransport = nodemailer.createTransport('SMTP', {
                 service: 'Gmail',
                 auth: {
@@ -791,7 +803,7 @@ app.post('/reset/:token', function(req, res) {
             });
             var mailOptions = {
                 to: user.email,
-                from: 'passwordreset@demo.com',
+                from: 'jvs-rockphys.rhcloud.com',
                 subject: 'Your password has been changed',
                 text: 'Hello,\n\n' +
                 'This is a confirmation that the password for your account on rock-phys with name: '

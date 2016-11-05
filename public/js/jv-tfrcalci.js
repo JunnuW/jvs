@@ -26,7 +26,6 @@
  * be available
  *
 */
-//var aTreeData;       //Data object for directory tree (JSON data) obtained from mongo database
 var dirUser='Publ';  //default (i.e. No Login) username for server directory
 var DFmngo;          //Dialogform for file operations
 var matrlArr=[];     //first row: [nm|um|eV, n, k]

@@ -32,8 +32,8 @@
     "jquery-ui": "~1.11.4",
     "jquery": "~2.1.4",
     "js-math-complex": "git://github.com/dankogai/js-math-complex.git",
-    "jstree": "~3.2.1",
     "Flot": "flot#^0.8.3",
-    "jeditable": "^1.7.3"
+    "jeditable": "^1.7.3",
+    "jstree": "^3.3.2"
   }
 }

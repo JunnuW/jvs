@@ -167,10 +167,6 @@ function makeEmisArr(resObj){
         oneRow.push(intens[i]);
         emArr.push(oneRow);
     }
-    /*$.notifyBar({
-        cssClass: "success",
-        html: 'Spectral target was read' // "File was read:"
-    });*/
     return emArr;
 }
 
@@ -635,7 +631,7 @@ var buildMongoDial=function(){
                     $('#fsFileDesc').css('display','inline');
                 }
                 //console.log('node was selected OK: '+selctdNde.id);
-                var repl=mongoColle(selctdNde.id);
+                var repl=mongoColle(selctdNde.id,aTreeData);
                 $('#directoName').val(repl.Folder);
                 if (selctdNde.icon=='jstree-file'){
                     $('#mongoFileName').val(repl.longFile);
@@ -660,7 +656,7 @@ var buildMongoDial=function(){
                 break;
             case 'rename_node':
                 //selctdNde=data.instance.get_selected(true)[0]
-                var nodeOb=mongoColle(selctdNde.id);
+                var nodeOb=mongoColle(selctdNde.id,aTreeData);
                 if (selctdNde.icon=='jstree-file'){
                     var texti=nodeOb.Folder;
                     texti= texti.replace(/(^\/)|(\/$)/g, ""); //remove leading and trailing '/'
@@ -892,24 +888,24 @@ var buildMongoDial=function(){
  * @nodeJson string jstree node id
  * @return object {Folder: foldername, shortFile:'filename', longFile:'filename with path'}
  */
-function mongoColle(nodeJson){
+function mongoColle(nodeJson,treeData){
     //function mongoColle(data){
     //here js-tree data is used to build the directory of the selected node
     //seuraavasta saadaan selville nyt valittu node:
     //var dataa =$('#mongoTree').jstree(true).get_json('#', { 'flat': true });
     var obje = { longFile: '' ,shortFile:'', Folder: ''};
     //longfile: filename with directory, shortFile: only filename, Folder: only directory
-    if (!aTreeData || nodeJson.length<1) {//return early if no data
+    if (!treeData || nodeJson.length<1) {//return early if no data
         return obje;
     }
     var pathi='';
-    var nde=$.grep(aTreeData, function(e){ return e.id == nodeJson; })[0];
+    var nde=$.grep(treeData, function(e){ return e.id == nodeJson; })[0];
     var fileTyp = nde.icon; //either 'jstree-folder' or 'jstree-file'
     var condition=true;
     var nodeId=nodeJson;
     var temp="";
     while (condition) {//grep (=filter array) to find node for nodeId:
-        var noode=$.grep(aTreeData, function(e){ return e.id == nodeId; })[0];
+        var noode=$.grep(treeData, function(e){ return e.id == nodeId; })[0];
         //Examine if root parent has not been reached:
         condition=(noode.parent != "#" && nodeId != 'ajason1'); //false if root parent
         temp = noode.text;
@@ -928,7 +924,7 @@ function mongoColle(nodeJson){
     }
     else {
         obje.Folder = pathi;
-        obje.longFile = '';
+        obje.longFile='';
         obje.shortFile='';
     }
     return obje;
@@ -938,9 +934,9 @@ function mongoColle(nodeJson){
  * Function checks filename on inputfield text
  * @return string mngFileN
  */
-function fleNamer() {
+function fleNamer(fileN,dirN) {
     var fNamed;
-    var fileN = $('#mongoFileName').val();
+    //var fileN = $('#mongoFileName').val();
     if (fileN.length<1){// means the filename field is empty
         alert("Filename is required");
         return fNamed;//undefined
@@ -951,21 +947,22 @@ function fleNamer() {
         alert("Invalid filename: " + fileN);
         return fNamed;//undefined
     }
-    var dirN=$('#directoName').val();
+    //var dirN=$('#directoName').val();
     dirN = dirN.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
     if (!myRegxp1.test(dirN)) {//only alphanumerics with "-", "_" and "/" are allowed
         alert("Invalid directory name: " + dirN);
         return fNamed;//undefined
     }
     var overLap=fileN.indexOf(dirN); //is directory already included in the beginning of filename?
-    //console.log('dirname overlap: ',overLap);
     fNamed = (overLap==0)? fileN : dirN+'/'+fileN;
-    //console.log('filename: ',fNamed);
+    //console.log('flenamer: ',fNamed);
     return fNamed;
 }
 
 function operDispatcher(operatSel){
-    var mngFileN = fleNamer();
+    var fileN = $('#mongoFileName').val();
+    var dirN=$('#directoName').val();
+    var mngFileN = fleNamer(fileN,dirN);
     if (!mngFileN) {
         return;
     }
@@ -992,8 +989,12 @@ function operDispatcher(operatSel){
             mongoDelete(mngFileN);
             break;
         case 'Confirm file rename' :
-            console.log('file rename');
-            var oldFile=mongoColle(selctdNde.id).Folder;
+            //console.log('file rename');
+            var mongoPuu = $('#mongoTree').jstree(true); //get this jstree-instance
+            var mongoPuuData=mongoPuu.settings.core.data; //get the tree data
+            var selctdNde = mongoPuu.get_selected(true)[0];//get the selected node
+            var selctdNoode = mongoPuu.get_selected(true)[0];
+            var oldFile=mongoColle(selctdNoode.id,mongoPuuData).Folder;
             oldFile=oldFile.replace(/(^\/)|(\/$)/g, ""); //remove leading and trailing '/'
             oldFile=oldFile+'/'+selctdNde.original.text;
             var newFile=mngFileN;

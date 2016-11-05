@@ -2,16 +2,17 @@ doctype html
 html
   head
     title= title
+  block scripts
     link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
     //script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
     script(src='/bower_components/jquery/dist/jquery.min.js')
-    script(src='/bower_components/jstree/dist/jstree.min.js')
     script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
     //script(src='/bower_components/jquery-validation/dist/jquery.validate.js')
     script(src='/bower_components/jqnotifybar/jquery.notifyBar.js')
     script(type ='text/x-mathjax-config') MathJax.Hub.Config ({TeX:{equationNumbers:{autoNumber:"AMS"},tex2jax:{inlineMath:[['$','$'], ['\\(','\\)']]}}});
     script(src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML")
-    link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
+    //link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
+    link(rel='stylesheet', href='/bower_components/jquery-ui/themes/start/jquery-ui.min.css')
   body
     .navbar.navbar-inverse.navbar-static-top(role='navigation')
       .container
@@ -28,21 +29,27 @@ html
           ul.nav.navbar-nav  
             li(id='hoiMenu').dropdown
               a(href='#' class='dropdown-toggle' data-toggle='dropdown') Services
-                b.caret 
+                b.caret
               ul.dropdown-menu
                 li
                   a(href='/') Home
-                  //- use: #{user.username} to show the username
+                  //-to show the username:
+                  //-if user
+                      use: #{user}
                   //-if user!=null && user!='No login'
-                  li
-                    a(id='lokoutti', href='/Logout') Logout
-                  li
-                    a(id='pwdchangi', href='/pwdEdit') Change pwd
+                li
+                  a(id='lokoutti', href='/Logout') Logout
+                li
+                  a(id='pwdchangi', href='/pwdEdit') Change pwd
                   //-else
-                  li
-                    a(id='loginni', href='/login') Login
-                  li
-                    a(id='signuppi', href='/signup') Signup
+                li
+                  a(id='loginni', href='/login') Login
+                li
+                  a(id='signuppi', href='/signup') Signup
+                if user
+                  if user.username=='Publ'
+                    li
+                      a(id='admin', href='/admin') Admin
             li.dropdown
               a(href='#' class='dropdown-toggle' data-toggle='dropdown') Projects
                 b.caret 
@@ -86,8 +93,6 @@ html
     $('#hoiMenu').click(function () {
       var tokenee = window.sessionStorage.getItem('RTFtoken');
       var userLuser=window.sessionStorage.getItem('RTFuser');
-      //console.log('menu clicked user: ', userLuser);
-      //console.log('menu clicked token: ', tokenee);
       //as default assume no login:
       $(('#lokoutti')).hide();
       $(('#pwdchangi')).hide();

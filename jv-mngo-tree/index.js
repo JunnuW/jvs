@@ -6,6 +6,7 @@
  * ease the browsing of available documents in the database
  */
 var mongoose = require('mongoose');
+var nodemailer = require('nodemailer');
 var d=new Date();
 var vanhenee= d.toUTCString();
 var respOnse; //response to db operation
@@ -145,100 +146,6 @@ function ApplMod(req){
     return applModel;
 }
 
-function saveMessage(req,res,callBfun){
-    var messN=req.body.fName;
-    messN = messN.replace(/(^\/)|(\/$)/g, "");//remove leading and trailing /
-    console.log('messN: ',messN);
-    //check chain depth:
-    var slashes=messN.match(/\//g); //jos ei ainuttakaan tulee null muuten '/,/,/'
-    var slashN=(slashes==null || slashes==false)? 0:slashes.length;
-    if (slashN>5){
-        console.log('Prevented more than 5 message depth');
-        respOnse= {
-            statCode: 409, //user tries to save to too deep message path:
-            resString: 'Your message path is too long: '+messN,
-            error: 'Too deep path'
-        };
-        callBfun(req,res,respOnse);
-        return;
-    }
-    //console.log('messageName: ',messN);
-    var messUser=req.body.userNme;
-    var moder=(messUser=='Publ')? true : false;
-    //console.log('messageUser: ',messUser);
-    //console.log('moder: ',moder);
-    var messTxt=req.body.Text;
-    //console.log('messageText: ',messTxt);
-
-    var Messa = new Message({
-        username: messUser,
-        fName: messN, //e.g. "branch1/parent1/parent2/file1",
-        uMessage: messTxt,
-        moderated: moder,
-        dateRec: vanhenee}
-    );
-    //console.log('Messa: ',Messa);
-    Messa.save(function (err) {
-        //Jos messN:llä on jo tallennettu tämä antaa
-        // virheilmoituksen E11000 duplicate key error index
-        //http:ksi asetetaan statusCode 409
-        if (err) {
-            console.log('Error in saving to mongo-db: ',err);
-            if (err.name=='MongoError' && err.code==11000){
-                //console.log('dubb key Error in saving to mongo-db:');
-                respOnse= {
-                    statCode: 409, //user already has this message:
-                    resString: 'Not saved! Name: '+messN+ ' already used!',
-                    error: err.toString()
-                };
-            }else{
-                console.log('Error in saving to mongo-db:');
-                respOnse= {
-                    statCode: 500,
-                    resString: '',
-                    error: err.toString()
-                };
-            }
-        } else{
-            console.log("saving OK: "+messN);
-            respOnse={
-                statCode: 200,
-                resString:'saving OK',
-                error:''
-            };
-        }
-        callBfun(req,res,respOnse);
-    });
-}
-
-exports.saveMsg=function(req,res,callBfun){
-    Message.count({'username': req.user.username, 'moderated':false},function(err,countti) {
-        if (err) {
-            respOnse={
-                statCode: 500,
-                resString:'message count error for '+req.body.username+
-                ' retry after new login',
-                error:err.toString()
-            };
-            callBfun(req,res,respOnse);
-            return;
-        }else{//got the number of unmoderated messages
-            console.log(req.user.username,' unmoderated count: ',countti);
-            var inModer=countti;
-            if (countti>2){//user has too many unmoderated messages
-                respOnse={
-                    statCode: 409,
-                    resString: req.user.username+', please wait until your earlier messages ' +
-                    'have been moderated',
-                    error:countti+' messages in moderation'
-                };
-                callBfun(req,res,respOnse);
-                return;
-            }
-            saveMessage(req,res,callBfun);
-        }
-    });
-};
 
 exports.obtainOne=function(req,res,callBfun){
     //queries one documents from mongo db
@@ -314,13 +221,15 @@ exports.deleteDoc=function(req,res,callBfun){
     var fiName = req.body.fileName.replace(/(^\/)|(\/$)/g, ""); //removes eventual leading and trailing'/'
     var toReg=fiName.replace('/','\/');//slash characters in filename have to be escaped in regexp
     var re = new RegExp('^'+toReg);
-    var querY = {fName: re, username: req.body.userNme};
-    applModel.remove(querY, function(err,numberRemoved) {
+    //var querY = {fName: re, username: req.body.userNme};
+    var querY = {fName: re};
+    applModel.remove(querY, function(err,Removed) {
+        console.log('Removed.result.n: ',Removed.result.n);
         if (!err) {
             //Deleting was successful:
             respOnse={
                 statCode: 200,
-                resString:'deleting OK with: '+numberRemoved+' documents',
+                resString:'deleting OK with: '+Removed.result.n+' documents',
                 error:''
             };
         } else {
@@ -336,6 +245,7 @@ exports.deleteDoc=function(req,res,callBfun){
 
 var nRenamed=0;
 var toBeRen=0;
+
 exports.renameDocs=function(req,res,callBfun) {
     //callBfun takes result back for the response handler in app.js
     //renames existing mongo db document with new fName
@@ -351,19 +261,24 @@ exports.renameDocs=function(req,res,callBfun) {
         callBfun(respOnse);
         return;
     }
-    toBeRenamed(req,res,renOne,callBfun);
+    if (req.body.Collection=='messages'){
+        toBeRenMess(req,res,renOne,callBfun);
+    }else{
+        toBeRenamed(req,res,renOne,callBfun);
+    }
 };
 
 /*
- * Function, in async mode, first queries the db for matching doc names.
- * After receiving them, it repeatedly uses the callback function 'renOne'
- * to rename the matching document names one by one.
+ * Function 'toBeRenamed',
+ * in async mode, first queries the db for matching doc names for one user.
+ * After receiving them, repeatedly applies callback function 'renOne'
+ * renaming the matching documents one by one.
  * 'renOne' in turn receives 'callBfun' as a callback returning a message
- * about the success (or failure). This callback sequence eliminates error messages:
+ * about the success (or failure). This sequence eliminates error messages:
  * 'Can't set headers after they have been sent'
  */
 function toBeRenamed(req,res,callBa,callBfun){
-    var User = req.body.userNme;
+    var User = req.body.userNme; //only user's own messages
     var oldName = req.body.oldName.replace(/(^\/|\/$)/g, ""); //removes eventual leading and trailing '/'
     var newN = req.body.newName.replace(/(^\/)|(\/$)/g, ""); //removes eventual leading and
     //build database query using regexp:
@@ -828,6 +743,104 @@ exports.checkAllUserFiles=function(req,res,callBfun){
     });
 };
 
+ /********************************************************************'
+ *Messaging functions
+ *****************************/
+
+ function saveMessage(req,res,callBfun){
+    var messN=req.body.fName;
+    messN = messN.replace(/(^\/)|(\/$)/g, "");//remove leading and trailing /
+    console.log('messN: ',messN);
+    //check chain depth:
+    var slashes=messN.match(/\//g); //jos ei ainuttakaan tulee null muuten '/,/,/'
+    var slashN=(slashes==null || slashes==false)? 0:slashes.length;
+    if (slashN>5){
+        console.log('Prevented more than 5 message depth');
+        respOnse= {
+            statCode: 409, //user tries to save to too deep message path:
+            resString: 'Your message path is too long: '+messN,
+            error: 'Too deep message path'
+        };
+        callBfun(req,res,respOnse);
+        return;
+    }
+    //console.log('messageName: ',messN);
+    var messUser=req.body.userNme;
+    //Publ user saves moderated messages, others unmoderated
+    var moder=(messUser=='Publ')? true : false;
+    var messTxt=req.body.Text;
+    var Messa = new Message({
+        username: messUser,
+        fName: messN, //e.g. "branch1/parent1/parent2/file1",
+        uMessage: messTxt,
+        moderated: moder,
+        dateRec: vanhenee}
+    );
+    //console.log('Messa: ',Messa);
+    Messa.save(function (err) {
+        //Jos messN:llä on jo tallennettu tämä antaa
+        // virheilmoituksen E11000 duplicate key error index
+        //http:ksi asetetaan statusCode 409
+        if (err) {
+            console.log('Error in saving to mongo-db: ',err);
+            if (err.name=='MongoError' && err.code==11000){
+                //console.log('dubb key Error in saving to mongo-db:');
+                respOnse= {
+                    statCode: 409, //user already has this message:
+                    resString: 'Not saved! Name: '+messN+ ' already used!',
+                    error: err.toString(),
+                };
+            }else{
+                console.log('Error in saving to mongo-db:');
+                respOnse= {
+                    statCode: 500,
+                    resString: '',
+                    error: err.toString()
+                };
+            }
+        } else{
+            console.log("saving OK: "+messN);
+            emailAnno(req);
+            respOnse={
+                statCode: 200,
+                resString:'saving OK',
+                error:''
+                //infos: req.flash('success','email sent to moderator')
+            };
+        }
+        callBfun(req,res,respOnse);
+    });
+}
+
+exports.saveMsg=function(req,res,callBfun){
+    Message.count({'username': req.user.username, 'moderated':false},function(err,countti) {
+        if (err) {
+            respOnse={
+                statCode: 500,
+                resString:'message count error for '+req.body.username+
+                ' retry after new login',
+                error:err.toString()
+            };
+            callBfun(req,res,respOnse);
+            return;
+        }else{//got the number of unmoderated messages
+            console.log(req.user.username,' unmoderated count: ',countti);
+            var inModer=countti;
+            if (countti>2){//user has too many unmoderated messages
+                respOnse={
+                    statCode: 409,
+                    resString: req.user.username+', please wait until your earlier messages ' +
+                    'have been moderated',
+                    error:countti+' messages in moderation'
+                };
+                callBfun(req,res,respOnse);
+                return;
+            }
+            saveMessage(req,res,callBfun);
+        }
+    });
+};
+
 /* Queries for one specific message in mongodb and returns the message text
  * uses messages collection
  * responces either with an error message or a string containing the message
@@ -876,8 +889,10 @@ exports.countUserMess=function(req,res,callBfun){
         callBfun(req,res,respOnse);
         return;
     }
-    //valid user login continue to get count for all and in moderation messages
-    Message.count({'username': req.user.username},function(err,countti) {
+    //valid user login available: continue to get count for all and in moderation messages
+    var qwery=(req.user.username=="Publ")? {}:{'username': req.user.username};
+    //Publ counts messages from all users
+    Message.count(qwery,function(err,countti) {
         //got number of all messages:
         if (err) {
             console.log('error getting message count for: ', req.user.username);
@@ -890,11 +905,13 @@ exports.countUserMess=function(req,res,callBfun){
             callBfun(req,res,respOnse);
             return;
         }else{
-            console.log(req.user.username,' all messages: ',countti);
+            //console.log(req.user.username,' all messages: ',countti);
             messCount.all=countti;
         }
     });
-    Message.count({'username': req.user.username, 'moderated':false},function(err,countti) {
+    //in moderation message count:
+    qwery=(req.user.username=="Publ")? {'moderated':false}:{'username': req.user.username,'moderated':false};
+    Message.count(qwery,function(err,countti) {
         //got number of in moderation messages
         if (err) {
             respOnse={
@@ -916,72 +933,202 @@ exports.countUserMess=function(req,res,callBfun){
     });
 };
 
-/* Queries all moderated messages according to a schema in mongo db
- * uses messages collection
- * responces either with an error message or a string containing the directory structure
+
+/* Queries all messages from messages collection
+ * builds message tree for all messages.
+ * responses either with an error message or an array object containing the directory tree
  */
 exports.checkAllMessa=function(req,res,callBfun){
-    //console.log("checkAllUserFiles username: ", req.body.userNme);
-    var drTree=[];
     var fields = {'_id':1,'fName':1,'dateRec':1,'moderated':1};
-    var querY={'moderated':true};
-    if (req.user && req.user.username=='Publ'){
-        //Publ user can view all messages
-        querY={};
-    }
-    //console.log('querY: ',JSON.stringify(querY));
+    var querY={};
     Message.find(querY,fields, function(err,allMess) {
-        var messFN=allMess.length;
-        allMess.sort(function(a,b){
-            if(a.fName< b.fName) return -1; //alphabetically sorts after message name
-            if(a.fName >b.fName) return 1;
-            if(a.dateRec< b.dateRec) return -1; //identical names sorted by receiving time
-            if(a.dateRec >b.dateRec) return 1;
-            return 0; // should never take place, receiving times can't be identical
-        });
-        console.log('allMess. ',allMess);
-        //Put messages into json object for the jsTree widget
-        for (var i=0;i<messFN;i++){
-            var mesName=allMess[i].fName;
-            var a=[];
-            mesName = mesName.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-            //console.log('mesName: ',mesName);
-            a=mesName.split("/");
-            if (a.length==1){//thread item
-                drTree.push({
-                    "id": allMess[i]._id,
-                    "parent": '#',
-                    "text": mesName //,"icon":"jstree-folder"
-                })
-            }else{
-                if (a.length>1){
-                    var slashPos=mesName.lastIndexOf('/');
-                    var fndIt=mesName.substring(0,slashPos);//folder part of the messagename:
-                    var itemi=mesName.substring(slashPos+1); //end of string from the last '/'
-                    var parnts=allMess.filter(function(e){//find parent candidates:
-                        return (e.fName.indexOf(fndIt)==0)
-                    });
-                    parnts.sort(function(a, b) {
-                        if (a.fName>b.fName) return 1;
-                        if (a.fName<b.fName) return -1;
-                        (a.dateRec> b.dateRec); //identical names sorted by recording date
-                    });
-                    var parnt=parnts[0]._id; //select the first candidate
+        var drTree = [];
+        if (err) { //return if error in dbQuery
+            var errori = {'dbError': err};
+            drTree.push(errori);
+            console.log('drTree: ', drTree);
+        }else {
+            var messFN = allMess.length;
+            //console.log('checkAllMessages found: ', messFN);
+            allMess.sort(function (a, b) {
+                if (a.fName < b.fName) return -1; //alphabetically sorts after message name
+                if (a.fName > b.fName) return 1;
+                if (a.dateRec < b.dateRec) return -1; //identical names sorted by receiving time
+                if (a.dateRec > b.dateRec) return 1;
+                return 0; // should never take place, receiving times can't be identical
+            });
+            //Put messages into json object for the jsTree widget
+            for (var i = 0; i < messFN; i++) {
+                var mesName = allMess[i].fName; //message name with path eg. '01_Messaging instructions/how to read/hkkjjh'
+                var mode = allMess[i].moderated;
+                var aMes = [];
+                var bMes = [];
+                var mesNCount = 0;
+                for (var j = 0; j < messFN; j++) {//mesNCount > 1 if message is a parent (thread) item.
+                    mesNCount += (allMess[j].fName.indexOf(allMess[i].fName) == -1) ? 0 : 1;
+                }
+                mesName = mesName.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
+                aMes = mesName.split("/");
+                if (aMes.length == 1) {//thread item, can be created by admin and comes visible only if path length is 1
                     drTree.push({
                         "id": allMess[i]._id,
-                        "parent": parnt,
-                        "text": itemi //,"icon":"jstree-folder"
-                    })
+                        "parent": '#',
+                        "text": mesName,
+                        "icon": "jstree-folder",
+                        "data":{"Moderated":mode}
+                    });
+                } else {
+                    if (aMes.length > 1) {
+                        var tempName = mesName;
+                        var slashPos = mesName.lastIndexOf('/');
+                        var fndIt = mesName.substring(0, slashPos); //folder part of the messagename:
+                        var itemi = mesName.substring(slashPos + 1); //end of string from the last '/'
+                        var parnts = allMess.filter(function (e) {   //find parent candidates:
+                            return (e.fName.indexOf(fndIt) == 0);
+                        });
+                        parnts.sort(function (a, b) {
+                            if (a.fName > b.fName) return 1;
+                            if (a.fName < b.fName) return -1;
+                            (a.dateRec > b.dateRec); //identical names sorted by recording date
+                        });
+                        var parnt = parnts[0]._id; //select the first candidate
+                        drTree.push({
+                            "id": allMess[i]._id,
+                            "parent": parnt,
+                            "text": itemi,
+                            "icon": (mesNCount > 1) ? "jstree-folder" : "jstree-file",
+                            "data":{"Moderated":mode}
+                        });
+                    }
                 }
             }
-            //console.log('drTree: ',drTree);
         }
-        respOnse={
-            statCode: 200,
-            resString:JSON.stringify(drTree),
-            error:''
-        };
-        //console.log('respOnse: ',respOnse);
+        //console.log('drTree: ', drTree);
+        if (drTree.length == 0 || drTree[0].dbError) {
+            respOnse = {
+                statCode: 200,
+                resString: '',
+                error: ((drTree[0]) ? drTree[0].dbError : 'no user messages?!')
+            };
+        } else {
+            respOnse = {
+                statCode: 200,
+                resString: JSON.stringify(drTree),
+                error: ''
+            };
+        }
+        callBfun(req,res,respOnse);
+    });
+}
+
+/*
+ * Function @toBeRenMess  for message renaming.
+ * in async mode, first queries the db for matching message names for all users.
+ * After receiving them, repeatedly uses the callback function 'renOne'
+ * to rename the matching messages one by one.
+ * 'renOne' in turn receives callback, 'callBfun' returning a message
+ * about the success (or failure). This sequence eliminates error messages:
+ * 'Can't set headers after they have been sent'
+ */
+function toBeRenMess(req,res,callBa,callBfun){
+    var oldName = req.body.oldName.replace(/(^\/|\/$)/g, ""); //removes eventual leading and trailing '/'
+    var newN = req.body.newName.replace(/(^\/)|(\/$)/g, ""); //removes eventual leading and
+    //build database query using regexp:
+    var toReg=oldName.split('/').join('\\/');
+    toReg=toReg.split('?').join('\\?');  //question marks have to be escaped in regex
+    toReg=toReg.split('!').join('\!');  //exclamation points have to be escaped in regex
+    toReg=toReg.split('$').join('\$');  //dollar signs have to be escaped in regex
+    //console.log('toReg: ',toReg);
+    var re = new RegExp('^'+toReg);
+    //console.log('re: ',re);
+    var querY = {fName: re};
+    //console.log('querY: ',querY);
+    Message.find(querY, function (err, docs) {
+        if (err) {//error in finding documents from mongodb
+            console.log('err: ' + err.toString());
+            respOnse={
+                statCode: 500,
+                resString:'Document not found for renaming',
+                error:err.toString()+' in finding document for renaming '
+            };
+            callBfun(req,res,respOnse);
+            return;
+        }else{
+            toBeRen=docs.length;
+            //exclude partial names
+            var toRena=[];
+            var len=oldName.length;
+            for (var i=0;i<toBeRen;i++){
+                //console.log('docs[',i,']= ',docs[i].fName);
+                var testi=docs[i].fName.substring(len).indexOf('/');
+                if (docs[i].fName==oldName||testi==0){
+                   toRena.push(docs[i]);
+                   //console.log('toRena[]= ',docs[i].fName);
+                }
+            }
+            toBeRen=toRena.length;
+            var olD;
+            var neW;
+            toRena.forEach(function(item){
+                olD=item.fName;//where the beginning is identical to oldName
+                neW=olD.replace(re,newN);
+                //console.log('forEach neW: ',neW);
+                renOne(req,res,toBeRen,querY,neW,renOneOk,callBfun);//renames one by one
+            });
+        }
+    });
+}
+
+/* Udates one message according to messageId
+ * toggles Moderated from false to true or vice versa
+ * responces either with an error message or success message: 'Moderation toggled'
+ */
+exports.toggleModeration=function(req,res,callBfun) {
+    console.log('req.body: ',req.body);
+    console.log('req.body.Moderated: ',req.body.Moderated);
+    var newMod = req.body.Moderated;
+    var messId = req.body.MessageId;
+    Message.findByIdAndUpdate(messId, { $set: { moderated: newMod }}, { new: false }, function (err, messa) {
+        if (err) {
+            respOnse={
+                statCode: 500,
+                resString:'moderation failed! ',
+                error:err.toString()
+            };
+        }else{
+            respOnse = {
+                statCode: 200,
+                resString: "Moderation toggled",
+                error: ''
+            };
+        }
         callBfun(req,res,respOnse);
     });
 };
+
+function emailAnno(req){
+    var messN=req.body.fName;
+    messN = messN.replace(/(^\/)|(\/$)/g, "");//remove leading and trailing /
+    var messTxt=req.body.Text;
+    var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+           auth: {
+           user: 'wiljnn.jh@gmail.com',
+           pass: 'Heikki#Juhani'
+        }
+    });
+
+    var mailOptions = {
+        to: 'juha.wiljanen@gmail.com',
+        from: 'wiljnn.jh@gmail.com',
+        subject: 'new rock-phys message: '+messN,
+        text: messTxt
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            return console.log(error);
+        }
+        console.log('Message sent: ' + info.response);
+    });
+}
