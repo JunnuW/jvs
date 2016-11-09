@@ -52,7 +52,7 @@ var targStr = "nm\tR\t'sample data'\r\n500\t55.0\r\n510\t54.0\r\n520\t55.0";
 *   Runs after HTML page has been rendered
 *   Initializes variables and prepares event handlers
 *   (Avoideable by placing the jv-tfrcalci.js script tag to the bottom of
-*   refletrans HTML body before the </body> tag. Here in refletrans.pug file)
+*   refletrans HTML body before the </body> tag. Here in refletrans.jade file)
 *   script call to jquery.min.js has to be before this called to alias the $ char
 *   for jquery
 *   $( document ).ready(function() {
