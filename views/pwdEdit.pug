@@ -1,0 +1,16 @@
+extends layout.pug
+
+block content
+  form(method='POST' role="form")
+    legend Change your Rock.Phys. password
+    .form-group
+      p You are logged in as: #{user.username}
+      label(for='emailAddr') Your email:
+      input.form-control(type='text', id='emailAddr',name='emailAddr', value=user.email, autofocus)
+    .form-group
+      label(for='NewPassword') New password
+      input.form-control(type='password', id='NewPassword', name='NewPassword')
+      label(for='RepNewPwd') Confirm new pwd
+      input.form-control(type='password',id='RepNewPwd', name='RepNewPwd')
+    button.btn.btn-primary(type='submit') save changes
+    a.btn.btn-link(href='/') Cancel changes

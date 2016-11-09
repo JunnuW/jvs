@@ -1,0 +1,107 @@
+extends layout.pug
+
+block content
+  h3(style="color:Brown")= title
+  p
+    if user
+      b #{user.username}
+      | :
+      br
+      | The here applied, open source and MIT-licenced software components can be found in the lists below.
+    else
+      | The here applied, open source and MIT-licenced software components can be found in the lists below.
+    br
+    h3(style="color:Brown") Server side components:
+    -var Node_urli="https://en.wikipedia.org/wiki/Node.js"
+    a(href=Node_urli target="_blank") Node.js
+    |    with modules:
+    -var Express_urli="http://expressjs.com/"
+    a(href=Express_urli target="_blank")   Express
+    | ,
+    -var path_urli="https://nodejs.org/api/path.html"
+    a(href=path_urli target="_blank")   path
+    | ,
+    -var favicon_urli="https://github.com/expressjs/serve-favicon"
+    a(href=favicon_urli target="_blank")   serve-favicon
+    | ,
+    -var morgan_urli="https://github.com/expressjs/morgan"
+    a(href=morgan_urli target="_blank")   morgan
+    | ,
+    -var cookie_urli="https://github.com/expressjs/cookie-parser"
+    a(href=cookie_urli target="_blank")   cookie-parser
+    | ,
+    -var body_urli="https://github.com/expressjs/body-parser"
+    a(href=body_urli target="_blank")   body-parser
+    | ,
+    -var Mongoose_urli="http://mongoosejs.com/"
+    a(href=Mongoose_urli target="_blank")   Mongoose
+    | ,
+    -var nodemailer_urli="https://github.com/andris9/Nodemailer"
+    a(href=nodemailer_urli target="_blank")   nodemailer
+    | ,
+    -var passport_urli="http://passportjs.org/"
+    a(href=passport_urli target="_blank")   passport
+    | ,
+    -var bcrypt_urli="https://www.npmjs.com/package/bcrypt-nodejs"
+    a(href=bcrypt_urli target="_blank")   bcrypt-nodejs
+    | ,
+    -var async_urli="https://github.com/caolan/async"
+    a(href=async_urli target="_blank")   async
+    | ,
+    -var flash_urli="https://www.npmjs.com/package/express-flash"
+    a(href=flash_urli target="_blank")   express-flash
+    | ,
+    -var jwt_urli="https://www.npmjs.com/package/jwt-simple"
+    a(href=jwt_urli target="_blank")   jwt-simple
+    | ,
+    -var moment_urli="https://www.npmjs.com/package/moment"
+    a(href=moment_urli target="_blank")   moment
+    | ,
+    -var session_urli="https://github.com/expressjs/session"
+    a(href=session_urli target="_blank")   express-session
+    | ,
+    -var request_urli="https://www.npmjs.com/package/request-ip"
+    a(href=request_urli target="_blank")   request-ip
+    | ,
+    br
+    h3(style="color:Brown") Browser side components:
+    -var bootstrap_urli="http://getbootstrap.com/"
+    a(href=bootstrap_urli target="_blank")   bootstrap
+    | ,
+    -var jquery_urli="https://jquery.com/"
+    a(href=jquery_urli target="_blank")   jquery
+    | ,
+    -var jqvalidate_urli="http://jqueryvalidation.org/"
+    a(href=jqvalidate_urli target="_blank")   jquery.validate
+    | ,
+    -var jqnotifybar_urli="https://github.com/dknight/jQuery-Notify-bar/"
+    a(href=jqnotifybar_urli target="_blank")   jquery.notifyBar
+    | ,
+    -var jqeditable_urli="http://www.appelsiini.net/projects/jeditable"
+    a(href=jqeditable_urli target="_blank")   jquery.jeditable
+    | ,
+    -var jqflot_urli="http://www.flotcharts.org/"
+    a(href=jqflot_urli target="_blank")   jquery.flot
+    | ,
+    -var jqdatatables_urli="https://www.datatables.net/"
+    a(href=jqdatatables_urli target="_blank")   jquery.dataTables
+    | ,
+    -var jstree_urli="https://www.jstree.com/"
+    a(href=jstree_urli target="_blank")   jquery.jstree
+    | ,
+    -var mathcompl_urli="https://github.com/dankogai/js-math-complex"
+    a(href=mathcompl_urli target="_blank")   math-complex
+    | ,
+    -var dsp_urli="https://github.com/corbanbrook/dsp.js/"
+    a(href=dsp_urli target="_blank")   dsp.js (FFT package)
+    | ,
+    -var mathjaX_urli="https://www.mathjax.org/"
+    a(href=mathjaX_urli target="_blank")   mathJax
+    | ,
+    br
+    br
+    br
+    -var another_url="http://www.javaworld.com/article/2079190/scripting-jvm-languages/6-things-you-should-know-about-node-js.html"
+    a(href=another_url target="_blank")  More about Node.js
+
+//-script(type='text/javascript').

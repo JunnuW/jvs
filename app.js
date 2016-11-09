@@ -1,6 +1,7 @@
 'use strict';
 var express = require('express');
 var path = require('path');
+var crypto=require('crypto');
 var favicon = require('serve-favicon');
 var logger = require('morgan');//logs requests to the console to what is happening
 var cookieParser = require('cookie-parser');
@@ -162,7 +163,7 @@ var User = mongoose.model('User', userSchema);
 
 //console.log('directory is:'+__dirname);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.set('SessionSecret', 'onpas_ovelaa_tämä:_node.js');
 app.use(logger('dev')); //in development neighbourhood
 

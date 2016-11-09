@@ -1,0 +1,74 @@
+//-Created by Juha on 3/7/2016.
+extends broaden.pug
+block levenee
+    h3 Inhomogeneous broadening in light emitting diodes
+    h4 Inhomogeneous broadening in bulk semiconductor materials
+    |   Typical optical emission and absorption spectra have tails penetrating several ten meV's below
+    | the material band gap. These tails decrease exponentially with photon energy and may span up to 4-5 intensity decades.
+    | This behaviour, known as the
+    -var Urbach_urli="http://www.physics.utoronto.ca/~john/john/p1777_1.pdf"
+    a(href=Urbach_urli target="_blank")   Urbach tail
+    |    is commonly observed in the optical absorption of disordered solid materials. It arises from local imperfections
+    | and fluctuations, which in semiconductors can be either frozen into the material during the fabrication
+    | or induced by phonon fields oscillating inside the chrystal.
+    | \begin{equation}
+    | \label{UrbachTail}
+    | I(E)/I_{f}=exp[(E - E_{f})/E_{u}]\quad ,\quad (E\leq E_{f})~
+    | \end{equation}
+    | Here \(I_{f}\) is the spectral value at
+    -var Urbach_focus="http://soukoulis.physics.iastate.edu/publications/077.pdf"
+    a(href=Urbach_focus target="_blank")   Urbach focus
+    |       energy \(E_{f}\), and \(E_{u}\) the Urbach tail parameter (6-9 meV values have been reported for \(E_{u}\)
+    | in high quality GaAs at 300K temperature).
+    | The temperature dependent part in \(E_{u}\) has been associated to phonon created disorder and
+    | the exponential shape is explained by the Gaussian depth distribution of the potential wells in the disorder.
+    | The phonon created disorder is not permanent and static, but when compared against the fast photon
+    | emission and absorption processes it appears like a frozen, spatial variation distributed in the chrystal lattice.
+    | Urbach tail therefore is a form of inhomogeneous spectral broadening of the band gap.
+    center
+      img(src="images/Bulkit3.png" alt="Three Urbach tails" align="middle" style="width:304px;height:228px;")
+      p Experimental photoluminescence spectra for three semiconductor
+        br
+        | materials common in LED and LD production
+    | With each material in the above figure, \(E_{f}\) was taken to equal the material band gap \(E_{g}\) and
+    | the Urbach tail (left side of the curve) is seen to span more than three intensity decades.
+    | For the used calculation methods to obtain the simulated spectra (broken lines in the figure above), click the
+    -var generally="/broadgeneral"
+    a(href=generally)     \(Generally\)
+    |       item in the \(Broadenings\) menu at the top of this page.
+    h4 Inhomogeneous broadening in quantum well diodes
+    |     At low excitation conditions, similar exponential band gap tail, spanning several intensity decades
+    | can be observed also in the emission spectrum of qw LED's. The tail behaves as the broadening minimum at small diode
+    | currents and is by shape identical with the Urbach tail, and is related to spatial variations in the quantum well
+    | dimensions and materials. At low current levels, on laterally small devices, this spectral tail loses its diode current
+    | sensitivity, but through phonon interactions shows some sensitivity on the diode's temperature.
+    center
+      img(src="images/inhomog2a.png" alt="qw inhomog" align="middle" style="width:404px;height:300px;")
+      p Urbach tail like (Eu=12meV) inhomogeneous broadening in a semiconductor qw LD, where \(E_{f}\) was taken as
+        |\(E_{t}\),
+        br
+        | the energy difference between the first conduction band qw energy level (cb1) to the highest
+        | valence band qw light hole level (lh1).
+    br
+    h4 Spectral shape calculator for inhomogeneous broadening
+    |   The calculated spectral shape (broken lines in the two figures above) was obtained using equation:
+    | \begin{equation}
+    | \label{inhomobr}
+    | R_{sp}(E)\propto\int_0^\infty \epsilon\rho_{r}(\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)
+    | \times L_{ih}(E-\epsilon)\mathrm{d}\epsilon~,
+    | \end{equation}
+    | where \(\epsilon\) and \(E\) stand for spectral energy (here in electron volts),
+    br
+    | \(\rho_{r}(\epsilon)\) stands for density of states (either for bulk material or quantum well)
+    br
+    | \(S(\epsilon)\) is the Sommerfeldt enhancement factor (exciton effect either for bulk or
+    | quantum well)
+    br
+    | \(exp(-\epsilon/k_{B}T)\) approximates \(f_{c}(E)\times(1-f_{v}(E))\), where \(f_{c}(E)\) and \(f_{v}
+    | (E)\) are the Fermi occupation functions for conduction and valence bands respectively.
+    br
+    | \(L_{ih}(E-\epsilon)\) stands for inhomogeneous broadening according to Urbach function in Eq.(\ref{UrbachTail})
+    | and the variable \( E-\epsilon \) is needed for the convolution integral. i.e. to get the spectrum value at
+    | photon energy \(E\) it is necessary to calculate the integral with variable \(\epsilon\). In the graph legend
+    | below this is denoted with asterix.
+
