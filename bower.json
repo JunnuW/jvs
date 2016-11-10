@@ -34,6 +34,7 @@
     "js-math-complex": "git://github.com/dankogai/js-math-complex.git",
     "Flot": "flot#^0.8.3",
     "jeditable": "^1.7.3",
-    "jstree": "^3.3.2"
+    "jstree": "^3.3.2",
+    "jquery-validation": "jquery-validate#^1.15.1"
   }
 }
