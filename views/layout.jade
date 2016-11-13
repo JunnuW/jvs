@@ -103,7 +103,7 @@ html
           rtftoken: tokenee
         }).done(function (data, status, xhr) {
           if (data) {
-            //console.log('checklogin: ', data);
+            console.log('checklogin: ', data);
             if (data.token == 'valid') {//login is ok, set menus:
               $(('#lokoutti')).show();
               $(('#pwdchangi')).show();

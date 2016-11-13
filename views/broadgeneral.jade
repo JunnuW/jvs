@@ -3,8 +3,8 @@ extends broaden
 block levenee
     h2 Modelling spectral broadening in semiconductor diodes
     h4(style='margin-left:50px;')
-      a(href='#otherHeader' style="font-style:italic;") (To use with other emitter types: )
-    p(id='otherText') With spectral line emitters activate only the Boltzman distribution item
+      a(href='#otherHeader' style="font-style:italic;") (Advice for use with other emitters: )
+    p(id='otherText') With spectral line emitters, activate only the Boltzman distribution item
       | in the simulation selector and set the temperature parameter (T) to zero (0).
       | Using both simulation graphs (homogeneous and inhomogeneous) it is possible to produce
       | also combined broadening effects, like the Voigt function.
@@ -12,32 +12,43 @@ block levenee
     p
     | LED's and laser diodes (LD) have rapidly gained amazing popularity in many applications, often because of
     | their high power efficiency. For their unbeatable properties LED's are usually constructed with one or more quantum
-    | wells in the pn diode's junction area. There, the quantum wells concentrate the charge carriers to a tightly confined area
-    | dramatically increasing their density and recombination probability. Each recombining electron hole pair may produce
+    | wells in the diode's pn junction. There, quantum wells concentrate the charge carriers to tightly confined regions
+    | dramatically increasing the
+    -var eh_pair_urli="https://en.wikipedia.org/wiki/Carrier_generation_and_recombination"
+    a(href=eh_pair_urli target="_blank")   electron hole pair
+    |      density and recombination probability. Each recombining electron hole pair may produce
     | an emitted photon and contribute to the emission of light from the diode. The photon energy (
     span(style="font-weight:bold") wavelength
-    | ) roughly equals the bandgap of the emitting material layer, but in oder to describe the conversion of electric power
-    | into a flux of photons more in detail, we additionally need a detailed understanding also on the
-    b
+    | ) roughly equals the bandgap of the emitting material layer, but in oder to accurately describe the conversion of
+    | consumed electric power into a flux of photons, we additionally need a detailed understanding also on the
+    -var lineshape_urli="https://en.wikipedia.org/wiki/Spectral_line_shape"
+    a(href=lineshape_urli target="_blank")   broadening
+    |      mechanisms hidden in the spectra of emitted photons.
+    //-b
         em    broadening
-    |    mechanisms hidden in the spectra of emitted photons.
+    //-|    mechanisms hidden in the spectra of emitted photons.
     br
     br
     b
         i  Emission wavelength
     |   (the spectral color) is determined by the semiconductor material bandgap in combination
-    | with the dimensions (depth and width) of the included quantum well(s). These three parameters are tailored in the
-    | material deposition processes during the fabrication. Emitted photons typically have energies close to the bandgap
-    | value, and the quantum well structure significantly reduces the photon reabsorption risk in the
+    | with the dimensions (depth and width) of the included
+    -var qw_urli="http://www-ee.stanford.edu/~dabm/181.pdf"
+    a(href=qw_urli target="_blank")   quantum well(s).
+    |      These three parameters are tailored in the
+    | material deposition processes during the fabrication. Emitted photons typically have energies close to the
+    -var bandgap_urli="https://en.wikipedia.org/wiki/Band_gap"
+    a(href=bandgap_urli target="_blank")   bandgap
+    |      value, and the quantum well structure significantly reduces the photon reabsorption risk in the
     | surrounding host materials.
     br
     br
     | Typical emission spectra are rather broad in LED's (also in LD's below the lazing threshold),
     | at least significantly broader than evaluated before the broadening mechanisms are accounted for.
-    | A correct spectral broadening function is required also for semiconductor laser modelling to calculate the laser
-    | gain spectra. Several alternative functions have been proposed for qw LED and LD calculations.
-    | This site examines many of them, and also several combined functions can be plotted to compare against experimental
-    | spectra.
+    | A correct spectral broadening function is required also for semiconductor laser modelling and gain spectra
+    | calculations. Several alternative functions have been proposed for qw LED and LD calculations.
+    | This site examines many of them, and also several combined functions can be plotted and compared against
+    | experimental spectra.
     br
     | Optical broadening mechanisms are often categorized to be either
     b
@@ -48,8 +59,8 @@ block levenee
     |   With LED's, a description bottleneck exists in the spectral dependency on diode current.
     | Diode spectra typically broaden with increasing current (before the onset of stimulated emission) and
     | in well defined diodes, this feature has sought for explanations. Because the emitted photons are particles without
-    | rest mass they carry very small momentum (\(p=h/\lambda\)) compared to electrons (\(p_{e}=m_{e}v\)) and holes
-    | (\(p_{h}=m_{h}v\)) moving with thermal velocity distributions inside the quantum wells.
+    | rest mass they carry very small momentum (\(p=h/\lambda\)) compared to electrons (\(p_{e}=m_{e}v_{e}\)) and holes
+    | (\(p_{h}=m_{h}v_{h}\)) moving with thermal velocity distributions inside the quantum wells.
     | The conservation of energy and linear momentum are required for the e-h pair recombination and it is generally assumed
     | that only pairs with zero or very small linear momentum participate in the process, which makes the active exciton
     | populations homogeneous at the available transition energies. However, the resulting spectral lines do not show the

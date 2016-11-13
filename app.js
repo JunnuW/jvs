@@ -684,30 +684,32 @@ app.get('/forgot', function(req, res) {
 });
 
 app.post('/forgot', function(req, res) {
-    //console.log("app.post('/forgot')");
+    console.log("app.post('/forgot req:',req)");
     //vesiputous ajaa sarjan callback funktioita perÃ¤kkÃ¤in:
     async.waterfall([
         function(done) {
+            console.log('randombytesissä');
             crypto.randomBytes(20, function(err, buf) {
-                //where buf contains the asynchronously generated pseudo-random bytes
-                // for synchronous generation: const buf = crypto.randomBytes(20);
+                // here buf contains the asynchronously generated pseudo-random bytes
+                // synchronous generation would be: const buf = crypto.randomBytes(20);
                 var token = buf.toString('hex');
-                console.log('Have %d bytes of random data password change token: %s',token.length,token);
-                console.log('err: '+err);
+                //console.log('Have %d bytes of random data password change token: %s',token.length,token);
+                //console.log('err: '+err);
                 done(err, token); //call the next function with the token
             });
         },
         function(token, done) {
+            console.log('randombytes tehty:');
+            console.log('findOne kutsutaan: ',req.body.email);
             User.findOne({ email: req.body.email }, function(err, user) {
-                console.log('findOne user: ',user);
                 if (!user) {
                     req.flash('error', 'No account with that email address exists.');
                     return res.redirect('/forgot');
                 }
+                //email osoite löytyi asetetaan reset token:
                 user.resetPasswordToken = token;
                 //req.flash('error', 'token: '+token);
                 user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-
                 user.save(function(err) {
                     done(err, token, user);
                 });
@@ -736,7 +738,7 @@ app.post('/forgot', function(req, res) {
                 subject: 'Node.js Password Reset',
                 text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                 'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                'https://' + req.headers.host + '/reset/' + token + '\n\n' +
+                'http://' + req.headers.host + '/reset/' + token + '\n\n' +
                 'If you did not request this, please ignore this email and your password will remain unchanged.\n'
             };
 
@@ -745,11 +747,20 @@ app.post('/forgot', function(req, res) {
                 done(err, 'done');
             });*/
             transporter.sendMail(mailOptions, function(error, info){
-                req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+                console.log('transporter.sendMail callbackissä');
+                //req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
                 if(error){
+
                     return console.log(error);
                 }
-                console.log('Message sent: ' + info.response);
+                var logInfo='An e-mail has been sent to ' + user.email +
+                    ' with further instructions to reset your password.';
+                res.render('login', {
+                    title: 'Rock-Phys. (no login)',
+                    user: req.user,
+                    infos: req.flash('info',logInfo)
+                    //infos välittää virheilmoituksen layout sivulle =messages.error
+                });
             });
         }
     ], function(err) {
@@ -758,6 +769,7 @@ app.post('/forgot', function(req, res) {
             console.error(err.stack);
             //return next(err);
         }
+        console.log('res: ',res);
         res.redirect('/forgot');
     });
 });
