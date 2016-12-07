@@ -1,87 +1,14 @@
-fieldset {
-    /* for spectralmodel dialog box fieldsets*/
-    border: 1px solid green;
-    padding: 1em;
-    /*font:80% sans-serif;*/
-}
 
-label {
-    /* for spectralmodel dialog box labels*/
-    width:23%;
-    /*margin-right:0.5em;*/
-    margin-right:5px;
-    /*padding-top:0.2em;*/
-    /*padding:7px;*/
-    text-align:right;
-    font-weight:bold;
-}
-
-.otsikko {
-    /* for spectralmodel dialog box fieldset titles*/
-    font-size:16px;
-    display:none;
-}
-
-.label2 {
-    /* for spectralmodel dialog box fieldset labels*/
-    width:40%;
-    /*margin-right:0.5em;*/
-    margin-right:5px;
-    /*margin-left:20px;*/
-    /*padding-top:0.2em;*/
-    /*padding:7px;*/
-    text-align:right;
-    font-weight:bold;
-}
-
-.label3 {
-    /* for spectralmodel dialog box fieldset labels*/
-    width:15%;
-    /*margin-right:0.5em;*/
-    margin-right:5px;
-    /*margin-left:20px;*/
-    /*padding-top:0.2em;*/
-    /*padding:7px;*/
-    text-align:left;
-    font-weight:bold;
-}
-
-.label4 {
-    /* for spectralmodel dialog box fieldset labels*/
-    width:32%;
-    /*margin-right:0.5em;*/
-    margin-right:5px;
-    margin-left:15px;
-    /*margin-left:20px;*/
-    /*padding-top:0.2em;*/
-    /*padding:7px;*/
-    text-align:right;
-    font-weight:bold;
-}
-
-.inputti {
-    /* for spectralmodel dialog box inputs*/
-    width:45px;
-    margin-left:13px;
-}
-
-.inputti2 {
-    /* for spectralmodel dialog box inputs*/
-    width:45px;
-    margin-left:13px;
-    text-align:left;
-}
-
+    /* Simulation graph placeholders*/
 .demo-placeholder {
-    /*For simulation graph placeholders*/
     width: 100%;
     height: 100%;
     font-size: 14px;
     line-height: 1.2em;
 }
 
+    /* Simulation graph containers*/
 .demo-container {
-    /*For simulation graph containers*/
     box-sizing: border-box;
     width: 850px;
     height: 450px;
@@ -94,81 +21,10 @@ label {
     background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
     background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
     background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-    -o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    margin-left:10px;
-}
-
-#mongoDialForm {
-    /*for dialog form*/
-    z-index: 999 !important ;
-    display:none;
-}
-
-.vakata-context {
-    /*Required for jsTree contextmenu plugin
-          otherwise contextmenu not visible:*/
-    z-index:998 !important;
-}
-
-.big-btn-left {
-    width: 90px;
-    height: 40px;
-    float: left;
-}
-
-.big-btn {
-    width: 120px;
-    height: 50px;
-    float:right;
-}
-
-.medium-btn-left {
-    width: 120px;
-    height: 30px;
-    float: left;
-}
-
-.medium-btn-right {
-    width: 120px;
-    height: 30px;
-    float: right;
-}
-
-/* button formatting in dialog form for directory selection: */
-.medium-btn {
-    width: 120px;
-    height: 30px;
-    float: right;
-    margin-right: 30px;
-}
-
-/* not in use */
-.small-btn {
-    width: 50px;
-    height: 20px;
-}
-
-/* makes dialog-form Transparent:*/
-.ui-widget-header {
-    opacity:1.0;
-    /*border: none;
-    background: transparent;*/
-}
-.ui-widget-content {
-    opacity:0.85;
-    /*background: transparent;*/
-}
-
-.ui-dialog { /*ilman tätä saattaa dialog boxin yläreuna jäädä bootstrapin alle*/
-    z-index: 1000 !important ;
-    background:lightyellow !important;
-    /*position: fixed;*/
-}
-
-.vaaleankelt {/* muuttaa dialogin vaaleankeltaiseksi*/
-    background:lightyellow !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    -o-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
 }

@@ -3,17 +3,6 @@ doctype html
 html
   head
     title=title
-    //-style.
-      body {
-        font-family: Verdana;
-        font-size:13px;
-        background: #eee;
-      }
-      h1, h2, h3 { font-size: 22px; color: #000080; }
-      h2 { font-size: 18px; }
-      h3 { font-size: 14px; }
-      a { color: #C2575B; text-decoration: none; }
-      a:hover { color: #F76F76; }
 
     script(src='/bower_components/jquery/dist/jquery.min.js')
     script(src='/bower_components/jquery-ui/jquery-ui.js')
@@ -30,16 +19,16 @@ html
     script(src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML")
     script(src='/public/js/jv-fileopsit.js')
     script(src='/public/js/fft_libry.js')
-    link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
     link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/bower_components/jquery-ui/themes/start/jquery-ui.min.css')
-    link(rel='stylesheet', href='/public/css/broadn.css')
+    link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
     link(rel='stylesheet', href='/bower_components/jstree/dist/themes/default/style.min.css')
+    //link(rel='stylesheet', href='/public/css/broadn.css')
 
   body
-    .navbar.navbar-inverse.navbar-static-top(role='navigation')
-      .container
-        .navbar-header
+    div.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+      div.container
+        div.navbar-header
           button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
             span.sr-only Toggle navigation
             //-tehdään neljä päällekkäistä viivaa kun nav-bar menee liian kapeaksi
@@ -47,16 +36,15 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          //-a.navbar-brand(href='/') Project name
-        .collapse.navbar-collapse
+        div.collapse.navbar-collapse
           ul.nav.navbar-nav
             li.dropdown
-              a(href='#' class='dropdown-toggle' data-toggle='dropdown') Services
+              //-a(href='#' class='dropdown-toggle navbar-custom' data-toggle='dropdown') Services
+              a(href='#' data-toggle='dropdown') Services
                 b.caret
               ul.dropdown-menu
                 li
                   a(href='/') Home
-                  //- use: #{user.username} to show the username
                 if user!=null
                   li
                     a(id='lokoutti', href='/Logout') Logout
@@ -68,7 +56,7 @@ html
                   li
                     a(href='/signup') Signup
             li.dropdown
-              a(href='#' class='dropdown-toggle' data-toggle='dropdown') Broadenings
+              a(href='#' data-toggle='dropdown') Broadenings
                 b.caret
               ul.dropdown-menu
                 li
@@ -78,43 +66,85 @@ html
                 li
                   a(href='/homogen') Homogeneous details
                 li
-                  a(href='/SpectralModel') Spectral modelling
-                //-li
-                  a(href='/GasFlo') Gas flow in circular pipes (under construction)
-                //-li
-                  a(href='/tabX') Testing document ready function
-            //-li.dropdown
-              a(href='#' class='dropdown-toggle' data-toggle='dropdown') Modelling
+                  a(href='/SpectralModel' class='huuhaa-text') Spectral modelling
+            li.dropdown
+              a(href='#' id='userN' data-toggle='dropdown') No login
                 b.caret
               ul.dropdown-menu
                 li
-                  a(href='/quantumwell') Quantum well interactions
-                li
-                  a(href='/elvspl') El- and Pl-Spectra
-                li
-                  a(href='/calcspec') Spectrum calculator
-          //-a.navbar-brand(href='/') Projects
+                  a(id='lokoutti2', href='/Logout') Logout
         //-gets messages from req.flash set in app.js
     if messages
-      .container
+      div.container
         if messages && messages.error
-          .alert.alert-danger
+          div.alert.alert-danger
             div= messages.error
         if messages && messages.info
-          .alert.alert-info
+          div.alert.alert-info
             div= messages.info
         if messages && messages.success
-          .alert.alert-success
+          div.alert.alert-success
             div= messages.success
         //h2= title
-        p
-        if user
+        //-p
+        //-if user
           b #{user.username}
           | : huu haa!
-        else
+        //-else
           b No login user
           //-| Used open source and MIT-licenced software components can be found in the lists below. Please notice also their composers through the included links.
         //h3 Motivation and Purpose:
+
+        //-lisätään jonkun valikon HTML5 sivuista:
+        //-sisennys määrää marginaalin leveyden
         block levenee
 
-//-script(type='text/javascript').
+  style(type = "text/css").
+    body {
+      padding-top: 25px;
+      font-family: Verdana;
+      font-size: 13px;
+      background-color: #eee;
+    }
+
+    /*tekee kapean näkymän nappulan oranssiksi*/
+    .navbar-toggle, .icon-bar {
+      border: 1px solid orange;
+    }
+
+    .navbar-inverse {
+      color: darkred;
+      background-color: lavender;
+      font-weight: bold;
+      font-size: 14px;
+      color: white;
+    }
+
+    .navbar-fixed-top {
+      min-height: 25px;
+    }
+
+    .navbar-nav > li > a {
+      padding-top: 0px;
+      padding-bottom: 0px;
+      line-height: 25px;
+    }
+
+
+  script(type='text/javascript').
+    var tokenee = window.sessionStorage.getItem('RTFtoken');
+    var userLuser = window.sessionStorage.getItem('RTFuser');
+    if (userLuser == null || userLuser == 'No login' || userLuser == 'No Login') {
+      $('#userN').text('No login');
+      $("#lokoutti2").css('display', 'none');
+    } else {
+      $('#userN').text('User: ' + userLuser);
+      $("#lokoutti2").css('display', 'inline');
+    }
+    $('#lokoutti, #lokoutti2').click(function () {
+      window.sessionStorage.setItem('RTFuser', 'No login');
+      window.sessionStorage.setItem('RTFtoken', null);
+      $('#userN').text('No login');
+      $("#lokoutti2").css('display', 'none');
+      //class="disabled"
+    });

@@ -16,7 +16,7 @@ block levenee
           //this contains the playground for the simulation graph
           div(class="demo-container")
             div(id="ph1_inhomog" target="_blank" class="demo-placeholder")
-          b(id='inhDescLbl' style='color:Brown') Measured details:
+          b(id='inhDescLbl' style='color:Brown') Measurement details:
           b(id='inhDesc' style="color:Indigo; margin-left:10px;")
 
         h3 Simulation for homogeneous broadening
@@ -301,8 +301,156 @@ block levenee
       br
       button(id='openFile' style="margin:0px 5px") Open file
       button(id='saveFile' style="display:none") Save file
+
     include mongoDialForm
-    //indenting of previous include has to correct
+    //-correct indenting is required
+
+    //-*****************************************************************************/
+    //-*****************************************************************************/
+    style(type = "text/css").
+
+      /* Simulation graph placeholders*/
+      .demo-placeholder {
+        width: 100%;
+        height: 100%;
+        font-size: 14px;
+        line-height: 1.2em;
+      }
+
+      /* Simulation graph containers*/
+      .demo-container {
+        box-sizing: border-box;
+        width: 850px;
+        height: 450px;
+        padding: 20px 15px 15px 15px;
+        margin: 15px auto 30px auto;
+        border: 1px solid #ddd;
+        background: #fff;
+        background: linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        -o-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        -ms-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        margin-left: 10px;
+      }
+
+      /* Dialog box inputs*/
+      .inputti {
+        width: 45px;
+        margin-left: 13px;
+      }
+
+      /* Dialog box inputs*/
+      .inputti2 {
+        width: 45px;
+        margin-left: 13px;
+        text-align: left;
+      }
+
+      /* Dialog box fieldsets*/
+      fieldset {
+        border: 1px solid green;
+        padding: 1em;
+      }
+
+      /* Dialog box labels*/
+      label {
+        width: 23%;
+        margin-right: 5px;
+        text-align: right;
+        font-weight: bold;
+      }
+
+      /* Dialog box fieldset titles*/
+      .otsikko {
+        font-size: 16px;
+        display: none;
+      }
+
+      /* Dialog box fieldset labels*/
+      .label2 {
+        width: 40%;
+        margin-right: 5px;
+        text-align: right;
+        font-weight: bold;
+      }
+
+      /* Dialog box fieldset labels*/
+      .label3 {
+        width: 15%;
+        margin-right: 5px;
+        text-align: left;
+        font-weight: bold;
+      }
+
+      /* Dialog box fieldset labels*/
+      .label4 {
+        width: 32%;
+        margin-right: 5px;
+        margin-left: 15px;
+        text-align: right;
+        font-weight: bold;
+      }
+
+      .big-btn-left {
+        width: 90px;
+        height: 40px;
+        float: left;
+      }
+
+      .big-btn-center {
+        width: 120px;
+        height: 50px;
+        text-align: center;
+        float: left;
+        display: inline-block;
+      }
+
+      .big-btn {
+        width: 120px;
+        height: 50px;
+        float: right;
+      }
+
+      .medium-btn-left {
+        width: 120px;
+        height: 30px;
+        float: left;
+      }
+
+      .medium-btn-right {
+        width: 120px;
+        height: 30px;
+        float: right;
+      }
+
+      /* button formatting in dialog form for directory selection: */
+      .medium-btn {
+        width: 120px;
+        height: 30px;
+        float: right;
+        margin-right: 30px;
+      }
+
+      /* not in use */
+      .small-btn {
+        width: 50px;
+        height: 20px;
+      }
+
+      /* muuttaa dialogin vaaleankeltaiseksi
+      .vaaleankelt {
+        background: lightyellow !important;
+      }*/
+
+
+    //-******************************************************************************/
+    //-******************************************************************************/
 
     script(type='text/javascript').
       var userName = 'No login';   // after login obtained from web-server
@@ -378,11 +526,6 @@ block levenee
           canvas: true
       };
 
-      //Build dialog form for opening and saving files
-      buildMongoDial();
-      var srvrFileTxt = 'Open emission spectrum';
-      var DFmngo = $('#mongoDialForm'); //dialog form
-      DFmngo.dialog('option', 'title', srvrFileTxt);  // starts from LED collection
       var plot = $.plot("#ph1_inhomog", [], optiot);
       var plot2 = $.plot("#ph2_homog", [], optiot);
       var dataa = [
@@ -460,6 +603,8 @@ block levenee
       $("#settnDial").dialog({
         width:700,
         autoOpen: false,
+        maxHeight: '700px',
+        overflow: 'auto',
         show: {
           effect: "blind",
           duration: 500
@@ -469,21 +614,28 @@ block levenee
           duration: 500
         }
       });
-      //$("#settnDial").dialog('option','title','Graphing options');
+
+      //Build dialog form for opening and saving files
+      var srvrFileTxt = 'Open emission spectrum';
+      var DFmngo = $('#mongoDialForm'); //dialog form
+      DFmngo.dialog('option', 'title', srvrFileTxt);
 
       $('#openFile').click(function(){
+        //PL/EL emission spectrum from emission collection
         $('#settnDial').dialog('close');
         DFmngo
-          .css('display', 'inline')
-          .dialog('option', 'title', srvrFileTxt)  // PL/EL emission spectrum db collection
+          .dialog('option','width','700px')
+          .dialog('option','title',srvrFileTxt)
           .dialog('open');
+        //var widgetti=$( "#mongoDialForm" ).dialog( "widget" );
+        //console.log('wiggeti: ',widgetti);
+        $('#frm-DirSel').show();
       });
 
       $('#saveFile').click(function () {
         $('#settnDial').dialog('close');
           var srvrFileTxt = 'Save emission spectrum';
           DFmngo
-            .css('display', 'inline')
             .dialog('option', 'title', srvrFileTxt)  // PL/EL emission spectrum db collection
             .dialog('open');
       });
@@ -1638,7 +1790,7 @@ block levenee
       }
 
       $("#pltUrbach, #pltsUrbach, #pltGaussian, #pltSech").click(function(){
-        //selection for inhomogeneous broadening
+        //checkbox selections for inhomogeneous broadening
         if ($(this).attr('id') == 'pltUrbach' && $(this).prop('checked')==true) {
           $('#pltsUrbach, #pltGaussian, #pltSech').prop('checked', false);//uncheck other broadenings:
         }
@@ -1966,5 +2118,58 @@ block levenee
       });
 
       $("#footer").prepend("Flot graph" + $.plot.version + " &ndash; ");
+
+      /**
+       * Function for callback operation after reading local emission spectrum file
+       * @function
+       * @fileCont has the read text content
+       */
+      function gotInhomFile(fileCont) {
+          //callback after successfully reading a local emission file
+          inhomSpectr.experArr = splitToArr(fileCont);
+          homSpectr.experPlot = splitToArr(fileCont);
+          var descr = homSpectr.experPlot[0][2];
+          descr = descr.replace(/"/g, "");
+          $('#inhDescLbl').css('display', 'inline');
+          $('#inhDesc').css('display', 'inline');
+          $('#inhDesc').html(descr);
+          inhombr();
+      }
+
+      /**
+       * Function for callback operation after reading local emission spectrum file
+       * @function
+       * @fileCont has the read text content
+       */
+      function gotHomogFile(fileCont) {
+          //callback after successfully reading a local emission file
+          homSpectr.experArr = splitToArr(fileCont);
+          homSpectr.experPlot = splitToArr(fileCont);
+          var descr = homSpectr.experPlot[0][2];
+          descr = descr.replace(/"/g, "");
+          $('#homDescLbl').css('display', 'inline');
+          $('#homDesc').css('display', 'inline');
+          $('#homDesc').html(descr);
+          hombr();
+      }
+
+      function makeEmisArr(resObj) {
+          var emisArrs = resObj.datArrs; //is an object (javascript copies by reference)
+          var emArr = [];
+          var oneRow = [resObj.unit, 'Intensity', resObj.description];
+          //becomes: eV, Intensity, File description text
+          emArr.push(oneRow);
+          var absc = emisArrs[0].eVs;
+          var intens = emisArrs[1].Inte;
+          var numPoints = absc.length;
+          for (var i = 0; i < numPoints; i++) {
+              oneRow = [];
+              oneRow.push(absc[i]);
+              oneRow.push(intens[i]);
+              emArr.push(oneRow);
+          }
+          return emArr;
+      }
+
 
 

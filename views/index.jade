@@ -2,12 +2,12 @@ extends layout
 block content
   h1= title
   p
-    if user
+    //-if user
       b(id='indUser') #{user.username}
       |  : Welcome to Rock.Phys.
       | #{token}
-    else
-      | Welcome to Rock.Phys.
+      //-else
+    | Home page
     br
     h2 Summary
     | This is an uncommercial striving for
@@ -27,8 +27,8 @@ block content
     | is reserved only for logged in users. However, the email address stored at signup is merely
     | applied for password recovery (in case you forget it). Email addresses will not be sold or used to pollute
     | with commercial messages. If you want to be sure, and don't need the password recovery option,
-    | you can signup with a fake address. All user password will be hashed before saving and without
-    | a true email address there is no easy way to recover them on the server side. For space saving, passive
+    | you can signup with an imaginary address. On the server side, all passwords will be hashed before saving and without
+    | a true email address there is no easy way to recover them. For space saving, passive
     | data will be regularly removed from the server.
 
   script(type='text/javascript').

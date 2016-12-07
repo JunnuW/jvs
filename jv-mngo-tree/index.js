@@ -157,7 +157,7 @@ exports.obtainOne=function(req,res,callBfun){
             resString:'',
             error:"invalid request to obtain one document"
         };
-        callBfun(respOnse);
+        callBfun(res,respOnse);
         return;
     }
     //document name to be searched:
@@ -194,7 +194,7 @@ exports.obtainOne=function(req,res,callBfun){
             }
         }
         //console.log('obtainOne respOnse: ',respOnse);
-        callBfun(req,res,respOnse);
+        callBfun(res,respOnse);
     });
 };
 
@@ -213,7 +213,7 @@ exports.deleteDoc=function(req,res,callBfun){
             resString:'',
             error:"invalid request to obtain one document"
         };
-        callBfun(respOnse);
+        callBfun(res,respOnse);
         return;
     }
     //document name to be searched, build search query using regexp:
@@ -239,7 +239,7 @@ exports.deleteDoc=function(req,res,callBfun){
                 error:err.toString()
             };
         }
-        callBfun(req,res,respOnse);
+        callBfun(res,respOnse);
     });
 };
 
@@ -258,7 +258,7 @@ exports.renameDocs=function(req,res,callBfun) {
             resString:'',
             error:"invalid request obtain one document"
         };
-        callBfun(respOnse);
+        callBfun(res,respOnse);
         return;
     }
     if (req.body.Collection=='messages'){
@@ -293,7 +293,7 @@ function toBeRenamed(req,res,callBa,callBfun){
             resString:'',
             error:"invalid request obtain one document"
         };
-        callBfun(respOnse);
+        callBfun(res,respOnse);
         return;
     }
     applModel.find(querY, function (err, docs) {
@@ -304,7 +304,7 @@ function toBeRenamed(req,res,callBa,callBfun){
                 resString:'Document not found for renaming',
                 error:err.toString()+' in finding document for renaming '
             };
-            callBfun(req,res,respOnse);
+            callBfun(res,respOnse);
             return;
         }else{
             toBeRen=docs.length;
@@ -337,7 +337,7 @@ function renOne(req,res,toBeRen,queRy,neW,callB,callBfun){
             resString:'',
             error:"invalid request obtain one document"
         };
-        callBfun(respOnse);
+        callBfun(res,respOnse);
         return;
     }
     applModel.update(queRy, { $set: { fName: neW }}, options,
@@ -351,7 +351,7 @@ function renOne(req,res,toBeRen,queRy,neW,callB,callBfun){
                     resString:'',
                     error:err.toString() + " while renaming document: " + queRy.fName
                 };
-                callBfun(req,res,respOnse);//Returns error message
+                callBfun(res,respOnse);//Returns error message
             }else {
                 callB(req,res,toBeRen,callBfun);//counts renamed documents and announce success
             }
@@ -368,7 +368,7 @@ function renOneOk(req,res,toBeRen,callBfun){
             resString:'renaming OK for '+nRenamed+'/'+toBeRen+' docs',
             error:''
         };
-        callBfun(req,res,respOnse);
+        callBfun(res,respOnse);
     }
 }
 
@@ -383,7 +383,7 @@ exports.updateDoc=function(req,res,callBfun) {
             resString:'',
             error:"invalid request to obtain one document"
         };
-        callBfun(respOnse);
+        callBfun(res,respOnse);
         return;
     }
     var dataa=JSON.parse(req.body.data); //data quality has already been verified by the urlencoded bodyparser
@@ -441,7 +441,7 @@ exports.updateDoc=function(req,res,callBfun) {
                 resString:'',
                 error:"invalid data request in insertDoc"
             };
-            callBfun(req,res,respOnse);
+            callBfun(res,respOnse);
             return;
             break;
     }
@@ -477,7 +477,7 @@ exports.updateDoc=function(req,res,callBfun) {
                     };
                 }
             }
-            callBfun(req,res,respOnse);
+            callBfun(res,respOnse);
         });
 };
 
@@ -541,7 +541,7 @@ exports.insertDoc=function(req,res,callBfun){
                 resString:'',
                 error:"invalid data request in insertDoc"
             };
-            callBfun(req,res,respOnse);
+            callBfun(res,respOnse);
             return;
             break;
     }
@@ -561,7 +561,7 @@ exports.insertDoc=function(req,res,callBfun){
                 error:''
             };
         }
-        callBfun(req,res,respOnse);
+        callBfun(res,respOnse);
     });
 };
 
@@ -580,7 +580,7 @@ exports.checkOneUserFile=function(req,res,callBfun){
             resString:'',
             error:"invalid request to obtain one document"
         };
-        callBfun(respOnse);
+        callBfun(res,respOnse);
         return;
     }
     var drTree=[];
@@ -609,7 +609,7 @@ exports.checkOneUserFile=function(req,res,callBfun){
             };
         }
         //console.log('checkOneUserFile respOnse: ',respOnse);
-        callBfun(req,res,respOnse);
+        callBfun(res,respOnse);
     });
 };
 
@@ -630,7 +630,7 @@ exports.checkAllUserFiles=function(req,res,callBfun){
             resString:'',
             error:"error in reading user file list"
         };
-        callBfun(respOnse);
+        callBfun(res,respOnse);
         return;
     }
     var drTree=[];
@@ -739,7 +739,7 @@ exports.checkAllUserFiles=function(req,res,callBfun){
             resString:JSON.stringify(drTree),
             error:''
         };
-        callBfun(req,res,respOnse);
+        callBfun(res,respOnse);
     });
 };
 
@@ -761,7 +761,7 @@ exports.checkAllUserFiles=function(req,res,callBfun){
             resString: 'Your message path is too long: '+messN,
             error: 'Too deep message path'
         };
-        callBfun(req,res,respOnse);
+        callBfun(res,respOnse);
         return;
     }
     //console.log('messageName: ',messN);
@@ -808,7 +808,7 @@ exports.checkAllUserFiles=function(req,res,callBfun){
                 //infos: req.flash('success','email sent to moderator')
             };
         }
-        callBfun(req,res,respOnse);
+        callBfun(res,respOnse);
     });
 }
 
@@ -821,7 +821,7 @@ exports.saveMsg=function(req,res,callBfun){
                 ' retry after new login',
                 error:err.toString()
             };
-            callBfun(req,res,respOnse);
+            callBfun(res,respOnse);
             return;
         }else{//got the number of unmoderated messages
             console.log(req.user.username,' unmoderated count: ',countti);
@@ -833,7 +833,7 @@ exports.saveMsg=function(req,res,callBfun){
                     'have been moderated',
                     error:countti+' messages in moderation'
                 };
-                callBfun(req,res,respOnse);
+                callBfun(res,respOnse);
                 return;
             }
             saveMessage(req,res,callBfun);
@@ -866,7 +866,7 @@ exports.getOneMessa=function(req,res,callBfun){
                 error:''
             };
         }
-        callBfun(req,res,respOnse);
+        callBfun(res,respOnse);
     });
 };
 
@@ -886,7 +886,7 @@ exports.countUserMess=function(req,res,callBfun){
             resString:'no username available to count messages, try login '
             //error:err.toString()
         };
-        callBfun(req,res,respOnse);
+        callBfun(res,respOnse);
         return;
     }
     //valid user login available: continue to get count for all and in moderation messages
@@ -902,7 +902,7 @@ exports.countUserMess=function(req,res,callBfun){
                 ' retry after new login',
                 error:err.toString()
             };
-            callBfun(req,res,respOnse);
+            callBfun(res,respOnse);
             return;
         }else{
             //console.log(req.user.username,' all messages: ',countti);
@@ -929,7 +929,7 @@ exports.countUserMess=function(req,res,callBfun){
                 error:''
             };
         }
-        callBfun(req,res,respOnse);
+        callBfun(res,respOnse);
     });
 };
 
@@ -1017,7 +1017,7 @@ exports.checkAllMessa=function(req,res,callBfun){
                 error: ''
             };
         }
-        callBfun(req,res,respOnse);
+        callBfun(res,respOnse);
     });
 }
 
@@ -1051,7 +1051,7 @@ function toBeRenMess(req,res,callBa,callBfun){
                 resString:'Document not found for renaming',
                 error:err.toString()+' in finding document for renaming '
             };
-            callBfun(req,res,respOnse);
+            callBfun(res,respOnse);
             return;
         }else{
             toBeRen=docs.length;
@@ -1102,7 +1102,7 @@ exports.toggleModeration=function(req,res,callBfun) {
                 error: ''
             };
         }
-        callBfun(req,res,respOnse);
+        callBfun(res,respOnse);
     });
 };
 

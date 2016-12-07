@@ -69,7 +69,7 @@ $(function() {
     stack=buildStack();
 
     //Build dialog form for opening and saving files
-    buildMongoDial();
+    //buildMongoDial();
 
     //open default stack from server:
     var srvrFileTxt = 'Open stack file from';

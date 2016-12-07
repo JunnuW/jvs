@@ -26,7 +26,9 @@ var mngoTree=require('./jv-mngo-tree');
 var requestIp = require('request-ip'); //for finding request client's ip
 var jwtSecret='onpas_ovelaa_tämä:_node.js';
 var app = express();
-
+//var pug = require('pug');
+//var compiledFunction = pug.compileFile('views\\broaden.jade');
+//console.log(compiledFunction());
 //  Set the needed environment variables:
 var ipAddress=process.env.OPENSHIFT_NODEJS_IP;
 if (typeof ipAddress === "undefined") {
@@ -55,7 +57,7 @@ if (process.env.OPENSHIFT_MONGODB_DB_URL) {
 var connect = function () {
     mongoose.connect(url);
 };
-connect();
+connect(); //yhteys tietokantaan
 
 var db = mongoose.connection;
 db.on('error', function(error){
@@ -332,7 +334,7 @@ app.get('/contrbs', function(req, res) {
 app.get('/broadmod', function(req, res) {
     //console.log('app.get/BroadMod');
     //console.log('/BroadMod: '+JSON.stringify(req.headers));
-    res.render('broaden', {
+    res.render('broadgeneral', {
         title: 'Spectral broadening in quantum well LED\'s and LD\'s below laser threshold',
         user: (req.user)  //false
     });
@@ -547,7 +549,7 @@ app.post('/signup', function (req, res) {
     });
 });
 
-function respAllMngo(req,res,respOnse) {
+function respAllMngo(res,respOnse) {
     //console.log('respAllMngo url: ',req.url);
     //console.log('respAllMngo res: ',res);
     var statCode=respOnse.statCode;
@@ -577,17 +579,17 @@ app.post('/checklogin', function(req,res){
 });
 
 app.post('/auth/*', function(req,res){
-    //console.log('post auth: ',req.url, ' req.body: ',req.body);
     var urli=req.url;
     urli=urli.slice(5);
     if (['/dbRename', '/dbDelete', '/dbInsert','/dbUpdate'].indexOf(urli) !== -1 &&
-        req.body.userNme!=req.user.username) {
+        (!req.user || req.user.username != req.body.userNme)) {
         //requested directory is not owned by user: deny all changes!
         //only Publ save to Publ directory
         var opert=urli.slice(3);
-        var messag={statCode:500, resString:'No '+opert+' permission in '+ req.body.userNme+' directory!'};
-        //console.log('messag: ',messag);
-        doResponse(req,res,messag);
+        var messag={statCode:403, resString:'No '+opert+' permission in '+ req.body.userNme+' directory!'};
+        console.log('messag: ',messag);
+        respAllMngo(res,messag);
+        //doResponse(req,res,messag);
         return;
     }
     if (req.user && req.body.userNme==req.user.username && req.body.rtftoken){

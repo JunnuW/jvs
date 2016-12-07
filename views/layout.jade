@@ -12,6 +12,7 @@ html
     link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
     link(rel='stylesheet', href='/bower_components/jquery-ui/themes/start/jquery-ui.min.css')
   body
+    //-.navbar.navbar-static-top(role='navigation')
     .navbar.navbar-inverse.navbar-static-top(role='navigation')
       .container
         .navbar-header
@@ -70,6 +71,12 @@ html
                   a(href='/custmsgs') Comments and Messages
                 li
                   a(href='/aboutti') About this site
+            li
+              a(href='#' id='userN' class='dropdown-toggle' data-toggle='dropdown') User:
+                b.caret
+              ul.dropdown-menu
+                li
+                  a(id='lokoutti2', href='/Logout') Logout
           //-a.navbar-brand(href='/') Projects
         //-gets messages from req.flash set in app.js
     if messages
@@ -88,14 +95,24 @@ html
           //-sivuilta joille nämä asetukset periytyvät
 
   script(type='text/javascript').
+    var tokenee = window.sessionStorage.getItem('RTFtoken');
+    var userLuser = window.sessionStorage.getItem('RTFuser');
+    if (userLuser==null||userLuser=='No login'||userLuser=='No Login'){
+      $('#userN').text('No login');
+      $("#lokoutti2").css('display','none');
+    }else{
+      $('#userN').text('User: '+ userLuser);
+      $("#lokoutti2").css('display','inline');
+    }
     $('#hoiMenu').click(function () {
       var tokenee = window.sessionStorage.getItem('RTFtoken');
       var userLuser=window.sessionStorage.getItem('RTFuser');
       //as default assume no login:
-      $(('#lokoutti')).hide();
-      $(('#pwdchangi')).hide();
-      $(('#loginni')).show();
-      $(('#signuppi')).show();
+      //$('#userN').text(userLuser);
+      $('#lokoutti').hide();
+      $('#pwdchangi').hide();
+      $('#loginni').show();
+      $('#signuppi').show();
       if (userLuser != null && userLuser != 'No login') {
         //user has logged in but is that still valid?
         var loginStatus = $.post('/checklogin', {
@@ -105,10 +122,10 @@ html
           if (data) {
             console.log('checklogin: ', data);
             if (data.token == 'valid') {//login is ok, set menus:
-              $(('#lokoutti')).show();
-              $(('#pwdchangi')).show();
-              $(('#loginni')).hide();
-              $(('#signuppi')).hide();
+              $('#lokoutti').show();
+              $('#pwdchangi').show();
+              $('#loginni').hide();
+              $('#signuppi').hide();
             } else {//invalid token set menus:
               window.sessionStorage.setItem('RTFuser', 'No login');
               window.sessionStorage.setItem('RTFtoken', null);
@@ -117,7 +134,10 @@ html
         })
       }
     });
-    $('#lokoutti').click(function(){
+    $('#lokoutti, #lokoutti2').click(function(){
       window.sessionStorage.setItem('RTFuser', 'No login');
       window.sessionStorage.setItem('RTFtoken', null);
+      $('#userN').text('No login');
+      $("#lokoutti2").css('display','none');
+      //class="disabled"
     });
