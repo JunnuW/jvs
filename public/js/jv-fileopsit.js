@@ -44,7 +44,6 @@ function sendData(data) {
     XHR.send(urlEncodedData);
 }
 
-var locReader = new FileReader();
 var selctdNde;
 
 /**
@@ -288,11 +287,14 @@ function toJsonArr(coLLe, filename, arrDat, desc) {
     console.log('resu: ',resu);
     return resu;
 }
-//*****************************************************************************************************
-// reading local files for materials and targets from tab delimited text files
-// cBackFun piirtää päivittää taulukot ja spektrit materiaali ja target tabseilla
+/*****************************************************************************************************
+ * reads tab delimited text local files for materials, targets, stacks, emission and emission parameters
+ * after successful async mode read
+ * cBackFun processes the received file contents
+ *
+*/
 function ReadLocFle(file, cBackFun) {
-    //console.log('read local file: ',file);
+    var locReader = new FileReader();
     var tid; //used for timer setting
     if (file) {
         //File exists set reading timeout:
@@ -307,7 +309,6 @@ function ReadLocFle(file, cBackFun) {
             fileCont = event.target.result;
             clearTimeout(tid);
             //console.log('onloadend.event.target.result: ',fileCont);
-            //onloadend event starts the callback including file contents and active tab index
             cBackFun(fileCont);
         };
         locReader.onerror = locFleErrorHandler;

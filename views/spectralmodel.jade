@@ -2227,8 +2227,10 @@ block levenee
         $("#settnDial").dialog("open");
       });
 
-      //Handler for reading local files
-      // used on Tabs-6,7,8 & 'Emission spectrum files local reading'
+
+      /* Function for operations after local emission file selection has changed
+      *  Handler for reading local emission data files
+      */
       $("#emisLocFiles").on("change", function () {
         var selected_file = $('#emisLocFiles').get(0).files[0];
         //console.log('selected_file: ',selected_file);
@@ -2253,14 +2255,14 @@ block levenee
             // reads measured spectrum array to the homog plot
             // with eV and intensity values , one pair per row
             // after async read data processed in 'gotHomogFile' callback
-            //console.log('reads homog measurement');
+            // console.log('reads homog measurement');
             graphSettn.homFileN=selected_file.name;
             ReadLocFle(selected_file, gotHomogFile);
           } else {
             //reads simuation parameters to the homog plot
             // after async read data processed in 'gotHomogSim' callback
-              console.log('reads homog simul.pars');
-            ReadLocFle(selected_file, gotHomogSim);
+            console.log('reads homog simul.pars');
+            ReadLocFle(selected_file, gotInhomSim);
           }
         }
       });
@@ -2274,40 +2276,74 @@ block levenee
        */
       function gotInhomFile(fileCont) {
           //callback after successfully reading a local emission file
-          inhomSpectr.experArr = splitToArr(fileCont);
-          homSpectr.experPlot = splitToArr(fileCont);
-          var descr = homSpectr.experPlot[0][2];
-          descr = descr.replace(/"/g, "");
-          $('#inhDescLbl').css('display', 'inline');
-          $('#inhDesc').css('display', 'inline');
-          $('#inhDesc').html(descr);
-          inhombr();
+          try {
+              inhomSpectr.experArr = splitToArr(fileCont);
+              inhomSpectr.experPlot = splitToArr(fileCont);
+              var descr = homSpectr.experPlot[0][2];
+              descr = descr.replace(/"/g, "");
+              $('#inhDescLbl').css('display', 'inline');
+              $('#inhDesc').css('display', 'inline');
+              $('#inhDesc').html(descr);
+              inhombr();
+          }
+          catch(err) {
+            alert('Error in selected inhomogeneous emission data');
+          }
       }
+
+      /**
+       * Function for callback operation after reading local emission spectrum file
+       * @function
+       * @fileCont has the read text content
+       */
+      function gotHomogFile(fileCont) {
+          //callback after successfully reading a local emission file
+          try {
+              homSpectr.experArr = splitToArr(fileCont);
+              homSpectr.experPlot = splitToArr(fileCont);
+              var descr = homSpectr.experPlot[0][2];
+              descr = descr.replace(/"/g, "");
+              $('#homDescLbl').css('display', 'inline');
+              $('#homDesc').css('display', 'inline');
+              $('#homDesc').html(descr);
+              hombr();
+          }
+          catch(err){
+              alert('Error in selected homogeneous emission data');
+          }
+      }
+
 
       function gotInhomSim(fileCont){
         //Header: (E)x(qw-jdos)x(exp[(E-Etr)/kT])x(qw-ex.Enh)*(Symm.Urbach-brdng)
         var indeX1=fileCont.indexOf('Header:');
         var indeX2=fileCont.indexOf('Parameters:');
-        if (indeX1<0 || indeX2<0){
-          throw "Error in simulation settings file";
-          return;
+        try {
+            if (indeX1 < 0 || indeX2 < 0) {
+                throw "Error in simulation settings file";
+                return;
+            }
+            var prms = fileCont.substring(indeX2 + 11, (fileCont.length));
+            prms = prms.trim();
+            var headeri = fileCont.substring(indeX1 + 7, (fileCont.length));
+            headeri = headeri.trim();
+            setSettings(prms);
+            setSelections(headeri);
+            setChkboxes();
+            setLegend();       //set graph legend
+            makespArr();       //recreate spectral array
+            makeExpArrs();     //process experimental arrays
+            makeJdos();        //create density of states
+            makeBoltz();       //recreate Boltzmann distribution
+            makeSommer();
+            calcInhom();
+            calcHom();
+            inhombr();
+            hombr();
         }
-        var prms = fileCont.substring(indeX2+11, (fileCont.length));
-        prms = prms.trim();
-        var headeri = fileCont.substring(indeX1 + 7, (fileCont.length));
-        headeri = headeri.trim();
-        setSettings(prms);
-        setSelections(headeri);
-        setChkboxes();
-        setLegend();       //set graph legend
-        makespArr();       //recreate spectral array
-        makeExpArrs();     //process experimental arrays
-        makeJdos();        //create density of states
-        makeBoltz();       //recreate Boltzmann distribution
-        makeSommer();
-        calcInhom();
-        calcHom();
-        inhombr();
+        catch(err){
+            alert('Error in processing simulation settings file');
+        }
       }
 
       /**
@@ -2435,26 +2471,9 @@ block levenee
         }
       }
 
-      /**
-       * Function for callback operation after reading local emission spectrum file
-       * @function
-       * @fileCont has the read text content
-       */
-      function gotHomogFile(fileCont) {
-          //callback after successfully reading a local emission file
-          homSpectr.experArr = splitToArr(fileCont);
-          homSpectr.experPlot = splitToArr(fileCont);
-          var descr = homSpectr.experPlot[0][2];
-          descr = descr.replace(/"/g, "");
-          $('#homDescLbl').css('display', 'inline');
-          $('#homDesc').css('display', 'inline');
-          $('#homDesc').html(descr);
-          hombr();
-      }
-
       function gotHomogSim(filecont) {
           console.log('Homog simulation parameters: '),filecont ;
-          alert('gotHomogSim function not ready');
+          //alert('gotHomogSim function not ready');
       }
 
       function makeEmisArr(resObj) {
