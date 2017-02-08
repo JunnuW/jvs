@@ -48,7 +48,7 @@ var locReader = new FileReader();
 var selctdNde;
 
 /**
- * Function Fills matrlArr, targArr or stack with data obtained from mongodb
+ * Function fills matrlArr, targArr or stack with data obtained from mongodb
  * @resObj  object returned from mongodb
  * @function
  */
@@ -83,11 +83,8 @@ function respToArr(fileName,resObj) {
                 matrlArr.push(oneRow);
             }
             $('#ediMater').val(fileName);
-            //console.log('matrlArr[0][3]: '+matrlArr[0][3]);
             if (matrlArr[0][3]) $('#descMater').val(matrlArr[0][3]);
-            //oMatTable.fnClearTable();
             oMatTable.clear();
-            //oMatTable.fnAddData(matrlArr.slice(1));
             oMatTable.rows.add(matrlArr.slice(1));
             oMatTable.draw();
             $('#matEditTabl').find('th:eq(0)').text("Unit [" + matrlArr[0][0] + "]");
@@ -114,12 +111,9 @@ function respToArr(fileName,resObj) {
             }
             $('#ediTarge').val(fileName);
             if (targArr[0][2]) $('#descTarge').val(targArr[0][2]);
-            //otargTable.fnClearTable();
             otargTable.clear();
-            //otargTable.fnAddData(targArr.slice(1));
             otargTable.rows.add(targArr.slice(1));
             otargTable.draw();
-            //$('#ediTarge').val(targarr)
             plotRT(targArr, 7);
             EnDisButt('Enabled', '#btnUseTarg');
             $('#targEditTabl').find('th:eq(0)').text("Wavel. [" + targArr[0][0] + "]")
@@ -132,7 +126,6 @@ function respToArr(fileName,resObj) {
         case "Stack":
             $('#ediStack').val(fileName);
             var settn=JSON.parse(resObj.matrlStack);
-            //console.log('afterstackread stack : ',settn);
             $('#descStack').val(settn.settings.Descriptor);
             afterStackRead(settn); //inits objects and application interface for the stack
             $.notifyBar({
@@ -148,6 +141,70 @@ function respToArr(fileName,resObj) {
             break;
         default:
             alert('no tab-strip');
+    }
+}
+
+/**
+ * Function sets simulation settings
+ * from data obtained from mongodb. Then updates simulations page graphs
+ * @resObj  object returned from mongodb
+ * @function
+ */
+function respToParams(fileName,resObj) {
+    var simPars = JSON.stringify(resObj.params);
+    var headeri=resObj.header;
+    var descr = resObj.description;
+    descr = descr.replace(/"/g, "");
+    var dialoogi = $('#settnDial').dialog('option', 'title');
+    if (dialoogi == 'Inhomogeneous spectrum') {
+        $('#inhDesc').html(descr);
+        graphSettn.inhomFileN = fileName;
+    } else {
+        $('#homDesc').html(descr);
+        graphSettn.homFileN = fileName;
+    }
+    setSettings(simPars);
+    setSelections(headeri);
+    setChkboxes();
+    setLegend();       //set graph legend
+    makespArr();       //recreate spectral array
+    makeExpArrs();     //process experimental arrays
+    makeJdos();        //create density of states
+    makeBoltz();       //recreate Boltzmann distribution
+    makeSommer();
+    calcInhom();
+    calcHom();
+    inhombr();
+}
+
+/**
+ * Function builds experimental emission array or emission simulation settings
+ * from data obtained from mongodb. Then updates the graphs on simulations page
+ * @resObj  object returned from mongodb
+ * @function
+ */
+function respToEmis(fileName,resObj) {
+    var dialoogi = $('#settnDial').dialog('option', 'title');
+    var descr = resObj.description;
+    descr = descr.replace(/"/g, "");
+    if (dialoogi == 'Inhomogeneous spectrum') {
+        graphSettn.inhomFileN = fileName;
+        inhomSpectr.experPlot = makeEmisArr(resObj);
+        inhomSpectr.experArr = makeEmisArr(resObj);
+        //add experimental file description:
+        $('#inhDescLbl').css('display', 'inline');
+        $('#inhDesc').css('display', 'inline');
+        $('#inhDesc').html(descr);
+        inhombr();
+    } else if (dialoogi == 'Homogeneous spectrum') {
+        graphSettn.homFileN = fileName;
+        homSpectr.experArr = makeEmisArr(resObj);
+        homSpectr.experPlot = makeEmisArr(resObj);
+        //add experimental file description:
+        $('#homDescLbl').css('display', 'inline');
+        $('#homDesc').css('display', 'inline');
+        $('#homDesc').html(descr);
+        hombr();
     }
 }
 
@@ -179,14 +236,14 @@ function handleFail(errDatas,messag){
 }
 
 /**
- * Function builds JSON array from the material nk-data table
+ * Function toJsonArr builds JSON array from the material nk-data table
  * @function
  * @param arrDat (array) contains the nk values in a table
  * @param desc (text) descriptor for the data
  * @param coLLe (text) mongo database collection name for the saving
  */
 function toJsonArr(coLLe, filename, arrDat, desc) {
-    console.log('prepare Json for collection: ',coLLe);
+    //console.log('prepare Json for collection: ',coLLe);
     var resu = {}; //result will be a json object
         resu.Collection = coLLe;
         resu.Filename = filename;
@@ -195,7 +252,6 @@ function toJsonArr(coLLe, filename, arrDat, desc) {
     if (arrDat.length<2){//no data, but build JSON response to create a directory)
         resu.Unit = ""; //no unit directory may contain dat with all three available units
     }else{// real material or spectral data exist (stack data already in JSON format)
-        console.log('arrdat: ',arrDat);
         var unit=arrDat[0][0]; //should be
         if (unit!="nm" && unit!="um" && unit!="eV") {
             throw new Error("Unknown spectral unit "+unit);
@@ -216,7 +272,7 @@ function toJsonArr(coLLe, filename, arrDat, desc) {
             resu.n = ns;
             resu.k = ks;
         }else {//targets data to targets collection,
-               // emission spectra to emissions collection
+               // emission spectra to collection
             var Sv=[]; //spectral value, either Reflectance, Transmittance
                        // or emission Intensity
             for (var i = 1; i < arrLen; i++) {
@@ -232,7 +288,6 @@ function toJsonArr(coLLe, filename, arrDat, desc) {
     console.log('resu: ',resu);
     return resu;
 }
-
 //*****************************************************************************************************
 // reading local files for materials and targets from tab delimited text files
 // cBackFun piirtää päivittää taulukot ja spektrit materiaali ja target tabseilla
@@ -251,6 +306,7 @@ function ReadLocFle(file, cBackFun) {
         locReader.onloadend = function (event) {
             fileCont = event.target.result;
             clearTimeout(tid);
+            //console.log('onloadend.event.target.result: ',fileCont);
             //onloadend event starts the callback including file contents and active tab index
             cBackFun(fileCont);
         };
@@ -286,7 +342,6 @@ function gotTextFile(fileCont) {
             EnDisButt('Enabled', '#btnUseMat');
             break;
         case 'Targets':
-            //console.log('Targets read');
             targArr = splitToArr(fileCont);
             $('#descTarge').val(targArr[0][2]);
             //otargTable.fnClearTable();
@@ -434,6 +489,182 @@ function fleNamer(fileN,dirN) {
     return fNamed;
 }
 
+/*simParHeader()
+* Stores the used PL-spectrum simulation parameters
+* with their values into an object
+* @return {Object} parHeader
+*/
+function simParHeader(){
+    var parHeader={};
+    parHeader={//nämä tulee aina mukaan
+      Estart:simSettn.eVstart,
+      Estop:simSettn.eVstop,
+      Etr:simSettn.eTr};
+
+      if (inhomSpectr.inPlot.jdos){//density of states included
+        parHeader.jdos=simSettn.jdostype;
+      }
+
+      if (inhomSpectr.inPlot.Se) {//exitons included
+        var extn = {};
+        extn.Eb_meV = simSettn.exEb;
+        if (simSettn.jdostype == 'bulk') {
+          extn.type = 'Bulk-3D';
+        } else {//qw exitons
+          extn.type = 'QW-2D';
+          extn.viewDir = simSettn.viewDir;
+          extn.polarizat = simSettn.polarizat;
+          if (simSettn.polarizat == 'TM') {
+            extn.shapePar = simSettn.ex0;
+          }
+        }
+        parHeader.exiton = extn; //adds exiton parameters as an object
+      }
+
+      if (inhomSpectr.inPlot.fcv){//energy state occupancy
+        parHeader.Boltzmann={'Epeak_eV':parHeader.Etr ,'Temp_K':simSettn.kelvin};
+      }
+
+      if (inhomSpectr.inPlot.Lurb) {//single sided Urbach broadening included
+        if (inhomSpectr.inPlot.convo){
+          parHeader.InhmgBrdng={'type':'AsymUrbach','Eu_meV':simSettn.eU};
+        } else {
+          parHeader.FuncPlot={'type':'AsymUrbach','Eu_meV':simSettn.eU};
+        }
+      }
+
+      if (inhomSpectr.inPlot.Lsurb) {//symmetric Urbach broadening included
+        if (inhomSpectr.inPlot.convo){
+          parHeader.InhmgBrdng={'type':'SymmUrbach','Eu_meV':simSettn.eU};
+        } else {
+          parHeader.FuncPlot={'type':'SymmUrbach','Eu_meV':simSettn.eU};
+        }
+      }
+
+      if (inhomSpectr.inPlot.Lgaus) {//Gaussian broadening included
+        if (inhomSpectr.inPlot.convo){
+          parHeader.InhmgBrdng={'type':'Gaussian','sigma_meV':simSettn.GauSig};
+        } else {
+          parHeader.FuncPlot={'type':'Gaussian','sigma_meV':simSettn.GauSig};
+        }
+      }
+
+      if (inhomSpectr.inPlot.Lsech) {//Sech t relaxation caused broadening
+        if (inhomSpectr.inPlot.convo){
+          parHeader.InhmgBrdng={'type':'Sech^n(t/tau)','tau_fs':simSettn.SechTau,'n':simSettn.SechN};
+        } else {
+          parHeader.FuncPlot={'type':'Sech^n(t/tau)','tau_fs':simSettn.SechTau,'n':simSettn.SechN};
+        }
+      }
+
+      if ($('#lblsaveSimSpe').text()=='Homogeneous simulation' && homSpectr.inPlot.convo) {
+        //myös homogeeninen leviäminen, lisätään mukaan alemman kuvaajan parametrit
+        if ($('#pltLorentz').prop('checked')) {// Lorentzian broadening
+          parHeader.HomogBrdng={'type':'Lorentz','tau_fs':simSettn.LorTau};
+        }
+        if ($('#pltDlorentz').prop('checked')) {// Dual Lorentzian broadening
+          parHeader.HomogBrdng={'type':'Lorentz X Lorentz',
+              'tau1_fs':simSettn.DlTau1,'tau2_fs':simSettn.DlTau2};
+        }
+      }
+
+      if ($('#lblsaveSimSpe').text()=='Homogeneous simulation' && !homSpectr.inPlot.convo){
+        // ei konvoluutiota vain leviämiskäyrän muoto
+        if ($('#pltLorentz').prop('checked')) {
+          parHeader.FuncPlot={'type':'Lorentz','tau_fs':simSettn.LorTau};
+        }
+        if ($('#pltDlorentz').prop('checked')) {
+          parHeader.FuncPlot={'type':'Lorentz1 X Lorentz2',
+              'tau1_fs':simSettn.DlTau1,'tau2_fs':simSettn.DlTau2};
+        }
+    }
+    //console.log('parHeader: ',parHeader);
+    return parHeader;
+}
+
+/*Simuation header (=string) to explain what is included
+ * in the calculated spectrum
+ * */
+function makeSimHeader() {
+    var headerString = '';
+    if (inhomSpectr.inPlot.eV) headerString = headerString + '(E)';
+    if (inhomSpectr.inPlot.jdos) {
+        headerString = (simSettn.jdostype == 'qw') ? headerString + '(qw-jdos)' : headerString + '(bulk-jdos)'
+    }
+    if (inhomSpectr.inPlot.fcv) {
+        headerString = headerString + '(exp[(E-Etr)/kT])'
+    }
+    if (inhomSpectr.inPlot.Se) {
+        headerString = (simSettn.jdostype == 'qw') ? headerString + '(qw-ex.Enh)' : headerString + '(bulk-ex.Enh)';
+    }
+    if (inhomSpectr.inPlot.convo) {
+        //headerString = headerString + '<convolve-using>';
+        if (inhomSpectr.inPlot.Lurb) {
+            headerString = headerString + '*(Asym.Urbach-brdng)';
+        } else if (inhomSpectr.inPlot.Lsurb) {
+            headerString = headerString + '*(Symm.Urbach-brdng)';
+        } else if (inhomSpectr.inPlot.Lgaus) {
+            headerString = headerString + '*(Gaussian-brdng)';
+        } else if (inhomSpectr.inPlot.Lsech) {
+            headerString = headerString + '*(Sech^n(t/tau/n)-brdng)';
+        }
+    }
+    if (headerString.length < 3) {
+        if (inhomSpectr.inPlot.Lurb) headerString = 'Asymmetric Urbach function';
+        if (inhomSpectr.inPlot.Lsurb) headerString = 'Symmetric Urbach function';
+        if (inhomSpectr.inPlot.Lgaus) headerString = 'Gaussian function';
+        if (inhomSpectr.inPlot.Lsech) headerString = 'FFT{sech^n(t/tau/n)}';
+    }
+    headerString = headerString.replace(/\)\(/g, ")x("); //laittaa kertomerkit paikoilleen
+    var saveLbl=$('#lblsaveSimSpe').text();
+    if (saveLbl=='Homogeneous simulation') {//tallennetaan alemman kuvan spektriä
+        if (homSpectr.inPlot.convo) {//convoluutio ylemmästä kuvasta
+            if ($('#pltLorentz').prop('checked')) headerString = headerString + '*(Lorentzian brdng)';
+            if ($('#pltDlorentz').prop('checked')) headerString = headerString + '*(Lorentzian1 x Lorentzian2 brdng)';
+        }else{
+            headerString='';// ei tarvita ylemmän kuvaajan tietoja
+            if ($('#pltLorentz').prop('checked')) headerString = 'Lorentzian function';
+            if ($('#pltDlorentz').prop('checked')) headerString = '(Lorentzian1 X Lorentzian2) function';
+        }
+    }
+    return headerString;
+}
+
+
+/* For local saving, simulSaveDat() compiles a multiline string representing the
+*  simulation result.
+*  After header line each line represents one data point
+*  number of datapoints depends on the selected numSel option [1000,500,333,250,200]
+*  on mongoDialForm
+*/
+function simulSaveDat(){
+    var m = $("#numSel option:selected").text(); // number of spectral points
+    m = (m > 0) ? Math.floor(inhomSpectr.numPoints / m) : 1;
+    var saveLbl=$('#lblsaveSimSpe').text();
+    var helaHoito='';
+    var n=inhomSpectr.numPoints-1;
+    if (saveLbl=='Inhomogeneous simulation'){
+        helaHoito+='E [eV]'+'\t'+'Inhomog'+'\n';
+    } else if (saveLbl=='Homogeneous simulation'){
+        helaHoito+= 'E [eV]'+'\t'+'Homog'+'\n'
+    }else {
+        console.log('unexpected checkbox label, saving selector');
+        return;
+    }
+    var temppi=0;
+    for (var i = 0; i < n; i += m) {
+        if (i % m == 0) {
+            temppi = (saveLbl == 'Inhomogeneous simulation') ? inhomSpectr.plotArr[i] : homSpectr.plotArr[i];
+            helaHoito+=inhomSpectr.eVarr[i]+'\t'+temppi+'\n';
+        }
+    }
+    if (n%m!=0) { //pisteitä 333 ei mene tasan
+        temppi = (saveLbl == 'Inhomogeneous simulation') ? inhomSpectr.plotArr[n] : homSpectr.plotArr[n];
+        helaHoito+=inhomSpectr.eVarr[n]+'\t'+temppi+'\n';
+    }
+    return helaHoito;
+}
+
 /*makeOptsArr(aRRa)
 * produces materials menu and spectral targets menu lists on
 * corresponding tabs in the transmittance/reflectance calculator
@@ -477,6 +708,36 @@ function seiv_loucal(filesname, texti,calliPakki) {
     pom.download = filenameDisplay;
     pom.target="_self" ; //required in FF, optional for Chrome
     pom.click();*/
+}
+
+/*Compile experimental emission data for local saving
+* tab separated eV and intensity values
+* one value pair on each row
+* @return {String}
+* */
+function experEmisDat(){
+    var seivString = '';
+    var n = 0;
+    var i = 0;
+    var dialoogi= $('#settnDial').dialog('option','title');
+    if (dialoogi == 'Inhomogeneous spectrum') {
+        var legenda = '';
+        legenda = inhomSpectr.experArr[0][2].replace(/"/g, ""); //poistetaan kaikki lainausmerkit
+        seivString = 'eV' + '\t' + 'Intensity' + '\t' + legenda;
+        n = inhomSpectr.experArr.length;
+        for (i = 1; i < n; i++) {
+            seivString = seivString + '\r' + inhomSpectr.experArr[i][0] + '\t' + inhomSpectr.experArr[i][1];
+        }
+    } else if (dialoogi == 'Homogeneous spectrum') {
+        legenda = homSpectr.experArr[0][2].replace(/"/g, "");  //poistetaan kaikki lainausmerkit
+        seivString = 'eV' + '\t' + 'Intensity' + '\t' + legenda;
+        n = homSpectr.experArr.length;
+        for (i = 1; i < n; i++) {
+            seivString = seivString + '\r' + homSpectr.experArr[i][0] + '\t' + homSpectr.experArr[i][1];
+        }
+    }
+    //console.log('exper seivSting: ',seivstring);
+    return seivString;
 }
 
 function matrlToLocFile(filesname){

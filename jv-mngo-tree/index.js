@@ -33,7 +33,29 @@ messagSchema.index({username: 1, fName:1, dateRec: 1}, {unique: true});
 var Message=mongoose.model('Message',messagSchema);
 //creates messages collection, if it does not exist in mongodb
 
-/* Emission data structure in MongoDb:
+/* Simulation parameters data structure in MongoDb:
+ * Each document belongs to a named user: 'username'
+ * Each document has a filename: fName
+ * filenames incude directory structure like: Bulk/GaAs/10C-500uW
+ * 'description' field contains information about the material data
+ * 'unit' is always 'eV' in the future possibbly also 'nm, 'um'
+ * ''
+ * 'dataExpires' timestamps the document
+ */
+var paramSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    fName: { type: String, required: true },
+    description:{ type: String, required: false },
+    header:{ type: String, required: true },
+    params:{ type: Object, required: true },
+    dataExpires: { type: String, required: true }
+});
+//User cannot save two documents with identical names:
+paramSchema.index({username: 1, fName:1}, {unique: true});
+var Parameters=mongoose.model('Parameters',paramSchema);
+//creates the Parameters collection, if it does not exist in mongodb
+
+/* Emission spectrum data structure in MongoDb:
  * Each document belongs to a named user: 'username'
  * Each document has a filename: fName
  * filenames incude directory structure like: Bulk/GaAs/10C-500uW
@@ -135,6 +157,9 @@ function ApplMod(req){
             break;
         case "emissions":
             applModel= Emission; //model name for 'emissions' collection
+            break;
+        case "simulparams":
+            applModel= Parameters; //model name for 'simulparams' collection
             break;
         case "messages":
             applModel= Message; //model name for 'messages' collection
@@ -373,7 +398,7 @@ function renOneOk(req,res,toBeRen,callBfun){
 }
 
 exports.updateDoc=function(req,res,callBfun) {
-    //console.log("updateDoc req.body.data: "+JSON.stringify(req.body.data));
+    console.log("updateDoc req.body.data: "+JSON.stringify(req.body.data));
     //overwrites existing mongo db document with new data
     var applModel;
     applModel=ApplMod(req);
@@ -404,8 +429,8 @@ exports.updateDoc=function(req,res,callBfun) {
             };
             break;
         case "targets":
-            console.log('targets dataa: ',JSON.stringify(dataa));
-            console.log('targets dataa.Descr: ',dataa.Descr);
+            //console.log('targets dataa: ',JSON.stringify(dataa));
+            //console.log('targets dataa.Descr: ',dataa.Descr);
             upDates = {
                 fName: trimmed,
                 username: req.body.userNme,
@@ -430,11 +455,21 @@ exports.updateDoc=function(req,res,callBfun) {
                 username: req.body.userNme,
                 fName: trimmed, //e.g. "branch1/parent1/parent2/file1",
                 description: dataa.Descr,
-                matrlStack: JSON.stringify(dataa.Stack),
+                datArr: JSON.stringify(dataa.Stack),
                 dataExpires: vanhenee
             };
             break;
-        //applModel=Stack; //model for 'stacks' collection
+        case "parameters":
+            upDates = {
+                username: req.body.userNme,
+                fName: trimmed, //e.g. "branch1/parent1/parent2/file1",
+                description: dataa.Descr,
+                params: JSON.parse(dataa.Params),
+                header:dataa.Header,
+                dataExpires: vanhenee
+            };
+            console.log('upDates: ',upDates);
+            break;
         default:
             respOnse={
                 statCode: 500,
@@ -487,6 +522,8 @@ exports.insertDoc=function(req,res,callBfun){
     //it can be set to: chunk, but since the related:
     //req.on('data',function(chunk){}), is never triggered here (on res object), we use:
     var dataa=JSON.parse(req.body.data);
+
+    console.log('dataa: ',dataa);
     //The acceptable data length has already been checked by the urlencoded bodyparser
     // in node modules, which prevents malicious disk dumps
     //var trim = dataa.Filename.replace(/(^\/)|(\/$)/g, ""); //removes leading and trailing '/'
@@ -534,7 +571,17 @@ exports.insertDoc=function(req,res,callBfun){
                 dataExpires: vanhenee}
             );
             break;
-            //applModel=Stack; //model for 'stacks' collection
+        case "simulparams":
+            newDocu = new Parameters({
+                username: req.body.userNme,
+                fName: trim, //e.g. "branch1/parent1/parent2/file1",
+                description: dataa.Descr,
+                params: JSON.parse(dataa.Params), //inserted as object:
+                header: dataa.Header,
+                dataExpires: vanhenee
+            });
+            break;
+        //applModel=Stack; //model for 'stacks' collection
         default:
             respOnse={
                 statCode: 500,
@@ -1132,3 +1179,4 @@ function emailAnno(req){
         console.log('Message sent: ' + info.response);
     });
 }
+

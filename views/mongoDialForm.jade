@@ -4,13 +4,42 @@
 //-    meta(charset="utf-8"
 div(id="mongoDialForm")
   form(id='frm-DirSel', role='form')
+    //-Fieldset for simulation saving options:
+    fieldset(id='saaveSim' class='fsetti')
+      b(style='font-size:14px') Select saved items:
+      br
+      div
+        input(type="checkbox" id="chkSavePars" checked)
+        label(for="chkSavePars" class='label5') Calculation parameters
+        br
+        input(type="checkbox" id="chkSaveSimu")
+        label(for="chkSaveSimu" id='lblsaveSimSpe' class='label5') Simulation
+        br
+        select(id="numSel")
+          option(value='1000') 1000
+          option(value='500' selected) 500
+          option(value='333') 333
+          option(value='250') 250
+          option(value='200') 200
+        label(for="numSel" class='label5') Saved simulation points
+        //i(style='padding-left:10px')
+        //|  Number of spectral points
+        br
+        input(type="checkbox" id="chkSaveExper")
+        label(for="chkSaveExper" class='label5') Measurement data
     fieldset(class='fsetti')
-      b(style='font-size:14px') Select directory:
+      div(id='openOpti')
+        input(type='radio' id='radioMeas' name='openWhat' checked)
+        label(for='radioMeas' class='label6') Measurement
+        input(type='radio' id='radioSimu' name='openWhat')
+        label(for='radioSimu' class='label6') Simuation Params.
+        br
+      b(style='font-size:14px;') Select directory:
       br
       button(id='btnUserDir', class='big-btn-center', type='button') Private
       button(id='btnPublDir', class='big-btn-center', type='button') Public
       button(id='btnLocDir', class='big-btn-center',type='button') Local
-  br
+    br
   form(id='frm-Login', role='form' )
     fieldset(class='fsetti')
       //-legend Log in to access private directories:
@@ -34,18 +63,17 @@ div(id="mongoDialForm")
     fieldset(id="fsFileDesc" class='fsetti')
       b Directory:
       br
-      input(type="text" id="directoName" length="150" style='margin:5px; width:550px;')
+      input(type="text" id="directoName" style='margin:5px; width:550px;')
       br
       b Filename:
       br
-      input(type="text" id="mongoFileName" length="150" style='margin:5px; width:550px;')
+      input(type="text" id="mongoFileName" style='margin:5px; width:550px;')
       br
       b(id='mongFileDescLbl') Description:
       br
       input(type="text" id="mongFileDesc" length="150" style='margin:5px; width:550px;')
 
   style(type = "text/css").
-
     .big-btn-center {
       width: 120px;
       height: 30px;
@@ -54,6 +82,15 @@ div(id="mongoDialForm")
       display: inline-block;
     }
 
+    /* Dialog box fieldsets*/
+    .fsetti {
+        width: 630px;
+        display: block;
+        border: 1px solid green;
+        padding: 1em;
+    }
+
+    /*btn-mngOpenSave uses this*/
     .medium-btn-inline {
       width: auto;
       height: 30px;
@@ -62,6 +99,7 @@ div(id="mongoDialForm")
       display: inline-block;
     }
 
+    /*scroll bottom uses this in  jquery*/
     .ui-widget-content {
       /*width:100%;*/
       opacity: 0.85;
@@ -74,10 +112,6 @@ div(id="mongoDialForm")
       background: lightyellow !important;
       max-height: 600px;
       overflow-y: auto;
-      /*overflow: auto;
-      height: 350px;
-      overflow-y: auto;
-      overflow-x: auto;*/
     }
 
     /*Required for jsTree contextmenu plugin otherwise contextmenu not visible:*/
@@ -85,28 +119,21 @@ div(id="mongoDialForm")
       z-index: 999 !important;
     }
 
-    /*.fieldset-auto-width {
-      display: inline-block;
-      border: 1px solid green;
-      padding: 1em;
-    }*/
-
-    /* Dialog box fieldsets*/
-    .fsetti {
-      width: 630px;
-      display: block;
-      border: 1px solid green;
-      padding: 1em;
-    }
 
   script(type='text/javascript').
-
     $("#mongoDialForm").dialog({
       open: function () {
         //opens different dialogs for 'open file' and 'save file' operations
-        $('#frm-DirSel').show(); //shows directory selection buttons
-        $('#frm-Login').hide();  //login needed only if private directories chosen
-        $('#frm-FileTree').hide(); //filetree hidden until directory selected
+        var otsikko=$(this).dialog('option','title');
+        //console.log('title: ',otsikko);
+        if (otsikko=='Save emission spectrum') {//only 'Save emission spectrum' title opens this fieldset :
+          $('#saaveSim').css('display','inline');
+        } else {
+          $('#saaveSim').css('display','none');
+        }
+        $('#frm-DirSel').show();      //shows directory selection buttons
+        $('#frm-Login').hide();       //login needed only if private directories chosen
+        $('#frm-FileTree').hide();    //filetree hidden until directory selected
         $('#btn-mngOpenSave').hide(); //file Open or Save button
         if (userName != 'No login') {
           $('#btnLogMeOff').show();
@@ -118,7 +145,7 @@ div(id="mongoDialForm")
         if (dialTitle.indexOf('Open') > -1) {
           //dialog is for open file
           $('#btn-mngOpenSave').text('Open File');
-          $('#btnPublDir').show(); //file opening allowed also on public area
+          $('#btnPublDir').show(); //file opening allowed also on public dir area
         } else {
           $('#btn-mngOpenSave').text('Save data');
           $('#btnPublDir').hide(); //saving is not allowed to public dir area
@@ -128,10 +155,8 @@ div(id="mongoDialForm")
       hide: { effect: "explode", duration: 1000 },
       height: 'auto',
       width: 'auto',
-      //height: '600',
-      //width: '800',
-      modal: true
-      , buttons: [
+      modal: false,
+      buttons: [
         //Button1: this button is always available for cancelling file operations (Open or Save)
         {
           id: 'btnMngoCancel',
@@ -142,20 +167,23 @@ div(id="mongoDialForm")
             $('#mongoTree').jstree('deselect_all');
             $('#mongoTree').jstree('close_all');
             $('#FilTreLege').text('Files available on server:');
+            var otsikko=$(this).dialog('option','title');
             var dialoogi = $('#settnDial').dialog('option', 'title');
-            if (dialoogi == 'Inhomogeneous spectrum') {
+            if (dialoogi == 'Inhomogeneous spectrum' && otsikko=='Open emission spectrum') {
+              //cancel nappula tyhjentää inhomogeneous experimental spektrin
               inhomSpectr.experPlot = [];
               inhomSpectr.experArr = [];
-              inhomSpectr.fileN = '';
+              graphSettn.inhomFileN = '';
               $('#inhDescLbl').css('display', 'none');
               $('#inhDesc').css('display', 'none');
               $('#inhDesc').html('');
               makeExpArrs();
               inhombr();
-            } else if (dialoogi == 'Homogeneous spectrum') {
+            } else if (dialoogi == 'Homogeneous spectrum' && otsikko=='Open emission spectrum') {
+              //cancel nappula tyhjentää homogeneous experimental spektrin
               homSpectr.experPlot = [];
               homSpectr.experArr = [];
-              homSpectr.fileN = '';
+              simSettn.fileN = '';
               $('#homDescLbl').css('display', 'none');
               $('#homDesc').css('display', 'none');
               $('#homDesc').html('');
@@ -199,6 +227,42 @@ div(id="mongoDialForm")
              }
           }//All dialog buttons defined
       ]
+    });
+
+    /*Simulation spectrum saving options
+    * Simulated spectrum can be saved only locally either with
+    * all simulation, every other, every third or every fourth simulation points
+    * simulation parameters and experimental data locally and on server
+    * */
+    $('#chkSaveExper, #chkSavePars, #chkSaveSimu').click(function(){
+      $('#btnUserDir').attr("disabled", false);
+      $('#btnLocDir').attr("disabled", false);
+      if ($(this).attr('id') == 'chkSaveSimu' && $(this).prop('checked')==true) {
+        $('#chkSaveExper').prop('checked',false);
+        $('#numSel').prop('disabled',false);
+      }
+      if ($(this).attr('id') == 'chkSaveExper' && $(this).prop('checked')==true) {
+        $('#chkSavePars').prop('checked', false);
+        $('#chkSaveSimu').prop('checked', false);
+        $('#numSel').prop('disabled',true);
+      }
+      if ($(this).attr('id') == 'chkSavePars' && $(this).prop('checked')==true) {
+        $('#numSel').prop('disabled',true);
+        $('#chkSaveExper').prop('checked',false);
+      }
+      if ($('#chkSaveSimu').prop('checked')==true){
+        $('#btnUserDir').attr("disabled", true);
+        $('#numSel').prop('disabled',false);
+      }else{
+        $('#btnUserDir').attr("disabled", false);
+        $('#numSel').prop('disabled',true);
+      }
+      if($('#chkSaveSimu').prop('checked')==false && $('#chkSavePars').prop('checked')==false &&
+        $('#chkSaveExper').prop('checked')==false){
+          $('#btnUserDir').attr("disabled", true);
+          $('#btnLocDir').attr("disabled", true);
+          $('#numSel').prop('disabled',true);
+        }
     });
 
     /**
@@ -270,15 +334,10 @@ div(id="mongoDialForm")
     * @function
     */
     function mongoSave(saveUrl, flNme) {
-      //this either inserts new document to database using: saveUrl= '/auth/dbInsert'
+      //either inserts a new document to database using: saveUrl= '/auth/dbInsert'
       //or updates an existing document using: saveUrl= '/auth/dbUpdate'
-      //first selects a document collection:
-      //validate mongFileDesc':
-      /*var descOk = FileDescOk($('#mongFileDesc').val());
-      if (!descOk) {
-        $('#mongFileDesc').css('background-color', '#c00').css('color', '#fff');
-      }*/
-      var datColl = pickCollection(); //collection will be embedded in request data:
+      //first a document collection is selected:
+      var datColl = pickCollection(); //collection will be embedded in save request:
       var tokene;
       if (userName != 'No login') {
         tokene = window.sessionStorage.getItem('RTFtoken');
@@ -288,7 +347,6 @@ div(id="mongoDialForm")
       var dJson = {};
       var sad = $('#mongoFileName').val();
       sad = sad.replace(/(^\/)|(\/$)/g, ""); //remove leading and trailing '/'
-      //console.log('sad: ', sad);
       sad = sad.trim();
       if (sad.length < 1) {
         //if (flNme == $('#directoName').val()) {
@@ -296,7 +354,6 @@ div(id="mongoDialForm")
         dJson = toJsonArr(datColl, flNme, [], $('#mongFileDesc').val());
       }
        else {
-         //console.log('arrSave.length: ' + arrSave.length);
          var descr = $('#mongFileDesc').val();
          switch (dialTitle) {
            case ((dialTitle.match(/material/gi)) ? dialTitle : undefined) :
@@ -305,14 +362,29 @@ div(id="mongoDialForm")
              //arrSave=matrlArr;
              break;
            case ((dialTitle.match(/target/gi)) ? dialTitle : undefined) :
-             //tehdään tarkettispektristä JSON:
+             //tehdään reflektanssi- tai transmissiotarkettispektristä JSON:
              dJson = toJsonArr(datColl, flNme, targArr, descr);
-             //arrSave=targArr;
              break;
            case ((dialTitle.match(/emission/gi)) ? dialTitle : undefined) :
-             //tehdään tarkettispektristä JSON:
-             dJson = toJsonArr(datColl, flNme, inhomSpectr.experArr, descr);
-             //arrSave=experArr;
+             if ($('#chkSaveExper').prop('checked') == true) {
+               //tallennetaan serveriin experimentaalikäyrä
+               var tyyppi = $('#lblsaveSimSpe').text();
+               //Inhomogeneous tai Homogeneous simulation kentän
+               //mitatusta emissiospektristä tehdään JSON:
+               if (tyyppi == 'Inhomogeneous simulation') {
+                 dJson = toJsonArr(datColl, flNme, inhomSpectr.experArr, descr);
+               } else if (tyyppi == 'Homogeneous simulation') {
+                 dJson = toJsonArr(datColl, flNme, homSpectr.experArr, descr);
+               } else {
+                 throw "Data saving error";
+               }
+             }else {
+               //tallennetaan serveriin simulointiparametrit
+               dJson.Filename = flNme;
+               dJson.Descr = descr;
+               dJson.Header = makeSimHeader();//string from jv-fileopsit.js
+               dJson.Params= JSON.stringify(simParHeader()); //object from jv-fileopsit.js
+             }
              break;
            case ((dialTitle.match(/stack/gi)) ? dialTitle : undefined) :
              descr = descr.replace(/(^[\"\']+)|([\"\']+$)/g, ""); //remove leading and trailing single and double quotes
@@ -350,7 +422,7 @@ div(id="mongoDialForm")
                    $('#descStack').val($('#mongFileDesc').val());
                    break;
                  case ((dialTitle.match(/emission/gi)) ? dialTitle : undefined) :
-                   $('#descStack').val($('#mongFileDesc').val());
+                   //$('#descStack').val($('#mongFileDesc').val());
                    break;
                  default:
                    throw "No datacollection for " + dialTitle;
@@ -438,7 +510,7 @@ div(id="mongoDialForm")
     * @function
     */
     function mongoGetOne(fileName) {
-      console.log('get one called: ');
+      //console.log('get one called: ');
       var datColl = pickCollection();
       var tokene;
       if (userName != 'No login') {
@@ -467,36 +539,16 @@ div(id="mongoDialForm")
                   //cut out 'documentOK' text from the response string beginning
                   //and convert back to object
                   var resObj = JSON.parse(datas.resString.slice(datas.resString.indexOf('{')));
-                  if (datColl == 'emissions') {
-                    var dialoogi = $('#settnDial').dialog('option', 'title');
-                    if (dialoogi == 'Inhomogeneous spectrum') {
-                      $('#inhFileDesc').html(resObj.description);
-                      inhomSpectr.fileN=fileName;
-                      inhomSpectr.experPlot = makeEmisArr(resObj);
-                      inhomSpectr.experArr = makeEmisArr(resObj);
-                      //add experimental file description:
-                      $('#inhDescLbl').css('display','inline');
-                      $('#inhDesc').css('display','inline');
-                      var descr=resObj.description;
-                      descr=descr.replace(/"/g,"");
-                      $('#inhDesc').html(descr);
-                      inhombr();
-                    } else if (dialoogi == 'Homogeneous spectrum') {
-                      homSpectr.fileN=fileName;
-                      homSpectr.experArr = makeEmisArr(resObj);
-                      homSpectr.experPlot = makeEmisArr(resObj);
-                      //add experimental file description:
-                      $('#homDescLbl').css('display', 'inline');
-                      $('#homDesc').css('display', 'inline');
-                      var descr=resObj.description;
-                      descr=descr.replace(/"/g,"");
-                      $('#homDesc').html(descr);
-                      hombr();
-                    }
-                    break;
+                  //console.log('datColl: ',datColl);
+                  if (datColl == 'simulparams') {
+                    respToParams(fileName, resObj);
+                  } else if (datColl == 'emissions'){
+                    respToEmis(fileName, resObj);
+                  } else {
+                    //update filename and description inputs
+                    //todo:update filename and description inputs
+                    respToArr(fileName, resObj); //updates matrlArr, targArr or stack to opened document
                   }
-                  //todo: update filename and description inputs
-                  respToArr(fileName, resObj);     //updates matrlArr to opened document
                 }
                 break;
               case 202:
@@ -636,8 +688,19 @@ div(id="mongoDialForm")
         case ((dialTitle.match(/stack/gi)) ? dialTitle : undefined) :
           mngoColle = "stacks";
           break;
-        case ((dialTitle.match(/emission/gi)) ? dialTitle : undefined) :
-          mngoColle = "emissions";
+        case ((dialTitle.match(/Save emission/gi)) ? dialTitle : undefined) :
+          if ($('#chkSaveExper').prop('checked')){
+            mngoColle = "emissions";
+          }else if($('#chkSavePars').prop('checked')){
+            mngoColle = "simulparams";
+          }
+          break;
+        case ((dialTitle.match(/Open emission/gi)) ? dialTitle : undefined) :
+          if ($('#radioMeas').prop('checked')) {
+            mngoColle = "emissions"; //luetaan spektri e.g. mittaustulos
+          } else if($('#radioSimu').prop('checked')){
+            mngoColle = "simulparams"; //luetaan simuloinnin parametriasetuksia
+          }
           break;
         default:
           throw "No datacollection for " + dialTitle;
@@ -698,7 +761,7 @@ div(id="mongoDialForm")
                 html: "select from filetree"
               });
             }else {
-              //siispä save operaatio
+              //save operaatio
               //console.log('treeUpdate: ',$('#settnDial').dialog('option', 'title'));
               $("#fsFileDesc").css('display','inline');
               var homInhom=$('#settnDial').dialog('option', 'title');
@@ -747,77 +810,64 @@ div(id="mongoDialForm")
       $('#frm-FileTree').show();
       $('#btn-mngOpenSave').show();
       $("#fsFileDesc").hide();
-      //$('#frm-FileTree').css('width','600px');
-      //$('#mongoDialForm').dialog("option", "maxWidth", 750);
-      //$('#mongoDialForm').attr('width','700px');
-      //$('#mongoDialForm').css('width', '700px');
-      //$('#mongoDialForm').dialog({resizable: false});
-      //$('#mongoDialForm').css('overflow-y', 'auto');
-      //$('#mongoDialForm').css('background-color', '#c00').css('color', '#fff');
     });
 
     $('#btnLocDir').click(function () {
-      //recycled button on MongoDialForm for file saving and opening
-      //Click is either for saving or opening a file in a local directory:
+      //MongoDialForm button for file saving and opening on local download directory:
       var dialTitle = $("#mongoDialForm").dialog("option", "title"); //gets the options for open or save
-      //console.log('Dialogform title: ',dialTitle);
       var failneim = '';
       switch (dialTitle) {
         case 'Open material file from':
+          //Lambda -n&k data for Thin film R&T calculations
           $('#descMater').val('');
           $("#ediMaterLbl").text("Local file: ");
           $("#mongoDialForm").dialog("close");
           $("#matLocFiles").focus().click();
           break;
         case 'Open target file from':
+          //Lambda -R  or T data for Thin film R&T calculations
           $('#descTarge').val('');
           $("#ediTargeLbl").text("Local file: ");
           $("#mongoDialForm").dialog("close");
           $("#targLocFiles").focus().click();
           break;
         case 'Open stack file from':
+          //Thin film stack construction including material and target data
           $('#descStack').val('');
           $("#ediStackLbl").text("Local file: ");
           $("#mongoDialForm").dialog("close");
           $("#stackLocFiles").focus().click();
           break;
         case 'Open emission spectrum':
+          //eV- spectral intensity data for EL and PL modelling target e.g. experimental
           $("#mongoDialForm").dialog("close");
           $("#emisLocFiles").focus().click();
           break;
         case 'Save emission spectrum':
-          $("#mongoDialForm").dialog("close");
+          //eV- spectral intensity data for EL and PL modelling
+          //either experimental or simulation or only simulation parameters
+          var seivString='';
+          var failneim='';
           var dialoogi = $('#settnDial').dialog('option', 'title');
-          var seivString = '';
-          var n = 0;
-          var i = 0;
-          var legenda = '';
           if (dialoogi == 'Inhomogeneous spectrum') {
-            legenda = inhomSpectr.experArr[0][2].replace(/"/g, "");
-            seivString = 'eV' + '\t' + 'Intensity' + '\t' + legenda;
-            n = inhomSpectr.experArr.length;
-            for (i = 1; i < n; i++) {
-              seivString = seivString + '\r' + inhomSpectr.experArr[i][0] + '\t' + inhomSpectr.experArr[i][1];
-            }
-            failneim = inhomSpectr.fileN;
-            if (failneim.length > 2 && seivString.length > 2) {
-              seiv_loucal(failneim, seivString, emisToLocFile);
-            }
-            break;
-          } else if (dialoogi == 'Homogeneous spectrum') {
-            legenda = homSpectr.experArr[0][2].replace(/"/g, "");
-            seivString = 'eV' + '\t' + 'Intensity' + '\t' + legenda;
-            n = homSpectr.experArr.length;
-            for (i = 1; i < n; i++) {
-              seivString = seivString + '\r' + homSpectr.experArr[i][0] + '\t' + homSpectr.experArr[i][1];
-            }
-            failneim = homSpectr.fileN;
-            if (failneim.length > 2 && seivString.length > 2) {
-              seiv_loucal(failneim, seivString, emisToLocFile);
-            }
-            break;
+            failneim = graphSettn.inhomFileN;
+          } else {
+            failneim = graphSettn.homFileN;
           }
-          //console.log('seivString: ',seivString);
+          if ($('#chkSaveExper').prop('checked')){//only 'experimental' graph is saved:
+            seivString=experEmisDat();
+          }else {//Simulation data saved
+            var saveHeader = 'Header:' + makeSimHeader(); //string from jv-fileopsit.js
+            seivString = saveHeader;
+            if ($('#chkSavePars').prop('checked')) {//simulointiparametrit mukaan:
+              seivString +='\n'+'Parameters:'+ JSON.stringify(simParHeader());
+            }
+            if ($('#chkSaveSimu').prop('checked')) {
+              seivString = seivString + '\n' + 'Result:' + '\n' + simulSaveDat();
+            }
+          }
+          failneim = 'Sim-'+failneim;
+          seiv_loucal(failneim, seivString, emisToLocFile);
           break;
         case 'Save material data to':
           var failneim = $('#ediMater').val();
@@ -863,9 +913,11 @@ div(id="mongoDialForm")
     $('#btnUserDir').click(function () {
       //var activeTab = $("#tabis").tabs("option", "active");
       //var selecTabId = $("#tabis ul>li a").eq(activeTab).attr('id');
+      $('#frm-DirSel').hide();
       if (userName != 'No login') { //user has logged in (but login maybe expired; token will be checked)
         dirUser = userName;
         $('#frm-Login').hide();
+        $('#frm-DirSel').hide();
         treeUpdate();
         $('#frm-FileTree').show();
         $('#FilTreLege').text('Files on server in ' + userName + '\'s directory');
@@ -939,14 +991,6 @@ div(id="mongoDialForm")
             //description field updated in browsing only for file open
               mongoReadDesc(repl.longFile, function (res) {
                 $('#mongFileDesc').val(res);
-                /*if (res.length > 0) {
-                  //$('#fsFileDesc').css('display', 'inline');
-                  $('#mongFileDesc').val(res);
-                } else {
-                  //$('#fsFileDesc').css('display', 'none');
-                  console.log('filedesc hide');
-                  $('#mongFileDesc').val(res);
-                }*/
               });
             }
           } else {//click was on folder item on the js-tree
@@ -1053,7 +1097,6 @@ div(id="mongoDialForm")
           break;
         case 'Save Changes':
           //adding new folder or renaming already existing file
-          //console.log('saving empty directory: ');
           //saves an empty folder:
           saveToMngoDb(mngFileN);
         case 'Confirm file delete':
@@ -1105,19 +1148,6 @@ div(id="mongoDialForm")
           var v = $('#mongoTree').jstree(true).get_json('#', {'flat': true});
           //console.log('v. '+JSON.stringify(v));
           var oldfile = '';
-          /*var jsData=$.jstree.reference('#mongoTree').get_selected(true)[0];
-          $.jstree.reference('#mongoTree'.getElementByID('branch'));
-          console.log('keys: '+Object.keys($.jstree.reference('#mongoTree').element));
-          //console.log('data: '+JSON.stringify(Object.keys(jsData.data)));
-          console.log('element: '+JSON.stringify($.jstree.reference('#mongoTree').element));
-          var selctdNde=$.jstree.reference('#mongoTree').get_selected(true)[0];
-          console.log('Selected node: '+JSON.stringify(selctdNde));*/
-          //var newFile=selctdNde.text;
-          //var oldName=selctdNde.original.text;
-          //var ikoni=selctdNde.original.icon;
-          //console.log('icon: '+ikoni);
-          //console.log('oldName: '+oldName+' newName: '+newFile);
-          //mongoCopy(mngFileN,newFile,ikoni);
           break;
         default:
           throw "Unknown command: " + operatSel;
