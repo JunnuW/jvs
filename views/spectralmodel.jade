@@ -24,7 +24,6 @@ block levenee
         -equation3="/homogen"
         a(href="#{equation3}" target="_blank")     Homogeneous details
         |    page.
-
         div(id="content2")
           //this contains the playground for the simulation graph
           div(class="demo-container")
@@ -34,7 +33,7 @@ block levenee
         //-img(id="huuhaa" src="" alt="Tallennettava kuva" width="42" height="42")
         //-flot graph 0.8.3 versiossa canvas ei sisällä akselien tekstejä eikä
         //-käyrien captioneja. Nämä on luvattu vasta 0.9. versioon
-        //-Ei kannata satsata kuvan kopiointiin canvaksesta ennen sitä.
+        //-Ei kannata satsata eforttia kuvan copy-paste rutiiniin canvaksesta ennen sitä.
 
     div(id="settnDial" title="Graphing details")
       //- x-axis: spectral range settings
@@ -47,7 +46,19 @@ block levenee
         label(for="eVStop") Stops at:
         input(id="eVStop" name="eVStop" class='inputti')
         button(id='rangeok' style="margin:0px 15px") OK
+        br
+        table(style="width:500px;")
+          tr
+            td(class='huihai')
+              b Starts at:
+              br
+              input(id="eVstart_touch" name="eVStart_touch" class="form-control input-sm")
+            td(class='huihai')
+              b Stops at:
+              br
+              input(id="eVstop_touch" name="eVStop_touch" class="input-sm")
 
+        //div(class="input-sm col-md-4")
       //-Boltzmann distribution for energy occupancy:
       fieldset(id='eg_et' style='display:none')
         b(style='font-size:16px') Energy state occupancy: \(f_{cv}=f_{c}(\epsilon)\times(1-f_{v}(\epsilon))\)
@@ -59,12 +70,15 @@ block levenee
         i   (for bulk materials \(E_{t}=E_{g}\) )
         br
         br
-        label(for="eV_Et" id='etLbl') Et:
-        input(id="eV_Et" class='inputti')
-        label(for="temp") Temp [K]:
-        input(id="temp" class='inputti')
-        button(id='evetok' style="margin:0px 15px") OK
-
+        label(for="eV_Et" class='eV_Et-label') Et:
+        button(id='Et_down' style="margin:0px 0px") -
+        input(id="eV_Et" class='spinneri')
+        button(id='Et_up' style="margin:0px 0px") +
+        label(for="tempK" class='temp-label') Temp [K]:
+        button(id='T_down' style="margin:0px 0px") -
+        input(id="tempK" class='spinneri')
+        button(id='T_up' style="margin:0px 0px") +
+        button(id='evetok' style="margin-left:40px") OK
       //- Joint density of states:
       fieldset(id='spJdos' style='display:none')
         b(style='font-size:16px') Joint density of states (JDOS):
@@ -354,6 +368,11 @@ block levenee
       }
 
       /* Dialog box inputs*/
+      .spinneri {
+        width: 45px;
+      }
+
+      /* Dialog box inputs*/
       .inputti2 {
         width: 45px;
         margin-left: 13px;
@@ -369,6 +388,22 @@ block levenee
       /* Dialog box labels*/
       label {
         width: 23%;
+        margin-right: 5px;
+        text-align: right;
+        font-weight: bold;
+      }
+
+      /* Boltzmann distr Et label*/
+      .eV_Et-label {
+        width: 10%;
+        margin-right: 5px;
+        text-align: right;
+        font-weight: bold;
+      }
+
+      /* Boltzmann distr temp label*/
+      .temp-label {
+        width: 17%;
         margin-right: 5px;
         text-align: right;
         font-weight: bold;
@@ -467,6 +502,10 @@ block levenee
       .small-btn {
         width: 50px;
         height: 20px;
+      }
+
+      .huihai {
+        padding-left:50px;
       }
 
       /* muuttaa dialogin vaaleankeltaiseksi
@@ -596,18 +635,6 @@ block levenee
           mongoGetOne(fiile, dirUser);// opens default stack from Publ dierectory
       }*/
 
-      /*function drawCanvas() {
-        var graphTitle=(simSettn.jdostype=='qw')? 'QW-jdos:':'Bulk-jdos:';
-        graphTitle=graphSettn.inhomFileN+' '+graphTitle;
-        var canvas = plot.getCanvas();
-        var context = canvas.getContext('2d');
-        context.lineWidth = 2;
-        context.strokeStyle = "rgba(35, 70, 237, .8)";
-        context.font = "14pt sans-serif";
-        //context.fillText("Fill, Stroke Text, 12pt, sans-serif", 80, 30);
-        context.strokeText(graphTitle, 10, 0);
-        //context.fillText('huuhaa', 50, 0);
-      }*/
 
       function setQwRadio(){
         //console.log('setQwRadio');
@@ -777,6 +804,50 @@ block levenee
         }
       });
 
+      $("#eVstart_touch").TouchSpin({
+        max: simSettn.eVstop - 0.1,
+        min: 0,
+        step: 0.001,
+        initval: simSettn.eVstart,
+        decimals: 3,
+        boostat: 10,
+        maxboostedstep: 0.005,
+        postfix: 'eV',
+        mousewheel: true
+      });
+
+      $("#eVstart_touch").on('touchspin.on.stopspin', function (e) {
+        //console.log('eVstart_touch: ', $("#eVstart_touch").val());
+        var tmp1 = Number($("#eVstart_touch").val());
+        simSettn.eVstart=tmp1.toFixed(3);
+        $('#eVStart').val(simSettn.eVstart);
+        //prep. min value for eVstop_touch i.e. set 0.1eV minimum horiz. scale span:
+        tmp1=tmp1+0.1;
+        $("#eVstop_touch").trigger("touchspin.updatesettings", {min:tmp1});
+      });
+
+      $("#eVstop_touch").TouchSpin({
+        max: 4.0,
+        min: simSettn.eVstart + 0.1,
+        step: Number(0.001),
+        initval: simSettn.eVstop,
+        decimals: 3,
+        boostat: 10,
+        maxboostedstep: 0.005,
+        postfix: 'eV',
+        mousewheel: true
+      });
+
+      $("#eVstop_touch").on('touchspin.on.stopspin', function (e) {
+          //console.log('eVstop_touch: ', $("#eVstop_touch").val());
+          var tmp1 = Number($("#eVstop_touch").val());
+          simSettn.eVstop = tmp1.toFixed(3);
+          $('#eVStop').val(simSettn.eVstop);
+          //prep. max value for eVstart_touch i.e. set 0.1eV minimum horiz. scale span:
+          tmp1 = tmp1 - 0.1;
+          $("#eVstart_touch").trigger("touchspin.updatesettings", {max: tmp1});
+      });
+
       $("#eVStart").spinner({
         max: simSettn.eVstop-0.01,
         min: 0,
@@ -807,6 +878,8 @@ block levenee
         }
       }).val(simSettn.eVstop);
 
+      var periodi; //for mousedown
+      /************Boltzmann distr Et *************************************/
       $("#eV_Et").spinner({
         max: 4.0,
         min: 0,
@@ -830,7 +903,85 @@ block levenee
           makeSommer();     //exciton enhanchements
           calcInhom();
          }
-      }).val(simSettn.eTr);
+      }).val(simSettn.eTr) //hide spinner up & down buttons:
+      .parent().children('.ui-spinner-button').css('display','none');
+
+      $("#Et_down").mousedown(function(){
+        decrease_Et();
+        periodi = setInterval(decrease_Et, 100);
+      }).mouseup(function(){
+        clearInterval(periodi);
+      }).mouseout(function(){
+        clearInterval(periodi);
+      });
+
+      function decrease_Et() {
+        $("#eV_Et").spinner( "stepDown", 1 );
+      }
+
+      $("#Et_up").mousedown(function () {
+        increase_Et();
+        periodi = setInterval(increase_Et, 100);
+      }).mouseup(function () {
+        clearInterval(periodi);
+      }).mouseout(function () {
+        clearInterval(periodi);
+      });
+
+      function increase_Et() {
+        $("#eV_Et").spinner("stepUp", 1);
+      }
+      /**********Boltzmann distr Et *************************************/
+
+      /**********Boltzman distr T ***************************************/
+      $("#tempK").spinner({
+        max: 600,
+        min: 0,
+        step: 1,
+        spin: function (event, ui) {
+          //this.value; antaa olleen arvon
+          //ui.value antaa tulevan uuden arvon
+          var tmp = ui.value.toFixed(0);
+          simSettn.kelvin = tmp;
+          makeBoltz();      //Boltzmann distribution changes with Temp [K]
+          calcInhom();
+        },
+        change: function (event, ui) {
+          var tmp1 = Number(this.value);
+          tmp1 = tmp1.toFixed(3);
+          simSettn.kelvin = tmp1;
+          makeBoltz();      //Boltzmann distribution changes with T
+          calcInhom();
+        }
+      }).val(simSettn.kelvin) // hide spinner up and down buttons
+        .parent().children('.ui-spinner-button').css('display', 'none');
+
+      $("#T_down").mousedown(function () {
+        decrease_Temp();
+        periodi = setInterval(decrease_Temp, 100);
+      }).mouseup(function () {
+        clearInterval(periodi);
+      }).mouseout(function () {
+        clearInterval(periodi);
+      });
+
+      function decrease_Temp() {
+        $("#tempK").spinner("stepDown", 1);
+      }
+
+      $("#T_up").mousedown(function () {
+        increase_Temp();
+        periodi = setInterval(increase_Temp, 100);
+      }).mouseup(function () {
+        clearInterval(periodi);
+      }).mouseout(function () {
+        clearInterval(periodi);
+      });
+
+      function increase_Temp() {
+        $("#tempK").spinner("stepUp", 1);
+      }
+      /**********Boltzman distr T ***************************************/
 
       $("#eV_Bind").spinner({
         max: 20,
@@ -874,27 +1025,6 @@ block levenee
           calcInhom();
         }
       }).val(simSettn.ex0);
-
-      $("#temp").spinner({
-        max: 600,
-        min: 0,
-        step: 1,
-        spin: function (event, ui) {
-          //this.value; antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-          var tmp = ui.value.toFixed(0);
-          simSettn.kelvin = tmp;
-          makeBoltz();      //Boltzmann distribution changes with Temp [K]
-          calcInhom();
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value);
-          tmp1 = tmp1.toFixed(3);
-          simSettn.kelvin = tmp1;
-          makeBoltz();      //Boltzmann distribution changes with T
-          calcInhom();
-        }
-      }).val(simSettn.kelvin);
 
       $("#eveu, #evSeu").spinner({
         //Urbach parameter spinner for both Urbach distributions
@@ -2089,8 +2219,10 @@ block levenee
           case 'rangeok':
             simSettn.eVstart=parseFloat($("#eVStart").spinner("value")).toFixed(3);
             simSettn.eVstop=parseFloat($("#eVStop").spinner("value")).toFixed(3);
+
             $("#eVStart").spinner("option", "value", simSettn.eVstart);
             $("#eVStop").spinner("option", "value", simSettn.eVstop);
+            //$("#eVstop_touch").trigger("touchspin.updatesettings", {max: simSettn.eVstop});
             makespArr();       //recreate spectral array
             makeExpArrs();     //recreate experimental array
             makeJdos();
