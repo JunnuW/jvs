@@ -739,69 +739,89 @@ block levenee
         $('#openOpti').css('display','none');
       });
 
-      $('#ph1_inhomog').dblclick(function(){
-        $('#spWhat').css('display','block');
-        $('#spLorentz').css('display','none');
-        $('#spDlorentz').css('display','none');
-        $('#bConvolOpt').text('Broadening (convolution) options for Lih:');
-        $('#divEpsilon').css('display','block');
-        $('#divJdos').css('display','block');
-        $('#divSommerf').css('display','block');
-        $('#divFcv').css('display','block');
-        $('#divUrbach').css('display','block');
-        $('#divSurbach').css('display','block');
-        $('#divGaussian').css('display', 'block');
-        $('#divSech').css('display', 'block');
-        $('#divLorentz').css('display', 'none');
-        $('#divDLorentz').css('display', 'none');
-        $('#divHomogConv').css('display', 'none');
-        //$('#divHomog').css('display', 'block');
-        $('#divNormalize').css('display', 'block');
-        $('#settnDial').dialog('option', 'title', 'Inhomogeneous spectrum');
-        $( "#settnDial" ).dialog( "open" );
-        if (inhomSpectr.experArr.length>0){
-          $('#saveFile').css('display','inline');
-          //var srvrFileTxt = 'Save emission spectrum';
-          //var DFmngo = $('#mongoDialForm'); //dialog form
-          //DFmngo.dialog('option', 'title', srvrFileTxt);  // starts from LED collection
-        } else{
-          $('#saveFile').css('display','inline');
-        }
-        setJdosRadio();
-        setQwRadio();
+      $("#ph1_inhomog").mousedown(function () {
+          periodi = setInterval(loongTappi_ph1, 700);
+      }).mouseup(function () {
+          clearInterval(periodi);
+      }).mouseout(function () {
+          clearInterval(periodi);
       });
 
+      function loongTappi_ph1(){
+          $('#spWhat').css('display', 'block');
+          $('#spLorentz').css('display', 'none');
+          $('#spDlorentz').css('display', 'none');
+          $('#bConvolOpt').text('Broadening (convolution) options for Lih:');
+          $('#divEpsilon').css('display', 'block');
+          $('#divJdos').css('display', 'block');
+          $('#divSommerf').css('display', 'block');
+          $('#divFcv').css('display', 'block');
+          $('#divUrbach').css('display', 'block');
+          $('#divSurbach').css('display', 'block');
+          $('#divGaussian').css('display', 'block');
+          $('#divSech').css('display', 'block');
+          $('#divLorentz').css('display', 'none');
+          $('#divDLorentz').css('display', 'none');
+          $('#divHomogConv').css('display', 'none');
+          //$('#divHomog').css('display', 'block');
+          $('#divNormalize').css('display', 'block');
+          $('#settnDial').dialog('option', 'title', 'Inhomogeneous spectrum');
+          $("#settnDial").dialog("open");
+          if (inhomSpectr.experArr.length > 0) {
+              $('#saveFile').css('display', 'inline');
+              //var srvrFileTxt = 'Save emission spectrum';
+              //var DFmngo = $('#mongoDialForm'); //dialog form
+              //DFmngo.dialog('option', 'title', srvrFileTxt);  // starts from LED collection
+          } else {
+              $('#saveFile').css('display', 'inline');
+          }
+          setJdosRadio();
+          setQwRadio();
+      }
+
+      $('#ph1_inhomog').dblclick(function(){
+        loongTappi_ph1();
+      });
+
+      $("#ph2_homog").mousedown(function () {
+          periodi = setInterval(loongTappi_ph2, 700);
+      }).mouseup(function () {
+          clearInterval(periodi);
+      }).mouseout(function () {
+          clearInterval(periodi);
+      });
+
+      function loongTappi_ph2(){
+          $("#spSech").css('display', 'none');
+          $("#spGaussian").css('display', 'none');
+          $("#spSurbach").css('display', 'none');
+          $("#spUrbach").css('display', 'none');
+          $('#spWhat').css('display', 'block');
+          $('#bConvolOpt').text('Homogeneous broadening options for Lh:');
+          $('#divEpsilon').css('display', 'block');
+          $('#divJdos').css('display', 'block');
+          $('#divSommerf').css('display', 'block');
+          $('#divFcv').css('display', 'block');
+          $('#divUrbach').css('display', 'none');
+          $('#divSurbach').css('display', 'none');
+          $('#divGaussian').css('display', 'none');
+          $('#divSech').css('display', 'none');
+          $('#divLorentz').css('display', 'block');
+          $('#divDLorentz').css('display', 'block');
+          //$('#divHomog').css('display', 'block');
+          $('#divHomogConv').css('display', 'block');
+          $('#divNormalize').css('display', 'block');
+          $('#settnDial').dialog('option', 'title', 'Homogeneous spectrum');
+          $("#settnDial").dialog("open");
+          if (homSpectr.experArr.length > 0) {
+              $('#saveFile').css('display', 'inline');
+          } else {
+              $('#saveFile').css('display', 'inline');
+          }
+      }
+
       $('#ph2_homog').dblclick(function () {
-        $("#spSech").css('display', 'none');
-        $("#spGaussian").css('display', 'none');
-        $("#spSurbach").css('display', 'none');
-        $("#spUrbach").css('display', 'none');
-        $('#spWhat').css('display', 'block');
-        //$('#bPlotSel').text('Plotting selector');
-        $('#bConvolOpt').text('Homogeneous broadening options for Lh:');
-        $('#divEpsilon').css('display','block');
-        $('#divJdos').css('display','block');
-        $('#divSommerf').css('display','block');
-        $('#divFcv').css('display','block');
-        $('#divUrbach').css('display', 'none');
-        $('#divSurbach').css('display', 'none');
-        $('#divGaussian').css('display', 'none');
-        $('#divSech').css('display', 'none');
-        $('#divLorentz').css('display', 'block');
-        $('#divDLorentz').css('display', 'block');
-        //$('#divHomog').css('display', 'block');
-        $('#divHomogConv').css('display', 'block');
-        $('#divNormalize').css('display', 'block');
-        $('#settnDial').dialog('option', 'title', 'Homogeneous spectrum');
-        $("#settnDial").dialog("open");
-        if (homSpectr.experArr.length > 0) {
-          $('#saveFile').css('display', 'inline');
-          //var srvrFileTxt = 'Save emission spectrum';
-          //var DFmngo = $('#mongoDialForm'); //dialog form
-          //DFmngo.dialog('option', 'title', srvrFileTxt);  // starts from LED collection
-        } else {
-          $('#saveFile').css('display', 'inline');
-        }
+        loongTappi_ph2();
       });
 
       $("#eVstart_touch").TouchSpin({
