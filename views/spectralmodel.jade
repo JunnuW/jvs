@@ -739,15 +739,15 @@ block levenee
         $('#openOpti').css('display','none');
       });
 
-      $("#ph1_inhomog").mousedown(function () {
-          periodi = setInterval(loongTappi_ph1, 700);
+      /*$("#ph1_inhomog").mousedown(function () {
+          periodi = setInterval(inhomSettns_dialog, 700);
       }).mouseup(function () {
           clearInterval(periodi);
       }).mouseout(function () {
           clearInterval(periodi);
-      });
+      });*/
 
-      function loongTappi_ph1(){
+      function inhomSettns_dialog(){
           $('#spWhat').css('display', 'block');
           $('#spLorentz').css('display', 'none');
           $('#spDlorentz').css('display', 'none');
@@ -779,8 +779,12 @@ block levenee
           setQwRadio();
       }
 
+      $("#ph1_inhomog").on("swipe", function () {
+          alert('you swiped');
+      });
+
       $('#ph1_inhomog').dblclick(function(){
-        loongTappi_ph1();
+        inhomSettns_dialog();
       });
 
       $("#ph2_homog").mousedown(function () {
