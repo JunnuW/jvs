@@ -3,7 +3,7 @@ extends broaden
 block levenee
     div(id='wrapper')
       div(id='main')
-        h3 Simulation for inhomogeneous broadening
+        h3(id='inhomHeader') Simulation for inhomogeneous broadening
         |   Calculated spectra are obtained using equation (2) on the
         -equation2="/inhomogen"
         a(href="#{equation2}" target="_blank")     Inhomogeneous details
@@ -12,12 +12,13 @@ block levenee
         br
         div(id="footer" style="paddig-left:50px")
           Copyright &copy; 2007 - 2014 IOLA and Ole Laursen :
-        div(id="content")
+        //div(id="content")
           //this contains the playground for the simulation graph
-          div(class="demo-container")
-            div(id="ph1_inhomog" target="_blank" class="demo-placeholder")
-          b(id='inhDescLbl' style='color:Brown') Measurement details:
-          b(id='inhDesc' style="color:Indigo; margin-left:10px;")
+        div(class="demo-container")
+          //div(id="ph1_inhomog" class="demo-placeholder")
+          div(id="ph1_inhomog" target="_blank" class="demo-placeholder")
+        b(id='inhDescLbl' style='color:Brown') Measurement details:
+        b(id='inhDesc' style="color:Indigo; margin-left:10px;")
 
         h3 Simulation for homogeneous broadening
         |   Calculated spectra are obtained using equation (x) on the
@@ -328,13 +329,13 @@ block levenee
     //-correct indenting is required
 
     //-*****************************************************************************/
-    //-*****************************************************************************/
     style(type = "text/css").
-
       /* Simulation graph placeholders*/
       .demo-placeholder {
-        width: 100%;
-        height: 100%;
+        /*width: 600px;
+        height: 400px;*/
+        width: 820px;
+        height: 430px;
         font-size: 14px;
         line-height: 1.2em;
       }
@@ -343,7 +344,7 @@ block levenee
       .demo-container {
         box-sizing: border-box;
         width: 850px;
-        height: 450px;
+        height: 460px;
         padding: 20px 15px 15px 15px;
         margin: 15px auto 30px auto;
         border: 1px solid #ddd;
@@ -780,7 +781,19 @@ block levenee
       }
 
       $("#ph1_inhomog").on("swipe", function () {
-          alert('you swiped');
+        inhomSettns_dialog();
+      });
+
+      $('#inhomHeader').on("swipe", function () {
+          $(this).hide();
+      });
+
+      $('#inhomHeader').on("taphold", function () {
+          $(this).hide();
+      });
+
+      $("#ph1_inhomog").on("taphold", function(event) {
+        inhomSettns_dialog();
       });
 
       $('#ph1_inhomog').dblclick(function(){

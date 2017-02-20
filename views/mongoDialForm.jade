@@ -1,7 +1,23 @@
-//-doctype html
+doctype html
 //-html(lang="us")
 //-  head
 //-    meta(charset="utf-8"
+//extends broaden
+meta(name="viewport" content="width=device-width, initial-scale=1.0")
+//script(src='/bower_components/jquery/dist/jquery.min.js')
+//script(src='https://code.jquery.com/jquery-2.2.4.min.js')
+//script(src='/bower_components/jquery-ui/jquery-ui.js')
+//-script(src="/bower_components/bootstrap-touchspin/src/jquery.bootstrap-touchspin.js")
+//script(src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js")
+//-script(type ='text/x-mathjax-config')
+//-link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
+//-link(rel='stylesheet', href='/bower_components/bootstrap-touchspin/src/jquery.bootstrap-touchspin.css', type='text/css', media='all')
+
+link(rel='stylesheet', href='/bower_components/jquery-ui/themes/start/jquery-ui.min.css')
+link(rel='stylesheet', href='/bower_components/jstree/dist/themes/default/style.min.css')
+link(rel="stylesheet", href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css")
+//link(rel='stylesheet', href='/public/css/broadn.css')
+
 div(id="mongoDialForm")
   form(id='frm-DirSel', role='form')
     //-Fieldset for simulation saving options:
@@ -121,6 +137,7 @@ div(id="mongoDialForm")
 
 
   script(type='text/javascript').
+    //console.log('scripti alkaa');
     $("#mongoDialForm").dialog({
       open: function () {
         //opens different dialogs for 'open file' and 'save file' operations
@@ -152,7 +169,7 @@ div(id="mongoDialForm")
         }
       },
       autoOpen: false,
-      hide: { effect: "explode", duration: 1000 },
+      hide: { effect: "explode", duration: 500 },
       height: 'auto',
       width: 'auto',
       modal: false,
@@ -228,6 +245,13 @@ div(id="mongoDialForm")
           }//All dialog buttons defined
       ]
     });
+    //console.log('dialogi tehty:');
+    /*MathJax.Hub.Config({
+        TeX: {
+            equationNumbers: {autoNumber: "AMS"},
+            tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+        }
+    });*/
 
     /*Simulation spectrum saving options
     * Simulated spectrum can be saved only locally either with

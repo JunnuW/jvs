@@ -7,6 +7,7 @@ html
     //-https://code.jquery.com/jquery-2.2.4.min.js
     //-script(src='/bower_components/jquery/dist/jquery.min.js')
     script(src='https://code.jquery.com/jquery-2.2.4.min.js')
+    script(src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js")
     script(src='/bower_components/jquery-ui/jquery-ui.js')
     script(src='/bower_components/jstree/dist/jstree.min.js')
     script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
@@ -15,20 +16,20 @@ html
     script(src='/bower_components/Flot/jquery.flot.js')
     //-script(src='/bower_components/Flot/jquery.flot.crosshair.js')
     //-script(src='/bower_components/Flot/jquery.flot.selection.js')
-    script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"
     script(src='/bower_components/Flot/jquery.flot.canvas.js')
     script(src='/bower_components/jqnotifybar/jquery.notifyBar.js')
     script(src='/bower_components/flot-axislabels/jquery.flot.axislabels.js')
-    script(type ='text/x-mathjax-config') MathJax.Hub.Config ({TeX:{equationNumbers:{autoNumber:"AMS"},tex2jax:{inlineMath:[['$','$'], ['\\(','\\)']]}}});
+    script(type ='text/x-mathjax-config')
+    //MathJax.Hub.Config ({TeX:{equationNumbers:{autoNumber:"AMS"},tex2jax:{inlineMath:[['$','$'], ['\\(','\\)']]}}});
     script(src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML")
     script(src='/public/js/jv-fileopsit.js')
     script(src='/public/js/fft_libry.js')
     link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='/bower_components/bootstrap-touchspin/src/jquery.bootstrap-touchspin.css', type='text/css', media='all')
     link(rel='stylesheet', href='/bower_components/jquery-ui/themes/start/jquery-ui.min.css')
+    link(rel="stylesheet", href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css")
     link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
     link(rel='stylesheet', href='/bower_components/jstree/dist/themes/default/style.min.css')
-    link(rel="stylesheet", href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css")
     //link(rel='stylesheet', href='/public/css/broadn.css')
 
   body
@@ -138,6 +139,14 @@ html
 
 
   script(type='text/javascript').
+    MathJax.Hub.Config({
+      TeX: {
+        equationNumbers: {autoNumber: "AMS"},
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+      }
+    });
+
+
     var tokenee = window.sessionStorage.getItem('RTFtoken');
     var userLuser = window.sessionStorage.getItem('RTFuser');
     if (userLuser == null || userLuser == 'No login' || userLuser == 'No Login') {
