@@ -1,0 +1,24 @@
+// Created by Juha on 2/20/2017.
+doctype html
+html
+  head
+    title=title
+    //-title Multi-page template
+    meta(charset="utf-8")
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Multi-page template
+    link(rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css")
+    script(type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js")
+    script(type="text/javascript" src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js")
+    script(type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full")
+
+
+  body
+    //div(data-role="page")
+    div(data-role="page" data-overlay-theme="b" data-theme="b" data-dismissible="true" style="max-width:400px;")
+      div(data-role="header")
+        h1(style="color:brown;font-size:20px") Plotting selector for items in:
+        h2(id='bPlotSel' style='color:green;') `\int_0^\infty \epsilon\rho_{r}
+          | (\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)\times L_{ih}(E-\epsilon)d\epsilon`
+      div(role="main" class="ui-content")
+        p I am a dialog

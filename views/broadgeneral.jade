@@ -236,8 +236,8 @@ block levenee
     script(type='text/javascript').
       var otherHeader=$('a[href = "#otherHeader"]');
       var otherText=$('#otherText');
-      otherText.css('display', 'none');
-      otherHeader.click(function () {
+      otherText.css('display', 'none'); //initially not visible
+      otherHeader.click(function () {//click toggles visible
         var stats= (otherText.css('display')=='none')? 'inline': 'none';
         otherText.css('display', stats);
       });

@@ -3,12 +3,22 @@ extends broaden
 block levenee
     div(id='wrapper')
       div(id='main')
+        br
+        //a(href="#page2show" class = "ui-content" data-rel="dialog") page2
+        //a(href="/el_dialog") page2
+        //div(class="ui-content")
+        //-tialooki="/inhomogen"
+        //a(href=tialooki data-rel="dialog") Open dialog
+        //a(href=#{tialooki}) Open dialog
         h3(id='inhomHeader') Simulation for inhomogeneous broadening
         |   Calculated spectra are obtained using equation (2) on the
         -equation2="/inhomogen"
         a(href="#{equation2}" target="_blank")     Inhomogeneous details
         |    page. (Used to evaluate the broken line curves on that page.)
         br
+        //div(class="ui-content")
+          -tialooki="/multi-page"
+          a(href="#{tialooki}") Open dialog
         br
         div(id="footer" style="paddig-left:50px")
           Copyright &copy; 2007 - 2014 IOLA and Ole Laursen :
@@ -35,6 +45,13 @@ block levenee
         //-flot graph 0.8.3 versiossa canvas ei sisällä akselien tekstejä eikä
         //-käyrien captioneja. Nämä on luvattu vasta 0.9. versioon
         //-Ei kannata satsata eforttia kuvan copy-paste rutiiniin canvaksesta ennen sitä.
+
+
+    //div(id="page2show" data-role="page")
+      div(data-role="header")
+        h2 Dialog
+      div(role="main" class="ui-content")
+        p I am a dialog
 
     div(id="settnDial" title="Graphing details")
       //- x-axis: spectral range settings
@@ -247,8 +264,8 @@ block levenee
         i (Applied as convolution kernel, if selected with 'Plotting selector' items)
 
       fieldset(id='spWhat' style='display:none')
-        b(id='bPlotSel' style='font-size:16px') Plotting selector for: \(\int_0^\infty \epsilon\rho_{r}
-          |(\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)\times L_{ih}(E-\epsilon)\mathrm{d}\epsilon\)
+        b(id='bPlotSel' style='font-size:16px') Plotting selector for: `\int_0^\infty \epsilon\rho_{r}
+          |(\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)\times L_{ih}(E-\epsilon)\quad d\epsilon`
         br
         //i(style='float:right')    (click selection titles to edit parameters)
         i(style='float:left')    (click selector titles to edit parameters)
@@ -324,6 +341,7 @@ block levenee
       button(id='openFile' style="margin:0px 5px") Open file
       button(id='saveFile' style="margin:0px 5px") Save file
       //-button(id='saveFile' style="display:none") Save file
+
 
     include mongoDialForm
     //-correct indenting is required
@@ -780,35 +798,35 @@ block levenee
           setQwRadio();
       }
 
-      $("#ph1_inhomog").on("swipe", function () {
+      /*$("#ph1_inhomog").on("swipe", function () {
         inhomSettns_dialog();
-      });
+      });*/
 
-      $('#inhomHeader').on("swipe", function () {
+      /*$('#inhomHeader').on("swipe", function () {
           $(this).hide();
       });
 
       $('#inhomHeader').on("taphold", function () {
           $(this).hide();
-      });
+      });*/
 
-      $("#ph1_inhomog").on("taphold", function(event) {
+      /*$("#ph1_inhomog").on("taphold", function(event) {
         inhomSettns_dialog();
-      });
+      });*/
 
       $('#ph1_inhomog').dblclick(function(){
         inhomSettns_dialog();
       });
 
-      $("#ph2_homog").mousedown(function () {
-          periodi = setInterval(loongTappi_ph2, 700);
+      /*$("#ph2_homog").mousedown(function () {
+          periodi = setInterval(homogSettns_dialog, 700);
       }).mouseup(function () {
           clearInterval(periodi);
       }).mouseout(function () {
           clearInterval(periodi);
-      });
+      });*/
 
-      function loongTappi_ph2(){
+      function homogSettns_dialog(){
           $("#spSech").css('display', 'none');
           $("#spGaussian").css('display', 'none');
           $("#spSurbach").css('display', 'none');
@@ -838,7 +856,7 @@ block levenee
       }
 
       $('#ph2_homog').dblclick(function () {
-        loongTappi_ph2();
+        homogSettns_dialog();
       });
 
       $("#eVstart_touch").TouchSpin({

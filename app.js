@@ -440,6 +440,20 @@ app.get('/refletrans', function (req, res) {
     });
 });
 
+app.get('/el_dialog', function(req, res) {
+    res.render('el_settndialog', {
+        title: 'Simulation settings',
+        user: (req.user)  //false
+    });
+});
+
+app.get('/multi-page', function(req, res) {
+    res.render('multi-page.jade', {
+        //title: 'Testiä',
+        user: (req.user)  //false
+    });
+});
+
 app.post('/login',function(req,res){
     //console.log("app.post('/login') req.headers: "+JSON.stringify(req.headers));
     passport.authenticate('local',{session:false},function(err, user, info) {
