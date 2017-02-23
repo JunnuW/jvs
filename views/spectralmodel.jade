@@ -5,11 +5,7 @@ block levenee
       div(id='main')
         br
         //a(href="#page2show" class = "ui-content" data-rel="dialog") page2
-        //a(href="/el_dialog") page2
-        //div(class="ui-content")
-        //-tialooki="/inhomogen"
-        //a(href=tialooki data-rel="dialog") Open dialog
-        //a(href=#{tialooki}) Open dialog
+        //a(href="/el_dialog?huuhaa=1") page2
         h3(id='inhomHeader') Simulation for inhomogeneous broadening
         |   Calculated spectra are obtained using equation (2) on the
         -equation2="/inhomogen"
@@ -57,13 +53,12 @@ block levenee
       //- x-axis: spectral range settings
       fieldset(id='spRange' style='display:none')
         b(style='font-size:16px') Spectral range [eV's]:
-        br
-        br
-        label(for="eVStart") Starts at:
-        input(id="eVStart" name="eVStart" class='inputti')
-        label(for="eVStop") Stops at:
-        input(id="eVStop" name="eVStop" class='inputti')
-        button(id='rangeok' style="margin:0px 15px") OK
+        button(id='rangeok' class='medium-btn2') OK
+        //label(for="eVStart") Starts at:
+        //input(id="eVStart" name="eVStart" class='inputti')
+        //label(for="eVStop") Stops at:
+        //input(id="eVStop" name="eVStop" class='inputti')
+        //button(id='rangeok' style="margin:0px 15px") OK
         br
         table(style="width:500px;")
           tr
@@ -517,6 +512,14 @@ block levenee
         margin-right: 30px;
       }
 
+      /* button formatting in dialog form for energy range accepting: */
+      .medium-btn2 {
+        width: 120px;
+        height: 30px;
+        float: right;
+        margin-right: 100px;
+      }
+
       /* not in use */
       .small-btn {
         width: 50px;
@@ -875,6 +878,7 @@ block levenee
         //console.log('eVstart_touch: ', $("#eVstart_touch").val());
         var tmp1 = Number($("#eVstart_touch").val());
         simSettn.eVstart=tmp1.toFixed(3);
+        console.log('eVstart: ',simSettn.eVstart);
         $('#eVStart').val(simSettn.eVstart);
         //prep. min value for eVstop_touch i.e. set 0.1eV minimum horiz. scale span:
         tmp1=tmp1+0.1;
@@ -903,7 +907,7 @@ block levenee
           $("#eVstart_touch").trigger("touchspin.updatesettings", {max: tmp1});
       });
 
-      $("#eVStart").spinner({
+      /*$("#eVStart").spinner({
         max: simSettn.eVstop-0.01,
         min: 0,
         step: 0.001,
@@ -931,7 +935,7 @@ block levenee
           tmp1=tmp1.toFixed(3);
           $("#eVStart").spinner('option','max',tmp1);
         }
-      }).val(simSettn.eVstop);
+      }).val(simSettn.eVstop);*/
 
       var periodi; //for mousedown
       /************Boltzmann distr Et *************************************/
@@ -2272,11 +2276,11 @@ block levenee
       $("#rangeok, #evetok, #jdosok, #exenhaok, #urbachok, #sUrbachok, #whatok").click(function(){
         switch ($(this).attr('id')){
           case 'rangeok':
-            simSettn.eVstart=parseFloat($("#eVStart").spinner("value")).toFixed(3);
-            simSettn.eVstop=parseFloat($("#eVStop").spinner("value")).toFixed(3);
+            //simSettn.eVstart=parseFloat($("#eVStart").spinner("value")).toFixed(3);
+            //simSettn.eVstop=parseFloat($("#eVStop").spinner("value")).toFixed(3);
 
-            $("#eVStart").spinner("option", "value", simSettn.eVstart);
-            $("#eVStop").spinner("option", "value", simSettn.eVstop);
+            //$("#eVStart").spinner("option", "value", simSettn.eVstart);
+            //$("#eVStop").spinner("option", "value", simSettn.eVstop);
             //$("#eVstop_touch").trigger("touchspin.updatesettings", {max: simSettn.eVstop});
             makespArr();       //recreate spectral array
             makeExpArrs();     //recreate experimental array
@@ -2597,9 +2601,9 @@ block levenee
         // "Boltzmann":{"Epeak_eV":1.4,"Temp_K":293},"InhmgBrdng":{"type":"SymmUrbach","Eu_meV":8}}
         var objSettns=JSON.parse(parSettns);
         simSettn.eVstart=objSettns.Estart;
-        $('#eVStart').val(objSettns.Estart);
+        //$('#eVStart').val(objSettns.Estart);
         simSettn.eVstop=objSettns.Estop;
-        $('#eVStop').val(objSettns.Estop);
+        //$('#eVStop').val(objSettns.Estop);
         simSettn.eTr=objSettns.Etr;
         $('#eV_Et').val(objSettns.Etr);
         simSettn.jdostype = (objSettns.jdos && objSettns.jdos=='qw')?  'qw' : 'bulk';

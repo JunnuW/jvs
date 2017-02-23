@@ -441,7 +441,7 @@ app.get('/refletrans', function (req, res) {
 });
 
 app.get('/el_dialog', function(req, res) {
-    res.render('el_settndialog', {
+    res.render('el_settndialog',{
         title: 'Simulation settings',
         user: (req.user)  //false
     });

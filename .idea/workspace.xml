@@ -6,11 +6,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/el_settndialog.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/broaden.jade" afterPath="$PROJECT_DIR$/views/broaden.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/broadgeneral.jade" afterPath="$PROJECT_DIR$/views/broadgeneral.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/el_settndialog.jade" afterPath="$PROJECT_DIR$/views/el_settndialog.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.jade" afterPath="$PROJECT_DIR$/views/spectralmodel.jade" />
     </list>
     <ignored path="jvs.iws" />
@@ -44,14 +41,9 @@
       <file leaf-file-name="el_settndialog.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/el_settndialog.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-              <folding>
-                <marker date="1487788199592" expanded="true" signature="50:1135" ph="..." />
-                <marker date="1487788199592" expanded="true" signature="649:1135" ph="..." />
-                <marker date="1487788199592" expanded="true" signature="685:1135" ph="..." />
-                <marker date="1487788199592" expanded="true" signature="1078:1135" ph="..." />
-              </folding>
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -59,8 +51,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="93">
-              <caret line="442" column="12" lean-forward="false" selection-start-line="442" selection-start-column="9" selection-end-line="442" selection-end-column="19" />
+            <state relative-caret-position="314">
+              <caret line="448" column="0" lean-forward="true" selection-start-line="448" selection-start-column="0" selection-end-line="448" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -69,8 +61,8 @@
       <file leaf-file-name="broaden.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/broaden.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="66" column="6" lean-forward="true" selection-start-line="66" selection-start-column="6" selection-end-line="66" selection-end-column="6" />
+            <state relative-caret-position="279">
+              <caret line="103" column="6" lean-forward="true" selection-start-line="103" selection-start-column="6" selection-end-line="103" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -99,11 +91,11 @@
       <file leaf-file-name="spectralmodel.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="4" column="20" lean-forward="false" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+            <state relative-caret-position="242">
+              <caret line="518" column="21" lean-forward="true" selection-start-line="518" selection-start-column="21" selection-end-line="518" selection-end-column="21" />
               <folding>
-                <marker date="1487796770786" expanded="true" signature="69002:69132" ph="..." />
-                <marker date="1487796770786" expanded="true" signature="70802:70933" ph="..." />
+                <marker date="1487885316799" expanded="true" signature="69138:69268" ph="..." />
+                <marker date="1487885316799" expanded="true" signature="70938:71069" ph="..." />
               </folding>
             </state>
           </provider>
@@ -134,12 +126,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>inputti</find>
-      <find>label</find>
-      <find>etlbl</find>
-      <find>eV_Et</find>
-      <find>temp-label</find>
-      <find>Et_up</find>
       <find>temp</find>
       <find>tempK</find>
       <find>T_down</find>
@@ -164,6 +150,12 @@
       <find>loongTappi_ph2</find>
       <find>ph1</find>
       <find>click</find>
+      <find>eVStart</find>
+      <find>medium</find>
+      <find>touch</find>
+      <find>medium-btn</find>
+      <find>rangeok</find>
+      <find>medium-btn2</find>
     </findStrings>
     <replaceStrings>
       <replace>simSettn.jdostype</replace>
@@ -248,12 +240,12 @@
         <option value="$PROJECT_DIR$/views/dialoque.pug" />
         <option value="$PROJECT_DIR$/views/broadgeneral.jade" />
         <option value="$PROJECT_DIR$/views/multi-page.html" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/views/index.jade" />
         <option value="$PROJECT_DIR$/views/multi-page.jade" />
         <option value="$PROJECT_DIR$/views/layout.jade" />
-        <option value="$PROJECT_DIR$/views/el_settndialog.jade" />
         <option value="$PROJECT_DIR$/views/broaden.jade" />
+        <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/views/el_settndialog.jade" />
         <option value="$PROJECT_DIR$/views/spectralmodel.jade" />
       </list>
     </option>
@@ -518,7 +510,7 @@
       <workItem from="1484222299641" duration="316244000" />
       <workItem from="1486760378772" duration="85000" />
       <workItem from="1486760625710" duration="23064000" />
-      <workItem from="1486991119138" duration="151559000" />
+      <workItem from="1486991119138" duration="166428000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -531,7 +523,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1939708000" />
+    <option name="totallyTimeSpent" value="1954577000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -553,7 +545,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25120774" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14809275" sideWeight="0.40257648" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30806452" sideWeight="0.8436799" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22903226" sideWeight="0.8436799" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24906507" sideWeight="0.48602152" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37471953" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21465969" sideWeight="0.42916667" order="3" side_tool="true" content_ui="tabs" />
@@ -894,14 +886,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="442" column="12" lean-forward="false" selection-start-line="442" selection-start-column="9" selection-end-line="442" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/multi-page.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -950,34 +934,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="448" column="0" lean-forward="true" selection-start-line="448" selection-start-column="0" selection-end-line="448" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/el_settndialog.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding>
-            <marker date="1487788199592" expanded="true" signature="50:1135" ph="..." />
-            <marker date="1487788199592" expanded="true" signature="649:1135" ph="..." />
-            <marker date="1487788199592" expanded="true" signature="685:1135" ph="..." />
-            <marker date="1487788199592" expanded="true" signature="1078:1135" ph="..." />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/broaden.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="66" column="6" lean-forward="true" selection-start-line="66" selection-start-column="6" selection-end-line="66" selection-end-column="6" />
+        <state relative-caret-position="279">
+          <caret line="103" column="6" lean-forward="true" selection-start-line="103" selection-start-column="6" selection-end-line="103" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="20" lean-forward="false" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+        <state relative-caret-position="242">
+          <caret line="518" column="21" lean-forward="true" selection-start-line="518" selection-start-column="21" selection-end-line="518" selection-end-column="21" />
           <folding>
-            <marker date="1487796770786" expanded="true" signature="69002:69132" ph="..." />
-            <marker date="1487796770786" expanded="true" signature="70802:70933" ph="..." />
+            <marker date="1487885316799" expanded="true" signature="69138:69268" ph="..." />
+            <marker date="1487885316799" expanded="true" signature="70938:71069" ph="..." />
           </folding>
         </state>
       </provider>
