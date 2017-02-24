@@ -6,8 +6,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/el_settndialog.jade" afterPath="$PROJECT_DIR$/views/el_settndialog.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.jade" afterPath="$PROJECT_DIR$/views/spectralmodel.jade" />
     </list>
     <ignored path="jvs.iws" />
@@ -91,11 +89,11 @@
       <file leaf-file-name="spectralmodel.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="518" column="21" lean-forward="true" selection-start-line="518" selection-start-column="21" selection-end-line="518" selection-end-column="21" />
+            <state relative-caret-position="263">
+              <caret line="1910" column="47" lean-forward="true" selection-start-line="1910" selection-start-column="47" selection-end-line="1910" selection-end-column="47" />
               <folding>
-                <marker date="1487885316799" expanded="true" signature="69138:69268" ph="..." />
-                <marker date="1487885316799" expanded="true" signature="70938:71069" ph="..." />
+                <marker date="1487953391327" expanded="true" signature="69138:69268" ph="..." />
+                <marker date="1487953391327" expanded="true" signature="70983:71114" ph="..." />
               </folding>
             </state>
           </provider>
@@ -126,8 +124,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>temp</find>
-      <find>tempK</find>
       <find>T_down</find>
       <find>mousedown</find>
       <find>dbl</find>
@@ -144,7 +140,6 @@
       <find>static</find>
       <find>othertext</find>
       <find>plotting selector</find>
-      <find>dblclick</find>
       <find>inhomheader</find>
       <find>inhomSettns_dialog()</find>
       <find>loongTappi_ph2</find>
@@ -156,6 +151,9 @@
       <find>medium-btn</find>
       <find>rangeok</find>
       <find>medium-btn2</find>
+      <find>css</find>
+      <find>settndial</find>
+      <find>dblclick</find>
     </findStrings>
     <replaceStrings>
       <replace>simSettn.jdostype</replace>
@@ -510,7 +508,7 @@
       <workItem from="1484222299641" duration="316244000" />
       <workItem from="1486760378772" duration="85000" />
       <workItem from="1486760625710" duration="23064000" />
-      <workItem from="1486991119138" duration="166428000" />
+      <workItem from="1486991119138" duration="171212000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -523,7 +521,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1954577000" />
+    <option name="totallyTimeSpent" value="1959361000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -960,11 +958,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="518" column="21" lean-forward="true" selection-start-line="518" selection-start-column="21" selection-end-line="518" selection-end-column="21" />
+        <state relative-caret-position="263">
+          <caret line="1910" column="47" lean-forward="true" selection-start-line="1910" selection-start-column="47" selection-end-line="1910" selection-end-column="47" />
           <folding>
-            <marker date="1487885316799" expanded="true" signature="69138:69268" ph="..." />
-            <marker date="1487885316799" expanded="true" signature="70938:71069" ph="..." />
+            <marker date="1487953391327" expanded="true" signature="69138:69268" ph="..." />
+            <marker date="1487953391327" expanded="true" signature="70983:71114" ph="..." />
           </folding>
         </state>
       </provider>

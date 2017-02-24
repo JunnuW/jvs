@@ -1864,9 +1864,10 @@ block levenee
               graphSettn.inhomLinlog = (graphSettn.inhomLinlog == 'lin') ? 'log' : 'lin';
               inhombr();
             }else{
-              //click on x-axis: displays spectral range editor
-              $("#spRange").css('display','block');
-              $( "#settnDial" ).dialog( "open" );
+              //click on x-axis: displays spectral settings selector
+              //$("#spRange").css('display','block');
+              //$( "#settnDial" ).dialog( "open" );
+              inhomSettns_dialog();
               }
               //$("#clicked").text("You clicked the " + axis.direction + axis.n + "axis!");
           });
@@ -1905,9 +1906,10 @@ block levenee
                 hombr();
             } else {
               //clicked on x-axis: display spectral range editor
-              $("#spRange").css('display', 'block');
+              //$("#spRange").css('display', 'block');
               //-$("#spWhat").css('display','block');
-              $("#settnDial").dialog("open");
+              //$("#settnDial").dialog("open");
+              homogSettns_dialog();
               }
             //$("#clicked").text("You clicked the " + axis.direction + axis.n + "axis!");
           });
