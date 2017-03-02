@@ -79,11 +79,11 @@
       <file leaf-file-name="spectralmodel.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+            <state relative-caret-position="213">
+              <caret line="1917" column="16" lean-forward="false" selection-start-line="1917" selection-start-column="16" selection-end-line="1917" selection-end-column="16" />
               <folding>
-                <marker date="1488448137513" expanded="true" signature="69847:69977" ph="..." />
-                <marker date="1488448137513" expanded="true" signature="71783:71914" ph="..." />
+                <marker date="1488450360352" expanded="true" signature="69846:69976" ph="..." />
+                <marker date="1488450360352" expanded="true" signature="71825:71956" ph="..." />
               </folding>
             </state>
           </provider>
@@ -114,10 +114,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>distrTtle</find>
-      <find>boltzmann</find>
-      <find>dialog</find>
-      <find>medium-btn2</find>
       <find>spRange</find>
       <find>tempK</find>
       <find>calchom</find>
@@ -144,6 +140,10 @@
       <find>lbl_eV0</find>
       <find>enhBut</find>
       <find>dirBut</find>
+      <find>ph1</find>
+      <find>ph2</find>
+      <find>axes</find>
+      <find>dialog</find>
     </findStrings>
     <replaceStrings>
       <replace>simSettn.jdostype</replace>
@@ -498,7 +498,7 @@
       <workItem from="1484222299641" duration="316244000" />
       <workItem from="1486760378772" duration="85000" />
       <workItem from="1486760625710" duration="23064000" />
-      <workItem from="1486991119138" duration="251575000" />
+      <workItem from="1486991119138" duration="252695000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -511,7 +511,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2039724000" />
+    <option name="totallyTimeSpent" value="2040844000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -949,11 +949,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        <state relative-caret-position="213">
+          <caret line="1917" column="16" lean-forward="false" selection-start-line="1917" selection-start-column="16" selection-end-line="1917" selection-end-column="16" />
           <folding>
-            <marker date="1488448137513" expanded="true" signature="69847:69977" ph="..." />
-            <marker date="1488448137513" expanded="true" signature="71783:71914" ph="..." />
+            <marker date="1488450360352" expanded="true" signature="69846:69976" ph="..." />
+            <marker date="1488450360352" expanded="true" signature="71825:71956" ph="..." />
           </folding>
         </state>
       </provider>

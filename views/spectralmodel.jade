@@ -794,7 +794,6 @@ block levenee
         inhomSettns_dialog();
       });
 
-
       function homogSettns_dialog(){
           $("#spSech").css('display', 'none');
           $("#spGaussian").css('display', 'none');
@@ -1912,10 +1911,11 @@ block levenee
               inhombr();
             }else{
               //click on x-axis: displays spectral settings selector
-              $("#spRange").css('display','block');
-              $( "#paramDial" ).dialog('option', 'title', 'Spectral range in eV:');
-              $( "#paramDial" ).dialog( "open" );
-              $( "#settnDial" ).dialog( "close" );
+              inhomSettns_dialog()
+              //$("#spRange").css('display','block');
+              //$( "#paramDial" ).dialog('option', 'title', 'Spectral range in eV:');
+              //$( "#paramDial" ).dialog( "open" );
+              //$( "#settnDial" ).dialog( "close" );
             }
             //$("#clicked").text("You clicked the " + axis.direction + axis.n + "axis!");
           });
