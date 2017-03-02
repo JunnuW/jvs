@@ -3,18 +3,12 @@ extends broaden
 block levenee
     div(id='wrapper')
       div(id='main')
-        br
-        //a(href="#page2show" class = "ui-content" data-rel="dialog") page2
-        //a(href="/el_dialog?huuhaa=1") page2
         h3(id='inhomHeader') Simulation for inhomogeneous broadening
         |   Calculated spectra are obtained using equation (2) on the
         -equation2="/inhomogen"
         a(href="#{equation2}" target="_blank")     Inhomogeneous details
         |    page. (Used to evaluate the broken line curves on that page.)
         br
-        //div(class="ui-content")
-          -tialooki="/multi-page"
-          a(href="#{tialooki}") Open dialog
         br
         div(id="footer" style="paddig-left:50px")
           Copyright &copy; 2007 - 2014 IOLA and Ole Laursen :
@@ -43,24 +37,10 @@ block levenee
         //-Ei kannata satsata eforttia kuvan copy-paste rutiiniin canvaksesta ennen sitä.
 
 
-    //div(id="page2show" data-role="page")
-      div(data-role="header")
-        h2 Dialog
-      div(role="main" class="ui-content")
-        p I am a dialog
-
-    div(id="settnDial" title="Graphing details")
-      //- x-axis: spectral range settings
-      fieldset(id='spRange' style='display:none')
-        b(style='font-size:16px') Spectral range [eV's]:
-        button(id='rangeok' class='medium-btn2') OK
-        //label(for="eVStart") Starts at:
-        //input(id="eVStart" name="eVStart" class='inputti')
-        //label(for="eVStop") Stops at:
-        //input(id="eVStop" name="eVStop" class='inputti')
-        //button(id='rangeok' style="margin:0px 15px") OK
-        br
-        table(style="width:500px;")
+    div(id='paramDial' title="Parameter values")
+      //-*****spectral range settings******************************************
+      div(id='spRange' style='display:none')
+        table(style='width:100%;')
           tr
             td(class='huihai')
               b Starts at:
@@ -69,76 +49,80 @@ block levenee
             td(class='huihai')
               b Stops at:
               br
-              input(id="eVstop_touch" name="eVStop_touch" class="input-sm")
+              input(id="eVstop_touch" name="eVStop_touch" class="form-control input-sm")
+            td(class='huihai')
+              br
+              button(id='rangeok' type='button' class='medium-btn2') OK
+              //-button(id='rangeok' type='button' class='medium-btn2') OK
+      //-******Boltzmann distribution for energy occupancy**********************************
+      div(id='eg_et' style='display:none')
+        p \(f_{B}=exp(-\epsilon/k_{B}T)\), and \(\epsilon > E_{t}\), the energy minimum. For bulks set: \(E_{t}=E_{g}\)
+        table(style='width:100%;')
+          tr
+            td(class='huihai')
+              b Et [eV]:
+              br
+              input(id="Et_touch" class="form-control input-sm")
+            td(class='huihai')
+              b Temperature [K]:
+              br
+              input(id="TemK_touch" class="form-control input-sm")
+            td(class='huihai')
+              br
+              button(id='evetok' type='button' class='medium-btn2') OK
 
-        //div(class="input-sm col-md-4")
-      //-Boltzmann distribution for energy occupancy:
-      fieldset(id='eg_et' style='display:none')
-        b(style='font-size:16px') Energy state occupancy: \(f_{cv}=f_{c}(\epsilon)\times(1-f_{v}(\epsilon))\)
-        |   is approximated
-        br
-        | with Bolzmann distribution: \(f_{B}=exp(-\epsilon/k_{B}T)\), where \(\epsilon > E_{t}\)
-        br
-        b Minimum transition energy [eV]
-        i   (for bulk materials \(E_{t}=E_{g}\) )
-        br
-        br
-        label(for="eV_Et" class='eV_Et-label') Et:
-        button(id='Et_down' style="margin:0px 0px") -
-        input(id="eV_Et" class='spinneri')
-        button(id='Et_up' style="margin:0px 0px") +
-        label(for="tempK" class='temp-label') Temp [K]:
-        button(id='T_down' style="margin:0px 0px") -
-        input(id="tempK" class='spinneri')
-        button(id='T_up' style="margin:0px 0px") +
-        button(id='evetok' style="margin-left:40px") OK
-      //- Joint density of states:
-      fieldset(id='spJdos' style='display:none')
-        b(style='font-size:16px') Joint density of states (JDOS):
-        br
-        input(type="radio" id="bulkJDOS" name="jdos" value="bulk" style="margin-left:5px")
-        |   Bulk-JDOS
-        i   (\(\rho_{r}\propto \sqrt{\epsilon-E_{t}}\))
-        br
-        input(type="radio" id="qwJDOS" name="jdos" value="qw" style="margin-left:5px")
-        |   QW-JDOS
-        i   (Heaviside step function)
-        button(id='jdosok' style="margin:0px 35px") OK
+      //-***********Joint density of states*************************:
+      div(id='spJdos' style='display:none')
+        table(style='width:100%;')
+          tr
+            td(class='huihai')
+              b   Bulk-JDOS
+              br
+              input(type="radio" id="bulkJDOS" name="jdos" value="bulk" style="margin-left:5px")
+              i   (\(\rho_{r}\propto \sqrt{\epsilon-E_{t}}\))
+            td(class='huihai')
+              b   QW-JDOS
+              br
+              input(type="radio" id="qwJDOS" name="jdos" value="qw" style="margin-left:5px")
+              i   (Heaviside step)
+            td(class='huihai')
+              button(id='jdosok' type='button' class='medium-btn2') OK
 
-      //-Exciton enhancement:
-      fieldset(id="exEnha" style='display:none')
-        b(id='bulklege' class='otsikko') Exciton enhancement for bulk material
-        i(id='bulk_i' style='display:none')   ( 3D-exciton model )
-        b(id='qwlege' class='otsikko') Eciton enhancement for QW-material
-        i(id='qw_i' style='display:none')   ( 2D-exciton model )
-        //-br
-        //-p(id='bulklege' style='display:none')   For bulk materials (3D-excitons)
-        //p(id='qwlege' style='display:none')     For qw-materials (2D-excitons)
-        br
-        div(id='qwendetls')
-          div(style='font-size:16px')
-            b Viewing direction:
-              //-&nbsp; &nbsp; &nbsp;
-              //-| Polarization:
-            b(style='padding-left:60px') Polarization:
-          div(id='qwenhas')
-            label(for="dirPar") On qw plane:
-            input(type="radio" id="dirPar" name="dirBut" value="parallel" checked="checked" style="margin-right:7px")
-            label(for="enhTE") TE:
-            input(type="radio" id="enhTE" name="enhBut" value="TE" checked="checked" style="margin-right:7px")
-            //-| TE-polarization
-            br
-            label(for="dirPerp") On qw normal:
-            input(type="radio" id="dirPerp" name="dirBut" value="perpend" style="margin-right:7px")
-            label(for="enhTM") TM:
-            input(type="radio" id="enhTM" name="enhBut" value="TM" style="margin-right:7px")
-        br
-        //- b(id='exBndLbl' class='boldsFrmt') Exciton binding energy [meV]:
-        label(for="eV_Bind" class='label3') \(\mathbf{E_{b}}\) [meV]:
-        input(id="eV_Bind" name="eV_Bind" class='inputti')
-        label(id="lbl_eV0" for="eV_0" class="label4" style="display:none") Shape param [meV]:
-        input(id="eV_0" name="eV_0" class='inputti' style="display:none")
-        button(id='exenhaok' style="margin:0px 10px") OK
+      //-************Exciton enhancement****************************:
+      div(id="exEnha" style='display:none')
+        table(id="qwdetails" style='width:100%;')
+          tr(class='hideshow')
+            td(class='huihai')
+              b(style='font-size:16px')  Viewed on:
+            td(class='huihai')
+              input(type="radio" id="dirPar" name="dirBut" value="parallel" checked="checked" style="margin-right:7px")
+              label(for="dirPar") QW-plane:
+            td(class='huihai')
+              input(type="radio" id="dirPerp" name="dirBut" value="perpend" style="margin-right:7px")
+              label(for="dirPerp") QW-normal:
+          tr(class='hideshow')
+            td(class='huihai')
+              b(style='font-size:16px') Polarization:
+            td(class='huihai')
+              input(type="radio" id="enhTE" name="enhBut" value="TE" checked="checked" style="margin-right:15px")
+              label(for="enhTE") TE:
+            td(class='huihai')
+              input(type="radio" id="enhTM" name="enhBut" value="TM" style="margin-right:15px")
+              label(for="enhTM") TM:
+          tr
+            td(class='huihai')
+              b Binding energy:
+              br
+              input(id="eVbind_touch" name="eVbind_touch" class="form-control input-sm")
+            td(class='huihai')
+              div(id='haideri' style='display:none')
+                b Shape param [meV]:
+                br
+                input(id="ex0_touch" name="ex0_touch" class="form-control input-sm" )
+            td(class='huihai')
+              button(id='exenhaok' type='button' class='medium-btn2') OK
+
+    div(id="settnDial" title="Graphing details")
 
       fieldset(id='spUrbach' style='display:none')
         b(style='font-size:16px') Asymmetric Urbach tail
@@ -517,7 +501,7 @@ block levenee
         width: 120px;
         height: 30px;
         float: right;
-        margin-right: 100px;
+        margin-right: 20px;
       }
 
       /* not in use */
@@ -527,7 +511,9 @@ block levenee
       }
 
       .huihai {
-        padding-left:50px;
+        width:33%;
+        border: 1px solid sandybrown;
+        padding-left:30px;
       }
 
       /* muuttaa dialogin vaaleankeltaiseksi
@@ -679,18 +665,12 @@ block levenee
       function setJdosRadio(){
         if (simSettn.jdostype == "bulk") {
           $('#bulkJDOS').prop("checked", true);
-          $('#bulklege').css('display','inline');
-          $('#bulk_i').css('display','inline');
-          $('#qwlege').css('display','none');
-          $('#qw_i').css('display','none');
           $('#qwendetls').css('display','none');
+          $('#qwdetails .hideshow').hide();
         } else {
           $('#qwJDOS').prop("checked", true);
-          $('#bulklege').css('display','none');
-          $('#bulk_i').css('display','none');
-          $('#qwlege').css('display','inline');
-          $('#qw_i').css('display','inline');
           $('#qwendetls').css('display','inline');
+          $('#qwdetails .hideshow').show();
         }
       }
 
@@ -700,6 +680,23 @@ block levenee
       setLegend();      //makes plotting legend
       makeSommer();     //exciton enhanchements
       calcInhom();      //produce initial graph
+
+      $("#paramDial").dialog({
+          width: 700,
+          autoOpen: false,
+          maxHeight: '700px',
+          overflow: 'auto',
+          show: {
+              effect: "blind",
+              duration: 500
+          },
+          hide: {
+              effect: "explode",
+              duration: 200
+          }
+      });
+
+
 
       $("#settnDial").dialog({
         width:700,
@@ -761,14 +758,6 @@ block levenee
         $('#openOpti').css('display','none');
       });
 
-      /*$("#ph1_inhomog").mousedown(function () {
-          periodi = setInterval(inhomSettns_dialog, 700);
-      }).mouseup(function () {
-          clearInterval(periodi);
-      }).mouseout(function () {
-          clearInterval(periodi);
-      });*/
-
       function inhomSettns_dialog(){
           $('#spWhat').css('display', 'block');
           $('#spLorentz').css('display', 'none');
@@ -801,33 +790,10 @@ block levenee
           setQwRadio();
       }
 
-      /*$("#ph1_inhomog").on("swipe", function () {
-        inhomSettns_dialog();
-      });*/
-
-      /*$('#inhomHeader').on("swipe", function () {
-          $(this).hide();
-      });
-
-      $('#inhomHeader').on("taphold", function () {
-          $(this).hide();
-      });*/
-
-      /*$("#ph1_inhomog").on("taphold", function(event) {
-        inhomSettns_dialog();
-      });*/
-
       $('#ph1_inhomog').dblclick(function(){
         inhomSettns_dialog();
       });
 
-      /*$("#ph2_homog").mousedown(function () {
-          periodi = setInterval(homogSettns_dialog, 700);
-      }).mouseup(function () {
-          clearInterval(periodi);
-      }).mouseout(function () {
-          clearInterval(periodi);
-      });*/
 
       function homogSettns_dialog(){
           $("#spSech").css('display', 'none');
@@ -875,11 +841,8 @@ block levenee
       });
 
       $("#eVstart_touch").on('touchspin.on.stopspin', function (e) {
-        //console.log('eVstart_touch: ', $("#eVstart_touch").val());
         var tmp1 = Number($("#eVstart_touch").val());
         simSettn.eVstart=tmp1.toFixed(3);
-        console.log('eVstart: ',simSettn.eVstart);
-        $('#eVStart').val(simSettn.eVstart);
         //prep. min value for eVstop_touch i.e. set 0.1eV minimum horiz. scale span:
         tmp1=tmp1+0.1;
         $("#eVstop_touch").trigger("touchspin.updatesettings", {min:tmp1});
@@ -905,6 +868,90 @@ block levenee
           //prep. max value for eVstart_touch i.e. set 0.1eV minimum horiz. scale span:
           tmp1 = tmp1 - 0.1;
           $("#eVstart_touch").trigger("touchspin.updatesettings", {max: tmp1});
+      });
+
+      $("#Et_touch").TouchSpin({
+          max: 4.0,
+          min: simSettn.eVstart + 0.01,
+          step: Number(0.001),
+          initval: simSettn.eTr,
+          decimals: 3,
+          boostat: 10,
+          maxboostedstep: 0.005,
+          postfix: 'eV',
+          mousewheel: true
+      });
+
+      $("#Et_touch").on('touchspin.on.stopspin', function (e) {
+          //console.log('eVstop_touch: ', $("#eVstop_touch").val());
+          var tmp1 = Number($("#Et_touch").val());
+          simSettn.eTr = tmp1.toFixed(3);
+          makeJdos();       //density of states changes with Etr
+          makeBoltz();      //Boltzmann distribution changes with Etr
+          makeSommer();     //exciton enhanchement also
+          calcInhom();
+          calcHom();
+      });
+
+      $("#TemK_touch").TouchSpin({
+          max: 600,
+          min: 0,
+          step: Number(1),
+          initval: simSettn.kelvin,
+          decimals: 0,
+          boostat: 10,
+          maxboostedstep: 5,
+          postfix: 'T[K]',
+          mousewheel: true
+      });
+
+      $("#TemK_touch").on('touchspin.on.stopspin', function (e) {
+          //console.log('eVstop_touch: ', $("#eVstop_touch").val());
+          var tmp1 = Number($("#TemK_touch").val());
+          simSettn.kelvin = tmp1.toFixed(0);
+          makeBoltz();      //Boltzmann distribution changes with Temp [K]
+          calcInhom();
+          calcHom();
+      });
+
+      $("#eVbind_touch").TouchSpin({
+          max: 20,
+          min: 0.01,
+          step: 0.01,
+          initval: simSettn.exEb,
+          decimals: 2,
+          boostat: 5,
+          maxboostedstep: 0.1,
+          postfix: 'meV',
+          mousewheel: true
+      });
+
+      $("#eVbind_touch").on('touchspin.on.stopspin', function (e) {
+          var tmp1 = Number($("#eVbind_touch").val());
+          simSettn.exEb = tmp1.toFixed(0);
+          makeSommer();     //exciton enhanchements
+          calcInhom();
+          calcHom();
+      });
+
+      $("#ex0_touch").TouchSpin({
+        max: 50,
+        min: 0.01,
+        step: 0.01,
+        initval: simSettn.ex0,
+        decimals: 2,
+        boostat: 5,
+        maxboostedstep: 0.1,
+        postfix: 'meV',
+        mousewheel: true
+      });
+
+      $("#ex0_touch").on('touchspin.on.stopspin', function (e) {
+        var tmp1 = Number($("#ex0_touch").val());
+        simSettn.ex0 = tmp1.toFixed(0);
+        makeSommer();     //exciton enhanchements
+        calcInhom();
+        calcHom();
       });
 
       /*$("#eVStart").spinner({
@@ -937,9 +984,9 @@ block levenee
         }
       }).val(simSettn.eVstop);*/
 
-      var periodi; //for mousedown
+      //var periodi; //for mousedown
       /************Boltzmann distr Et *************************************/
-      $("#eV_Et").spinner({
+      /*$("#eV_Et").spinner({
         max: 4.0,
         min: 0,
         step: 0.001,
@@ -989,11 +1036,11 @@ block levenee
 
       function increase_Et() {
         $("#eV_Et").spinner("stepUp", 1);
-      }
+      }*/
       /**********Boltzmann distr Et *************************************/
 
       /**********Boltzman distr T ***************************************/
-      $("#tempK").spinner({
+      /*$("#tempK").spinner({
         max: 600,
         min: 0,
         step: 1,
@@ -1039,10 +1086,10 @@ block levenee
 
       function increase_Temp() {
         $("#tempK").spinner("stepUp", 1);
-      }
+      }*/
       /**********Boltzman distr T ***************************************/
 
-      $("#eV_Bind").spinner({
+      /*$("#eV_Bind").spinner({
         max: 20,
         min: 0,
         step: 0.01,
@@ -1061,9 +1108,9 @@ block levenee
           makeSommer();     //exciton enhanchements
           calcInhom();
         }
-      }).val(simSettn.exEb);
+      }).val(simSettn.exEb);*/
 
-      $("#eV_0").spinner({
+      /*$("#eV_0").spinner({
         //Exciton enhancement shape parameter for qw TM-polarization only
         max: 50,
         min: 0.01,
@@ -1071,7 +1118,7 @@ block levenee
         spin: function (event, ui) {
           //this.value; antaa olleen arvon
           //ui.value antaa tulevan uuden arvon
-          var tmp = ui.value.toFixed(3);
+          var tmp = ui.value.toFixed(2);
           simSettn.ex0 = tmp;
           makeSommer();     //exciton enhanchements
           calcInhom();
@@ -1083,7 +1130,7 @@ block levenee
           makeSommer();     //exciton enhanchements
           calcInhom();
         }
-      }).val(simSettn.ex0);
+      }).val(simSettn.ex0);*/
 
       $("#eveu, #evSeu").spinner({
         //Urbach parameter spinner for both Urbach distributions
@@ -1241,9 +1288,11 @@ block levenee
         if (this.value == 'bulk') {
           simSettn.jdostype='bulk';
           $("#qwendetls").css('display','none');
+          $('#qwdetails .hideshow').hide();
         } else if (this.value == 'qw') {
           simSettn.jdostype='qw';
           $("#qwendetls").css('display','block');
+          $('#qwdetails .hideshow').hide();
         }
           setJdosRadio();
           makeJdos();       //density of states
@@ -1253,13 +1302,15 @@ block levenee
 
       $('input[type=radio][name=dirBut]').change(function () {
         //viewing direction: Parallel or perpendicular to quantum well
+        $('#haideri').hide();
+        $('#enhTE').prop('checked', true);
+        $('#enhTM').prop('checked', false);
+        simSettn.polarizat='TE';
         if (this.value == 'parallel') {
           $('#enhTE').attr('disabled',false);
           $('#enhTM').attr('disabled',false);
           simSettn.viewDir='parallel';
         } else if (this.value == 'perpend') {
-          $('#enhTE').prop('checked',true);
-          $('#enhTM').prop('checked',false);
           $('#enhTE').attr('disabled',true);
           $('#enhTM').attr('disabled',true);
           simSettn.viewDir='perpend';
@@ -1270,15 +1321,14 @@ block levenee
 
       $('input[type=radio][name=enhBut]').change(function () {
         //Polarization selector:TE or TM
+        //console.log('polarization: ',this.value);
         if (this.value == 'TE') {
           simSettn.polarizat = 'TE';
-          $('#eV_0').css('display','none');
-          $('#lbl_eV0').css('display','none');
+          $('#haideri').css('display','none');
         }
         else if (this.value == 'TM') {
           simSettn.polarizat = 'TM';
-          $('#eV_0').css('display', 'inline');
-          $('#lbl_eV0').css('display', 'inline');
+          $('#haideri').css('display','inline');
         }
         makeSommer();
         calcInhom();
@@ -1421,9 +1471,6 @@ block levenee
           context.strokeStyle = "#4d94ff";
           context.strokeText('Inhom.Sim.', 20, 15);
         }
-        //plot2.setData(newData);
-        //plot2.setupGrid();
-        //plot2.draw();
       }
 
       function makespArr(){
@@ -1865,11 +1912,12 @@ block levenee
               inhombr();
             }else{
               //click on x-axis: displays spectral settings selector
-              //$("#spRange").css('display','block');
-              //$( "#settnDial" ).dialog( "open" );
-              inhomSettns_dialog();
-              }
-              //$("#clicked").text("You clicked the " + axis.direction + axis.n + "axis!");
+              $("#spRange").css('display','block');
+              $( "#paramDial" ).dialog('option', 'title', 'Spectral range in eV:');
+              $( "#paramDial" ).dialog( "open" );
+              $( "#settnDial" ).dialog( "close" );
+            }
+            //$("#clicked").text("You clicked the " + axis.direction + axis.n + "axis!");
           });
       });
 
@@ -1985,9 +2033,6 @@ block levenee
         $('#pltsUrbach').prop('checked', inhomSpectr.inPlot.Lsurb);
         $('#pltGaussian').prop('checked', inhomSpectr.inPlot.Lgaus);
         $('#pltSech').prop('checked', inhomSpectr.inPlot.Lsech);
-        //$('#pltLorentz').prop('checked', false);
-        //$('#pltDlorentz').prop('checked', false);
-        //calcInhom();
       }
 
       function setLegend(){
@@ -2065,10 +2110,6 @@ block levenee
             }
           }
           inhomSpectr.plotArr=unPad(fftConvo(signal,kernel));//konvoluutio ja unpadding
-          /*if ((inhomSpectr.inPlot.Lsurb || inhomSpectr.inPlot.Lurb || inhomSpectr.inPlot.Lgaus || inhomSpectr.inPlot.Lsech ) && inhomSpectr.inPlot.eV && inhomSpectr.inPlot.Se
-            && inhomSpectr.inPlot.fcv){
-            arrNormalize(inhomSpectr.plotArr);
-          }*/
         }
         if ($("#pltNormalize").is(':checked')) {
           arrNormalize(inhomSpectr.plotArr);
@@ -2248,11 +2289,7 @@ block levenee
         //treat experimental results for spectral range change;
         var m = inhomSpectr.experPlot.length; //data read from file
         var n = homSpectr.experPlot.length; //data read from file
-        //console.log('inhomSpectr.experPlot.length: ',m);
-        //console.log('homSpectr.experPlot.length: ',n);
         var k = inhomSpectr.numPoints - 1;
-        //console.log('inhomSpectr.experArr.length: ',inhomSpectr.experArr.length," m: ",m);
-        //console.log('homSpectr.experArr.length: ',homSpectr.experArr.length," n: ",n);
         inhomSpectr.experArr = [];
         homSpectr.experArr = [];
         for (var j = 0; j < m; j++) {
@@ -2278,12 +2315,6 @@ block levenee
       $("#rangeok, #evetok, #jdosok, #exenhaok, #urbachok, #sUrbachok, #whatok").click(function(){
         switch ($(this).attr('id')){
           case 'rangeok':
-            //simSettn.eVstart=parseFloat($("#eVStart").spinner("value")).toFixed(3);
-            //simSettn.eVstop=parseFloat($("#eVStop").spinner("value")).toFixed(3);
-
-            //$("#eVStart").spinner("option", "value", simSettn.eVstart);
-            //$("#eVStop").spinner("option", "value", simSettn.eVstop);
-            //$("#eVstop_touch").trigger("touchspin.updatesettings", {max: simSettn.eVstop});
             makespArr();       //recreate spectral array
             makeExpArrs();     //recreate experimental array
             makeJdos();
@@ -2291,18 +2322,26 @@ block levenee
             makeSommer();
             calcInhom();
             calcHom();
+            $("#spRange").css('display','none');
+            $("#paramDial").dialog('close');
             break;
-            case 'evetok':
+          case 'evetok':
             //makeBoltz();//jdos, exiton and Boltzmann changes updated in spinner events
             calcInhom();
             calcHom();
+            $("#eg_et").css('display', 'none');
+            $("#paramDial").dialog('close');
             break;
           case 'jdosok':
+            $("#spJdos").css('display','none');
+            $("#paramDial").dialog('close');
             makeJdos(); //exiton changes updated in jdos radio button change event
             calcInhom();
             calcHom();
             break;
           case 'exenhaok':
+            $("#exEnha").css('display', 'none');
+            $("#paramDial").dialog('close');
             makeSommer();
             calcInhom();
             calcHom();
@@ -2315,20 +2354,21 @@ block levenee
           case 'whatok':
             break;
         }
-        var parentti = $(this).parent();
-        parentti.css('display', 'none');
-        var onkojoku=0;
+        //var parentti = $(this).parent();
+        //parentti.css('display', 'none');
+        /*var onkojoku=0;
         $('fieldset','#settnDial').each(function(){
           var a=$(this).attr('style');
           onkojoku += (a.search('block')>-1)? 1:0;
-        });
+        });*/
         //if all fieldsets are closed close also dialogform:
         $('#settnDial').dialog('close');
-          if (onkojoku>0) {
+        $('#paramDial').dialog('close');
+          /*if (onkojoku>0) {
             $('#settnDial').dialog('open');
             setJdosRadio();
             setQwRadio();
-          }
+          }*/
       });
 
       $("#lorentzok").click(function(){
@@ -2348,23 +2388,33 @@ block levenee
       });
 
       $('#hrefEpsilon').click(function(){
-        $("#spRange").css('display','block');
         $("#settnDial").dialog("close");
-        $("#settnDial").dialog("open");
+        $("#spRange").css('display','block');
+        //$("#rangeok").show();
+        $("#paramDial").dialog('option', 'title', 'Spectral range in eV:');
+        $("#paramDial").dialog("open");
         setJdosRadio();
       });
 
       $('#hrefJdos').click(function () {
         $("#spJdos").css('display','block');
         $("#settnDial").dialog("close");
-        $("#settnDial").dialog("open");
+        $("#paramDial").dialog('option', 'title', 'Joint density of states (JDOS):');
+        $("#paramDial").dialog("open");
         setJdosRadio();
       });
 
       $('#hrefSommerf').click(function(){
         $("#exEnha").css('display','block');
         $("#settnDial").dialog("close");
-        $("#settnDial").dialog("open");
+        if (simSettn.jdostype=='bulk'){
+          $("#paramDial").dialog('option', 'title', 'Exciton enhancement' +
+                ' for bulk (3D-exciton model):');
+        }else{
+          $("#paramDial").dialog('option', 'title', 'Exciton enhancement' +
+              ' for QW-material (2D-exciton model):');
+        }
+        $("#paramDial").dialog("open");
         setJdosRadio();
         setQwRadio();
       });
@@ -2373,7 +2423,9 @@ block levenee
         //click on transition energy title
         $("#eg_et").css('display','block');
         $("#settnDial").dialog("close");
-        $("#settnDial").dialog("open");
+        $("#paramDial").dialog('option','title','Parameters for Boltzmann distribution:');
+        $("#paramDial").dialog('open');
+        //$("#settnDial").dialog("open");
         setJdosRadio();
         setQwRadio();
       });
@@ -2622,7 +2674,8 @@ block levenee
             simSettn.polarizat=objSettns.exiton.polarizat;
             if (objSettns.exiton.polarizat=='TM'){
               simSettn.ex0=objSettns.exiton.shapePar;
-              $("#eV_0").val(simSettn.ex0);
+              //$("#eV_0").val(simSettn.ex0);
+              $("#ex0_touch").val(simSettn.ex0);
               $("enhTM").prop('checked',true);
             }else{
               $("enhTE").prop('checked',true);
