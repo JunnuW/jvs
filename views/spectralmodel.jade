@@ -38,7 +38,7 @@ block levenee
 
 
     div(id='paramDial' title="Parameter values")
-      //-*****spectral range settings******************************************
+      //spectral range settings******************************************
       div(id='spRange' style='display:none')
         table(style='width:100%;')
           tr
@@ -54,7 +54,8 @@ block levenee
               br
               button(id='rangeok' type='button' class='medium-btn2') OK
               //-button(id='rangeok' type='button' class='medium-btn2') OK
-      //-******Boltzmann distribution for energy occupancy**********************************
+
+      //parameters for Boltzmann distribution for energy occupancy*******
       div(id='eg_et' style='display:none')
         p \(f_{B}=exp(-\epsilon/k_{B}T)\), and \(\epsilon > E_{t}\), the energy minimum. For bulks set: \(E_{t}=E_{g}\)
         table(style='width:100%;')
@@ -71,7 +72,8 @@ block levenee
               br
               button(id='evetok' type='button' class='medium-btn2') OK
 
-      //-***********Joint density of states*************************:
+
+      //parameters for Joint density of states***************************
       div(id='spJdos' style='display:none')
         table(style='width:100%;')
           tr
@@ -79,16 +81,17 @@ block levenee
               b   Bulk-JDOS
               br
               input(type="radio" id="bulkJDOS" name="jdos" value="bulk" style="margin-left:5px")
-              i   (\(\rho_{r}\propto \sqrt{\epsilon-E_{t}}\))
+              b(style="margin-left:10px;") \(\rho_{r}\propto \sqrt{\epsilon-E_{t}}\)
             td(class='huihai')
               b   QW-JDOS
               br
               input(type="radio" id="qwJDOS" name="jdos" value="qw" style="margin-left:5px")
-              i   (Heaviside step)
+              b(style="margin-left:10px;") Heaviside step
             td(class='huihai')
               button(id='jdosok' type='button' class='medium-btn2') OK
 
-      //-************Exciton enhancement****************************:
+
+      //parameters for Exciton enhancement*******************************
       div(id="exEnha" style='display:none')
         table(id="qwdetails" style='width:100%;')
           tr(class='hideshow')
@@ -122,126 +125,102 @@ block levenee
             td(class='huihai')
               button(id='exenhaok' type='button' class='medium-btn2') OK
 
-    div(id="settnDial" title="Graphing details")
+      //parameters for Asymmetric and symmetric Urbach broadenings*******
+      div(id='spUrbach' style='display:none')
+        p(id='urbachAsymm' style='display:none')  \(L_{ih}(\epsilon)=\frac{1}{2}(1-sgn(E_{f}-\epsilon))\cdot\exp[-(E_{f}-\epsilon)/E_{u}]\quad\), Here \(E_{f}=E_{t}\).
+        p(id='urbachSymm' style='display:none')  \(L_{ih}(\epsilon)=\exp[-|E_{f}-\epsilon|/E_{u}]\quad\), Here \(E_{f}=E_{t}\).
+        i Graphed either alone or used as a convolution kernel in the calculation.
+        table(style='width:100%;')
+          tr
+            td(class='huihai')
+              b   Urbach tail, `E_{u}`
+              br
+              input(id="eveu_touch" class="form-control input-sm")
+            td(class='huihai')
+              br
+              button(id='urbachok' type='button' class='medium-btn2') OK
+            td
+        p For the Urbach focus, `E_{f}` adjustment,  change the `E_{t}` in the Boltzmann distribution.
 
-      fieldset(id='spUrbach' style='display:none')
-        b(style='font-size:16px') Asymmetric Urbach tail
-        br
-        i Inhomogeneous broadening for populations with exponential energy distributions
-        i   (plotted alone if no plotting selections)
-        br
-        b Line shape:
-        br
-        i       \(L_{ih}(\epsilon)=\frac{1}{2}(1-sgn(E_{f}-\epsilon))\cdot\exp[-(E_{f}-\epsilon)/E_{u}]\)
-        br
-        i Here \(E_{f}=E_{t}\quad\)  (for adjustment apply the transition energy option)
-        br
-        b Broadening parameter [meV]
-        br
-        label(for="eveu") \(E_{u}\):
-        input(id="eveu" class="inputti")
-        button(id='urbachok' style="margin:0px 15px") OK
-        br
-        i (Applied as convolution kernel, if selected with 'Plotting selector' items)
+      //parameters for Gaussian broadening function***********************
+      div(id='spGaussian' style='display:none')
+        //if user clicks on Gaussian title this becomes visible
+        p \(\ L_{ih}(\Delta E)=\frac{1}{\sigma\sqrt{2\pi}}exp(-\frac{\Delta E^{2}}{2\sigma^{2}})\)
+        i Graphed either alone or used as a convolution kernel in the calculation.
+        table(style='width:100%;')
+          tr
+            td(class='huihai')
+              b   Standard dev. `\sigma`
+              br
+              input(id="gausig_touch" class="form-control input-sm")
+            td(class='huihai')
+              br
+              button(id='gaussianok' type='button' class='medium-btn2') OK
+            td
 
-      fieldset(id='spSurbach' style='display:none')
-        b(style='font-size:16px') Symmetric Urbach tail
-        br
-        i Inhomogeneous broadening for populations with exponential energy distributions
-        i   (plotted alone if no plotting selections)
-        br
-        b Line shape:
-        br
-        i       \(L_{ih}(\epsilon)=\exp[-|E_{f}-\epsilon|/E_{u}]\)
-        br
-        i Here \(E_{f}=E_{t}\quad\)  (for adjustment apply the transition energy option)
-        br
-        b Broadening parameter [meV]
-        br
-        label(for="evSeu") \(E_{u}\):
-        input(id="evSeu" class="inputti")
-        button(id='sUrbachok' style="margin:0px 15px") OK
-        br
-        i (Applied as convolution kernel, if selected with 'Plotting selector' items)
 
-      fieldset(id='spLorentz' style='display:none')
-        b(style='font-size:16px') Lorentzian function
-        br
-        i Homogeneous broadening with
-        br
-        b Line shape: \(\ L_{t}(\Delta E)=\frac{\tau_{r}/(\pi\hbar)}{1+\tau_{r}^{2}\Delta E^{2}/\hbar^{2}}\)
-        br
-        label(for="tauR" class='label2') Relaxation time \(\mathbf{\tau_{r}}\) [fs]:
-        input(id="tauR" class="inputti")
-        button(id='lorentzok' style="margin:0px 15px") OK
-        br
-        i (Applied as convolution kernel, if selected with 'Plotting selector' items)
-
-      fieldset(id='spDlorentz' style='display:none')
-        //if user clicks on Dlorentz title this becomes visible
-        b(style='font-size:16px') Product of two Lorentzians
-        br
-        i Homogeneous broadening with
-        br
-        b Line shape:
-        br
-        | \(\ L_{t}(\Delta E)= \frac{(\tau_{be}+\tau_{bh})/(\pi\hbar)}{1+\tau_{be}^{2}
-        | \Delta E^{2}/\hbar^{2}}\times\frac{1}
-        | {1+\tau_{bh}^{2}\Delta E^{2}/\hbar^{2}}\)
-        br
-        b Relaxation times [fs]:
-        br
-        label(for="tauBe")  \(\tau_{be}\):
-        input(id="tauBe" class="inputti")
-        label(for="tauBh") \(\tau_{bh}\):
-        input(id="tauBh" class="inputti")
-        button(id='dlorentzok' style="margin:0px 15px") OK
-        br
-        i (Applied as convolution kernel, if selected with 'Plotting selector' items)
-
-      fieldset(id='spGaussian' style='display:none')
-        //if user clicks on Dlorentz title this becomes visible
-        b(style='font-size:16px') Gaussian function
-        br
-        i Inhomogeneous broadening for populations with Gaussian energy distribution. (or non-Markovian homogeneous
-          | populations)
-        br
-        b Line shape:
-        br
-        | \(\ L_{ih}(\Delta E)=\frac{1}{\sigma\sqrt{2\pi}}exp(-\frac{\Delta E^{2}}{2\sigma^{2}})\)
-        br
-        b Broadening parameter [meV]:
-        br
-        label(for="gauSig")  \(\sigma\):
-        input(id="gauSig" class="inputti")
-        button(id='gaussianok' style="margin:0px 15px") OK
-        br
-        i (Applied as convolution kernel, if selected with 'Plotting selector' items)
-
-      fieldset(id='spSech' style='display:none')
-        //if user clicks on Dlorentz title this becomes visible
-        b(style='font-size:16px') Spectral broadening from \(Sech^{n}\) time relaxation
-        br
-        i A non-Markovian relaxation time function for the e-h pair population is given without descriptions of its origin.
-          | (i.e. proposed ad hoc to explain the non-Lorentzian line shapes from qw-emitters)
-        br
-        b Line shape:
-        br
-        | \(\ L_{t}(\Delta E)=\mathfrak{F}[sech^{n}(\frac{t}{\tau \times n})]\),
-        br
-        | where \(\mathfrak{F}\)  stands for Fourier transform. Sech is the hyperbolic secant function and \(\tau\ \) the
+      //parameters for Sech^n time relaxation broadening*******************
+      div(id='spSech' style='display:none')
+        //if user clicks on Sech title this becomes visible
+        i Broadening from a non-Markovian, ad hoc given e-h pair time relaxation function:
+        b  \(\ L_{t}(\Delta E)=\mathfrak{F}[sech^{n}(\frac{t}{\tau \times n})]\),
+        |     where \(\mathfrak{F}\)  stands for Fourier transform. Sech is the hyperbolic secant function and \(\tau\ \) the
         | relaxation time.
-        br
-        b Broadening parameters:
-        br
-        label(for="sechN")  \(Power\ n\):
-        input(id="sechN" class="inputti")
-        label(for="sechTau")  \(\tau\ [fs]:\)
-        input(id="sechTau" class="inputti")
-        button(id='sechok' style="margin:0px 15px") OK
-        br
-        i (Applied as convolution kernel, if selected with 'Plotting selector' items)
+        table(style='width:100%;')
+          tr
+            td(class='huihai')
+              b   Exponent,  `n`
+              br
+              input(id="sechN_touch" class="form-control input-sm")
+            td(class='huihai')
+              b   relaxation time `\tau` [fs]
+              br
+              input(id="sechTau_touch" class="form-control input-sm")
+            td(class='huihai')
+              br
+              button(id='sechok' type='button' class='medium-btn2') OK
+        i Graphed either alone or used as a convolution kernel in the calculation. For peak position
+          | adjustment use the `E_{t}` option in the Boltzmann distribution.
 
+      //parameters for Lorentzian broadening function ***********************
+      div(id='spLorentz' style='display:none')
+        b \(\ L_{t}(\Delta E)=\frac{\tau_{r}/(\pi\hbar)}{1+\tau_{r}^{2}\Delta E^{2}/\hbar^{2}}\)
+        table(style='width:100%;')
+          tr
+            td(class='huihai')
+              b   relax.time `\mathbf{\tau_{r}}` [fs]
+              br
+              input(id="tauR_touch" class="form-control input-sm")
+            td(class='huihai')
+              br
+              button(id='lorentzok' type='button' class='medium-btn2') OK
+            td
+        i Graphed either alone or used as a convolution kernel in the calculation. For peak position
+          | adjustment use the `E_{t}` option in the Boltzmann distribution.
+
+      //Parameters for product of Lorentzian functions broadening*************
+      div(id='spDlorentz' style='display:none')
+        //if user clicks on Dlorentz title this becomes visible
+        b \(\ L_{t}(\Delta E)= (\tau_{be}+\tau_{bh})/(\pi\hbar)\times
+          |\frac{1}{1+\tau_{be}^{2}\Delta E^{2}/\hbar^{2}}\times
+          |\frac{1}{1+\tau_{bh}^{2}\Delta E^{2}/\hbar^{2}}\)
+        br
+        table(style='width:100%;')
+          tr
+            td(class='huihai')
+              b  relax.time `\mathbf{\tau_{be}}` [fs]
+              br
+              input(id="tauBe_touch" class="form-control input-sm")
+            td(class='huihai')
+              b  relax.time `\mathbf{\tau_{bh}}` [fs]
+              input(id="tauBh_touch" class="form-control input-sm")
+            td
+              br
+              button(id='dlorentzok' type='button' class='medium-btn2') OK
+        i Graphed either alone or used as a convolution kernel in the calculation. For peak position
+          | adjustment use the `E_{t}` option in the Boltzmann distribution.
+
+    div(id="settnDial" title="Graphing details")
       fieldset(id='spWhat' style='display:none')
         b(id='bPlotSel' style='font-size:16px') Plotting selector for: `\int_0^\infty \epsilon\rho_{r}
           |(\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)\times L_{ih}(E-\epsilon)\quad d\epsilon`
@@ -254,65 +233,64 @@ block levenee
           input(id="pltEpsilon" style='margin-left:7px' type="checkbox" value='No')
           //-p(style='padding-left:30px') Photon energy: \(\epsilon\)
           //prevent scrolling to top of link page by using: javascript:void(0);
-          a(href="javascript:void(0)", id="hrefEpsilon", style='padding-left:30px')
+          a(href="javascript:void(0)", id="hrefEpsilon", style='padding-left:30px; color:DarkBlue;')
             | Photon energy, \(\epsilon\)
-            span(style="color:brown;")    (set range in [eV])
+            span(style="color:Brown;")    (set range in [eV])
         div(id='divJdos' style='display:none')
           input(id="pltJdos" style='margin-left:7px' type="checkbox" value='No')
-          a(href="javascript:void(0)", id="hrefJdos", style='padding-left:30px')
+          a(href="javascript:void(0)", id="hrefJdos", style='padding-left:30px; color:DarkBlue;')
             | Joint Density of States,  \(\rho_{r}\)
-            span(style="color:brown;")    (select bulk or QW model)
+            span(style="color:Brown;")    (select bulk or QW model)
         div(id='divSommerf' style='display:none')
           input(id="pltSommerf" style='margin-left:7px' type="checkbox" value='No')
-          a(href="javascript:void(0)", id="hrefSommerf", style='padding-left:30px')
+          a(href="javascript:void(0)", id="hrefSommerf", style='padding-left:30px; color:DarkBlue;')
             | Sommerfeldt enhancement, \(S(\epsilon)\)
-            span(style="color:brown;")    (set exiton parameters)
+            span(style="color:Brown;")    (set exiton parameters)
         div(id='divFcv' style='display:none')
           input(id="pltFcv" style='margin-left:7px' type="checkbox" value='No')
-          a(href="javascript:void(0)", id="hrefTransito", style='padding-left:30px')
+          a(href="javascript:void(0)", id="hrefTransito", style='padding-left:30px; color:DarkBlue;')
             | Boltzmann distribution
-            span(style="color:brown;")    (set transition energy, \(E_{t}\) and T in [K])
+            span(style="color:Brown;")    (set transition energy, \(E_{t}\) and T in [K])
         b(id='bConvolOpt' style='font-size:16px') Broadening [Lih] options in the convolution integral:
         div(id='divUrbach' style='display:none')
           input(id="pltUrbach" style='margin-left:7px' type="checkbox" value='No')
-          a(href="javascript:void(0)", id="hrefUrbach", style='padding-left:30px')
+          a(href="javascript:void(0)", id="hrefUrbach", style='padding-left:30px; color:DarkBlue;')
             | Asymmetric Urbach tail
-            span(style="color:brown;")    (set tail parameter \(E_{u}\))
-
+            span(style="color:Brown;")    (set tail parameter \(E_{u}\))
         div(id='divSurbach' style='display:none')
           input(id="pltsUrbach" style='margin-left:7px' type="checkbox" value='No')
           //-hidden input for file name to open local file using HTML5 file API
           input(type="file" id="emisLocFiles" style="display:none" name="emisLocFiles")
-          a(href="javascript:void(0)", id="hrefsUrbach", style='padding-left:30px')
+          a(href="javascript:void(0)", id="hrefsUrbach", style='padding-left:30px; color:DarkBlue;')
             | Symmetric Urbach distribution
-            span(style="color:brown;")     (set tail parameter \(E_{u}\))
+            span(style="color:Brown;")     (set tail parameter \(E_{u}\))
         div(id='divLorentz' style='display:none')
           input(id="pltLorentz" style='margin-left:7px' type="checkbox" value='No')
-          a(href="javascript:void(0)", id="hrefLorentz", style='padding-left:30px')
+          a(href="javascript:void(0)", id="hrefLorentz", style='padding-left:30px; color:DarkBlue;')
            | Lorentzian line shape
-           span(style="color:brown;")     (set broadening parameter \(\tau_{r}\))
+           span(style="color:Brown;")     (set broadening parameter \(\tau_{r}\))
         div(id='divDLorentz' style='display:none')
           input(id="pltDlorentz" style='margin-left:7px' type="checkbox" value='No')
-          a(href="javascript:void(0)", id="hrefdLorentz", style='padding-left:30px')
+          a(href="javascript:void(0)", id="hrefdLorentz", style='padding-left:30px; color:DarkBlue;')
            | Product of Lorentzians line shape
-           span(style="color:brown;")     (set broadening parameters \(\tau_{be}\) and \(\tau_{bh}\))
+           span(style="color:Brown;")     (set broadening parameters \(\tau_{be}\) and \(\tau_{bh}\))
         div(id='divGaussian' style='display:none')
           input(id="pltGaussian" style='margin-left:7px' type="checkbox" value='No')
-          a(href="javascript:void(0)", id="hrefGaussian", style='padding-left:30px')
+          a(href="javascript:void(0)", id="hrefGaussian", style='padding-left:30px; color:DarkBlue;')
             | Gaussian line shape
-            span(style="color:brown;")     (set broadening parameter \(\sigma \) )
+            span(style="color:Brown;")     (set broadening parameter \(\sigma \) )
         div(id='divSech' style='display:none')
           input(id="pltSech" style='margin-left:7px' type="checkbox" value='No')
-          a(href="javascript:void(0)", id="hrefSech", style='padding-left:30px')
+          a(href="javascript:void(0)", id="hrefSech", style='padding-left:30px; color:DarkBlue;')
             | Sech function line shape
-            span(style="color:brown;")     (set relaxation time, \(\tau\) and exponent, n )
+            span(style="color:Brown;")     (set relaxation time, \(\tau\) and exponent, n )
         div(id='divHomogConv' style='display:none')
           input(id="pltHomConv" style='margin-left:7px' type="checkbox" value='No')
-          i(style='padding-left:30px')
+          i(style='padding-left:30px; color:Brown;')
             |  Calculate broadening (convolve) using selected lineshape
         div(id='divNormalize' style='display:none')
           input(id="pltNormalize" style='margin-left:7px' type="checkbox" value='No')
-          i(style='padding-left:30px')
+          i(style='padding-left:30px; color:Brown;')
             |  Normalize spectrum to unity peak value
         div
 
@@ -682,18 +660,18 @@ block levenee
       calcInhom();      //produce initial graph
 
       $("#paramDial").dialog({
-          width: 700,
-          autoOpen: false,
-          maxHeight: '700px',
-          overflow: 'auto',
-          show: {
-              effect: "blind",
-              duration: 500
-          },
-          hide: {
-              effect: "explode",
-              duration: 200
-          }
+        width: 700,
+        autoOpen: false,
+        maxHeight: '700px',
+        overflow: 'auto',
+        show: {
+          effect: "blind",
+          duration: 500
+        },
+        hide: {
+          effect: "explode",
+          duration: 200
+        }
       });
 
 
@@ -953,319 +931,138 @@ block levenee
         calcHom();
       });
 
-      /*$("#eVStart").spinner({
-        max: simSettn.eVstop-0.01,
-        min: 0,
-        step: 0.001,
-        spin: function (event, ui) {
-          //this.value; antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value)+0.01;
-          tmp1 = tmp1.toFixed(3);
-          $("#eVStop").spinner('option','min',tmp1);
-        }
-      }).val(simSettn.eVstart);
-
-      $("#eVStop").spinner({
-        max: 4.0,
-        min: simSettn.eVstart+0.1,
-        step: 0.001,
-        spin: function (event, ui) {
-          //this.value; antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value)-0.01;
-          tmp1=tmp1.toFixed(3);
-          $("#eVStart").spinner('option','max',tmp1);
-        }
-      }).val(simSettn.eVstop);*/
-
-      //var periodi; //for mousedown
-      /************Boltzmann distr Et *************************************/
-      /*$("#eV_Et").spinner({
-        max: 4.0,
-        min: 0,
-        step: 0.001,
-        spin: function (event, ui) {
-          //this.value; antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-          var tmp = ui.value.toFixed(3);
-          simSettn.eTr = tmp;
-          makeJdos();       //density of states changes with Etr
-          makeBoltz();      //Boltzmann distribution changes with Etr
-          makeSommer();     //exciton enhanchement also
-          calcInhom();
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value);
-          tmp1 = tmp1.toFixed(3);
-          simSettn.eTr=tmp1;
-          makeJdos();       //density of states
-          makeBoltz();      //creates Boltzmann distribution
-          makeSommer();     //exciton enhanchements
-          calcInhom();
-         }
-      }).val(simSettn.eTr) //hide spinner up & down buttons:
-      .parent().children('.ui-spinner-button').css('display','none');
-
-      $("#Et_down").mousedown(function(){
-        decrease_Et();
-        periodi = setInterval(decrease_Et, 100);
-      }).mouseup(function(){
-        clearInterval(periodi);
-      }).mouseout(function(){
-        clearInterval(periodi);
+      $("#eveu_touch").TouchSpin({
+          max: 50,
+          min: 0,
+          step: 0.1,
+          initval: simSettn.eU,
+          decimals: 1,
+          boostat: 5,
+          maxboostedstep: 1,
+          postfix: 'meV',
+          mousewheel: true
       });
 
-      function decrease_Et() {
-        $("#eV_Et").spinner( "stepDown", 1 );
-      }
-
-      $("#Et_up").mousedown(function () {
-        increase_Et();
-        periodi = setInterval(increase_Et, 100);
-      }).mouseup(function () {
-        clearInterval(periodi);
-      }).mouseout(function () {
-        clearInterval(periodi);
+      $("#eveu_touch").on('touchspin.on.stopspin', function (e) {
+          var tmp1 = Number($(this).val());
+          simSettn.eU = tmp1.toFixed(1);
+          calcInhom();
+          calcHom();
       });
 
-      function increase_Et() {
-        $("#eV_Et").spinner("stepUp", 1);
-      }*/
-      /**********Boltzmann distr Et *************************************/
-
-      /**********Boltzman distr T ***************************************/
-      /*$("#tempK").spinner({
-        max: 600,
-        min: 0,
-        step: 1,
-        spin: function (event, ui) {
-          //this.value; antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-          var tmp = ui.value.toFixed(0);
-          simSettn.kelvin = tmp;
-          makeBoltz();      //Boltzmann distribution changes with Temp [K]
-          calcInhom();
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value);
-          tmp1 = tmp1.toFixed(3);
-          simSettn.kelvin = tmp1;
-          makeBoltz();      //Boltzmann distribution changes with T
-          calcInhom();
-        }
-      }).val(simSettn.kelvin) // hide spinner up and down buttons
-        .parent().children('.ui-spinner-button').css('display', 'none');
-
-      $("#T_down").mousedown(function () {
-        decrease_Temp();
-        periodi = setInterval(decrease_Temp, 100);
-      }).mouseup(function () {
-        clearInterval(periodi);
-      }).mouseout(function () {
-        clearInterval(periodi);
+      $("#gausig_touch").TouchSpin({
+          max: 100,
+          min: 1,
+          step: 0.1,
+          initval: simSettn.GauSig,
+          decimals: 1,
+          boostat: 5,
+          maxboostedstep: 1,
+          postfix: 'meV',
+          mousewheel: true
       });
 
-      function decrease_Temp() {
-        $("#tempK").spinner("stepDown", 1);
-      }
-
-      $("#T_up").mousedown(function () {
-        increase_Temp();
-        periodi = setInterval(increase_Temp, 100);
-      }).mouseup(function () {
-        clearInterval(periodi);
-      }).mouseout(function () {
-        clearInterval(periodi);
+      $("#gausig_touch").on('touchspin.on.stopspin', function (e) {
+          var tmp1 = Number($(this).val());
+          simSettn.GauSig = tmp1.toFixed(1);
+          calcInhom();
+          calcHom();
       });
 
-      function increase_Temp() {
-        $("#tempK").spinner("stepUp", 1);
-      }*/
-      /**********Boltzman distr T ***************************************/
+      $("#sechN_touch").TouchSpin({
+          max: 10,
+          min: 0.01,
+          step: 0.01,
+          initval: simSettn.SechN,
+          decimals: 2,
+          boostat: 5,
+          maxboostedstep: 0.25,
+          postfix: '',
+          mousewheel: true
+      });
 
-      /*$("#eV_Bind").spinner({
-        max: 20,
-        min: 0,
-        step: 0.01,
-        spin: function (event, ui) {
-          //this.value; antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-          var tmp = ui.value.toFixed(3);
-          simSettn.exEb = tmp;
-          makeSommer();     //exciton enhanchements
+      $("#sechN_touch").on('touchspin.on.stopspin', function (e) {
+          var tmp1 = Number($(this).val());
+          simSettn.SechN = tmp1.toFixed(2);
           calcInhom();
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value);
-          tmp1 = tmp1.toFixed(3);
-          simSettn.exEb = tmp1;
-          makeSommer();     //exciton enhanchements
-          calcInhom();
-        }
-      }).val(simSettn.exEb);*/
+          calcHom();
+      });
 
-      /*$("#eV_0").spinner({
-        //Exciton enhancement shape parameter for qw TM-polarization only
-        max: 50,
-        min: 0.01,
-        step: 0.01,
-        spin: function (event, ui) {
-          //this.value; antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-          var tmp = ui.value.toFixed(2);
-          simSettn.ex0 = tmp;
-          makeSommer();     //exciton enhanchements
-          calcInhom();
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value);
-          tmp1 = tmp1.toFixed(3);
-          simSettn.ex0 = tmp1;
-          makeSommer();     //exciton enhanchements
-          calcInhom();
-        }
-      }).val(simSettn.ex0);*/
+      $("#sechTau_touch").TouchSpin({
+          max: 1000,
+          min: 10,
+          step: 1,
+          initval: simSettn.SechTau,
+          decimals: 0,
+          boostat: 5,
+          maxboostedstep: 10,
+          postfix: '[fs]',
+          mousewheel: true
+      });
 
-      $("#eveu, #evSeu").spinner({
-        //Urbach parameter spinner for both Urbach distributions
-        max: 50,
-        min: 0,
-        step: 0.1,
-        spin: function (event, ui) {
-          //this.value antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-          var tmp = ui.value.toFixed(3);
-          simSettn.eU = tmp;
+      $("#sechTau_touch").on('touchspin.on.stopspin', function (e) {
+          var tmp1 = Number($(this).val());
+          simSettn.SechTau = tmp1.toFixed(0);
           calcInhom();
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value);
-          tmp1 = tmp1.toFixed(3);
-          simSettn.eU = tmp1;
-          calcInhom();
-        }
-      }).val(simSettn.eU);
+          calcHom();
+      });
 
-      $("#gauSig").spinner({
-        //Gaussian broadening parameter
-        max: 100,
-        min: 1,
-        step: 0.1,
-        spin: function (event, ui) {
-          //this.value antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-          var tmp1 = Number(ui.value);
-          simSettn.GauSig = tmp1;
-          calcInhom();
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value);
-          simSettn.GauSig = tmp1;
-          calcInhom();
-        }
-      }).val(simSettn.GauSig);
+      $("#tauR_touch").TouchSpin({
+          max: 2000,
+          min: 1,
+          step: 1,
+          initval: simSettn.LorTau,
+          decimals: 0,
+          boostat: 5,
+          maxboostedstep: 10,
+          postfix: '[fs]',
+          mousewheel: true
+      });
 
-      $("#sechN").spinner({
-        //exponent parameter for Sech^n(t/(n*tau)) relaxation
-        max: 10,
-        min: 0.01,
-        step: 0.01,
-        spin: function (event, ui) {
-          //this.value antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-          var tmp1 = Number(ui.value);
-          simSettn.SechN = tmp1;
-          calcInhom();
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value);
-          simSettn.SechN = tmp1;
-          calcInhom();
-        }
-      }).val(simSettn.SechN);
+      $("#tauR_touch").on('touchspin.on.stopspin', function (e) {
+          var tmp1 = Number($(this).val());
+          simSettn.LorTau = tmp1.toFixed(0);
+          selBroadFun(Lorentz, 'Lorentz');
+          calcHom();
+      });
 
-      $("#sechTau").spinner({
-        //Relaxation time for Sech^n(t/(n*tau))
-        max: 1000,
-        min: 10,
-        step: 1,
-        spin: function (event, ui) {
-          //this.value antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-          var tmp1 = Number(ui.value);
-          simSettn.SechTau = tmp1;
-          calcInhom();
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value);
-          simSettn.SechTau = tmp1;
-          calcInhom();
-        }
-      }).val(simSettn.SechTau);
+      $("#tauBe_touch").TouchSpin({
+          max: 500,
+          min: 1,
+          step: 1,
+          initval: simSettn.DlTau1,
+          decimals: 0,
+          boostat: 5,
+          maxboostedstep: 10,
+          postfix: '[fs]',
+          mousewheel: true
+      });
 
-      $("#tauR").spinner({
-        //reduced tau [fs] for Lorentz distribution
-        max: 2000,
-        min: 1,
-        step: 1,
-        spin: function (event, ui) {
-          //this.value antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-          var tmp1 = Number(ui.value);
-            simSettn.LorTau=tmp1;
-            selBroadFun(Lorentz, 'Lorentz');
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value);
-            simSettn.LorTau=tmp1;
-            selBroadFun(Lorentz, 'Lorentz');
-        }
-      }).val(simSettn.LorTau);
-
-      $("#tauBe").spinner({
-        //tau for electron (or hole) relaxation in dual Lorentz distribution
-        //plotted to homogeneous graph (second graph)
-        max: 500,
-        min: 1,
-        step: 1,
-        spin: function (event, ui) {
-          //this.value antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-          var tmp1 = Number(ui.value);
-          simSettn.DlTau1 = tmp1;
+      $("#tauBe_touch").on('touchspin.on.stopspin', function (e) {
+          var tmp1 = Number($(this).val());
+          simSettn.DlTau1 = tmp1.toFixed(0);
           selBroadFun(Dlorentz, 'Dlorentz');
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value);
-          simSettn.DlTau1 = tmp1;
-          selBroadFun(Dlorentz, 'Dlorentz');
-        }
-      }).val(simSettn.DlTau1);
+          calcHom();
+      });
 
-      $("#tauBh").spinner({
-        //tau for hole (or electron) relaxation in dual Lorentz distribution
-        //plotted into homogeneous graph (secong graph)
-        max: 500,
-        min: 1,
-        step: 1,
-        spin: function (event, ui) {
-          //this.value antaa olleen arvon
-          //ui.value antaa tulevan uuden arvon
-          var tmp1 = Number(ui.value);
-          simSettn.DlTau2 = tmp1;
+      $("#tauBh_touch").TouchSpin({
+          max: 500,
+          min: 1,
+          step: 1,
+          initval: simSettn.DlTau2,
+          decimals: 0,
+          boostat: 5,
+          maxboostedstep: 10,
+          postfix: '[fs]',
+          mousewheel: true
+      });
+
+      $("#tauBh_touch").on('touchspin.on.stopspin', function (e) {
+          var tmp1 = Number($(this).val());
+          simSettn.DlTau2 = tmp1.toFixed(0);
           selBroadFun(Dlorentz, 'Dlorentz');
-        },
-        change: function (event, ui) {
-          var tmp1 = Number(this.value);
-          simSettn.DlTau2 = tmp1;
-          selBroadFun(Dlorentz, 'Dlorentz');
-        }
-      }).val(simSettn.DlTau2);
+          calcHom();
+      });
 
       function selBroadFun(fun, funName){
         //fun:
@@ -2348,6 +2145,9 @@ block levenee
             break;
           case 'urbachok':
           case 'sUrbachok':
+            $("#spUrbach").css('display', 'none');
+            $("#urbachAsymm,#urbachSymm").css('display', 'none');
+            $("#paramDial").dialog('close');
             calcInhom();
             calcHom();
             break;
@@ -2373,18 +2173,30 @@ block levenee
 
       $("#lorentzok").click(function(){
         $("#spLorentz").css('display','none');
+        $("#paramDial").dialog('close');
+        //selBroadFun(Lorentz, 'Lorentz');
+        calcHom();
       });
 
       $("#dlorentzok").click(function () {
         $("#spDlorentz").css('display', 'none');
+        $("#paramDial").dialog('close');
+        //selBroadFun(Lorentz, 'Lorentz');
+        calcHom();
       });
 
       $("#gaussianok").click(function () {
         $("#spGaussian").css('display', 'none');
+        $("#paramDial").dialog('close');
+        calcInhom();
+        calcHom();
       });
 
       $("#sechok").click(function () {
         $("#spSech").css('display', 'none');
+        $("#paramDial").dialog('close');
+        calcInhom();
+        calcHom();
       });
 
       $('#hrefEpsilon').click(function(){
@@ -2432,44 +2244,54 @@ block levenee
 
       $('#hrefUrbach').click(function() {
         $("#spUrbach, #spLorentz, #spSurbach, #spDlorentz, #spGaussian, #spSech").css('display', 'none');
+        $("#paramDial").dialog('option','title','Parameters for asymmetric Urbach tail inhomogeneous broadening:');
+        $("#urbachSymm").css('display','none');
+        $("#urbachAsymm").css('display','block');
         $("#settnDial").dialog("close");
         $("#spUrbach").css('display', 'block');
-        $("#settnDial").dialog("open");
+        $("#paramDial").dialog("open");
       });
 
       $('#hrefsUrbach').click(function () {
         $("#spUrbach, #spLorentz, #spSurbach, #spDlorentz, #spGaussian, #spSech").css('display', 'none');
+        $("#paramDial").dialog('option','title','Parameters for symmetric Urbach tail inhomogeneous broadening:');
         $("#settnDial").dialog("close");
-        $("#spSurbach").css('display', 'block');
-        $("#settnDial").dialog("open");
+        $("#urbachAsymm").css('display','none');
+        $("#urbachSymm").css('display','block');
+        $("#spUrbach").css('display', 'block');
+        $("#paramDial").dialog("open");
       });
 
       $('#hrefLorentz').click(function () {
         $("#spUrbach, #spLorentz, #spSurbach, #spDlorentz, #spGaussian, #spSech").css('display', 'none');
         $("#settnDial").dialog("close");
         $("#spLorentz").css('display', 'block');
-        $("#settnDial").dialog("open");
+        $("#paramDial").dialog('option', 'title', 'Parameters for Lorentzian broadening function:');
+        $("#paramDial").dialog("open");
       });
 
       $('#hrefdLorentz').click(function () {
         $("#spUrbach, #spLorentz, #spSurbach, #spDlorentz, #spGaussian, #spSech").css('display', 'none');
         $("#settnDial").dialog("close");
         $("#spDlorentz").css('display', 'block');
-        $("#settnDial").dialog("open");
+        $("#paramDial").dialog('option', 'title', 'Parameters for LxL, (product of two Lorentzians) broadening function:');
+        $("#paramDial").dialog("open");
       });
 
       $('#hrefGaussian').click(function () {
         $("#spUrbach, #spLorentz, #spSurbach, #spDlorentz, #spGaussian, #spSech").css('display', 'none');
         $("#settnDial").dialog("close");
         $("#spGaussian").css('display', 'block');
-        $("#settnDial").dialog("open");
+        $("#paramDial").dialog('option', 'title', 'Parameters for Gaussian inhomogeneous broadening:');
+        $("#paramDial").dialog("open");
       });
 
       $('#hrefSech').click(function () {
         $("#spUrbach, #spLorentz, #spSurbach, #spDlorentz, #spGaussian, #spSech").css('display', 'none');
         $("#settnDial").dialog("close");
+        $("#paramDial").dialog('option', 'title', 'Parameters for broadening from sech^n time relaxation:');
         $("#spSech").css('display', 'block');
-        $("#settnDial").dialog("open");
+        $("#paramDial").dialog("open");
       });
 
 
