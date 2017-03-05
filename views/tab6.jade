@@ -2,12 +2,12 @@
 div(id="tabs-6")
   table(class="ModForm1")
     //-sarake jossa materiaalipakka:
-    col(style="width:40%")
+    //col(style="width:40%")
     //-sarake jossa spektraali graafi:
-    col(style="width:60%")
+    //col(style="width:60%")
     tr
       //-Ekan rivin eka sarake:
-      td(class="editTabs")
+      td(class="editTabs" style="width:40%;")
         div
           //-b(class="bblueText") Thin film stack:
         button(id="btnOpenStack" class="ui-button ui-widget ui-state-default ui-corner-all " +
@@ -47,7 +47,7 @@ div(id="tabs-6")
             span(class="ui-button-icon-primary ui-icon ui-icon-trash")
             span(class="ui-button-text") Remove Film
       //-Ekan rivin toka sarake:
-      td(class="editTabs" style="padding-left:10px")
+      td(class="editTabs" style="padding-left:10px; width:60%;")
         div
           label(for="setStack" class="bblueText5" id="stackModeLbl") Graph mode:
           input(type="radio" id="setStack" name="graphMode" value="StackRT" checked="checked")

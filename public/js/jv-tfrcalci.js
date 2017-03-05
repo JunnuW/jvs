@@ -1084,6 +1084,7 @@ $(function() {
         var selDirTxt;
         var srvrFileTxt;
         var openLegend='';
+        $('#openOpti').css('display','none'); //mukana vain spektri simulaatiossa
         switch (this.id) {
             case 'btnOpenMat':
                 selDirTxt = 'Materials';
