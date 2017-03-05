@@ -85,7 +85,7 @@ form .file {
 
 /*#tabs-2 {height:250px; }*/
 	
-	#placeholder {
+	/*#placeholder {*/
         /* = varaa paikan graafille*/
         /*margin-top:100px;*/
         /*margin-bottom:50px;*/
@@ -95,7 +95,8 @@ form .file {
         /*margin-top:100px;*/
         /*margin-left:200px;*/
         /*margin-left:50px;*/
-    }
+    /*}*/
+
     #mongoDialForm {
         display:none;
     }
@@ -220,7 +221,7 @@ form .file {
 /* text input box formatting for filenames on Tabs-7 and tabs-8: */
 .tinputti {
     width:70%;
-    maxlength:100;
+    /*maxlength:100;*/
     margin:5px;
 }
 
@@ -238,6 +239,6 @@ form .file {
     margin-right:10px;
 }
 
-@page {
+/*@page {
     size: A3 landscape;
-}
+}*/
