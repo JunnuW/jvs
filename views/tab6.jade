@@ -21,18 +21,17 @@ div(id="tabs-6")
         br
         //-label(for='ediStack' id='ediStackLbl' style="margin:15px") File:
         label(for='ediStack' id='ediStackLbl' class="bblueText5") Stack file:
-        input(id="ediStack" type="text" name="ediStack" value="" size="30%" style="margin-left:0.3em")
+        br
+        input(id="ediStack" type="text" name="ediStack" value="" style="margin-left:1em")
         div
-          br
           label(for='descStack' id='descStackLbl' class="bblueText5") Description:
           br
           input(id="descStack" type="text" name="descStack" value="" style="margin-left:1em;")
           input(type="file" id="stackLocFiles" style="display:none" name="stackLocFiles")
           br
-          br
-          label(for="stackTargs" class="bblueText5 labelOnInput")
+          label(for="stackTargs" class="bblueText5")
             span(id="stackTargsLbl") Spectral target:
-            select(id="stackTargs" class="selectUnderLabel" style="font-size:14px")
+            select(id="stackTargs" class="selectUnderLabel" style="font-size:14px; margin-left:1em;")
         div(id="StackKontti")
           table(id="StackEdit" class="display")
             //-display class tekee taulukossa jokatoisen  rivin eriväriseksi
