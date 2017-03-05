@@ -7,7 +7,7 @@ div(id="tabs-6")
     //col(style="width:60%")
     tr
       //-Ekan rivin eka sarake:
-      td(class="editTabs" style="width:40%;")
+      td(class="stackTabs1")
         div
           //-b(class="bblueText") Thin film stack:
         button(id="btnOpenStack" class="ui-button ui-widget ui-state-default ui-corner-all " +
@@ -47,7 +47,7 @@ div(id="tabs-6")
             span(class="ui-button-icon-primary ui-icon ui-icon-trash")
             span(class="ui-button-text") Remove Film
       //-Ekan rivin toka sarake:
-      td(class="editTabs" style="padding-left:10px; width:60%;")
+      td(class="stackTabs2" style="padding-left:10px;")
         div
           label(for="setStack" class="bblueText5" id="stackModeLbl") Graph mode:
           input(type="radio" id="setStack" name="graphMode" value="StackRT" checked="checked")
@@ -57,8 +57,10 @@ div(id="tabs-6")
           b(id="StackNKb")   Selected layer n & k  
             //pre Single film n & k
           //b(id="stackMode" class="bblueText") Stack spectrum for reflectance 
-        div(id="ResizeAble6" style="height:50%;width:100%;display:block;" class="ui-widget-content")
-          div(id="placeholder6" style="width:100%;height:400px;display:block;")
+        //div(id="ResizeAble6" style="height:50%;width:100%;display:block;" class="ui-widget-content")
+        div(id="ResizeAble6" style="width:100%;display:block;" class="ui-widget-content")
+          //div(id="placeholder6" style="width:100%;height:400px;display:block;")
+          div(id="placeholder6" style="width:100%;height:400px;display:run-in;")
         br
         div(id="adjustThs" class="ui-widget-content" display="inline")
           label(for="tuneSpin" class="bblueText" style="margin-left:10px; margin-top:5px;") Thickn.Incr[%]:
