@@ -1,9 +1,12 @@
 /* @CHARSET "ISO-8859-1";*/
     /*--------------------------------------------------*/
-body{font: 62.5% "Trebuchet MS", sans-serif; margin: 5px;}
-    .TF-calculus {margin-top: 1em;}
-    .bold{font-weight: bold;}
-table.display
+body{
+    font: 62.5% "Trebuchet MS", sans-serif; margin: 5px;
+}
+    /*.TF-calculus {margin-top: 1em;}*/
+    /*.bold{font-weight: bold;}*/
+
+table.display /*on Tabs6*/
     .even.row_selected td {background-color: #B0BED9;}
     .odd.row_selected td {background-color: #9FAFD1;}
     .dataTables_info { padding-top: 0; }
@@ -13,9 +16,9 @@ table.display
     /*#ServerFileName { color: #f00; text-align:right; }*/
     /*.ui-spinner {position:relative; left: 50px;}*/
     .ui-spinner {margin-left:1em;}
-    .invisible{display: none; }
+    /*.invisible{display: none; }
     .visible{display: inline-block; }
-    .indent { margin-left: 1em; }
+    .indent { margin-left: 1em; }*/
     .blueText { color:blue; }
     .bblueText { color:blue; font-size: 15px; font-weight:bold; margin-bottom:10px; }
     .bblueText1 { color: #1f02a9; font-size: 21px; font-weight:bold; white-space: pre; margin-left:1em;}
@@ -24,7 +27,11 @@ table.display
     .bblueText4 { color:#1f02a9; font-size: 17px; font-weight:bold; white-space: pre; margin-left:1em;}
     .bblueText5 { color:#1f02a9; font-size: 17px; font-weight:bold; margin-left:1em;}
     .spinner2 {margin-left:5em; margin-right: 5em;  width: 40px; white-space: pre;}
-    .posit80 {position: relative;  left: 80px; white-space: pre;}
+    .posit80 {/*on Tabs2*/
+        position: relative;
+        left: 80px;
+        white-space: pre;
+    }
 
 form .file {
     display: block;
@@ -85,13 +92,14 @@ form .file {
 
 /*#tabs-2 {height:250px; }*/
 	
-	/*#placeholder {*/
+	/*#ResizeAble6 {*/
         /* = varaa paikan graafille*/
-        /*margin-top:100px;*/
-        /*margin-bottom:50px;*/
-        /* width:auto;
-         height:auto;
-         float:right*/
+        /*margin-top:5%;*/
+        /*margin-bottom:5%;*/
+        /*width:100%;*/
+        /*height:450px;*/
+        /*float:right;*/
+        /*display:block;*/
         /*margin-top:100px;*/
         /*margin-left:200px;*/
         /*margin-left:50px;*/
@@ -119,8 +127,14 @@ form .file {
 		height: 120px;
 		}
 
-	td{font-family:Times; color:black; font-size:11pt; border-bottom:1px
-  		solid #fff;border-right:1px solid #fff;padding:1px 1px 0 }
+	td{
+        font-family:Times;
+        /*color:black;*/
+        font-size:11pt;
+        border-bottom:1px solid #fff;
+        border-right:1px solid #fff;
+        padding:1px 1px 0
+    }
 
   	.ModForm1{
         text-align: left;
@@ -132,6 +146,7 @@ form .file {
         vertical-align:top;
         text-align: left;
         border: 1px solid white;
+        color: #ccffcc;
     }
 
     .stackTabs1{
@@ -141,7 +156,7 @@ form .file {
         width:35%;
     }
 
-    .stackTabs2{
+    .stackTabs2{/*käytössä tabs2:ssa*/
         vertical-align:top;
         text-align: left;
         border: 1px solid white;
@@ -149,16 +164,29 @@ form .file {
         padding-left:10px;
     }
 
-    .editTabs2{vertical-align:top; width: 50%; border: 1px solid lightgrey; color:blue;font-size: 17px; font-weight:bold;}
-  	.setTabs{text-align: left; width: 50%; border: 1px;background-color:#FFD700;}
+    .editTabs2{
+        vertical-align:top;
+        width: 50%;
+        border: 1px solid lightgrey;
+        font-size: 17px;
+        font-weight:bold;
+        background-color: #fcf0ba;
+    }
+  	/*.setTabs{text-align: left; width: 50%; border: 1px;background-color:#FFD700;}*/
   	.TabKontti{text-align: left; width: 80%; border: 1px;}
   	.leftis{text-align: left}
   					
 	/*#modTab1{width: 300px; border: 1px; border-color: #006BB2;}*/
 						
-	tr {background-color:#F8FBFF}
-		.TablRow{ margin: 4px; cursor:pointer;}    
-        .highlight { background:yellow; }
+	tr {
+        background-color:#F8FBFF
+    }
+	.TablRow{
+        margin: 4px; cursor:pointer;
+    }
+    .highlight {
+        background:yellow;
+    }
 
 	pre {display: inline-block;	font-size:13pt; white-space: pre;}
 
