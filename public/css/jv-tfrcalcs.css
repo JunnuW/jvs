@@ -11,7 +11,8 @@ table.display /*on Tabs6*/
     .odd.row_selected td {background-color: #9FAFD1;}
     .dataTables_info { padding-top: 0; }
     .dataTables_paginate { padding-top: 0; }
-    .css_right { float: right; }
+    .css_right { float: right;
+    }
     
     /*#ServerFileName { color: #f00; text-align:right; }*/
     /*.ui-spinner {position:relative; left: 50px;}*/
@@ -129,7 +130,7 @@ form .file {
 
 	td{
         font-family:Times;
-        /*color:black;*/
+        color:black;
         font-size:11pt;
         border-bottom:1px solid #fff;
         border-right:1px solid #fff;
@@ -146,7 +147,7 @@ form .file {
         vertical-align:top;
         text-align: left;
         border: 1px solid white;
-        color: #ccffcc;
+        /*color: #ccffcc;*/
     }
 
     .stackTabs1{
@@ -173,7 +174,12 @@ form .file {
         background-color: #fcf0ba;
     }
   	/*.setTabs{text-align: left; width: 50%; border: 1px;background-color:#FFD700;}*/
-  	.TabKontti{text-align: left; width: 80%; border: 1px;}
+  	.TabKontti{
+        color:black;
+        text-align: left;
+        width: 80%;
+        border: 1px;
+    }
   	.leftis{text-align: left}
   					
 	/*#modTab1{width: 300px; border: 1px; border-color: #006BB2;}*/
