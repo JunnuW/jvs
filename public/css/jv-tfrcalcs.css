@@ -6,7 +6,7 @@ body{
     /*.TF-calculus {margin-top: 1em;}*/
     /*.bold{font-weight: bold;}*/
 
-table.display /*on Tabs6*/
+table.display /*on Tabs6, Tabs7 6 Tabs8*/
     .even.row_selected td {background-color: #B0BED9;}
     .odd.row_selected td {background-color: #9FAFD1;}
     .dataTables_info { padding-top: 0; }
@@ -112,7 +112,7 @@ input[type="number"] {/*jeditable jv-tfrcalci.js*/
         display:none;
     }
 
-    .centtis {
+    .centtis {/*jv-tableandplotit.js*/
         text-align: center;
     }
 
@@ -170,7 +170,7 @@ input[type="number"] {/*jeditable jv-tfrcalci.js*/
         text-align: left;
         border: 1px solid white;
         width:65%;
-        padding-left:10px;
+        /*padding-left:10px;*/
     }
 
     .editTabs2{
@@ -286,6 +286,6 @@ input[type="number"] {/*jeditable jv-tfrcalci.js*/
     margin-right:10px;
 }
 
-@page {
+/*@page {
     size: A3 landscape;
-}
+}*/

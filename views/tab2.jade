@@ -1,11 +1,14 @@
 //-tabs settings for calculations
 div(id="tabs-2", style="height:auto;" )
   table(class='ModForm1')
+    //-ensimmäinen rivi koko leveydellä
     tr
       td(colspan="2" class="editTabs" style="background-color: #eee;")
         pre(class="bblueText1" style="margin-right:5px;background-color: #eee;") Active user:
         label(id="UserName" class="blueText") No Login
+    //-toinen rivi
     tr
+      //-vasen sarake 50%:n leveydellä editTabs2:ssa
       td(class="editTabs2")
         div(class="bblueText1") Spectral mode
           br
@@ -24,6 +27,7 @@ div(id="tabs-2", style="height:auto;" )
           input(type="checkbox" id="bottomR" style="margin-left:40px;")
           label(for="bottomR" style='padding-left:15px;')  Substrate backside R%
           br
+      //-oikean puoleinen sarake 50%.n leveys editTabs2:ssa
       td(class="editTabs2")
         div(class="bblueText1") Spectral graphing unit:
           br
@@ -57,7 +61,7 @@ div(id="tabs-2", style="height:auto;" )
         br
         div
           label(for="SpStart" id="lblStart" class="bblueText1")  Start at wavelength:
-          input(id="SpStart" name="SpStart" style="width:60px")
+          input(id="SpStart" style="width:60px")
           label(id="lblStartUn" class="bblueText1")  [ nm ]
           br
       td(class="editTabs2")
@@ -95,3 +99,6 @@ div(id="tabs-2", style="height:auto;" )
           label(class="bblueText1") [nm]
           label(id="CalcRes" class="bblueText3") Reflectance is graphed on nm axis
           br
+          br
+          br
+          //-jotta ei väritys heti lopu tekstin jälkeen

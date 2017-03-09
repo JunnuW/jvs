@@ -314,13 +314,39 @@ $(function() {
 //Spectral units sector:------------------------------------------------------
     $('input[name="setUnit"]').change(function (){
         stack.settings.spUnit = this.value;
+        var oldUnitti=$("#lblStartUn").text();
+        var nmVal;
+        if (oldUnitti.indexOf('nm')>0){//originally true on Tabs2
+            //console.log('vanha unitti oli nm');
+            nmVal=$("#SpStart").spinner("value");
+            stack.settings.spStart=nmVal.toFixed(0);
+            nmVal=$("#SpStop").spinner('value');
+            stack.settings.spStop=nmVal;
+        } else if(oldUnitti.indexOf('um')>0){
+            //console.log('vanha unitti oli um');
+            nmVal=$("#SpStart").spinner('value')*1000;
+            stack.settings.spStart=nmVal.toFixed(0);
+            nmVal=$("#SpStop").spinner('value')*1000;
+            stack.settings.spStop=nmVal.toFixed(0);
+        }else if (oldUnitti.indexOf('eV')>0 && $("#SpStart").spinner('value')>0
+            && $("#SpStop").spinner('value')>0){
+            //console.log('vanha unitti oli eV');
+            nmVal= 1239.842 / $("#SpStart").spinner('value');
+            stack.settings.spStart=nmVal.toFixed(0);
+            nmVal=1239.842 /$("#SpStop").spinner('value');
+            stack.settings.spStop=nmVal.toFixed(0);
+        }
+        else{
+            alert('error in start or stop value!');
+            return;
+        }
+
         //alert(this.value);
         if (stack.settings.RorT=="T") {
             $("#CalcRes").text("Transmittance is graphed on "+stack.settings.spUnit+" axis");
         }else {
             $("#CalcRes").text("Reflectance is graphed on "+stack.settings.spUnit+" axis");
         }
-        console.log('unitti muuttui: ',this.value);
         setSpinners();
         console.log('stack.settings.spStart: ',stack.settings.spStart);
         console.log('stack.settings.spStop: ',stack.settings.spStop);
@@ -1631,7 +1657,7 @@ function addTo_matOpt(fileName, nickName, ownr, rawArr) {
 }
 
 function setSpinners(){
-    var unitti=$("#lblStartUn").text();
+    /*var unitti=$("#lblStartUn").text();
     if (unitti.indexOf('nm')>0){//originally true on Tabs2
         var nmVal=$("#SpStart").spinner("value");
         stack.settings.SpStart=nmVal.toFixed(0);
@@ -1654,7 +1680,7 @@ function setSpinners(){
     else{
         alert('error in start or stop value!');
         return;
-    }
+    }*/
     switch (stack.settings.spUnit) {
         case 'nm':
             $("#SpStart").spinner({
