@@ -2,23 +2,24 @@
 div(id="tabs-6")
   table(class="ModForm1")
     tr
-      //-Ekan rivin eka sarake:
+      //-Ekan rivin eka sarake leveys 40%:
       td(class="stackTabs1")
         div
           //-b(class="bblueText") Thin film stack:
-        button(id="btnOpenStack" class="ui-button ui-widget ui-state-default ui-corner-all " +
-        "ui-button-text-icon-primary" style="margin-left:1em; margin-right:10px; margin-bottom:4px;")
-          span(class="ui-icon ui-icon-document")
-          span(class="ui-button-text") Open stack
-        button(id="btnSaveStack" class="ui-button ui-widget ui-state-default ui-corner-all " +
-        "ui-button-text-icon-primary" style="margin-bottom:4px;")
-          span(class="ui-icon ui-icon-document")
-          span(class="ui-button-text") Save stack
-        br
-        //-label(for='ediStack' id='ediStackLbl' style="margin:15px") File:
-        label(for='ediStack' id='ediStackLbl' class="bblueText5") Stack file:
-        br
-        input(id="ediStack" type="text" name="ediStack" value="" style="margin-left:1em")
+          button(id="btnOpenStack" class="ui-button ui-widget ui-state-default ui-corner-all " +
+          "ui-button-text-icon-primary" style="margin-left:15px;")
+            span(class="ui-icon ui-icon-document")
+            span(class="ui-button-text") Open stack
+
+          button(id="btnSaveStack" class="ui-button ui-widget ui-state-default ui-corner-all " +
+          "ui-button-text-icon-primary" style="margin-left:10px;")
+            span(class="ui-icon ui-icon-document")
+            span(class="ui-button-text") Save stack
+          br
+          //-label(for='ediStack' id='ediStackLbl' style="margin:15px") File:
+          label(for='ediStack' id='ediStackLbl' class="bblueText5") Stack file:
+          br
+          input(id="ediStack" type="text" name="ediStack" value="" style="margin-left:1em")
         div
           label(for='descStack' id='descStackLbl' class="bblueText5") Description:
           br
@@ -28,9 +29,10 @@ div(id="tabs-6")
           label(for="stackTargs" class="bblueText5")
             span(id="stackTargsLbl") Spectral target:
             select(id="stackTargs" class="selectUnderLabel" style="font-size:14px; margin-left:1em;")
-        div(id="StackKontti" style="width:90%;")
+        div(id="StackKontti" style="width:100%;")
           table(id="StackEdit" class="display")
             //-display class tekee taulukossa jokatoisen  rivin eriväriseksi
+            //-stack taulukko tehdään jv-tableandplotit.js:ssä
         div
           b   
         div
@@ -42,8 +44,8 @@ div(id="tabs-6")
           "ui-button-disabled ui-state-disabled ui-button-text-icon-primary")
             span(class="ui-button-icon-primary ui-icon ui-icon-trash")
             span(class="ui-button-text") Remove Film
-      //-Ekan rivin toka sarake:
-      td(class="stackTabs2" style="padding-left:10px;")
+      //-Ekan rivin toka sarake leveys 60%:
+      td(class="stackTabs2")
         div
           label(for="setStack" class="bblueText5" id="stackModeLbl") Graph mode:
           input(type="radio" id="setStack" name="graphMode" value="StackRT" checked="checked")
@@ -58,7 +60,7 @@ div(id="tabs-6")
           //div(id="placeholder6" style="width:100%;height:400px;display:block;")
           div(id="placeholder6" style="width:100%; height:450px; display:run-in;")
         br
-        div(id="adjustThs" class="ui-widget-content" display="inline")
+        div(id="adjustThs" class="ui-widget-content" display="inline" style="width:90%")
           label(for="tuneSpin" class="bblueText" style="margin-left:10px; margin-top:5px;") Thickn.Incr[%]:
           input(id="tuneSpin" style="width:40px; margin-top:5px;")
           label(for="tuneDif" class="bblueText")

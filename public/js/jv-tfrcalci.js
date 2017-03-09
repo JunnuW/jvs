@@ -66,8 +66,8 @@ $(function() {
     };
 
     //Set default calculation parameters and materials
-    stack=buildStack();
 
+    stack=buildStack();
     //Build dialog form for opening and saving files
     //buildMongoDial();
 
@@ -110,12 +110,15 @@ $(function() {
                         stack.settings.spStop=$("#SpStop").spinner("value");
                         break;
                     case 'um':
-                        stack.settings.spStart=$("#SpStart").spinner("value")*1000;
-                        stack.settings.spStop=$("#SpStop").spinner("value")*1000;
+                        var umVal=$("#SpStart").spinner("value")*1000;
+                        stack.settings.spStart=umVal.toFixed(3);
+                        umVal=$("#SpStop").spinner("value")*1000;
+                        stack.settings.spStop=umVal.toFixed(3);
                         break;
                     case 'eV':
-                        stack.settings.spStart=(1239.8/$("#SpStart").spinner("value")).toFixed(2);
-                        stack.settings.spStop=(1239.8/$("#SpStop").spinner("value")).toFixed(2);
+                        var evVal=
+                        stack.settings.spStart=(1239.842/$("#SpStart").spinner("value")).toFixed(4);
+                        stack.settings.spStop=(1239.842/$("#SpStop").spinner("value")).toFixed(4);
                         break;
                 }
                 buildSpArray();                 //updates spectral wavelengths grid
@@ -171,7 +174,7 @@ $(function() {
     $('input[name="setCalcfor"]').change(function () {
         if (this.value == "R") {
             $("#setTarg").text("Calculated  reflectance includes:");
-            $("#CalcRes").text("&Reflectance is graphed on "+stack.settings.spUnit+" axis");//&nbsp &nbsp Reflectance is graphed on nm axis
+            $("#CalcRes").text("Reflectance is graphed on "+stack.settings.spUnit+" axis");//&nbsp &nbsp Reflectance is graphed on nm axis
             $("#targMode").text("Target spectrum for reflectance");
             $("#targCol2").text("R%-value");
             $("#StackRTb").text("Stack Reflectance");
@@ -196,11 +199,11 @@ $(function() {
         topR.attr('checked', false);
         //console.log('calcType: ',calcType);
         if ($(this).is(':checked')) {
-            $('#setReflLbl').text(' Reflectance includes substrate backside reflection');
-            $('#setTranLbl').text(' Transmittance through all materials');
+            //$('#setReflLbl').text(' Reflectance includes substrate backside reflection');
+            //$('#setTranLbl').text(' Transmittance through all materials');
         }else{
-            $('#setReflLbl').text(' Reflectance without substrate backside reflection');
-            $('#setTranLbl').text(' Transmittance into substrate material');
+            //$('#setReflLbl').text(' Reflectance without substrate backside reflection');
+            //$('#setTranLbl').text(' Transmittance into substrate material');
         }
         //values updated to stack on exit from this tab
     });
@@ -210,11 +213,11 @@ $(function() {
         if ($(this).is(':checked')) {
             bottR.attr('checked',false);
             if ($(this).is(':checked')) {
-                $('#setReflLbl').text(' Reflectance includes cover material front reflection');
-                $('#setTranLbl').text(' Transmittance into substrate material');
+                //$('#setReflLbl').text(' Reflectance includes cover material front reflection');
+                //$('#setTranLbl').text(' Transmittance into substrate material');
             }else{
-                $('#setReflLbl').text(' Reflectance without cover material front reflection');
-                $('#setTranLbl').text(' Transmittance from cover material into film layers');
+                //$('#setReflLbl').text(' Reflectance without cover material front reflection');
+                //$('#setTranLbl').text(' Transmittance from cover material into film layers');
             }
         }
     });
@@ -276,34 +279,36 @@ $(function() {
         }
         //will be updated to stack.settings.angle on exit from settings tab
     }).val(0);//angle is in degrees, multiplied by pi/180 for absolute units
-    setSpinners();
+    //setSpinners();
     $("#SpStart").spinner({
-        //max, min ja step asetettu setSpinners() funktiolla
+        max:stack.settings.spStop,
+        min:300,
+        step:1,
         spin: function (event, ui) {
             //this.value; antaa olleen arvon
             //ui.value antaa tulevan arvon
             var tmp1 = ui.value; //.toFixed(4);
-            $("#spRange1").text(tmp1);
+            $("#spRange1").text(stack.settings.spStart);
         },
         change: function (event, ui) {
         }
         //will be updated to stack.settings.spStart on exit from settings tab
-    }).val(stack.settings.spStart);//
+    }).val(400);//
+    console.log('alussa oli: ',$("#SpStart").spinner("value"));
 
     $("#SpStop").spinner({
-        //max, min ja step asetettu setSpinners() funktiolla
-        //max: 5000,
-        //min: stack.settings.spStart,
-        //step: 1,
+        max: 5000,
+        min: stack.settings.spStart,
+        step: 1,
         spin: function (event, ui) {
             // alert("event: "+event.target+" ui: "+ui.value);
             var tmp2 = ui.value;//.toFixed(4);
-            $("#spRange2").text(tmp2);
+            $("#spRange2").text(stack.settings.spStop);
         },
         change: function (event, ui) {
         }
         //will be updated to stack.settings.spStop on exit from settings tab
-    }).val(stack.settings.spStop);
+    }).val(1000);
 
 //------------------------------------------------------------------------------
 //Spectral units sector:------------------------------------------------------
@@ -315,7 +320,10 @@ $(function() {
         }else {
             $("#CalcRes").text("Reflectance is graphed on "+stack.settings.spUnit+" axis");
         }
+        console.log('unitti muuttui: ',this.value);
         setSpinners();
+        console.log('stack.settings.spStart: ',stack.settings.spStart);
+        console.log('stack.settings.spStop: ',stack.settings.spStop);
         $("#spRange1").text(stack.settings.spStart);
         $("#spRange2").text(stack.settings.spStop);
     });
@@ -491,7 +499,7 @@ $(function() {
         {event: 'dblclick.editable', //click.editable is the default in jquery.jeditable.js
             type: 'qumber',     //custom made number input
             onblur: 'submit',   //submits also on exit
-            submit: 'OK',       //text on submit button
+            submit: 'X',       //text on submit button
             callback: function (value, settings) {//is called once editable is submitted
                 //processing the newly obtained thickness:
                 //var aPos = oStackTable.fnGetPosition(this);
@@ -510,8 +518,8 @@ $(function() {
                 updRTspArra();
                 updGraph();
             },
-            "height": "14px",
-            "width": "100%"
+            "height": "14px"
+            //"width": "100%"
         });
         $(this).dblclick();
     });
@@ -539,7 +547,7 @@ $(function() {
             type: 'checkbox',
             onblur: 'submit', //does not seem to work
             //cancel: 'Cancel', is not needed
-            submit: 'OK',
+            submit: 'X',
             checkbox: {trueValue: 'Yes', falseValue: 'No' },
             callback: function (value, settings) {//runs on submit
                 //var aPos = oStackTable.fnGetPosition(this); //gets the selected cell in the table:
@@ -1623,6 +1631,30 @@ function addTo_matOpt(fileName, nickName, ownr, rawArr) {
 }
 
 function setSpinners(){
+    var unitti=$("#lblStartUn").text();
+    if (unitti.indexOf('nm')>0){//originally true on Tabs2
+        var nmVal=$("#SpStart").spinner("value");
+        stack.settings.SpStart=nmVal.toFixed(0);
+        nmVal=$("#SpStop").spinner('value');
+        stack.settings.spStop=nmVal;
+    }
+    else if(unitti.indexOf('um')>0){
+        var umval=$("#SpStart").spinner('value')*1000;
+        stack.settings.spStart=umval.toFixed(0);
+        umval=$("#SpStop").spinner('value')*1000;
+        stack.settings.spStop=umval.toFixed(0);
+    }
+    else if (unitti.indexOf('eV')>0 && $("#SpStart").spinner('value')>0
+        && $("#SpStop").spinner('value')>0){
+        var eVval= 1239.842 / $("#SpStart").spinner('value');
+        stack.settings.spStart=eVval.toFixed(0);
+        eVval=1239.842 /$("#SpStop").spinner('value');
+        stack.settings.spStop=eVval.toFixed(0);
+    }
+    else{
+        alert('error in start or stop value!');
+        return;
+    }
     switch (stack.settings.spUnit) {
         case 'nm':
             $("#SpStart").spinner({
@@ -1653,12 +1685,12 @@ function setSpinners(){
             $("#lblStopUn").text("[ um ]");
             break;
         case 'eV':
-            var tmpT = (1239.8 / stack.settings.spStart).toFixed(4);
-            var tmpP = (1239.8 / stack.settings.spStop).toFixed(4);
-            var tmpD = ((tmpT - tmpP) / 600).toFixed(7);
+            var tmpT = (1239.842 / stack.settings.spStart).toFixed(4);
+            var tmpP = (1239.842 / stack.settings.spStop).toFixed(4);
+            var tmpD = ((tmpT - tmpP) / 600).toFixed(4);
             $("#SpStart").spinner({
                 step: tmpD,
-                max: (1239.8/300).toFixed(4),
+                max: (1239.842/300).toFixed(4),
                 min: tmpP
             }).val(tmpT);
             $("#SpStop").spinner({

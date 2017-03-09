@@ -719,10 +719,10 @@ function createStackTable() {
         "bSort": false,
         "bInfo": true,
         "bAutoWidth": true,
-        "aoColumns": [{"sTitle": "Id:", "sType": "text", "sClass": "centtis"},
-            {"sTitle": "Material:", "sType": "text", "sClass": "centtis"},
-            {"sTitle": "Thickness:", "sType": "text", "sClass": "centtis"},
-            {"sTitle": "Tuned:", "sType": "text", "sClass": "centtis",
+        "aoColumns": [{"sTitle": "Id:", "sWidth": "15%", "sType": "text", "sClass": "centtis"},
+            {"sTitle": "Material:", "sWidth": "35%", "sType": "text", "sClass": "centtis"},
+            {"sTitle": "Thickness:", "sWidth": "35%", "sType": "text", "sClass": "centtis"},
+            {"sTitle": "Tuned:", "sWidth": "15%", "sType": "text", "sClass": "centtis",
                 type: 'checkbox',
                 onblur: 'submit',
                 checkbox: {trueValue: 'Yes', falseValue: 'No'}
@@ -853,6 +853,7 @@ function buildStack(){
             "spUnit": "nm",
             "spStart": 400,
             "spStop": 1000,
+            "spStep":1,
             "tunePrcnt": 0.5,      // tuning by multplication selected thicknesses with 1.005
             "usedTarg": "",         // spectral target selected for comparison
             "Descriptor": ""
