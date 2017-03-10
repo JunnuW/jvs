@@ -42,21 +42,22 @@ html(lang="us")
     //-alert('Great Success: The File APIs are fully supported in this browser. see: http://caniuse.com/#feat=fileapi');
     //
   body
-    div(id="tabis")
-      ul
-        li
-          a(id="intro",href="#tabs-1") Instructions
-        li
-          a(id="Settings",href="#tabs-2") Calculation Settings
-        li
-          a(id="Stack",href="#tabs-6") Film Stack Editor
-        li
-          a(id="Targets",href="#tabs-7") Spectral Targets Editor
-        li
-          a(id="Materials",href="#tabs-8") Materials Data Editor
-      include tab1
-      include tab2
-      include tab6
-      include tab7
-      include tab8
-    include mongoDialForm
+    div(class='wrapperi')
+      div(id="tabis")
+        ul
+          li
+            a(id="intro",href="#tabs-1") Instructions
+          li
+            a(id="Settings",href="#tabs-2") Calculation Settings
+          li
+            a(id="Stack",href="#tabs-6") Film Stack Editor
+          li
+            a(id="Targets",href="#tabs-7") Spectral Targets Editor
+          li
+            a(id="Materials",href="#tabs-8") Materials Data Editor
+        include tab1
+        include tab2
+        include tab6
+        include tab7
+        include tab8
+      include mongoDialForm

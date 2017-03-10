@@ -13,14 +13,14 @@ table.display /*on Tabs6, Tabs7 6 Tabs8*/
     .dataTables_paginate { padding-top: 0; }
     .css_right { float: right;}
 
-table{
+/*table{
     margin: 0 auto;
-    /*width: 100%;*/
+    komment out this; width: 100%;
     clear: both;
     border-collapse: collapse;
     table-layout: fixed;
     word-wrap:break-word;
-}
+}*/
 
     .ui-spinner {margin-left:1em;}
 
@@ -36,7 +36,12 @@ table{
 
     .bblueText4 { color:#1f02a9; font-size: 17px; font-weight:bold; white-space: pre; margin-left:1em;}
 
-    .bblueText5 { color:#1f02a9; font-size: 17px; font-weight:bold; margin-left:1em;}
+    .bblueText5 {
+        color:#1f02a9;
+        font-size: 17px;
+        font-weight:bold;
+        margin-left:1em;
+    }
 
     .spinner2 {margin-left:5em; margin-right: 5em;  width: 40px; white-space: pre;}
 
@@ -56,9 +61,10 @@ form .file {
     font-weight:bold;
 }
 
-input[type="number"] {/*jeditable jv-tfrcalci.js*/
+input[type="number"] {/*for jeditable on jv-tfrcalci.js*/
     width: 60px;
 }
+
 
 /*.dialForm {
     width: 250px;
@@ -131,7 +137,7 @@ input[type="number"] {/*jeditable jv-tfrcalci.js*/
       z-index:999 !important;
     }
    /*------------------------------------------------------------*/
-  	.scroll  {
+  	/*.scroll  {
    		overflow-y:scroll;
    		width:42%;
    		height:120px;
@@ -141,7 +147,7 @@ input[type="number"] {/*jeditable jv-tfrcalci.js*/
 		overflow-y: scroll;
 		width:240px;
 		height: 120px;
-		}
+		}*/
 
 	td{
         font-family:Times;
@@ -268,31 +274,46 @@ input[type="number"] {/*jeditable jv-tfrcalci.js*/
     float: right;
     margin-right: 30px;
 }
+
+.ui-tabs .ui-tabs-nav li a {font-size:9pt !important;}
+
+.wrapperi{
+    width:1060px;
+}
 /* not in use */
-.small-btn {
+/*.small-btn {
     width: 50px;
     height: 20px;
-}
+}*/
 /* text input box formatting for filenames on Tabs-7 and tabs-8: */
-.tinputti {
+/*.tinputti {
     width:70%;
-    /*maxlength:100;*/
     margin:5px;
-}
+}*/
 
-.labelOnInput {
+/*.labelOnInput {
     display:inline-block;
-}
+}*/
 
-.inputUnderLabel{
+/*.inputUnderLabel{
     display:block;
-}
+}*/
 
 .selectUnderLabel{
     display:block;
     width:160px;
     margin-right:10px;
 }
+
+/*ul {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+li {
+    display: table-cell;
+}*/
 
 /*@page {
     size: A3 landscape;
