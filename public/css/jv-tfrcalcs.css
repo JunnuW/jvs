@@ -175,7 +175,7 @@ input[type="number"] {/*for jeditable on jv-tfrcalci.js*/
         vertical-align:top;
         text-align: left;
         border: 1px solid white;
-        width:35%;
+        width:40%;
         padding-left:10px;
     }
 
@@ -183,7 +183,7 @@ input[type="number"] {/*for jeditable on jv-tfrcalci.js*/
         vertical-align:top;
         text-align: left;
         border: 1px solid white;
-        width:65%;
+        width:60%;
         /*padding-left:10px;*/
     }
 
@@ -278,7 +278,7 @@ input[type="number"] {/*for jeditable on jv-tfrcalci.js*/
 .ui-tabs .ui-tabs-nav li a {font-size:9pt !important;}
 
 .wrapperi{
-    width:1060px;
+    width:100%;
 }
 /* not in use */
 /*.small-btn {
