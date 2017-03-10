@@ -11,8 +11,16 @@ table.display /*on Tabs6, Tabs7 6 Tabs8*/
     .odd.row_selected td {background-color: #9FAFD1;}
     .dataTables_info { padding-top: 0; }
     .dataTables_paginate { padding-top: 0; }
-    .css_right { float: right;
-    }
+    .css_right { float: right;}
+
+table{
+    margin: 0 auto;
+    /*width: 100%;*/
+    clear: both;
+    border-collapse: collapse;
+    table-layout: fixed;
+    word-wrap:break-word;
+}
 
     .ui-spinner {margin-left:1em;}
 
