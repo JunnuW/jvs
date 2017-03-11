@@ -8,35 +8,36 @@ div(id="tabs-6")
           label(for="setStack" class="bblueText5" id="stackModeLbl") Graph mode:
           input(type="radio" id="setStack" name="graphMode" value="StackRT" checked="checked")
           b(id="StackRTb")   Stack Reflectance
-          pre
+          //pre
           input(type="radio" id="setFilm" name="graphMode" value="FilmNK" )
           b(id="StackNKb")   Selected layer n & k
           //pre Single film n & k
           //b(id="stackMode" class="bblueText") Stack spectrum for reflectance
-        div(id="ResizeAble6" style="width:100%; display:block;" class="ui-widget-content")
+        div(id="ResizeAble6" style="width:550px; display:block;" class="ui-widget-content")
           div(id="placeholder6" style="width:100%; height:400px; display:run-in;")
-        div(id="adjustThs" class="ui-widget-content" display="inline" style="width:100%; font-size:12px;")
-          label(for="tuneSpin" class="bblueText" style="margin-left:10px; margin-top:5px;") Thickn.Incr[%]:
-          input(id="tuneSpin" style="width:40px; margin-top:5px;")
-          label(for="tuneDif" class="bblueText")
-            span(style="margin-left:20px;margin-right:5px;") Ave.Err:
-          input(id="tuneDif" name="tuneDif" style="width:70px; margin-top:5px;" value="Average")
-          label(for="tuneVar" class="bblueText")
-            span(style="margin-left:20px;margin-right:5px;") Err.Var:
-          input(id="tuneVar" name="tuneVar" style="width:70px; margin-top:5px;" value="Variance")
-          br
-          button(id="repTune" class="ui-button ui-widget ui-state-default " +
-          "ui-corner-all ui-button-text-icon-primary" style="margin-left:10px; margin-bottom:4px;")
-            span(class="ui-button-icon-primary ui-icon ui-icon-refresh")
-            span(class="ui-button-text") Add Incr.
-          button(id="autoTune" class="ui-button ui-widget ui-state-default " +
-          "ui-corner-all ui-button-text-icon-primary" style="margin-left:10px; margin-bottom:4px;")
-            span(class="ui-button-icon-primary ui-icon ui-icon-carat-2-e-w")
-            span(class="ui-button-text") AutoTune
-          button(id="reveTune" class="ui-button ui-widget ui-state-default " +
-          "ui-corner-all ui-button-text-icon-primary" style="margin-left:10px; margin-bottom:4px;")
-            span(class="ui-button-icon-primary ui-icon ui-icon-arrowreturnthick-1-n")
-            span(class="ui-button-text") Revert
+          div(id="adjustThs" class="ui-widget-content" style="width:95%; font-size:12px;")
+            div(style="float:left")
+              label(for="tuneSpin" class="bblueText5" style="margin-left:10px; margin-top:5px;") Thickn.Incr[%]:
+              input(id="tuneSpin" style="width:40px; margin-top:5px;")
+              label(for="tuneDif" class="bblueText5")
+                span(style="margin-left:20px;margin-right:5px;") Ave.Err:
+              input(id="tuneDif" name="tuneDif" style="width:70px; margin-top:5px;" value="Average")
+              label(for="tuneVar" class="bblueText5")
+                span(style="margin-left:20px;margin-right:5px;") Err.Var:
+              input(id="tuneVar" name="tuneVar" style="width:70px; margin-top:5px;" value="Variance")
+            div(style="display:inline-block;")
+              button(id="repTune" class="ui-button ui-widget ui-state-default " +
+              "ui-corner-all ui-button-text-icon-primary" style="margin-left:10px; margin-bottom:4px;")
+                span(class="ui-button-icon-primary ui-icon ui-icon-refresh")
+                span(class="ui-button-text") Add Incr.
+              button(id="autoTune" class="ui-button ui-widget ui-state-default " +
+              "ui-corner-all ui-button-text-icon-primary" style="margin-left:10px; margin-bottom:4px;")
+                span(class="ui-button-icon-primary ui-icon ui-icon-carat-2-e-w")
+                span(class="ui-button-text") AutoTune
+              button(id="reveTune" class="ui-button ui-widget ui-state-default " +
+              "ui-corner-all ui-button-text-icon-primary" style="margin-left:10px; margin-bottom:4px;")
+                span(class="ui-button-icon-primary ui-icon ui-icon-arrowreturnthick-1-n")
+                span(class="ui-button-text") Revert
 
       //-Ekan rivin toka sarake leveys 40%:
       td(class="stackTabs1")
@@ -64,13 +65,11 @@ div(id="tabs-6")
           label(for="stackTargs" class="bblueText5")
             span(id="stackTargsLbl") Spectral target:
             select(id="stackTargs" class="selectUnderLabel" style="font-size:12px; margin-left:1em;")
-        div(id="StackKontti" style="width:100%;")
+        div(id="StackKontti")
           table(id="StackEdit" class="display")
             //-display class tekee taulukossa jokatoisen  rivin eriväriseksi
             //-stack taulukko tehdään jv-tableandplotit.js:ssä
-        div
-          b   
-        div(style="font-size:12px;")
+        div(style="font-size:12px; display:inline-block;")
           button(id="btnAddFilm" class="add_row ui-button ui-widget ui-state-default ui-corner-all " +
           "ui-button-disabled ui-state-disabled ui-button-text-icon-primary")
             span(class="ui-button-icon-primary ui-icon ui-icon-plus")

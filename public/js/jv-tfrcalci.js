@@ -523,9 +523,10 @@ $(function() {
             return (value);
         },
         {event: 'dblclick.editable', //click.editable is the default in jquery.jeditable.js
-            type: 'qumber',     //custom made number input
+            type: 'qumber',     //custom made, number input
             onblur: 'submit',   //submits also on exit
             submit: 'X',       //text on submit button
+            cssclass : 'x-class',
             callback: function (value, settings) {//is called once editable is submitted
                 //processing the newly obtained thickness:
                 //var aPos = oStackTable.fnGetPosition(this);

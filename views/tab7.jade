@@ -8,46 +8,50 @@ div(id="tabs-7")
     tr
       //-Ekan rivin eka sarake:
       td(class="editTabs")
-        div 
+        div(style="font-size:10px")
           b(class="bblueText") Spectral Targets:
-        button(id="btnOpenTarg" class="ui-button ui-widget ui-state-default " +
-        "ui-corner-all ui-button-text-icon-primary" style="margin-right:10px")
-          span(class="ui-icon ui-icon-document")
-          span(class="ui-button-text") Browse files
-        button(id="btnSaveTarg" class="ui-button ui-widget ui-state-default ui-corner-all " +
-        "ui-button-text-icon-primary" style="margin-right:50px")
-          span(class="ui-icon ui-icon-document")
-          span(class="ui-button-text") Save file
-        button(id="btnUseTarg" class="ui-button ui-widget ui-state-default " +
-        "ui-corner-all ui-button-text-icon-primary ui-button-disabled ui-state-disabled" style="margin-right:10px")
-          span(class="ui-icon ui-icon-plus")
-          span(class="ui-button-text") Add to targets menu
-        button(id="btnRmvTarg" class="delete_row ui-button ui-widget ui-state-default ui-corner-all " +
-        "ui-button-disabled ui-state-disabled ui-button-text-icon-primary")
-          span(class="ui-button-icon-primary ui-icon ui-icon-trash")
-          span(class="ui-button-text") Remove from targets
+          br
+          button(id="btnOpenTarg" class="ui-button ui-widget ui-state-default " +
+          "ui-corner-all ui-button-text-icon-primary" style="margin-right:10px")
+            span(class="ui-icon ui-icon-document")
+            span(class="ui-button-text") Browse files
+          button(id="btnSaveTarg" class="ui-button ui-widget ui-state-default ui-corner-all " +
+          "ui-button-text-icon-primary" style="margin-right:50px")
+            span(class="ui-icon ui-icon-document")
+            span(class="ui-button-text") Save file
+          button(id="btnUseTarg" class="ui-button ui-widget ui-state-default " +
+          "ui-corner-all ui-button-text-icon-primary ui-button-disabled ui-state-disabled" style="margin-right:10px")
+            span(class="ui-icon ui-icon-plus")
+            span(class="ui-button-text") Add to menu
+          button(id="btnRmvTarg" class="delete_row ui-button ui-widget ui-state-default ui-corner-all " +
+          "ui-button-disabled ui-state-disabled ui-button-text-icon-primary")
+            span(class="ui-button-icon-primary ui-icon ui-icon-trash")
+            span(class="ui-button-text") Remove from menu
       //-Ekan rivin toka sarake:
       td(class="editTabs" style="padding-left:10px")
-        div  
+        div(style="font-size:10px")
           b(id="targMode" class="bblueText") Target spectrum for reflectance
-        button(id="btnAddTargRow" class="add_row ui-button ui-widget ui-state-default ui-corner-all " +
-        "ui-button-disabled ui-state-disabled ui-button-text-icon-primary")
-          span(class="ui-button-icon-primary ui-icon ui-icon-plus")
-          span(class="ui-button-text") Add Row..
-        button(id="btnDelTargRow" class="delete_row ui-button ui-widget ui-state-default ui-corner-all " +
-        "ui-button-disabled ui-state-disabled ui-button-text-icon-primary" style="margin-left:10px")
-          span(class="ui-button-icon-primary ui-icon ui-icon-trash")
-          span(class="ui-button-text") Remove Row
+          br
+          button(id="btnAddTargRow" class="add_row ui-button ui-widget ui-state-default ui-corner-all " +
+          "ui-button-disabled ui-state-disabled ui-button-text-icon-primary")
+            span(class="ui-button-icon-primary ui-icon ui-icon-plus")
+            span(class="ui-button-text") Add Row..
+          button(id="btnDelTargRow" class="delete_row ui-button ui-widget ui-state-default ui-corner-all " +
+          "ui-button-disabled ui-state-disabled ui-button-text-icon-primary" style="margin-left:10px")
+            span(class="ui-button-icon-primary ui-icon ui-icon-trash")
+            span(class="ui-button-text") Remove Row
     tr
       //-Tokan rivin eka sarake:
       td(class="editTabs")
-        div
+        div(style="font-size:10px")
           label(class="bblueText labelOnInput")
             span(id="ediTargeLbl") File:
-            input(id="ediTarge" class="inputUnderLabel" type="text" name="ediTarge" value="Unsaved" size="30%" style="font-size:10pt")
-          label(class="bblueText labelOnInput" style="margin-left:10px")
+            input(id="ediTarge" class="inputUnderLabel" type="text" name="ediTarge"
+            value="Unsaved" size="30%" style="font-size:10pt")
+          label(class="bblueText labelOnInput" style='padding-left:7px;')
             span(id="descTargeLbl") Descr:
-            input(id="descTarge" class="inputUnderLabel" type="text" name="descTarge" value="Dummy data" size="50%" style="font-size:10pt")
+            input(id="descTarge" class="inputUnderLabel" type="text" name="descTarge"
+            value="Dummy data" size="45%" style="font-size:10pt")
           //-Next is a hidden input for file name to open local file using HTML5 file API
           input(type="file" id="targLocFiles" style="display:none" name="targLocFiles")
         div(id="ResizeAble7" style="width:100%;display:block;" class="ui-widget-content")
