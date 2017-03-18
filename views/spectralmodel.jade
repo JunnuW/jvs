@@ -1,10 +1,10 @@
 //-Created by Juha on 3/7/2016.
 extends broaden
 block levenee
-    h2 Spectral broadening simulator
+    h2 Spectral broadening simulators
     div(id='wrapper')
       div(id='main')
-        h3(id='inhomHeader') Simulation for inhomogeneous broadening
+        h3(id='inhomHeader') Inhomogeneous broadening
         |   Calculated spectra are obtained using equation (2) on the
         -equation2="/inhomogen"
         a(href="#{equation2}" target="_blank")     Inhomogeneous details
@@ -14,14 +14,13 @@ block levenee
         div(id="footer" style="paddig-left:50px")
           Copyright &copy; 2007 - 2014 IOLA and Ole Laursen :
         //div(id="content")
-          //this contains the playground for the simulation graph
+          //this contains the playground for the simulation graph:
         div(class="demo-container")
-          //div(id="ph1_inhomog" class="demo-placeholder")
           div(id="ph1_inhomog" target="_blank" class="demo-placeholder")
         b(id='inhDescLbl' style='color:Brown') Measurement details:
         b(id='inhDesc' style="color:Indigo; margin-left:10px;")
 
-        h3 Simulation for homogeneous broadening
+        h3 Homogeneous broadening
         |   Calculated spectra are obtained using equation (x) on the
         -equation3="/homogen"
         a(href="#{equation3}" target="_blank")     Homogeneous details
@@ -36,7 +35,6 @@ block levenee
         //-flot graph 0.8.3 versiossa canvas ei sisällä akselien tekstejä eikä
         //-käyrien captioneja. Nämä on luvattu vasta 0.9. versioon
         //-Ei kannata satsata eforttia kuvan copy-paste rutiiniin canvaksesta ennen sitä.
-
 
     div(id='paramDial' title="Parameter values")
       //spectral range settings******************************************
@@ -72,7 +70,6 @@ block levenee
             td(class='huihai')
               br
               button(id='evetok' type='button' class='medium-btn2') OK
-
 
       //parameters for Joint density of states***************************
       div(id='spJdos' style='display:none')
@@ -521,10 +518,10 @@ block levenee
       //simSettn.savePoints=1000;       //save all points, user can change it on saving dialog
 
       inhomSpectr.inPlot={
-        eV:true,          //initially show only photon energy
+        eV:false,          //initially show only photon energy
         jdos:false,       //density of states not multiplied
         Se:false,         //Sommerfeld enhancement not multiplied
-        fcv:false,        //Energy state occupancy not multiplied
+        fcv:true,        //Energy state occupancy not multiplied
         Lurb:false,       //One sided Urbach broadening not selected
         Lsurb:false,      //Symmetric Urbach broadening not selected
         Lgaus:false,      //Gaussian broadening not selected
@@ -1694,7 +1691,7 @@ block levenee
               if (axis.direction=='y') {
                 showTooltip(box.left+box.width, box.top+box.height/2, 'Click to toggle lin/log');
               }else{
-                showTooltip(box.left+box.width/2, box.top-box.height, 'Click to edit range');
+                showTooltip(box.left+box.width/2, box.top-box.height, 'Click to edit graph');
                 }
             },
             function () {//handler for hover out:
@@ -1737,7 +1734,7 @@ block levenee
               if (axis.direction == 'y') {
                 showTooltip2(box.left + box.width, box.top + box.height / 2, 'Click to toggle lin/log');
               } else {
-                showTooltip2(box.left + box.width / 2, box.top - box.height, 'Click to edit range');
+                showTooltip2(box.left + box.width / 2, box.top - box.height, 'Click to edit graph');
               }
             },
             function () {//handler for hover out:

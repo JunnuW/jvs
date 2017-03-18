@@ -1,22 +1,22 @@
 extends layout
 
 block content
-  h1(style="color:Brown") This site applies cloud downloadable software running locally on your browser
+  h2(style="color:Brown") This site applies cloud downloadable software running locally on your browser
   p
     h3(style="color:green") Advantage potential in this concept:
-    b  Please consider at least the following arguments:
+    b  You could consider at least the following arguments:
     br
     |  -  No need for software deployment and distribution,
     br
     |  -  No assembly effort on user's equipment,
     br
-    |  -  Using standard web browsers, users can stick to their preferred OS (Win, Linux, OS X, Android, ...)
+    |  -  Having a standard web browser, the user can stick to his/hers preferred OS (Win, Linux, OS X, Android, ...)
     br
     |     and hardware (pc, laptop, tablet or phone),
     br
     |  -  Application support and maintenance is greatly simplified,
     br
-    |   since only one software version (this one on the server) needs to be supported and updated.
+    |   since only one software version (the one on the server) needs to be supported and updated.
     h3(style="color:green") Application structure:
     | Two separately developed and debugged components are needed; one for the server and another for the user's browser.
     | Interaction between these two takes place in server responses to requests from the user's web browser.
@@ -61,12 +61,13 @@ block content
     | For safety reasons, the script on the browser as downloaded from the internet, cannot directly
     | access the client's local file system or activate any local programs on the user's equipment.
     | However, local files can be accessed and written after events, where the user by mouse click or keyboard actions
-    | first authorises those operations, as is the common practice also with software updates offered through the internet.
-    | These HTML5 File Api features and the data safety issues in general are among the
-    b   flaws and downsides
+    | first authorises those operations, as is the common practice with email attachments and software updates
+    | to locally installed software, that are distributed through the internet.
+    | These HTML5 File Api features and the data safety issues in general are perhaps the biggest
+    b   issues and downsides
     |   in web browser based programs:
-    i     Files should be downloaded only through https and pages browsed merely on safe servers
-      | and sites with safety certificates.
+    i     Files should be downloaded only on safe servers and financial transactions made only through https and on
+      | sites with safety certificates.
     br
     | Since the software is not saved locally, a browser based program is useful only during
     | access to internet, and a slow connection may cause response time problems.

@@ -2,20 +2,22 @@
 extends broaden
 block levenee
     h2 Modelling the spectral broadening in semiconductor light emitting diodes
-    h4(style='margin-left:50px;')
-      a(href='#otherHeader' style="font-style:italic;") (Want to apply this simulator with other emitter types?)
+    h4(style='margin-left:50px; color:Indigo;')
+      a(href='#otherHeader' style="font-style:italic;") (Do you want to apply this simulator with other emitter types
+        | or perhaps  plot Voigt function like combined broadening spectra?)
     p(id='otherText') To use this simulator with spectral line emitters, activate only the Boltzman distribution item
-      | in the simulation selector. Then set the temperature parameter (T) to zero (0).
-      | Using both simulation graphs (homogeneous and inhomogeneous) it is possible to examine several
-      | combined, Voigt function like, broadening spectra.
-    h3(style="color:Brown") Motivation and Purpose:
+      | in the simulation selector. Then set the temperature parameter (T) to zero (0) and adjust the transition energy.
+      | Using both simulation graphs (homogeneous and inhomogeneous) it is then possible to examine several
+      | combined, Voigt function like broadening spectra.
+    h3(style="color:Brown;") Motivation and Purpose:
     p
     | Light emitting diodes (LED's) and laser diodes (LD's) have rapidly gained amazing popularity in many applications,
     | often because of their high power efficiency, but equally also for their robustness, reliability and technological
     | flexibility in tailoring into a myriad of different purposes. Applications ranging from multimedia displays, telecom
     | transmitters, high power lasers and normal LED light bulbs make LED's the most influential light source of our time.
-    b(style="color:Brown;")     Yet, the spectral shape of their light output is not well understood, especially, the broadening in the spectral tails
-    |        on both sides of the spectral peaks.
+    br
+    b(style="color:Brown;")     Yet, the spectral shape of their light output is not well understood, especially, the
+      | spectral broadening on both sides of the emission peak.
     br
     | For their unbeatable properties LED's are usually constructed with one or more quantum wells in the diode's pn
     | junction. There, the quantum wells concentrate the charge carriers to tightly confined regions dramatically increasing the
@@ -67,37 +69,56 @@ block levenee
     | rest mass they carry very small momentum (\(p=h/\lambda\)) compared to electrons (\(p_{e}=m_{e}v_{e}\)) and holes
     | (\(p_{h}=m_{h}v_{h}\)) moving with thermal velocity distributions inside the quantum wells.
     | The conservation of energy and linear momentum are required for the e-h pair recombination and it is generally assumed
-    | that only pairs with zero or very small linear momentum participate in the process, which makes the active exciton
-    | populations homogeneous at the available transition energies. However, the resulting spectral lines do not show the
-    | Lorentzian line shapes as expected and characteristic for homogeneous relaxations and as are discussed here
-    | using the analogy to lifetime broadening in gases.
-    h3(style="color:Brown") Applied methods:
+    | that only pairs with zero or very small linear momentum participate in the process. This makes the active exciton
+    | populations homogeneous at each transition energy. However, the experimental spectra do not show the
+    | expected Lorentzian line shapes that would be typical for homogeneous. Below in the
+    -var homspe="/homogen"
+    a(href=homspe)     homogeneous details
+    |       section, this topic will be discussed more and compared to the analogous case of pressure broadening in gases.
+
+    h3(style="color:Brown;") Applied methods:
     p
-    |In order to focus on spectral modelling, the number of clarifying drawings remains small, which possibly decreases
-    | the readability, but hopefully is compensated by links to elsewhere on the web. Another drawback against the fluency
-    | is the mathematical formulas and equations that, however, are more or less unavoidable. For equations on HTML5 pages,
+    |In order to reduce the effort, the number of clarifying drawings remains small, which possibly decreases
+    | the readability, but hopefully, is compensated by links to elsewhere on the web. Another drawback against fluency
+    | is the mathematical formulas and equations, that are more or less unavoidable. For equations on HTML5 pages,
     | several options are available claiming to support equally all browsers.
     -var MathJax_urli="https://www.mathjax.org/"
     a(href=MathJax_urli target="_blank")   MathJax
     //a(href="https://www.mathjax.org/" target="_blank")   MathJax
-    |       was selected for this page, though it requires available internet access to render correcly.
+    |       was selected for this page, though it requires internet access to render correcly.
     | Another choise, rendering maths also on locally loaded pages, could have been the
     -var FireMath_urli="http://www.firemath.info/"
     a(href=FireMath_urli target="_blank")  FireMath
     |       plugin in the Firefox browser. However, MathJax was found easier, since it enables the direct writing of
-    | math in Latex style, with numerous supporting web pages.
-    h3(style="color:Brown") Compared spectral functions:
-    h4(style="color:Indigo") Inhomogeneous shapes:
+    | math in Latex style having numerous supporting web pages.
+    br
+    | Instead of the direct evaluation of broadened spectra from convolution integrals, the
+    -var convtheor_urli="https://en.wikipedia.org/wiki/Convolution_theorem"
+    a(href=convtheor_urli target="_blank")   convolution theorem
+    |       approach and the fast Fourier transform (FFT) were used, in order to
+    -var fftconvo_urli="http://www.analog.com/media/en/technical-documentation/dsp-book/dsp_book_Ch18.pdf"
+    a(href=fftconvo_urli target="_blank")  speed up the calculations.
+
+    h3(style="color:Brown;") Compared spectral functions:
+    h4(style="color:Indigo;") Inhomogeneous shapes:
     b Asymmetric Urbach function:
     br
     | \(L_{ih}(\epsilon)=\frac{1}{2}(1-sgn(E_{f}-\epsilon))\cdot\exp[-(E_{f}-\epsilon)/E_{u}]\quad\),
     br
-    | where \(E_{f}\) is the Urbach focus energy and \(E_{u}\quad\) the broadening width parameter.
+    | where \(E_{f}\) is the Urbach focus energy and \(E_{u}\quad\) the broadening width parameter. This
+    | function readily explains the broadening of absorption spectrum into the material bandgap in bulk
+    | materials, but in simulations results into sharply peaked abnormal emission spectra, that are not
+    | experimentally realistic, but the function is included anyway as a demonstration.
     br
     br
     b Symmetric Urbach function:
     br
     | \(L_{ih}(\epsilon)=\exp[-|E_{f}-\epsilon|/E_{u}]\quad\),
+    br
+    | The origin of this broadening profile is explained in the
+    -var inhomspe="/inhomogen"
+    a(href=inhomspe)     inhomogeneos details
+    |        section of this work.
     br
     br
     b Gaussian function:
@@ -112,12 +133,12 @@ block levenee
     br
     | \(p(t)=Sech^{n}(\frac{t}{\tau \times n})\)
     br
-    | Spectral distributions and the necessary convolution kernels are calculated through FFT. This function was ad hoc
+    | Spectral distributions and the necessary convolution kernels are calculated through FFT. This function has been ad hoc
     | given to explain the photoluminescence deviations from the Lorentzian shapes that can be obtained also from this relaxation
     | when parameter \(n\) approaches 0 (zero). With other parameter values this function
     | requires non-Markovian time relaxations and is here grouped among the inhomogeneous spectra.
     br
-    h4(style="color:Indigo") Homogeneous shapes:
+    h4(style="color:Indigo;") Homogeneous shapes:
     b Lorentzian function:
     br
     | \(\ L_{t}(\Delta E)=\frac{\tau_{r}/(\pi\hbar)}{1+\tau_{r}^{2}\Delta E^{2}/\hbar^{2}}\quad\),
@@ -135,14 +156,14 @@ block levenee
     | electrons and holes respectively. This function arises from the k-vector conservation in
     | the e-h pair recombination.
 
-    h3(style="color:Brown") Calculation details:
-    h4(style="color:Indigo") User options:
+    h3(style="color:Brown;") Calculation details:
+    h4(style="color:Indigo;") User options:
     | For a usefull application, users desire possibilities to upload spectral measurement data,
     | methods to adjust spectral parameters and to compare broadening functions by graphing measured
     | and calculated spectra.
     br
     | All these properties are available, but only visual comparison between experimental and calculated spectra is presently available.
-    h4(style="color:Indigo") Starting point:
+    h4(style="color:Indigo;") Starting point:
     | To get the spectral intensity distribution for the electron hole pair recombination,
     | it is a common practice to start from Fermi's golden rule.
     -var SpontEm_urli="http://home.itp.ac.ru/~ssver/teaching/Lasers/literature/Coldren%20LA,%20Corzine%20SW,%20Masanovic%20MI%20-%20Diode%20lasers%20and%20photonic%20integrated%20circuits.pdf"
@@ -176,7 +197,7 @@ block levenee
 
     br
     | where \(k_{B}\) is the Boltzmann coefficient.
-    h4(style="color:Indigo") Exciton enhancement:
+    h4(style="color:Indigo;") Exciton enhancement:
     | Spectral exciton peaks are observed generally observed only in special cases e.g at cryogenic
     | temperatures. Therefore, they and their quasi continuum are skipped in the following calculations,
     | including only the exciton true continua. For bulk materials it is given by the Elliot formulas:
