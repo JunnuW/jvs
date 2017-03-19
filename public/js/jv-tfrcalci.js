@@ -348,8 +348,8 @@ $(function() {
             $("#CalcRes").text("Reflectance is graphed on "+stack.settings.spUnit+" axis");
         }
         setSpinners();
-        console.log('stack.settings.spStart: ',stack.settings.spStart);
-        console.log('stack.settings.spStop: ',stack.settings.spStop);
+        //console.log('stack.settings.spStart: ',stack.settings.spStart);
+        //console.log('stack.settings.spStop: ',stack.settings.spStop);
         $("#spRange1").text(stack.settings.spStart);
         $("#spRange2").text(stack.settings.spStop);
     });

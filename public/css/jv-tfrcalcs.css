@@ -79,7 +79,6 @@ form .file {
       z-index:999 !important;
     }
    /*------------------------------------------------------------*/
-
 	td{
         font-family:Times;
         color:black;
@@ -127,7 +126,7 @@ form .file {
         background-color: #fcf0ba;
     }
 
-    #tabs-2, #tabs-6 {
+    #tabs-2, #tabs-6, #tabs-7, #tabs-8  {
         margin: 0;
         padding: 0;
     }
