@@ -78,8 +78,8 @@ block levenee
 
     h3(style="color:Brown;") Applied methods:
     p
-    |In order to reduce the effort, the number of clarifying drawings remains small, which possibly decreases
-    | the readability, but hopefully, is compensated by links to elsewhere on the web. Another drawback against fluency
+    |In order to reduce the effort, the number of drawings remains small, which possibly decreases
+    | readability, but hopefully, it is compensated by links to elsewhere on the web. Another drawback against clarity
     | is the mathematical formulas and equations, that are more or less unavoidable. For equations on HTML5 pages,
     | several options are available claiming to support equally all browsers.
     -var MathJax_urli="https://www.mathjax.org/"
@@ -236,16 +236,17 @@ block levenee
     | Eq. (\ref{QwEnh1}) would be applicable for the viewing direction along qw-normal and for the
     | TE-polarization on the qw-plane directions. Eq. (\ref{QwEnh2}) on the other hand would be needed
     | only for the TM-polarization on the qw-plane (pn-junction plane in qw-diodes).
-    | The derivation for these two equations has at least two profound short comings, if applied for
-    | real quantum wells ('quasi 2-D structures'). The k-p perturbation method does not include the band
-    | degeneracy and the electron wave vector has a component along the qw-normal direction.
-    | Also the application in calculations is problematic for real quantum wells. If one uses \(E_{t}\)
-    | (the difference between the lowest electron qw energy level and the highest hole qw energy level)
-    | as the \(E_{g}\) in Eq. (\ref{BulkEnh2}), since it is the lowest possible exciton energy in the
-    | exciton continuum, Eq. (\ref{QwEnh2}) results in infinite values and the qw JDOS is not zero at
-    | \(E_{t}\), but has there a Heaviside step point. It has been commented that also Eq. (\ref{QwEnh1})
+    | The use of these two equations has at least two profound short comings, if applied for
+    | real quantum wells ('quasi 2-D structures'). The derivation is based on the k-p perturbation method
+    | which does not include the band degeneracy and in real qw the electron wave vector has a component
+    | along the qw-normal.
+    | Also the use in calculations is problematic for real quantum wells. Using \(E_{t}\),
+    | the difference between the lowest electron qw energy level and the highest hole qw energy level
+    | for the \(E_{g}\) as it is the lowest possible exciton energy in the exciton continuum,
+    | Eq. (\ref{QwEnh2}) results in infinite values and the qw JDOS is not zero at \(E_{t}\), but has
+    | there a Heaviside function step. It has been commented that also Eq. (\ref{QwEnh1})
     | overestimates the exciton enhancement in real quantum wells. However, it may also have a wrong
-    | spectral shape. To avoid the infinity values and obtain an improved spectral shape
+    | spectral shape. To avoid the infinity values and to obtain an improved spectral shape
     | for the TM enhancement, we without a profound physical analysis take a pragmatic approach
     | and apply a small energy bias in Eq. (\ref{BulkEnh2}).
     | This is done by using energy \(E_{qw}\) for the \(E_{g}\) in Eq. (\ref{BulkEnh2}).
