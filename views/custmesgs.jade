@@ -1,5 +1,4 @@
 extends layout
-
 block append scripts
     script(src='/bower_components/jquery/dist/jquery.min.js')
     script(src='/bower_components/jquery-ui/jquery-ui.js')
@@ -31,7 +30,7 @@ block content
           //-else
             | Please login to leave a message!
             br
-          h4(id='userN')
+          h4(id='userMes')
           b(id="msgHd") Message tree:
           div(id="msgTree")
       td(valign='top')
@@ -58,10 +57,10 @@ block content
               br
 
   script(type='text/javascript').
-    // make jQuery assignments:
+    // jQuery assignments:
     var msgThread=$('#msgThread');
     var btnSaveMsg=$('#btnSaveMsg');
-    var userN=$('#userN');
+    var userMes=$('#userMes');
     var msgTree=$('#msgTree');
     var lblHeader=$('#lblHeader');
     var msgHeader=$("#msgHeader");
@@ -69,13 +68,13 @@ block content
     var msgLbl=$('#msgLbl');
     var msgUser=window.sessionStorage.getItem('RTFuser');
     var disa=(msgUser && msgUser=='Publ')? false:true;
-    msgThread.prop('disabled', disa); //remains always disabled for all users except Publ
+    msgThread.prop('disabled', disa); //remains always disabled except for Publ
     if (msgUser && msgUser!='No login'){
       countMessages(msgUser); //counts messages and updates userN label
       btnSaveMsg.attr("disabled", false);
     }else{//no login:
       btnSaveMsg.attr("disabled", true);
-      userN.text(msgUser); //=No login
+      userMes.text(msgUser); //=No login
     }
 
     var bTreeData = [
@@ -86,6 +85,12 @@ block content
       ]
       }
     ];
+
+    /*console.log('userN: ',$('#userN').text());
+    $('#userN').change(function(){
+      console.log('userN muuttui');
+    });*/
+
 
     var mesTree = msgTree.jstree({
       'core': {
@@ -128,53 +133,31 @@ block content
     * @return string mngFileN
     */
     function fleNmr() {
-        var fNamed;
-        var fileN = msgHeader.val();
-        fileN = fileN.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-        var myRegxp1 = /^[\sa-zA-Z0-9\?\!\-\_]+$/i;//only alphanumerics with "-","_","!","?"  are allowed
-        var myRegxp2 = /^[\sa-zA-Z0-9\?\!\-\_\/]+$/i;//only alphanumerics with "-", "_", "!", "?" and "/"  are allowed
-        if (!myRegxp1.test(fileN)) {
-            alert("Invalid header in: " + fileN);
-            return fNamed;//undefined
-        }
-        var viestiPuu = msgTree.jstree(true); //get this jstree-instance
-        var selctdNde = viestiPuu.get_selected(true)[0];//('get_selected')
-        var dirN = makeLongName(selctdNde);
-        dirN = dirN.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-        if (!myRegxp2.test(dirN)) {
-            alert("Invalid thread: " + dirN);
-            return fNamed;//undefined
-        }
-        if (msgText.val().length < 1) {//no message has been typed
-            alert("No message content!");
-            return fNamed;//undefined
-        }
-        var overLap = fileN.indexOf(dirN); //is thread already included in the beginning of messagename?
-        fNamed = (overLap == 0) ? fileN : dirN + '/' + fileN;
-        fNamed = fNamed.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-        return fNamed;
-
-      /*var fNamed;
+      var fNamed;
       var fileN = msgHeader.val();
       fileN = fileN.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-      var myRegxp1 = /^[-_\/\sa-z0-9]+$/i;
-      if (msgUser!='Publ' && !myRegxp1.test(fileN)) {//only alphanumerics with "-", "_" and "/" are allowed
-        alert("Invalid header: " + fileN);
+      var myRegxp1 = /^[\sa-zA-Z0-9\?\!\-\_]+$/i;//only alphanumerics with "-","_","!","?"  are allowed
+      var myRegxp2 = /^[\sa-zA-Z0-9\?\!\-\_\/]+$/i;//only alphanumerics with "-", "_", "!", "?" and "/"  are allowed
+      if (!myRegxp1.test(fileN)) {
+        alert("Invalid header in: " + fileN);
         return fNamed;//undefined
       }
-      var dirN = msgThread.val();
+      var viestiPuu = msgTree.jstree(true); //get this jstree-instance
+      var selctdNde = viestiPuu.get_selected(true)[0];//('get_selected')
+      var dirN = makeLongName(selctdNde);
       dirN = dirN.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-
-      if (msgUser!='Publ' && msgText.val().length<1) {//no message has been typed
+      if (!myRegxp2.test(dirN)) {
+        alert("Invalid thread: " + dirN);
+        return fNamed;//undefined
+      }
+      if (msgText.val().length < 1) {//no message has been typed
         alert("No message content!");
         return fNamed;//undefined
       }
       var overLap = fileN.indexOf(dirN); //is thread already included in the beginning of messagename?
-      //console.log('thread overlap: ',overLap);
       fNamed = (overLap == 0) ? fileN : dirN + '/' + fileN;
       fNamed = fNamed.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-      console.log('messageName: ',fNamed);
-      return fNamed;*/
+      return fNamed;
     }
 
     function msgTreeUpdate() {
@@ -191,7 +174,7 @@ block content
             console.log('data received: ',data);
             if (data.statCode == 200) {
               bTreeData = JSON.parse(data.resString);
-              console.log('bTreeData: ',bTreeData);
+              //console.log('bTreeData: ',bTreeData);
               msgTree.jstree(true).settings.core.data = bTreeData;
               msgTree.jstree(true).refresh();
             } else {
@@ -372,25 +355,22 @@ block content
     function userNupdate(data){
       //show message in the text area:
       var MessaCount = JSON.parse(data.MessageCount);
-      //console.log('MessaCount: ', data);
-      //console.log('MessaCount.all: ', MessaCount.all);
       var viesti = 'You have posted ' + (MessaCount.all - MessaCount.inModeration) + ' messages';
       if (MessaCount.inModeration > 0) {
         viesti = viesti + ' + ' + MessaCount.inModeration + ' in moderation';
       }
-      userN.text(viesti);
+      userMes.text(viesti);
     }
 
-    function countMessages(userN){
+    function countMessages(msgUser){
       var msgCount = $.post('/auth/countMessages', {
-        username: userN
+        username: msgUser
       })
       .done(function (data, status, xhr) {//
         if (data) {
-          //console.log('received data: ', data);
           userNupdate(data);
         } else {
-          //console.log('message count could not be obtained from server');
+          console.log('message count could not be obtained from server');
           var MessaCount ={'all':false,'inModeration':data.error};
           $.notifyBar({
             cssClass: "error",

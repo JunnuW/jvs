@@ -32,7 +32,7 @@ block content
             | Please login to leave a message!
             br
           if user
-            h4(id='userN') user.username
+            h4(id='userMes')
           label(for="allMess") All:
           input(type="radio" id="allMess" name="messSel" value="all" style="margin-right:7px")
           label(for="modMess") Moderated:
@@ -77,7 +77,7 @@ block content
     var btnConfirm=$('#btnConfirm');                                          //*
     var msgText=$("#msgText");                                                //*
     var msgLbl=$('#msgLbl');                                                  //*
-    var userN=$('#userN');                                                    //*
+    var userMes=$('#userMes');                                                    //*
     $("#allMess").prop("checked", true);                                      //*
     //-**************************************************************************
 
@@ -91,7 +91,7 @@ block content
       btnSaveMsg.attr("disabled", false);
     }else{//no login:
       btnSaveMsg.attr("disabled", true);
-      userN.text(msgUser); //=No login
+      userMes.text(msgUser); //=No login
     }
 
     var bTreeData=[];
@@ -505,12 +505,12 @@ block content
       if (MessaCount.inModeration > 0) {
         viesti = viesti + ' and ' + MessaCount.inModeration + ' in moderation';
       }
-      userN.text(viesti);
+      userMes.text(viesti);
     }
 
-    function countMessages(userN){
+    function countMessages(msgUser){
       var msgCount = $.post('/auth/countMessages', {
-        username: userN
+        username: msgUser
       })
       .done(function (data, status, xhr) {//
         if (data) {

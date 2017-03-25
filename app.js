@@ -15,7 +15,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt-nodejs');
 var async = require('async'); //utility module for waterfall etc.
-var flash = require('express-flash');
+var flash = require('express-flash'); //flashing messages on browser page
 var expressValidator = require("express-validator");
 var methodOverride=require("express-method-override");
 var jwt = require('jwt-simple');
@@ -163,7 +163,6 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 
 var User = mongoose.model('User', userSchema);
 
-//console.log('directory is:'+__dirname);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.set('SessionSecret', 'onpas_ovelaa_tämä:_node.js');
@@ -231,7 +230,7 @@ app.get('/Logout', function(req, res) {
 });
 
 function createToken(req,userN){
-    var expires = moment().add(7, 'minute').valueOf();
+    var expires = moment().add(15, 'minute').valueOf();
     var clientIp = requestIp.getClientIp(req);
     var jwtToken = jwt.encode({
         iss: userN,
@@ -295,10 +294,11 @@ function ValidateToken(req,res){
 /* GET home page. */
 app.get('/', function(req, res) {
     //console.log('get/');
-    // following line prevents cache usage in rendering /index ;
+    // following line prevents cache usage while rendering /index ;
     // causing menus to update according to login status
     //ValidateToken(req,res);
-    res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+    res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, ' +
+        'post-check=0, pre-check=0');
     if (req.user) {
         //console.log('rendering with cookie username:  '+(req.session.user));
         res.render('index', {
@@ -367,7 +367,6 @@ app.get('/homogen', function(req, res) {
         user: (req.user)  //false
     });
 });
-
 
 /* GET About page. */
 app.get('/aboutti', function(req, res) {
