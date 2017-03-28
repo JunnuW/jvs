@@ -10,41 +10,42 @@ div(id="tabs-2", style="height:auto;" )
     tr
       //-vasen sarake 50%:n leveydellä editTabs2:ssa
       td(class="editTabs2")
-        div(class="bblueText1") Spectral mode
+        div(class="bbrownText") Spectral mode:
           br
           input(type="radio" id="setRefl" name="setCalcfor" value="R" checked="checked" style="margin-left:40px;")
-          label(id="setReflLbl" for="setRefl" style='padding-left:15px;')  Reflectance
+          label(id="setReflLbl" for="setRefl" class="bblueText1")  Reflectance
           br
           input(type="radio" id="setTrans" name="setCalcfor" value="T" style="margin-left:40px;")
-          label(id="setTranLbl" for="setTrans" style='padding-left:15px;')  Transmittance
+          label(id="setTranLbl" for="setTrans" class="bblueText1")  Transmittance
           br
-        div(class="bblueText1")
+        div(class="bbrownText")
           b(id="setTarg") Calculated  reflectance includes:
           br
           input(type="checkbox" id="frontR" style="margin-left:40px;")
-          label(for="frontR" style='padding-left:15px;')  Cover matrl. top surface R%
+          label(for="frontR" class="bblueText1")  Cover matrl. top surface R%
           br
           input(type="checkbox" id="bottomR" style="margin-left:40px;")
-          label(for="bottomR" style='padding-left:15px;')  Substrate backside R%
+          label(for="bottomR" class="bblueText1")  Substrate backside R%
+          br
           br
       //-oikean puoleinen sarake 50%.n leveys editTabs2:ssa
       td(class="editTabs2")
-        div(class="bblueText1") Spectral graphing unit:
+        div(class="bbrownText") Spectral graphing unit:
           br
           input(type="radio" id="setNM" name="setUnit" value="nm" checked="checked" style="margin-left:30px;")
-          label(for="setNM" style='padding-left:15px;')  [ nm ]
+          label(for="setNM" class="bblueText1")  [ nm ]
           input(type="radio" id="setUM" name="setUnit" value="um" style="margin-left:30px;")
-          label(for="setUM" style='padding-left:15px;')  [ um ]
+          label(for="setUM" class="bblueText1")  [ um ]
           input(type="radio" id="setEV" name="setUnit" value="eV" style="margin-left:30px;")
-          label(for="setEV" style='padding-left:15px;')  [ eV ]
+          label(for="setEV" class="bblueText1")  [ eV ]
           br
           br
-        div(class="bblueText1") Light incidence direction:
+        div(class="bbrownText") Light incidence direction:
           br
           input(type="radio" id="setNormal" name="incidenceA" value="Normal" checked="checked" style="margin-left:30px;")
-          label(for="setNormal" style='padding-left:15px;')  Perpendicular
+          label(for="setNormal" class="bblueText1")  Perpendicular
           input(type="radio" id="setOblique" name="incidenceA" value="Oblique" style="margin-left:30px;")
-          label(for="setOblique" style='padding-left:15px;')  Oblique
+          label(for="setOblique" class="bblueText1")  Oblique
         div(class="bblueText1" id="obliDiv")
           br
           label(for='incAng' style="margin-left:30px;") Incidence angle:

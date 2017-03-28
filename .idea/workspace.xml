@@ -6,13 +6,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/jv-tfrcalcs.css" afterPath="$PROJECT_DIR$/public/css/jv-tfrcalcs.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/jv-tfrcalci.js" afterPath="$PROJECT_DIR$/public/js/jv-tfrcalci.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/custmesgs.jade" afterPath="$PROJECT_DIR$/views/custmesgs.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.jade" afterPath="$PROJECT_DIR$/views/index.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.jade" afterPath="$PROJECT_DIR$/views/layout.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/msgsadmin.jade" afterPath="$PROJECT_DIR$/views/msgsadmin.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/tab2.jade" afterPath="$PROJECT_DIR$/views/tab2.jade" />
     </list>
     <ignored path="jvs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,61 +30,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="layout.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/layout.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2266">
-              <caret line="103" column="22" lean-forward="false" selection-start-line="103" selection-start-column="22" selection-end-line="103" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/index.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="custmesgs.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/custmesgs.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="53" column="5" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="58" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8976">
-              <caret line="408" column="39" lean-forward="false" selection-start-line="408" selection-start-column="39" selection-end-line="408" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="broaden.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/broaden.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2288">
-              <caret line="104" column="7" lean-forward="false" selection-start-line="103" selection-start-column="0" selection-end-line="112" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="tab2.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/tab2.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="572">
-              <caret line="26" column="58" lean-forward="false" selection-start-line="26" selection-start-column="52" selection-end-line="26" selection-end-column="58" />
+            <state relative-caret-position="22">
+              <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -95,28 +43,28 @@
       <file leaf-file-name="tab7.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/tab7.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1034">
+            <state relative-caret-position="727">
               <caret line="47" column="40" lean-forward="false" selection-start-line="47" selection-start-column="40" selection-end-line="47" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jv-tfrcalcs.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/css/jv-tfrcalcs.css">
+      <file leaf-file-name="jv-tfrcalci.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/jv-tfrcalci.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3916">
-              <caret line="178" column="44" lean-forward="false" selection-start-line="178" selection-start-column="42" selection-end-line="178" selection-end-column="52" />
+            <state relative-caret-position="22">
+              <caret line="296" column="37" lean-forward="true" selection-start-line="296" selection-start-column="37" selection-end-line="296" selection-end-column="37" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="msgsadmin.jade" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/msgsadmin.jade">
+      <file leaf-file-name="jv-tfrcalcs.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/css/jv-tfrcalcs.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
-              <caret line="77" column="4" lean-forward="false" selection-start-line="77" selection-start-column="4" selection-end-line="77" selection-end-column="4" />
+            <state relative-caret-position="102">
+              <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -137,14 +85,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>voigt</find>
-      <find>margin</find>
-      <find>user.username</find>
-      <find>user</find>
-      <find>expires</find>
-      <find>ValidateToken</find>
-      <find>check</find>
-      <find>rtf</find>
       <find>checklogin</find>
       <find>usern</find>
       <find>userNa</find>
@@ -167,6 +107,14 @@
       <find>tabs</find>
       <find>messages</find>
       <find>please</find>
+      <find>delete</find>
+      <find>btnConfirm</find>
+      <find>moder</find>
+      <find>spStart</find>
+      <find>sprange1</find>
+      <find>sprange</find>
+      <find>bblue</find>
+      <find>Spectral mode</find>
     </findStrings>
     <replaceStrings>
       <replace>simSettn.jdostype</replace>
@@ -237,7 +185,6 @@
         <option value="$PROJECT_DIR$/views/el_settndialog.jade" />
         <option value="$PROJECT_DIR$/views/mongoDialForm.jade" />
         <option value="$PROJECT_DIR$/views/tab1.jade" />
-        <option value="$PROJECT_DIR$/views/tab2.jade" />
         <option value="$PROJECT_DIR$/public/js/jv-tablandplotit.js" />
         <option value="$PROJECT_DIR$/public/css/broadn.css" />
         <option value="$PROJECT_DIR$/views/apautti.jade" />
@@ -246,7 +193,6 @@
         <option value="$PROJECT_DIR$/views/broadinhomo.jade" />
         <option value="$PROJECT_DIR$/views/broaden.jade" />
         <option value="$PROJECT_DIR$/views/tab6.jade" />
-        <option value="$PROJECT_DIR$/public/js/jv-tfrcalci.js" />
         <option value="$PROJECT_DIR$/views/tab7.jade" />
         <option value="$PROJECT_DIR$/views/tab8.jade" />
         <option value="$PROJECT_DIR$/views/refletrans.jade" />
@@ -255,9 +201,11 @@
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/views/layout.jade" />
         <option value="$PROJECT_DIR$/views/index.jade" />
-        <option value="$PROJECT_DIR$/public/css/jv-tfrcalcs.css" />
         <option value="$PROJECT_DIR$/views/custmesgs.jade" />
         <option value="$PROJECT_DIR$/views/msgsadmin.jade" />
+        <option value="$PROJECT_DIR$/public/js/jv-tfrcalci.js" />
+        <option value="$PROJECT_DIR$/views/tab2.jade" />
+        <option value="$PROJECT_DIR$/public/css/jv-tfrcalcs.css" />
       </list>
     </option>
   </component>
@@ -340,6 +288,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jvs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jvs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -526,7 +492,7 @@
       <workItem from="1489741572085" duration="51156000" />
       <workItem from="1490114971592" duration="57187000" />
       <workItem from="1490634184632" duration="5295000" />
-      <workItem from="1490701548046" duration="4855000" />
+      <workItem from="1490701548046" duration="14551000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -539,7 +505,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2399879000" />
+    <option name="totallyTimeSpent" value="2409575000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -555,7 +521,7 @@
     <frame x="-9" y="-9" width="1384" height="786" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15959005" sideWeight="0.5708333" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18740849" sideWeight="0.5708333" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26040062" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44283414" sideWeight="0.15632012" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5112903" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -827,13 +793,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/jv-tfrcalci.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="99" column="118" lean-forward="false" selection-start-line="99" selection-start-column="118" selection-end-line="99" selection-end-column="118" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/tab8.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="704">
@@ -873,6 +832,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="146">
           <caret line="59" column="47" lean-forward="false" selection-start-line="59" selection-start-column="43" selection-end-line="59" selection-end-column="47" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -883,26 +843,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/tab7.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1034">
-          <caret line="47" column="40" lean-forward="false" selection-start-line="47" selection-start-column="40" selection-end-line="47" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/tab2.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="26" column="58" lean-forward="false" selection-start-line="26" selection-start-column="52" selection-end-line="26" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="572">
           <caret line="589" column="11" lean-forward="true" selection-start-line="589" selection-start-column="11" selection-end-line="589" selection-end-column="11" />
+          <folding>
+            <element signature="n#table#0;n#div#4;n#div#1;n#block#0;n#!!top" expanded="false" />
+            <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
+            <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
+            <element signature="n#table#0;n#div#8;n#div#1;n#block#0;n#!!top" expanded="false" />
+            <marker date="1489517676712" expanded="true" signature="63359:63489" ph="..." />
+            <marker date="1489517676712" expanded="true" signature="65338:65469" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -933,6 +885,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="11154">
           <caret line="507" column="10" lean-forward="false" selection-start-line="507" selection-start-column="10" selection-end-line="507" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -952,26 +905,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/jv-tfrcalcs.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3916">
-          <caret line="178" column="44" lean-forward="false" selection-start-line="178" selection-start-column="42" selection-end-line="178" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/custmesgs.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="53" column="5" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="58" selection-end-column="5" />
+        <state relative-caret-position="22">
+          <caret line="3" column="10" lean-forward="true" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/msgsadmin.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="77" column="4" lean-forward="false" selection-start-line="77" selection-start-column="4" selection-end-line="77" selection-end-column="4" />
+        <state relative-caret-position="338">
+          <caret line="364" column="5" lean-forward="true" selection-start-line="364" selection-start-column="5" selection-end-line="364" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/tab7.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="727">
+          <caret line="47" column="40" lean-forward="false" selection-start-line="47" selection-start-column="40" selection-end-line="47" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/jv-tfrcalci.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="296" column="37" lean-forward="true" selection-start-line="296" selection-start-column="37" selection-end-line="296" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/tab2.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/jv-tfrcalcs.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
           <folding />
         </state>
       </provider>

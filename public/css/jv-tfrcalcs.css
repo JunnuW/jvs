@@ -15,6 +15,7 @@ table.display /*on Tabs6, Tabs7 6 Tabs8*/
     .ui-spinner {margin-left:1em;}
     .blueText { color:blue; }
     .bblueText { color:blue; font-size: 15px; font-weight:bold; margin-bottom:10px; }
+    .bbrownText { color: darkred; font-size: 21px; font-weight:bold; white-space: pre; margin-left:1em;}
     .bblueText1 { color: #1f02a9; font-size: 21px; font-weight:bold; white-space: pre; margin-left:1em;}
     .bblueText2 { color:blue; font-size: 17px; font-weight:bold; position: relative;  margin-left: 40px;}
     .bblueText3 { color: #1f02a9; font-size: 21px; font-weight:bold; white-space: pre; margin-left:3em;}

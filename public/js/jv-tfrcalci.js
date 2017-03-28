@@ -286,15 +286,20 @@ $(function() {
         step:1,
         spin: function (event, ui) {
             //this.value; antaa olleen arvon
-            //ui.value antaa tulevan arvon
-            var tmp1 = ui.value; //.toFixed(4);
-            $("#spRange1").text(stack.settings.spStart);
+            //ui.value antaa uuden arvon
+            //var tmp1 = ui.value; //.toFixed(4);
+            //$("#spRange1").text(tmp1);
         },
         change: function (event, ui) {
+            var tmp1 = this.value; //.toFixed(4);
+            $("#spRange1").text(tmp1);
+        },
+        stop: function( event, ui ) {
+            var tmp1 = this.value; //.toFixed(4);
+            $("#spRange1").text(tmp1);
         }
         //will be updated to stack.settings.spStart on exit from settings tab
-    }).val(400);//
-    console.log('alussa oli: ',$("#SpStart").spinner("value"));
+    }).val(400);
 
     $("#SpStop").spinner({
         max: 5000,
@@ -302,10 +307,16 @@ $(function() {
         step: 1,
         spin: function (event, ui) {
             // alert("event: "+event.target+" ui: "+ui.value);
-            var tmp2 = ui.value;//.toFixed(4);
-            $("#spRange2").text(stack.settings.spStop);
+            //var tmp2 = ui.value;//.toFixed(4);
+            //$("#spRange2").text(stack.settings.spStop);
         },
         change: function (event, ui) {
+            var tmp2 = this.value;//.toFixed(4);
+            $("#spRange2").text(tmp2);
+        },
+        stop: function( event, ui ) {
+            var tmp2 = this.value;//.toFixed(4);
+            $("#spRange2").text(tmp2);
         }
         //will be updated to stack.settings.spStop on exit from settings tab
     }).val(1000);
