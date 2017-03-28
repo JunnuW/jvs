@@ -399,7 +399,7 @@ app.get('/custmsgs', function(req, res) {
     } else {
         //console.log('rendering / with or without user: ');
         res.render('custmesgs', {
-            title: 'Message posting requires login',
+            title: 'Messaging requires login',
             user: (req.user)  //false
         });
     }

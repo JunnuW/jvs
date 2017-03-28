@@ -9,52 +9,61 @@ block append scripts
     link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
 
 block content
-  h3(style="color:Brown" align='center')= title
-  br
-  table
-    //-sarake jossa message tree:
-    col(style="width:55%")
-    //-sarake jossa tekstikentät:
-    col(style="width:45%")
-    tr
-      //-Ekan rivin eka sarake:
-      td(valign='top')
-        //div
-        fieldset
-          //-if user
-            b(id='userN') #{user.username}
-            |  : n submitted messages
-            br
-            button(id='btnSaveMsg', class='medium-btn', type='button') Submit new message
-            br
-          //-else
-            | Please login to leave a message!
-            br
-          h4(id='userMes')
+  //h3(style="color:Brown" align='center')= title
+  //br
+  div(style='messTaul')
+    table
+      //-sarake jossa message tree:
+      //col(style="width:55%")
+      //-sarake jossa tekstikentät:
+      //col(style="width:45%")
+      tr
+        td(colspan="2")
+          h4(style="color:Brown" align='center')= title
+      tr
+        //-Ekan rivin eka sarake:
+        td(style="vertical-align:top;text-align:left;border:1px solid white;")
+          p(id='userMes')
+          br
           b(id="msgHd") Message tree:
+          br
           div(id="msgTree")
-      td(valign='top')
-        div
-          form(id='frm-msgTree', role='form')
-            fieldset
-              //-if user
-                |  Pick a thread, type a header and your message to the text areas below
-                br
-              //-legend(id='msgTreLege') Rock Phys messages:
+        td(style="vertical-align:top; text-align:left; border:1px solid white; padding-left:10px;")
+          div
+            form(id='frm-msgTree', role='form')
+              //fieldset
+                //-if user
+                  |  Pick a thread, type a header and your message to the text areas below
+                  br
+                  //-legend(id='msgTreLege') Rock Phys messages:
               label(for="msgThread") Thread:
-              button(id='btnSaveMsg', style='margin-left:12em' class='medium-btn', type='button') Create message
               br
-              input(type="text" id="msgThread" length="150" style='margin:5px' size="60")
+              input(type="text" id="msgThread" length="30" style='margin:5px' size="30")
+              button(id='btnSaveMsg', style='margin-left:10px' class='medium-btn', type='button') Create message
               br
               label(for="msgHeader" id='lblHeader' style='display:none') Header:
               br
-              input(type="text" id="msgHeader" length="150" style='margin:5px; display:none' size="60")
+              input(type="text" id="msgHeader" maxlength="30" style='margin:5px; display:none' size="30")
               br
               label(for="msgText" id="msgLbl") Message:
               br
-              textarea(id="msgText" cols="60" rows="10")
-                //-input(type="text" id="msgDesc" length="150" style='margin:5px' size="60")
+              textarea(id="msgText" cols="50" rows="10")
+                  //-input(type="text" id="msgDesc" length="150" style='margin:5px' size="60")
               br
+
+  style(type = "text/css").
+    body {
+      /*margin: 5px;
+      padding: 5px;*/
+      background-color: #F8FBFF;
+    }
+    /*.messTaul {
+      bgcolor:#F8FBFF;
+      margin-left:0px;
+      padding-left:0px;
+      horiz-align: right;
+      overflow-x:auto;
+    }*/
 
   script(type='text/javascript').
     // jQuery assignments:

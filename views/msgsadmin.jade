@@ -14,12 +14,13 @@ block content
   br
   table
     //-sarake jossa message tree:
-    col(style="width:55%")
+    //col(style="width:55%")
     //-sarake jossa tekstikentät:
-    col(style="width:45%")
+    //col(style="width:45%")
     tr
       //-Ekan rivin eka sarake:
-      td(valign='top')
+      //td(valign='top')
+      td(style="vertical-align:top;text-align:left;border:1px solid white;")
         //div
         fieldset
           //-if user
@@ -42,7 +43,7 @@ block content
           br
           b(id="msgHd") Message tree:
           div(id="msgTree")
-      td(valign='top')
+      td(style="vertical-align:top;text-align:left;border:1px solid white; padding-left:10px;")
         div
           form(id='frm-msgTree', role='form')
             fieldset
@@ -51,23 +52,30 @@ block content
                 br
               //-legend(id='msgTreLege') Rock Phys messages:
               label(for="msgThread") Thread:
-              button(id='btnSaveMsg', style='margin-left:12em' class='medium-btn', type='button') Create message
               br
-              input(type="text" id="msgThread" length="150" style='margin:5px' size="60")
+              input(type="text" id="msgThread" length="30" style='margin:5px' size="30")
+              button(id='btnSaveMsg', style='margin-left:10px' class='medium-btn', type='button') Create message
               br
               label(for="msgHeader" id='lblHeader') Header:
               //-label(for="msgHeader" id='lblHeader' style='display:none') Header:
               br
               //-input(type="text" id="msgHeader" length="150" style='margin:5px; display:none' size="60")
-              input(type="text" id="msgHeader" length="150" style='margin:5px;' size="60")
+              input(type="text" id="msgHeader" maxlength="30" style='margin:5px;' size="30")
               br
               label(for="msgText" id="msgLbl") Message:
               br
-              textarea(id="msgText" cols="60" rows="10")
+              textarea(id="msgText" cols="50" rows="10")
                 //-input(type="text" id="msgDesc" length="150" style='margin:5px' size="60")
               br
         button(id='btnConfirm', style='margin-left:12em; display:none;' class='medium-btn', type='button') Confirm delete
 
+  style(type = "text/css").
+    body {
+      /*margin: 5px;
+      padding: 5px;*/
+      background-color: #F8FBFF;
+    }
+    
   script(type='text/javascript').
     //-**** Obtain the controls on this page by jquery into object variables ****
     var msgTree=$('#msgTree');                                                //*
