@@ -3,34 +3,42 @@ extends broaden
 block levenee
     h2 Modelling the spectral broadening in semiconductor light emitting diodes
     h4(style='margin-left:50px; color:Indigo;')
-      a(href='#otherHeader' style="font-style:italic;") (Do you want to apply this simulator with other emitter types
-        | or perhaps  plot Voigt function like combined broadening spectra?)
-    p(id='otherText') To use this simulator with spectral line emitters, activate only the Boltzman distribution item
-      | in the simulation selector. Then set the temperature parameter (T) to zero (0) and adjust the transition energy.
-      | Using both simulation graphs (homogeneous and inhomogeneous) it is then possible to examine several
-      | combined, Voigt function like broadening spectra.
+      a(href='#otherHeader' style="font-style:italic;") (Use the simulator with other than semiconductor
+        | emitters, e.g. for plotting various combined broadening functions, like the Voigt profile?)
+    p(id='otherText') For non-semiconductor emitters, activate only the Boltzman distribution item in the simulator.
+      | Set the temperature parameter (T) to zero (0 K) and adjust the transition energy
+      | to the desired value. Using both simulation graphs (homogeneous and inhomogeneous) you can examine
+      | several different broadening functions and also plot many combined (convolved) broadening profiles.
     h3(style="color:Brown;") Motivation and Purpose:
     p
-    | Light emitting diodes (LED's) and laser diodes (LD's) have rapidly gained amazing popularity in many applications,
-    | often because of their high power efficiency, but equally also for their robustness, reliability and technological
-    | flexibility in tailoring into a myriad of different purposes. Applications ranging from multimedia displays, telecom
+    | Light emitting diodes (LED) and laser diodes (LD) have rapidly gained amazing popularity in many applications,
+    | often because of high power efficiency, robustness, reliability and technological flexibility in the tailoring into
+    | countless different purposes. Applications ranging from multimedia displays, telecom
     | transmitters, high power lasers and normal LED light bulbs make LED's the most influential light source of our time.
+    br
     br
     b(style="color:Brown;")     Yet, the spectral shape of their light output is not well understood, especially, the
       | spectral broadening on both sides of the emission peak.
-    br
-    | For their unbeatable properties LED's are usually constructed with one or more quantum wells in the diode's pn
-    | junction. There, the quantum wells concentrate the charge carriers to tightly confined regions dramatically increasing the
-    -var eh_pair_urli="https://en.wikipedia.org/wiki/Carrier_generation_and_recombination"
-    a(href=eh_pair_urli target="_blank")   electron hole pair
-    |      density and recombination probability. Each recombining electron hole pair may produce
-    | an emitted photon and contribute to the emission of light from the diode. The photon energy (
+    |     For their unbeatable properties LED's are usually constructed with one or more quantum wells in the diode's
+    -var pn_junction="https://en.wikipedia.org/wiki/P%E2%80%93n_junction"
+    a(href=pn_junction target="_blank")   pn-junction.
+    |     In them, the charge carriers concentrate into tightly confined regions, which dramatically increases the
+    -var ehpair_urli="https://en.wikipedia.org/wiki/Electron_hole"
+    a(href=ehpair_urli target="_blank")   electron-hole pair
+    |     density and their
+    -var recomb_urli="https://en.wikipedia.org/wiki/Carrier_generation_and_recombination"
+    a(href=recomb_urli target="_blank")   recombination
+    |     probability. Each recombining electron hole pair may produce
+    | an emitted
+    -var photon_urli="https://en.wikipedia.org/wiki/Photon"
+    a(href=photon_urli target="_blank")   photon
+    |     and contribute to the emission of light from the diode. The photon energy (
     span(style="font-weight:bold") wavelength
     | ) roughly equals the bandgap of the emitting material layer, but in oder to accurately describe the conversion of
-    | consumed electric power into a flux of photons, we additionally need a detailed understanding also on the
+    | electric current to a flux of photons, we also need a detailed understanding on the
     -var lineshape_urli="https://en.wikipedia.org/wiki/Spectral_line_shape"
     a(href=lineshape_urli target="_blank")   broadening
-    |      mechanisms hidden in the spectra of emitted photons.
+    |     mechanisms hidden in the emitted spectra.
     //-b
         em    broadening
     //-|    mechanisms hidden in the spectra of emitted photons.
@@ -38,67 +46,86 @@ block levenee
     br
     b
         i  Emission wavelength
-    |   (the spectral color) is determined by the semiconductor material bandgap in combination
-    | with the dimensions (depth and width) of the included
+    |   (the spectral color) is determined by the semiconductor material
+    -var bandgap_urli="https://en.wikipedia.org/wiki/Band_gap"
+    a(href=bandgap_urli target="_blank")   bandgap
+    |       in combination with the dimensions (depth and width) of the included
     -var qw_urli="http://www-ee.stanford.edu/~dabm/181.pdf"
     a(href=qw_urli target="_blank")   quantum well(s).
     |      These three parameters are tailored in the
     | material deposition processes during the fabrication. Emitted photons typically have energies close to the
-    -var bandgap_urli="https://en.wikipedia.org/wiki/Band_gap"
-    a(href=bandgap_urli target="_blank")   bandgap
-    |      value, and the quantum well structure significantly reduces the photon reabsorption risk in the
+    | bandgap value, and the quantum well structure significantly reduces the photon reabsorption risk in the
     | surrounding host materials.
     br
-    br
-    | Typical emission spectra are rather broad in LED's (also in LD's below the lazing threshold),
-    | at least significantly broader than evaluated before the broadening mechanisms are accounted for.
-    | A correct spectral broadening function is required also for semiconductor laser modelling and gain spectra
-    | calculations. Several alternative functions have been proposed for qw LED and LD calculations.
-    | This site examines many of them, and also several combined functions can be plotted and compared against
-    | experimental spectra.
-    br
-    | Optical broadening mechanisms are often categorized to be either
-    b
+    p(style="text-indent:20px;")
+      | Typical emission spectra are rather broad in LED's (also in LD's below the lazing threshold),
+      | at least significantly broader than evaluated before the broadening mechanisms are accounted for.
+      | A correct spectral broadening function is required also for semiconductor laser modelling and gain spectrum
+      | calculations. Several alternative functions have been proposed for qw LED's and LD's.
+      | This site examines many of them, and also several combined functions can be plotted and compared against
+      | experimental spectra.
+    p(style="text-indent:20px;")
+      | Optical broadening mechanisms are often categorized to be either
+      b
         em   inhomogeneous
-    |   or
-    b
+      |   or
+      b
         em   homogeneous.
-    |   With LED's, a description bottleneck exists in the spectral dependency on diode current.
-    | Diode spectra typically broaden with increasing current (before the onset of stimulated emission) and
-    | in well defined diodes, this feature has sought for explanations. Because the emitted photons are particles without
-    | rest mass they carry very small momentum (\(p=h/\lambda\)) compared to electrons (\(p_{e}=m_{e}v_{e}\)) and holes
-    | (\(p_{h}=m_{h}v_{h}\)) moving with thermal velocity distributions inside the quantum wells.
-    | The conservation of energy and linear momentum are required for the e-h pair recombination and it is generally assumed
-    | that only pairs with zero or very small linear momentum participate in the process. This makes the active exciton
-    | populations homogeneous at each transition energy. However, the experimental spectra do not show the
-    | expected Lorentzian line shapes that would be typical for homogeneous. Below in the
-    -var homspe="/homogen"
-    a(href=homspe)     homogeneous details
-    |       section, this topic will be discussed more and compared to the analogous case of pressure broadening in gases.
+      |   With LED's, one description bottleneck exists in the spectral dependency on diode current.
+      | Diode spectrum typically broadens with increasing current (before the onset of
+      -var stim_em="https://en.wikipedia.org/wiki/Stimulated_emission"
+      a(href=stim_em target="_blank")   stimulated emission
+      |       ) and this feature has sought for explanations. Because the emitted photons are particles without
+      -var rest_mass="https://simple.wikipedia.org/wiki/Rest_mass"
+      a(href=rest_mass target="_blank")   rest mass
+      |      they carry very small
+      -var momentum="https://en.wikipedia.org/wiki/Momentum"
+      a(href=momentum target="_blank")   momentum
+      |      (\(p=h/\lambda\)) compared to electrons (\(p_{e}=m_{e}v_{e}\)) and holes
+      | (\(p_{h}=m_{h}v_{h}\)) moving with
+      -var thermal_velo="https://en.wikipedia.org/wiki/Thermal_velocity"
+      a(href=thermal_velo target="_blank")   thermal velocity
+      |       distributions inside the quantum wells.
+      | The
+      -var conservation_law="https://en.wikipedia.org/wiki/Conservation_law"
+      a(href=conservation_law target="_blank")   conservation
+      |       of energy and linear momentum is required for the e-h pair recombination. Therefore, it is generally assumed
+      | that only pairs with zero or very small linear momentum participate in the process. This makes the active exciton
+      | populations homogeneous at each transition energy. However, the experimental spectra do not show the
+      | expected
+      -var lor_shape="https://en.wikipedia.org/wiki/Spectral_line_shape"
+      a(href=lor_shape target="_blank")   Lorentzian shapes
+      |       that would be typical for homogeneously broadened lines. Below in the
+      -var homspe="/homogen"
+      a(href=homspe)     homogeneous details
+      |       section, this topic will be discussed in detail and compared to the analogous case of pressure
+      | broadening in gases.
 
     h3(style="color:Brown;") Applied methods:
     p
-    |In order to reduce the effort, the number of drawings remains small, which possibly decreases
-    | readability, but hopefully, it is compensated by links to elsewhere on the web. Another drawback against clarity
-    | is the mathematical formulas and equations, that are more or less unavoidable. For equations on HTML5 pages,
-    | several options are available claiming to support equally all browsers.
+    | In order to reduce the effort, the number of drawings remains small, which possibly decreases
+    | readability, but hopefully, is compensated by links to elsewhere on the web. Another inconvenience
+    | is the indispensability of mathematical formulas and equations. To write equations on HTML5 pages,
+    | several options are available claiming to support equally well all browsers.
     -var MathJax_urli="https://www.mathjax.org/"
     a(href=MathJax_urli target="_blank")   MathJax
     //a(href="https://www.mathjax.org/" target="_blank")   MathJax
-    |       was selected for this page, though it requires internet access to render correcly.
-    | Another choise, rendering maths also on locally loaded pages, could have been the
+    |       was selected for this page, though it requires open internet access to render correcly.
+    | Another choise, rendering maths also on locally loaded pages, would be the
     -var FireMath_urli="http://www.firemath.info/"
     a(href=FireMath_urli target="_blank")  FireMath
     |       plugin in the Firefox browser. However, MathJax was found easier, since it enables the direct writing of
-    | math in Latex style having numerous supporting web pages.
+    | math in
+    -var Latex_urli="https://en.wikipedia.org/wiki/LaTeX"
+    a(href=Latex_urli target="_blank")  Latex
+    |       style having numerous supporting web pages.
     br
-    | Instead of the direct evaluation of broadened spectra from convolution integrals, the
+    | Instead of the direct evaluation of convolution integrals for the broadening spectra, the
     -var convtheor_urli="https://en.wikipedia.org/wiki/Convolution_theorem"
     a(href=convtheor_urli target="_blank")   convolution theorem
-    |       approach and the fast Fourier transform (FFT) were used, in order to
+    |       approach and the fast Fourier transform (FFT) is used, in order to
     -var fftconvo_urli="http://www.analog.com/media/en/technical-documentation/dsp-book/dsp_book_Ch18.pdf"
     a(href=fftconvo_urli target="_blank")  speed up the calculations.
-
     h3(style="color:Brown;") Compared spectral functions:
     h4(style="color:Indigo;") Inhomogeneous shapes:
     b Asymmetric Urbach function:
@@ -106,9 +133,9 @@ block levenee
     | \(L_{ih}(\epsilon)=\frac{1}{2}(1-sgn(E_{f}-\epsilon))\cdot\exp[-(E_{f}-\epsilon)/E_{u}]\quad\),
     br
     | where \(E_{f}\) is the Urbach focus energy and \(E_{u}\quad\) the broadening width parameter. This
-    | function readily explains the broadening of absorption spectrum into the material bandgap in bulk
-    | materials, but in simulations results into sharply peaked abnormal emission spectra, that are not
-    | experimentally realistic, but the function is included anyway as a demonstration.
+    | function readily explains the broadening of the absorption spectrum into the material bandgap in bulk
+    | materials, but in emission simulations results into sharply peaked, abnormal spectra, that are
+    | experimentally unrealistic. The function is included anyway for the demonstration.
     br
     br
     b Symmetric Urbach function:
@@ -166,12 +193,13 @@ block levenee
     h4(style="color:Indigo;") Starting point:
     | To get the spectral intensity distribution for the electron hole pair recombination,
     | it is a common practice to start from Fermi's golden rule.
-    -var SpontEm_urli="http://home.itp.ac.ru/~ssver/teaching/Lasers/literature/Coldren%20LA,%20Corzine%20SW,%20Masanovic%20MI%20-%20Diode%20lasers%20and%20photonic%20integrated%20circuits.pdf"
-    a(href=SpontEm_urli target="_blank")   Spontaneous emission intensity
-    |   (photon rate X energy) without spectral broadening and Coulomb interactions
+    | For e-h pair recombination, without spectral broadening and Coulomb interactions
     -var exciton_urli="https://en.wikipedia.org/wiki/Exciton"
-    a(href=exciton_urli target="_blank")   (excitons)
-    |   can be expressed for e-h pair interband recombination as:
+    a(href=exciton_urli target="_blank")   (excitons),
+    -var SpontEm_urli="http://home.itp.ac.ru/~ssver/teaching/Lasers/literature/Coldren%20LA,%20Corzine%20SW,%20Masanovic%20MI%20-%20Diode%20lasers%20and%20photonic%20integrated%20circuits.pdf"
+    a(href=SpontEm_urli target="_blank")   spontaneous emission intensity
+    |   (emission rate \(\ast\) photon energy)
+    |   can be expressed  as:
 
     |\begin{align}
     |R_{sp}(E)=\frac{ne^{2}}{\epsilon_{0}\hbar^{2}\pi c^3m_{0}^2}|M_{T}|^2 \cdot E\rho_{r}(E)f_{c}(E)
@@ -181,13 +209,12 @@ block levenee
     | where n is the refractive index and \(|M_{T}|^{2}\) the transition matrix element. The terms
     | before the multiplication dot are assumed as constant throughout the broadening evaluation energy range.
     | \(\rho_{r}(E)\) is the reduced density of states (JDOS). \(f_{c}\) and \(f_{v}\) are the energy state
-    | occupation Fermi functions for the conduction band (CB) electrons and valence band (VB) holes,
-    | respectively. To evaluate spectral distributions with Coulomb interactions and broadening effects,
-    | Eq. (\ref{Rsp1}) is multiplied with exciton continuum enhancement \(S(\epsilon)\), and convolved with the
-    | line broadening function \(L_{t}(E)\). The discrete exciton energy spectra and the quasi continuum
-    | are neglected because we are mainly interested in excitons locating inside diode pn-junction areas having
-    | high internal electric fields.
-    | Approximating \(f_{c}\times (1-f_{v})\) with Boltzmann distribution we get the emission spectra from the
+    | occupation Fermi functions for the conduction band electrons and valence band holes,
+    | respectively. To include the Coulomb interactions and broadening effects,
+    | Eq. (\ref{Rsp1}) is multiplied with the exciton continuum enhancement \(S(\epsilon)\), and convolved with the
+    | line broadening function \(L_{t}(E)\). The discrete exciton peaks and the exciton quasi continuum
+    | are neglected because we are interested in excitons inside pn-junctions and in high electric fields.
+    | Approximating \(f_{c}\times (1-f_{v})\) with Boltzmann distribution we get the emission spectrum from the
     | convolution integral:
 
     |\begin{align}
@@ -198,9 +225,9 @@ block levenee
     br
     | where \(k_{B}\) is the Boltzmann coefficient.
     h4(style="color:Indigo;") Exciton enhancement:
-    | Spectral exciton peaks are observed generally observed only in special cases e.g at cryogenic
-    | temperatures. Therefore, they and their quasi continuum are skipped in the following calculations,
-    | including only the exciton true continua. For bulk materials it is given by the Elliot formulas:
+    | Discrete exciton peaks are normally observed only in special cases e.g at cryogenic
+    | temperatures. Therefore, they and their quasi continuum are skipped here. Only the exciton true
+    | continuum is included in the exciton enhancement. For bulk materials it is given by the Elliot formulas:
     | \begin{align}
     | S_{s}(E)=&\pi\alpha\frac{e^{\pi\alpha}}{sinh(\pi\alpha)}\label{BulkEnh1}\\
     | \alpha=&\sqrt{\frac{E_{b}}{E-E_{g}}}\label{BulkEnh2}\
@@ -210,50 +237,58 @@ block levenee
     | with parabolic band edge in bulk semiconductors, (\(\rho_{r}\propto \sqrt{E-E{g}}\))
     | leads to finite spectral power densities enabling the numerical integration of Eq. (\ref{Rsp2}).
     br
-    | Unfortunately, the formulation for the exciton continuum is considerably more complicated with quantum
-    | well excitons (quasi-2D case). Only tedious approximations and numerical solutions are available
-    | including quantum well width and electron and hole barrier heights as parameters. Therefore,
-    | the derivation for 2-D excitons in hypothetical ideal 2-D (or extremely anisotropic) semiconductors
-    | has often been used as a starting point. Even in this case the analysis will be more complicated,
-    | while we now also need to consider the examination angle in respect to the quantum well. The two
-    | supreme directions are: Perpendicular to and parallel with the quantum well. In 2-D analysis
-    | for the perpendicular viewing direction it is enough to include only the TE-polarization for the
-    | emitted photons the photon electric field vector being parallel with the 2-D exciton plane.
-    | For the qw-parallel direction, we also need to include the TM-polarization having major electric
-    | field component perpendicular to the qw-plane. In the ideal 2-D material model, there are no electron
-    | wave vector component perpendicular to the 2-D excitons, and the exciton enhancement is obtained
-    | through the k-p perturbation method for transitions where the
-    | \( \langle c | \mathbf{\varepsilon} \cdot \textbf{p} |v\rangle \) vanishes (c and v being the
-    | conduction and valence band functions, \(\mathbf{\varepsilon}\) the polarization vector and
-    | \(\textbf{p}\) the electron momentum operator respectively.) The results are:
-    | \begin{align}
-    | S_{TE}(E)=&\frac{e^{\pi\alpha}}{cosh(\pi\alpha)}\label{QwEnh1}\\
-    | S_{TM}(E)=&(1+4\alpha^{2})\frac{e^{\pi\alpha}}{cosh(\pi\alpha)}\label{QwEnh2}\ ~,
-    | \end{align}
-    | where \(\alpha\) is given in Eq. (\ref{BulkEnh2}).
-    br
-    br
-    | Eq. (\ref{QwEnh1}) would be applicable for the viewing direction along qw-normal and for the
-    | TE-polarization on the qw-plane directions. Eq. (\ref{QwEnh2}) on the other hand would be needed
-    | only for the TM-polarization on the qw-plane (pn-junction plane in qw-diodes).
-    | The use of these two equations has at least two profound short comings, if applied for
-    | real quantum wells ('quasi 2-D structures'). The derivation is based on the k-p perturbation method
-    | which does not include the band degeneracy and in real qw the electron wave vector has a component
-    | along the qw-normal.
-    | Also the use in calculations is problematic for real quantum wells. Using \(E_{t}\),
-    | the difference between the lowest electron qw energy level and the highest hole qw energy level
-    | for the \(E_{g}\) as it is the lowest possible exciton energy in the exciton continuum,
-    | Eq. (\ref{QwEnh2}) results in infinite values and the qw JDOS is not zero at \(E_{t}\), but has
-    | there a Heaviside function step. It has been commented that also Eq. (\ref{QwEnh1})
-    | overestimates the exciton enhancement in real quantum wells. However, it may also have a wrong
-    | spectral shape. To avoid the infinity values and to obtain an improved spectral shape
-    | for the TM enhancement, we without a profound physical analysis take a pragmatic approach
-    | and apply a small energy bias in Eq. (\ref{BulkEnh2}).
-    | This is done by using energy \(E_{qw}\) for the \(E_{g}\) in Eq. (\ref{BulkEnh2}).
-    | If \(E_{qw}=E_{t}-E_{0}\), the infinities in exciton enhancement are avoided, since the qw density of states
-    | \(\rho_{r}(\epsilon)\) still has the Heaviside step at \(E_{t}\) and the spectral shape in
-    | \(S(\epsilon)\) can be fine tuned with \(E_{0}\), named as shape parameter on the modelling page of
-    | this project.
+    p(style="text-indent:20px;")
+      | Unfortunately, the formulation is considerably more complicated for quantum well excitons
+      | (quasi-2D case). Only tedious approximations and numerical solutions are available
+      | including the quantum well width and the electron and hole barrier heights as parameters. Therefore,
+      | the analytic expressions for
+      -var exciton_2D="https://books.google.fi/books?id=VszZvcm8AuIC&pg=PA316&lpg=PA316&dq=shinada+sugano+e"
+      -exciton_2D=exciton_2D+"xciton&source=bl&ots=W-3YExJ-vP&sig=A5Cz-vLUx9-LEUwzhXfpvGqokBc&hl=fi&sa=X&ved=0"
+      -exciton_2D=exciton_2D+"ahUKEwjJ-MS_kv7SAhVjEJoKHf8GAZoQ6AEIJjAB#v=onepage&q=shinada%20sugano%20"
+      -exciton_2D=exciton_2D+"exciton&f=false"
+      a(href=exciton_2D target="_blank")   ideal 2-D excitons,
+      |       in hypothetical 2-D (or extremely anisotropic 3-D)
+      | semiconductors is often used as a starting point. Even then, the situation is more complicated,
+      | while we now need to consider also the angle of observation in respect to the quantum well. Two
+      | supreme emission directions exist: Perpendicular to and parallel with the quantum well plane. For the
+      | perpendicular viewing direction, it is enough to include only the TE-polarization, where the photon electric
+      | field is parallel with the 2-D exciton plane. For viewing directions parallel with the qw-plane
+      | (common situation in laser diodes), we also need to include the TM-polarization having the major electric
+      | field component perpendicular to the qw-plane. The following enhancement factors have been obtained through
+      | the k-p perturbation method for transitions where the \( \langle c | \mathbf{\varepsilon} \cdot \textbf{p} |v\rangle \)
+      | vanishes (c and v being the conduction and valence band functions, \(\mathbf{\varepsilon}\) the polarization
+      | vector and \(\textbf{p}\) the electron momentum operator respectively).
+      | \begin{align}
+      | S_{TE}(E)=&\frac{e^{\pi\alpha}}{cosh(\pi\alpha)}\label{QwEnh1}\\
+      | S_{TM}(E)=&(1+4\alpha^{2})\frac{e^{\pi\alpha}}{cosh(\pi\alpha)}\label{QwEnh2}\ ~,
+      | \end{align}
+      | where \(\alpha\) is given in Eq. (\ref{BulkEnh2}).
+      br
+    p(style="text-indent:20px;")
+      | Eq. (\ref{QwEnh1}) would be applicable for emission direction along the qw-normal and also for the
+      | TE-polarization in the qw-plane directions. Eq. (\ref{QwEnh2}) on the other hand would be needed
+      | only for the TM-polarization on the qw-plane direction (pn-junction plane in qw-diodes).
+      | The use of these two equations has at least two profound short comings in real quantum
+      | wells ('quasi 2-D structures'). In ideal 2-D materials, electron and hole wave vector components cannot
+      | exist perpendicular to the 2-D exciton plane, but in real qw's wave vectors have components
+      | along the qw-normal. If the lowest possible exciton energy, \(E_{t}\) i.e. the difference between the
+      | lowest electron-qw energy level and the highest hole-qw energy level, is applied for the \(E_{g}\),
+      | Eq. (\ref{QwEnh2}) results in infinite values and the qw-JDOS is not zero, but has a Heaviside function
+      | step at \(E_{t}\).
+      br
+    p(style="text-indent:20px;")
+      | From numerical simulations, it has been commented that also Eq. (\ref{QwEnh1}) may overestimate the exciton
+      | enhancement in real quantum wells and it may also have a wrong spectral shape for the TM-polarization.
+      | To avoid the infinity values and to obtain improved spectral shapes, I without profound physical
+      | analysis took a pragmatic approach and applied a small energy bias in Eq. (\ref{BulkEnh2}).
+      | This is done by using energy \(E_{qw}\) for the \(E_{g}\) in Eq. (\ref{BulkEnh2}).
+      | If \(E_{qw}=E_{t}-E_{0}\), the infinities in exciton enhancement are avoided, since the qw density of states
+      | \(\rho_{r}(\epsilon)\) still has the Heaviside step at \(E_{t}\) and the spectral shape in
+      | \(S(\epsilon)\) can be fine tuned with \(E_{0}\), named as shape parameter on the modelling page of
+      | this site.
+      br
+    p(style="text-indent:20px;")
+      | The spectral shape of the exciton enhancement can be checked, if it is selected alone in the simulators plotting menu.
 
     script(type='text/javascript').
       var otherHeader=$('a[href = "#otherHeader"]');
