@@ -395,6 +395,7 @@ function locFleErrorHandler(evt) {
 //split values in tab separated text file into an array:
 function splitToArr(tsvFile) {
     //tab separated values assumed for file format
+    //console.log('slitToArr: ',tsvFile);
     var tmps1;// = [];
     var tmps2;
     var tmps3;
@@ -447,6 +448,7 @@ function splitToArr(tsvFile) {
             tmps5.push(tmpsx[ij]);
         }
     }
+    //console.log('splitToArr tmps5: ',tmps5);
     return tmps5;
     //Code for text file splitting ends here:
   }

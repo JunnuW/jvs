@@ -1,10 +1,10 @@
 //-Created by Juha on 3/7/2016.
 extends broaden
 block levenee
-    h2 Spectral broadening simulators
+    h2 Broadening simulations
     div(id='wrapper')
       div(id='main')
-        h3(id='inhomHeader') Inhomogeneous broadening
+        h3(id='inhomHeader') Inhomogeneous
         |   Calculated spectra are obtained using equation (2) on the
         -equation2="/inhomogen"
         a(href="#{equation2}" target="_blank")     Inhomogeneous details
@@ -20,7 +20,7 @@ block levenee
         b(id='inhDescLbl' style='color:Brown') Measurement details:
         b(id='inhDesc' style="color:Indigo; margin-left:10px;")
 
-        h3 Homogeneous broadening
+        h3 Homogeneous
         |   Calculated spectra are obtained using equation (x) on the
         -equation3="/homogen"
         a(href="#{equation3}" target="_blank")     Homogeneous details
@@ -160,7 +160,7 @@ block levenee
       //parameters for Sech^n time relaxation broadening*******************
       div(id='spSech' style='display:none')
         //if user clicks on Sech title this becomes visible
-        i Broadening from a non-Markovian, ad hoc given e-h pair time relaxation function:
+        i Non-Markovian, ad hoc given e-h pair relaxation time function:
         b  \(\ L_{t}(\Delta E)=\mathfrak{F}[sech^{n}(\frac{t}{\tau \times n})]\),
         |     where \(\mathfrak{F}\)  stands for Fourier transform. Sech is the hyperbolic secant function and \(\tau\ \) the
         | relaxation time.
@@ -804,7 +804,7 @@ block levenee
       });
 
       $("#eVstart_touch").TouchSpin({
-        max: simSettn.eVstop - 0.1,
+        max: 4.5, //simSettn.eVstop - 0.1,
         min: 0,
         step: 0.001,
         initval: simSettn.eVstart,
@@ -824,8 +824,8 @@ block levenee
       });
 
       $("#eVstop_touch").TouchSpin({
-        max: 4.0,
-        min: simSettn.eVstart + 0.1,
+        max: 4.5,
+        min: 0, //simSettn.eVstart + 0.1,
         step: Number(0.001),
         initval: simSettn.eVstop,
         decimals: 3,
@@ -839,7 +839,6 @@ block levenee
           //console.log('eVstop_touch: ', $("#eVstop_touch").val());
           var tmp1 = Number($("#eVstop_touch").val());
           simSettn.eVstop = tmp1.toFixed(3);
-          $('#eVStop').val(simSettn.eVstop);
           //prep. max value for eVstart_touch i.e. set 0.1eV minimum horiz. scale span:
           tmp1 = tmp1 - 0.1;
           $("#eVstart_touch").trigger("touchspin.updatesettings", {max: tmp1});
@@ -1220,7 +1219,7 @@ block levenee
           var widthi = canvas.scrollWidth;
           widthi = Math.ceil(widthi / 2);
           context.strokeText(graphSettn.homFileN, widthi, 15);
-          console.log('homFileN: ',graphSettn.homFileN);
+          //console.log('homFileN: ',graphSettn.homFileN);
         }else if (homSpectr.plotArr.length == homSpectr.numPoints && homSpectr.experArr.length<1){
           //console.log('pitäis olla kaksi käyrää ei experimenttiä');
           newData = [
@@ -1565,7 +1564,7 @@ block levenee
       }
 
       function LinOrLogExp(measArr,lineLoga) {
-        console.log('linorlog length: ',measArr.length);
+        //console.log('linorlog length: ',measArr.length);
         var arr=[];
         for (var i = 1; i < measArr.length; i++) {
           var tempi = [];
@@ -1882,7 +1881,7 @@ block levenee
           //siis ei konvoluutiota vain joku levenemisfunktioista piirtoon
           makeLih(); //laskee valitun levimisfunktion Etr kohtaan
           inhomSpectr.plotArr=[]; //tyhjennys
-          console.log('Lih piirto');
+          //console.log('Lih piirto');
           multPlotted(inhomSpectr.Lih); //täyttö vain leviämisfunktio
         }
         if (inhomSpectr.inPlot.convo) {
@@ -2108,8 +2107,33 @@ block levenee
       }
 
       $("#rangeok, #evetok, #jdosok, #exenhaok, #urbachok, #sUrbachok, #whatok").click(function(){
+        var tmp1;
+        var tmp2;
         switch ($(this).attr('id')){
           case 'rangeok':
+            tmp1 = Number($("#eVstart_touch").val());
+            tmp2 = Number($("#eVstop_touch").val());
+            if (tmp2-tmp1>0.1){
+              simSettn.eVstart = tmp1.toFixed(3);
+              simSettn.eVstop = tmp2.toFixed(3);
+            }
+            if (Math.abs(tmp1-tmp2)>=0.1) {
+              if (tmp1>tmp2){//annettu väärin päin
+                simSettn.eVstart = tmp2.toFixed(3);
+                simSettn.eVstop = tmp1.toFixed(3);
+              }else{//syötetty oikein päin
+                simSettn.eVstart = tmp1.toFixed(3);
+                simSettn.eVstop = tmp2.toFixed(3);
+              }
+            }else{//arvot liian lähekkäin, korjataan
+              if ((tmp2 > tmp1) && tmp2 > 0.1) {
+                simSettn.eVstop = tmp2.toFixed(3);
+                simSettn.eVstart = (tmp2 - 0.1).toFixed(3);
+              }else{
+                simSettn.eVstart = tmp1.toFixed(3);
+                simSettn.eVstop = (tmp1 + 0.1).toFixed(3);
+              }
+            }
             makespArr();       //recreate spectral array
             makeExpArrs();     //recreate experimental array
             makeJdos();
@@ -2121,7 +2145,15 @@ block levenee
             $("#paramDial").dialog('close');
             break;
           case 'evetok':
-            //makeBoltz();//jdos, exiton and Boltzmann changes updated in spinner events
+            //jdos, exiton and Boltzmann changes updated in spinner events
+            //but for the keyboard input option need to be also here
+            tmp1 = Number($("#Et_touch").val());
+            simSettn.eTr = tmp1.toFixed(3);
+            tmp1 = Number($("#TemK_touch").val());
+            simSettn.kelvin = tmp1.toFixed(3);
+            makeJdos();       //density of states changes with Etr
+            makeBoltz();      //Boltzmann distribution changes with Etr
+            makeSommer();     //exciton enhanchement also
             calcInhom();
             calcHom();
             $("#eg_et").css('display', 'none');
@@ -2135,6 +2167,10 @@ block levenee
             calcHom();
             break;
           case 'exenhaok':
+            tmp1 = Number($("#eVbind_touch").val());
+            simSettn.exEb = tmp1.toFixed(3);
+            tmp1 = Number($("#ex0_touch").val());
+            simSettn.ex0 = tmp1.toFixed(3);
             $("#exEnha").css('display', 'none');
             $("#paramDial").dialog('close');
             makeSommer();
@@ -2143,6 +2179,8 @@ block levenee
             break;
           case 'urbachok':
           case 'sUrbachok':
+            tmp1 = Number($("#eveu_touch").val());
+            simSettn.eU = tmp1.toFixed(3);
             $("#spUrbach").css('display', 'none');
             $("#urbachAsymm,#urbachSymm").css('display', 'none');
             $("#paramDial").dialog('close');
@@ -2326,7 +2364,7 @@ block levenee
           } else {
             //reads simuation parameters to the homog plot
             // after async read data processed in 'gotHomogSim' callback
-            console.log('reads homog simul.pars');
+            //console.log('reads homog simul.pars');
             ReadLocFle(selected_file, gotInhomSim);
           }
         }
@@ -2341,10 +2379,12 @@ block levenee
        */
       function gotInhomFile(fileCont) {
           //callback after successfully reading a local emission file
+          //console.log('filecont: ',fileCont);
           try {
+              //console.log('filecont: ',filecont);
               inhomSpectr.experArr = splitToArr(fileCont);
               inhomSpectr.experPlot = splitToArr(fileCont);
-              var descr = homSpectr.experPlot[0][2];
+              var descr = inhomSpectr.experPlot[0][2];
               descr = descr.replace(/"/g, "");
               $('#inhDescLbl').css('display', 'inline');
               $('#inhDesc').css('display', 'inline');
@@ -2450,13 +2490,13 @@ block levenee
           inhomSpectr.inPlot.Lsech = true;
         }
         if (header.indexOf('*(Lorentzian brdng)') >= 0) {
-          console.log('*(Lorentzian brdng)',header.indexOf('*(Lorentzian brdng)')) ;
+          //console.log('*(Lorentzian brdng)',header.indexOf('*(Lorentzian brdng)')) ;
           homSpectr.inPlot.convo = true;
           $('#pltHomConv').prop('checked', true);
           $('#pltLorentz').prop('checked', true);
         }
         if(header.indexOf('*(Lorentzian1 x Lorentzian2 brdng)') >= 0){
-          console.log('*(Lorentzian1 x Lorentzian2 brdng)',header.indexOf('*(Lorentzian1 x Lorentzian2 brdng)')) ;
+          //console.log('*(Lorentzian1 x Lorentzian2 brdng)',header.indexOf('*(Lorentzian1 x Lorentzian2 brdng)')) ;
           homSpectr.inPlot.convo=true;
           $('#pltHomConv').prop('checked',true);
           $('#pltDlorentz').prop('checked',true);
@@ -2538,7 +2578,7 @@ block levenee
       }
 
       function gotHomogSim(filecont) {
-          console.log('Homog simulation parameters: '),filecont ;
+          console.log('Homog simulation parameters: ',filecont);
           //alert('gotHomogSim function not ready');
       }
 

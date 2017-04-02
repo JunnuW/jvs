@@ -131,7 +131,7 @@ html
           rtftoken: tokenee
         }).done(function (data, status, xhr) {
           if (data) {
-            console.log('checklogin: ', data);
+            //console.log('checklogin: ', data);
             if (data.token == 'valid') {//login is ok, set menus:
               $('#lokoutti').show();
               $('#pwdchangi').show();
@@ -171,7 +171,7 @@ html
         clearTimeout(jokovanha); //ei tarvitse ajastettua tarkistusta, on jo vanhaksi todettu
         return;
       } else {
-        console.log('tarkistetaan onko login voimassa: ',aika);
+        //console.log('tarkistetaan onko login voimassa: ',aika);
         var loginStatus = $.post('/checklogin', {
         userNme: userLuser,
         rtftoken: tokenee
