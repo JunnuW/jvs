@@ -127,7 +127,6 @@ block levenee
       div(id='spUrbach' style='display:none')
         p(id='urbachAsymm' style='display:none')  \(L_{ih}(\epsilon)=\frac{1}{2}(1-sgn(E_{f}-\epsilon))\cdot\exp[-(E_{f}-\epsilon)/E_{u}]\quad\), Here \(E_{f}=E_{t}\).
         p(id='urbachSymm' style='display:none')  \(L_{ih}(\epsilon)=\exp[-|E_{f}-\epsilon|/E_{u}]\quad\), Here \(E_{f}=E_{t}\).
-        i Graphed either alone or used as a convolution kernel in the calculation.
         table(style='width:100%;')
           tr
             td(class='huihai')
@@ -138,6 +137,7 @@ block levenee
               br
               button(id='urbachok' type='button' class='medium-btn2') OK
             td
+        i Graphed either alone or used as a convolution kernel in the calculation.
         p For the Urbach focus, `E_{f}` adjustment,  change the `E_{t}` in the Boltzmann distribution.
 
       //parameters for Gaussian broadening function***********************
@@ -219,9 +219,11 @@ block levenee
           | adjustment use the `E_{t}` option in the Boltzmann distribution.
 
     div(id="settnDial" title="Graphing details")
-      fieldset(id='spWhat' style='display:none')
-        b(id='bPlotSel' style='font-size:16px') Plotting selector for: `\int_0^\infty \epsilon\rho_{r}
-          |(\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)\times L_{ih}(E-\epsilon)\quad d\epsilon`
+      fieldset(id='spWhat' style='display:none;')
+        b(id='bPlotSel1' style='font-size:16px;') Plotting selector for: \(\int_0^\infty \epsilon\rho_{r}
+          |(\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)\times L_{ih}(E-\epsilon)d\epsilon\)
+        b(id='bPlotSel2' style='font-size:16px; display:none;') Plotting selector for: \(\int_0^\infty \epsilon\rho_{r}
+          | (\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)\times L_{h}(E-\epsilon)d\epsilon\)
         br
         //i(style='float:right')    (click selection titles to edit parameters)
         i(style='float:left')    (click selector titles to edit parameters)
@@ -753,6 +755,8 @@ block levenee
           //$('#divHomog').css('display', 'block');
           $('#divNormalize').css('display', 'block');
           $('#settnDial').dialog('option', 'title', 'Inhomogeneous spectrum');
+          $('#bPlotSel1').css('display','block');
+          $('#bPlotSel2').css('display','none');
           $("#settnDial").dialog("open");
           if (inhomSpectr.experArr.length > 0) {
               $('#saveFile').css('display', 'inline');
@@ -791,6 +795,8 @@ block levenee
           $('#divHomogConv').css('display', 'block');
           $('#divNormalize').css('display', 'block');
           $('#settnDial').dialog('option', 'title', 'Homogeneous spectrum');
+          $('#bPlotSel2').css('display', 'block');
+          $('#bPlotSel1').css('display', 'none');
           $("#settnDial").dialog("open");
           if (homSpectr.experArr.length > 0) {
               $('#saveFile').css('display', 'inline');
