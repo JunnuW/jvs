@@ -12,23 +12,31 @@ block content
     br
     |  -  Having a standard web browser, the user can stick to his/hers preferred OS (Win, Linux, OS X, Android, ...)
     br
-    |     and hardware (pc, laptop, tablet or phone),
+    |     and hardware (pc, laptop, tablet or phone
+    sup &#9913;
+    | ),
     br
-    |  -  Application support and maintenance is greatly simplified,
+    |  -  Application support and maintenance are greatly simplified,
     br
     |   since only one software version (the one on the server) needs to be supported and updated.
-    h3(style="color:green") Application structure:
-    | Two separately developed and debugged components are needed; one for the server and another for the user's browser.
-    | Interaction between these two takes place in server responses to requests from the user's web browser.
+    br
+    | (
+    sup &#9913;
+    | some of the chosen jquery widgets proved not mobile and touch friendly.
+    | Therefore, the user experience on smart phones is not pleasant enough.)
+    h3(style="color:green") Application skeleton:
+    | Two separately developed and debugged components are needed; One for the server and another for the user's browser.
+    | Interaction between these two takes place through server responses to requests from the user's web browser.
     h4 Server side program:
-    | Server software is normally located on a remote machine, but for offline access and program development purposes it can
-    | as well be assembled on the local machine. In that case, 'local host' stores all the required HTML pages and resources.
+    | Server software is normally located on a remote machine, but for offline access and program development, it can
+    | as well be assembled on the local machine. In that case, 'local host' stores all the required HTML pages and
+    | javascript resources.
     br
     | After processing the requests coming from client's browser, the server sends back responses with dynamic content.
-    | Programs on the server machine are based on a specific web-framework system, the developer chose before beginning
-    | the development process. Several alternatives are available for the web-framework.
+    | The program on the server machine is based on a specific web-framework system, selected by the developer in the
+    | beginning of the development process. Several alternatives are available for the web-framework.
     br
-    u Some popular options:
+    u Some popular frameworks:
     br
     - var Django_url="https://en.wikipedia.org/wiki/Django_(web_framework)"
     a(href=Django_url target="_blank")  - Django
@@ -57,30 +65,30 @@ block content
     h4 Browser side program:
     | Browser software is scripted into the web pages (script tags in html-files) and is downloaded on
     | demand from the server, when the user browses to the page.
-    | Modern browsers (2015) use HTML, CSS and Javascript with versions 5, 3 and 1.8.5 respectively.
-    | For safety reasons, the script on the browser as downloaded from the internet, cannot directly
+    | Modern browsers (2016) use HTML, CSS and Javascript with versions 5, 3 and 1.8.5 respectively.
+    | For safety reasons, the script on the browser (downloaded from the internet), cannot directly
     | access the client's local file system or activate any local programs on the user's equipment.
-    | However, local files can be accessed and written after events, where the user by mouse click or keyboard actions
+    | However, local files can be accessed and written after events, where the user by mouse click or keyboard
     | first authorises those operations, as is the common practice with email attachments and software updates
     | to locally installed software, that are distributed through the internet.
     | These HTML5 File Api features and the data safety issues in general are perhaps the biggest
     b   issues and downsides
     |   in web browser based programs:
-    i     Files should be downloaded only on safe servers and financial transactions made only through https and on
-      | sites with safety certificates.
+    i     Files should be downloaded only from safe servers and financial transactions made only through https
+      | on sites with safety certificates.
     br
     | Since the software is not saved locally, a browser based program is useful only during
     | access to internet, and a slow connection may cause response time problems.
     h3(style="color:green") Configuration in this site
     | All the applied open source components and MIT licenced software packages are listed under the
     -var credits_url="/contrbs"
-    a(href=credits_url)   'Credits and Acknowledgements'
+    a(href=credits_url)   'Acknowledgements'
     |     menu item of this site.
     br
     br
     | For this particular web site, Node.js was the natural choice for the server side framework,
     | enabling javascript coding on both sides. Though Node.js is rather recent, it already
-    | serves behind numerous web pages from many front line companies (
+    | serves behind numerous web sites from many front line companies (
     i Microsoft, Yahoo!, LinkedIn, eBay, Dow Jones, Cloud9, The New York Times etc.
     | ) and it is also supported by most web hosting providers.
     br
@@ -104,29 +112,28 @@ block content
     br
     | - user messages and comments with moderation
     h3(style="color:green") Conclusions:
-    | It turned out that Node.js runtime fits nicely to applications,
+    | It turned out that Node.js runtime fits perfectly to this site,
     | where major part of data processing is performed locally in the browser on the client's pc.
-    | Network speed didn't cause any issues on the available, low speed (<10Mbit/s) connection.
+    | Network speed didn't cause any issues on a low speed (<10Mbit/s) connection.
     br
-    | Coding in javascript is fast and easy enough, with a vast number of MIT licensed widgets and components
-    | downloadable directly from the web. A major difference to 'traditional programming work' is the frequent
+    | Javascript coding is fast and easy enough, with a vast number of MIT licensed widgets and components
+    | downloadable directly from the web. A major difference to 'traditional programming' is the frequent
     | use of
     -var cb_url="https://en.wikipedia.org/wiki/Callback_(computer_programming)"
     a(href=cb_url target="_blank")  callback structures
-    |     , which are necessary to maintain user interface responsiveness during data
-    | requests from the server. The software on the browser (and the Node.js server) runs in a single thread, but the
+    |     , which are necessary to maintain user interface responsiveness during
+    | requests from the server. The software on the browser and in the Node.js server are single threaded, but the
     -var async_url="http://code.tutsplus.com/tutorials/event-based-programming-what-async-has-over-sync--net-30027"
     a(href=async_url target="_blank")  asynchronous
-    |     nature of the callback loops comes with increased coding and debugging difficulties.
-    br
-    | Practically all modern computers are equipped with internet access. Admitting the already named conceptual benefits
-    | it is very obvious that 'browser based software' will become more and more frequent, and decrease the
-    | the number of traditional, locally installed programs.
-    br
+    |     nature of the callback loops increases somewhat the coding and debugging difficulty.
+    p(style="text-indent:20px;")
+      | Practically all modern computers are equipped with internet access. Therefore, admitting the already named
+      | conceptual benefits, it is very obvious that 'browser based software' will become more and more frequent,
+      | replacing the traditional, locally installed applications.
     b(style="color:green") As a final and convincing example
     |   you might consider software development environments, that earlier were among the heaviest
-    | locally assembled software products, but now are directly available on the web browser with minimal local installations.
-    | (see for example:
+    | locally assembled software products, but now are directly available on web browser interface with minimal local
+    | installations. (see for example:
     -var Cloud9_url="https://c9.io/"
     a(href=Cloud9_url target="_blank")  - Cloud9 development environment in the cloud
     |   )

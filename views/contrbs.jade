@@ -6,14 +6,15 @@ block content
       b #{user.username}
       | :
       br
-      | The here applied, open source and MIT-licenced software components can be found in the lists below.
+      | The applied, open source, MIT-licenced software components are listed below.
     else
-      | The here applied, open source and MIT-licenced software components can be found in the lists below.
+      | The applied, open source, MIT-licenced software components are listed below.
     br
     h3(style="color:Brown") Server side components:
     -var Node_urli="https://en.wikipedia.org/wiki/Node.js"
     a(href=Node_urli target="_blank") Node.js
     |    with modules:
+    br
     -var Express_urli="http://expressjs.com/"
     a(href=Express_urli target="_blank")   Express
     | ,
@@ -47,6 +48,7 @@ block content
     -var async_urli="https://github.com/caolan/async"
     a(href=async_urli target="_blank")   async
     | ,
+    br
     -var flash_urli="https://www.npmjs.com/package/express-flash"
     a(href=flash_urli target="_blank")   express-flash
     | ,
@@ -91,6 +93,7 @@ block content
     -var mathcompl_urli="https://github.com/dankogai/js-math-complex"
     a(href=mathcompl_urli target="_blank")   math-complex
     | ,
+    br
     -var dsp_urli="https://github.com/corbanbrook/dsp.js/"
     a(href=dsp_urli target="_blank")   dsp.js (FFT package)
     | ,

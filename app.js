@@ -325,7 +325,7 @@ app.get('/contrbs', function(req, res) {
     //console.log('app.get/contrbs');
     //console.log('/contrbs req.headers: '+JSON.stringify(req.headers));
     res.render('contrbs', {
-        title: 'Credits and acknowledgements',
+        title: 'Acknowledgements',
         user: (req.user)  //false
     });
 });
