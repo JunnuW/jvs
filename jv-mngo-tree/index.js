@@ -522,10 +522,9 @@ exports.insertDoc=function(req,res,callBfun){
     //it can be set to: chunk, but since the related:
     //req.on('data',function(chunk){}), is never triggered here (on res object), we use:
     var dataa=JSON.parse(req.body.data);
-
     console.log('dataa: ',dataa);
-    //The acceptable data length has already been checked by the urlencoded bodyparser
-    // in node modules, which prevents malicious disk dumps
+    //The acceptable data length was already been checked by the urlencoded bodyparser
+    //in node modules, which prevents malicious disk dumps
     //var trim = dataa.Filename.replace(/(^\/)|(\/$)/g, ""); //removes leading and trailing '/'
     var trim = dataa.Filename.replace(/(^\/)/g, ""); //removes leading  '/'
     var newDocu={};

@@ -207,6 +207,25 @@ function respToEmis(fileName,resObj) {
     }
 }
 
+function makeEmisArr(resObj) {
+    //var emisArrs = resObj.datArrs; //is an object (javascript copies by reference)
+    var emArr = [];
+    var oneRow = [resObj.unit, 'Intensity', resObj.description];
+    //becomes: eV, Intensity, File description text
+    emArr.push(oneRow);
+    var absc = resObj.datArrs[0].eVs;
+    //var intens = emisArrs[1].Inte;
+    var intens = resObj.datArrs[1].Inte;
+    var numPoints = absc.length;
+    for (var i = 0; i < numPoints; i++) {
+        oneRow = [];
+        oneRow.push(absc[i]);
+        oneRow.push(intens[i]);
+        emArr.push(oneRow);
+    }
+    return emArr;
+}
+
 function handleFail(errDatas,messag){
     var failu=JSON.parse(errDatas);
     console.log('failu.statCode: '+failu.statCode);
