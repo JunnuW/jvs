@@ -180,7 +180,7 @@ div(id="mongoDialForm")
           text: "Cancel",
           "class": 'medium-btn',
           click: function () {
-            console.log('cancel clicked');
+            //console.log('cancel clicked');
             $('#mongoTree').jstree('deselect_all');
             $('#mongoTree').jstree('close_all');
             $('#FilTreLege').text('Files available on server:');
@@ -518,7 +518,7 @@ div(id="mongoDialForm")
         }
       })
       .fail(function () {//Failed to get any response from server
-        console.log('failed check connections');
+        //console.log('failed check connections');
         $.notifyBar({
           cssClass: "error",
           html: "(Connection or database error in server)"
@@ -549,7 +549,7 @@ div(id="mongoDialForm")
       })
         .done(function (datas, textStatus) {
           if (textStatus == 'nocontent') {//responsed with status 204 'nocontent
-            console.log('no content 204');
+            //console.log('no content 204');
             $.notifyBar({
               cssClass: "warning",
               html: "Data could not be obtained from server: "
@@ -606,10 +606,10 @@ div(id="mongoDialForm")
       //console.log('rename oldfile: ' + oldFile + ' newFile: ' + newFile);
       var datColl = pickCollection();
       var tokene;
-      console.log('userName: ',userName);
+      //console.log('userName: ',userName);
       //userName=window.sessionStorage.getItem('RTFuser');
-      console.log('sessionStorage userName: ',window.sessionStorage.getItem('RTFuser'));
-      console.log('dirUser: ',dirUser);
+      //console.log('sessionStorage userName: ',window.sessionStorage.getItem('RTFuser'));
+      //console.log('dirUser: ',dirUser);
       if (userName != 'No login') {
         tokene = window.sessionStorage.getItem('RTFtoken');
       }
@@ -627,7 +627,7 @@ div(id="mongoDialForm")
       .done(function (datas) {
         //successful renaming responds "renaming OK" otherwise an error message
         if (datas) {
-          console.log('Renaming response: ' + datas);
+          //console.log('Renaming response: ' + datas);
           if (datas.resString.indexOf("renaming OK") > -1) {
             $('#btn-mngOpenSave').text("Save data");//return original caption
             $.notifyBar({
@@ -671,7 +671,7 @@ div(id="mongoDialForm")
       .done(function (datas) {
         //successful deleting responds "deleting OK" otherwise an error message
         if (datas && datas.statCode == 200) {
-          console.log('Deleting response: ' + datas.resString);
+          //console.log('Deleting response: ' + datas.resString);
           if (datas.resString.indexOf('deleting OK') > -1) {
             $('#btn-mngOpenSave').text("Save data");//return original caption
             $.notifyBar({
@@ -804,7 +804,7 @@ div(id="mongoDialForm")
             });
           }
         } else {
-           console.log('no data received');
+           //console.log('no data received');
            $.notifyBar({
              //position: "bottom",
              cssClass: "error",
@@ -813,7 +813,7 @@ div(id="mongoDialForm")
         }
       })
       .fail(function () {
-        console.log('failed to read user collection for ' + pickCollection());
+        //console.log('failed to read user collection for ' + pickCollection());
         $.notifyBar({
         //position: "bottom",
           cssClass: "warning",
@@ -1147,7 +1147,7 @@ div(id="mongoDialForm")
             //$('#directoName').disabled=false;
           break;
         case 'Confirm folder rename':
-          console.log('folder rename');
+          //console.log('folder rename');
           var newFile = $('#directoName').val();
           newFile = newFile.replace(/(^\/)|(\/$)/g, ""); //remove leading and trailing '/'
           var slashPos = newFile.lastIndexOf('/');

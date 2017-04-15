@@ -7,8 +7,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jv-mngo-tree/index.js" afterPath="$PROJECT_DIR$/jv-mngo-tree/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/jv-fileopsit.js" afterPath="$PROJECT_DIR$/public/js/jv-fileopsit.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/mongoDialForm.jade" afterPath="$PROJECT_DIR$/views/mongoDialForm.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.jade" afterPath="$PROJECT_DIR$/views/spectralmodel.jade" />
     </list>
     <ignored path="jvs.iws" />
@@ -32,14 +31,14 @@
       <file leaf-file-name="spectralmodel.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="513" column="52" lean-forward="true" selection-start-line="513" selection-start-column="52" selection-end-line="513" selection-end-column="52" />
+            <state relative-caret-position="150">
+              <caret line="495" column="6" lean-forward="false" selection-start-line="495" selection-start-column="6" selection-end-line="495" selection-end-column="6" />
               <folding>
                 <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
                 <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
                 <element signature="n#table#0;n#div#8;n#div#1;n#block#0;n#!!top" expanded="false" />
-                <marker date="1492028573366" expanded="true" signature="65525:65659" ph="..." />
-                <marker date="1492028573366" expanded="true" signature="67744:67879" ph="..." />
+                <marker date="1492266711669" expanded="true" signature="66654:66788" ph="..." />
+                <marker date="1492266711669" expanded="true" signature="68873:69008" ph="..." />
               </folding>
             </state>
           </provider>
@@ -48,8 +47,8 @@
       <file leaf-file-name="mongoDialForm.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/mongoDialForm.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="578" column="22" lean-forward="false" selection-start-line="578" selection-start-column="22" selection-end-line="578" selection-end-column="22" />
+            <state relative-caret-position="3822">
+              <caret line="182" column="21" lean-forward="false" selection-start-line="182" selection-start-column="14" selection-end-line="182" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -58,8 +57,8 @@
       <file leaf-file-name="broaden.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/broaden.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="143" column="10" lean-forward="true" selection-start-line="143" selection-start-column="10" selection-end-line="143" selection-end-column="10" />
+            <state relative-caret-position="3003">
+              <caret line="143" column="10" lean-forward="false" selection-start-line="143" selection-start-column="10" selection-end-line="143" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -68,7 +67,7 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jv-mngo-tree/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
+            <state relative-caret-position="10983">
               <caret line="523" column="40" lean-forward="false" selection-start-line="523" selection-start-column="40" selection-end-line="523" selection-end-column="40" />
               <folding />
             </state>
@@ -78,8 +77,8 @@
       <file leaf-file-name="jv-fileopsit.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/jv-fileopsit.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="196" column="18" lean-forward="true" selection-start-line="196" selection-start-column="18" selection-end-line="196" selection-end-column="18" />
+            <state relative-caret-position="4116">
+              <caret line="196" column="18" lean-forward="false" selection-start-line="196" selection-start-column="18" selection-end-line="196" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -88,8 +87,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="413" column="0" lean-forward="true" selection-start-line="413" selection-start-column="0" selection-end-line="413" selection-end-column="0" />
+            <state relative-caret-position="8673">
+              <caret line="413" column="0" lean-forward="false" selection-start-line="413" selection-start-column="0" selection-end-line="413" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -120,23 +119,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>taube</find>
-      <find>taubh</find>
-      <find>gausig</find>
-      <find>eu</find>
-      <find>eveu</find>
-      <find>sech</find>
-      <find>sechn</find>
-      <find>sechtau</find>
-      <find>.val</find>
-      <find>eV_Et</find>
-      <find>ev_et</find>
-      <find>eVStart</find>
-      <find>updatesettings</find>
-      <find>ev_bind</find>
-      <find>et_touch</find>
-      <find>evstart_touch</find>
-      <find>TauBe_touch</find>
       <find>haideri</find>
       <find>jdostype</find>
       <find>resptoemis</find>
@@ -150,6 +132,23 @@
       <find>emisSettn</find>
       <find>gotHomogSim</find>
       <find>return</find>
+      <find>objsettn</find>
+      <find>console</find>
+      <find>et_touch</find>
+      <find>simSettn</find>
+      <find>inhomSpectr.eVarr</find>
+      <find>makespArr</find>
+      <find>inhomspectr</find>
+      <find>numpoints</find>
+      <find>ex0</find>
+      <find>etr</find>
+      <find>simSettn.eTr</find>
+      <find>_touch</find>
+      <find>exenarr</find>
+      <find>simsettn.etr</find>
+      <find>makesparr</find>
+      <find>eDelta</find>
+      <find>makesommer</find>
     </findStrings>
     <replaceStrings>
       <replace>simSettn.jdostype</replace>
@@ -215,7 +214,6 @@
         <option value="$PROJECT_DIR$/views/multi-page.html" />
         <option value="$PROJECT_DIR$/views/multi-page.jade" />
         <option value="$PROJECT_DIR$/views/el_settndialog.jade" />
-        <option value="$PROJECT_DIR$/views/mongoDialForm.jade" />
         <option value="$PROJECT_DIR$/views/tab1.jade" />
         <option value="$PROJECT_DIR$/public/js/jv-tablandplotit.js" />
         <option value="$PROJECT_DIR$/public/css/broadn.css" />
@@ -240,6 +238,7 @@
         <option value="$PROJECT_DIR$/views/spectralmodel2.jade" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/views/broaden.jade" />
+        <option value="$PROJECT_DIR$/views/mongoDialForm.jade" />
         <option value="$PROJECT_DIR$/views/spectralmodel.jade" />
       </list>
     </option>
@@ -527,7 +526,8 @@
       <workItem from="1490701548046" duration="118661000" />
       <workItem from="1492000744324" duration="119000" />
       <workItem from="1492000984012" duration="129000" />
-      <workItem from="1492001290096" duration="12204000" />
+      <workItem from="1492001290096" duration="29118000" />
+      <workItem from="1492196853435" duration="13872000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -540,7 +540,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2526137000" />
+    <option name="totallyTimeSpent" value="2556923000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -836,7 +836,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="609">
           <caret line="29" column="93" lean-forward="false" selection-start-line="29" selection-start-column="93" selection-end-line="29" selection-end-column="93" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -887,7 +886,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1">
           <caret line="719" column="22" lean-forward="true" selection-start-line="719" selection-start-column="22" selection-end-line="719" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -895,7 +893,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
           <caret line="110" column="37" lean-forward="false" selection-start-line="110" selection-start-column="37" selection-end-line="110" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -903,7 +900,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="413">
           <caret line="138" column="9" lean-forward="false" selection-start-line="138" selection-start-column="9" selection-end-line="138" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -911,13 +907,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="413">
           <caret line="210" column="21" lean-forward="false" selection-start-line="210" selection-start-column="21" selection-end-line="210" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jv-mngo-tree/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
+        <state relative-caret-position="10983">
           <caret line="523" column="40" lean-forward="false" selection-start-line="523" selection-start-column="40" selection-end-line="523" selection-end-column="40" />
           <folding />
         </state>
@@ -925,16 +920,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/jv-fileopsit.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="196" column="18" lean-forward="true" selection-start-line="196" selection-start-column="18" selection-end-line="196" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/mongoDialForm.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="578" column="22" lean-forward="false" selection-start-line="578" selection-start-column="22" selection-end-line="578" selection-end-column="22" />
+        <state relative-caret-position="4116">
+          <caret line="196" column="18" lean-forward="false" selection-start-line="196" selection-start-column="18" selection-end-line="196" selection-end-column="18" />
           <folding />
         </state>
       </provider>
@@ -952,30 +939,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="413" column="0" lean-forward="true" selection-start-line="413" selection-start-column="0" selection-end-line="413" selection-end-column="0" />
+        <state relative-caret-position="8673">
+          <caret line="413" column="0" lean-forward="false" selection-start-line="413" selection-start-column="0" selection-end-line="413" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/broaden.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="143" column="10" lean-forward="true" selection-start-line="143" selection-start-column="10" selection-end-line="143" selection-end-column="10" />
+        <state relative-caret-position="3003">
+          <caret line="143" column="10" lean-forward="false" selection-start-line="143" selection-start-column="10" selection-end-line="143" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/mongoDialForm.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3822">
+          <caret line="182" column="21" lean-forward="false" selection-start-line="182" selection-start-column="14" selection-end-line="182" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="513" column="52" lean-forward="true" selection-start-line="513" selection-start-column="52" selection-end-line="513" selection-end-column="52" />
+        <state relative-caret-position="150">
+          <caret line="495" column="6" lean-forward="false" selection-start-line="495" selection-start-column="6" selection-end-line="495" selection-end-column="6" />
           <folding>
             <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
             <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
             <element signature="n#table#0;n#div#8;n#div#1;n#block#0;n#!!top" expanded="false" />
-            <marker date="1492028573366" expanded="true" signature="65525:65659" ph="..." />
-            <marker date="1492028573366" expanded="true" signature="67744:67879" ph="..." />
+            <marker date="1492266711669" expanded="true" signature="66654:66788" ph="..." />
+            <marker date="1492266711669" expanded="true" signature="68873:69008" ph="..." />
           </folding>
         </state>
       </provider>

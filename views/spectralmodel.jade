@@ -493,13 +493,7 @@ block levenee
         border: 1px solid sandybrown;
         padding-left:30px;
       }
-
-      /* muuttaa dialogin vaaleankeltaiseksi
-      .vaaleankelt {
-        background: lightyellow !important;
-      }*/
-
-
+      
     //-******************************************************************************/
     //-******************************************************************************/
 
@@ -554,7 +548,7 @@ block levenee
           //++++++spectral range for calculations:
           eVstart: 1.3,           //start energy for simulation
           eVstop: 1.7,            //stop energy for simulation
-          eTr: 1.4,               //Transition energy in Boltzmann function
+          eVTr: 1.35,               //Transition energy in Boltzmann function
           //Ev:true,
           //++++++Temperature in the Boltzmann energy distribution in the e-h pair population
           kelvin: 293,            //temperature [K] in boltzmann function
@@ -576,6 +570,33 @@ block levenee
           DlTau2: 100             //hole/electron relaxation time in dual Lorentzian B.F. [fs
       };
 
+      makespArr();  //creates spectral points array and stores to inhomSpectr.eVarr
+      /*Object.defineProperty(simSettn, "eDelta", {
+          get: function () {
+              return (this.eVstop - this.eVstart)/(inhomSpectr.numPoints-1);
+          }
+      });*/
+
+      Object.defineProperty(simSettn, "eTr", {
+          //getter-setter pair coincides eTr value on one of the simulation array points,
+          //otherwise exciton enhancement is jumpy when scrolled by spinner
+          set: function(x) {
+              var tempEtr;
+              var k;
+              if(x>this.eVstart && x<this.eVstop){
+                  k= (inhomSpectr.numPoints-1)*(x-this.eVstart)/(this.eVstop - this.eVstart);
+                  k=Math.round(k);
+              }else{
+                  k=Math.round(inhomSpectr.numPoints/2);
+              }
+              this.eVTr = inhomSpectr.eVarr[k];
+              $('#Et_touch').val(inhomSpectr.eVarr[k].toFixed(3));
+          },
+          get: function () {
+              return this.eVTr;
+          }
+      });
+
       graphSettn={
           inhomLegend: '',        //legend for graph 1
           homLegend: '',          //legend for graph 2
@@ -587,7 +608,8 @@ block levenee
 
       // Additional initial values *******************************************:
       // ****************************************************************
-      makespArr();  //creates spectral points array and stores to inhomSpectr.eVarr
+
+      simSettn.eTr=1.4; //starting value for transition energy
       var optiot = {//initial plotting options
           xaxes: [{position: 'bottom', axisLabel: 'Energy eV'}],
           yaxes: [{position: 'left', axisLabel: 'Relative Intensity'}],
@@ -865,7 +887,8 @@ block levenee
       $("#Et_touch").on('touchspin.on.stopspin', function (e) {
           //console.log('eVstop_touch: ', $("#eVstop_touch").val());
           var tmp1 = Number($("#Et_touch").val());
-          simSettn.eTr = tmp1.toFixed(3);
+          simSettn.eTr = tmp1;
+          //console.log('simSettn.eTr: ',simSettn.eTr);
           makeJdos();       //density of states changes with Etr
           makeBoltz();      //Boltzmann distribution changes with Etr
           makeSommer();     //exciton enhanchement also
@@ -908,7 +931,7 @@ block levenee
 
       $("#eVbind_touch").on('touchspin.on.stopspin', function (e) {
           var tmp1 = Number($("#eVbind_touch").val());
-          simSettn.exEb = tmp1.toFixed(0);
+          simSettn.exEb = tmp1;
           makeSommer();     //exciton enhanchements
           calcInhom();
           calcHom();
@@ -928,7 +951,7 @@ block levenee
 
       $("#ex0_touch").on('touchspin.on.stopspin', function (e) {
           var tmp1 = Number($("#ex0_touch").val());
-          simSettn.ex0 = tmp1.toFixed(0);
+          simSettn.ex0 = tmp1;
           makeSommer();     //exciton enhanchements
           calcInhom();
           calcHom();
@@ -1277,9 +1300,14 @@ block levenee
           var helppi;
           inhomSpectr.eVarr=[];
           for (var i = 0; i < n; i++) {
-              helppi = (Start + i * Del).toFixed(7);
+              helppi = Start + i * Del;
               inhomSpectr.eVarr.push(helppi);
           }
+      }
+
+      function tune_Etr(Etr){
+          var n=inhomSpectr.numPoints*(Etr-inhomSpectr.eVstart)/(inhomSpectr.eVstop-inhomSpectr.eVstart);
+          var tempEtr=Math.round(n);
       }
 
       function makeSommer(){
@@ -1288,6 +1316,7 @@ block levenee
           var Etr=parseFloat(simSettn.eTr);
           var Eb=parseFloat(simSettn.exEb);
           var eVs;
+
           inhomSpectr.exenArr=[];
           for (var i = 0; i < n; i++) {
               eVs = parseFloat(inhomSpectr.eVarr[i]);
@@ -1306,7 +1335,9 @@ block levenee
               }
           } else if (simSettn.jdostype == 'qw'){//jdos on qw
               if (simSettn.polarizat == 'TE'){
-                  if (E > Etr){
+                  if (E == Etr){
+                      Se = 2;
+                  }else if (E > Etr){
                       Pi_alfa = Math.PI * Math.sqrt(Eb / 1000 / (E - Etr));
                       Se = 2 * Math.exp(Pi_alfa) / (Math.exp(Pi_alfa) +
                           Math.exp(-Pi_alfa));
@@ -1320,7 +1351,6 @@ block levenee
                       Se = 2 * Math.exp(Pi_alfa) / (Math.exp(Pi_alfa) + Math.exp(-Pi_alfa));
                       Se *=(1 + 4 * Eb/(E - Etr+simSettn.ex0/1000)/1000);
                   }
-                  //return Se.toFixed(7);
               }
           }
           return Se.toFixed(7);
@@ -2515,7 +2545,7 @@ block levenee
           // "exiton":{"Eb_meV":5,"type":"QW-2D","viewDir":"parallel","polarizat":"TE"},
           // "Boltzmann":{"Epeak_eV":1.4,"Temp_K":293},"InhmgBrdng":{"type":"SymmUrbach","Eu_meV":8}}
           var objSettns=JSON.parse(parSettns);
-          console.log('objSettns: ',objSettns);
+          //console.log('objSettns: ',objSettns);
           simSettn.eVstart=objSettns.Estart;
           $('#eVstart_touch').val(simSettn.eVstart);
           simSettn.eVstop=objSettns.Estop;
@@ -2586,7 +2616,7 @@ block levenee
       }
 
       function gotHomogSim(filecont) {
-          console.log('Homog simulation parameters: ',filecont);
+          //console.log('Homog simulation parameters: ',filecont);
           //alert('gotHomogSim function not ready');
       }
 
