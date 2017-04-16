@@ -6,26 +6,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/jv-tablandplotit.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/jv-tfrcalci.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/custmesgs.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/custmesgs.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/layout.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/layout.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/mongoDialForm.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/mongoDialForm.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/spectralmodel.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/spectralmodel.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/jv-fileopsit.js" afterPath="$PROJECT_DIR$/public/js/jv-fileopsit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/jv-tfrcalci.js" afterPath="$PROJECT_DIR$/public/js/jv-tfrcalci.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/custmesgs.jade" afterPath="$PROJECT_DIR$/views/custmesgs.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.jade" afterPath="$PROJECT_DIR$/views/index.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.jade" afterPath="$PROJECT_DIR$/views/layout.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/mongoDialForm.jade" afterPath="$PROJECT_DIR$/views/mongoDialForm.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/refletrans.jade" afterPath="$PROJECT_DIR$/views/refletrans.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.jade" afterPath="$PROJECT_DIR$/views/spectralmodel.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/broaden.jade" afterPath="$PROJECT_DIR$/views/broaden.jade" />
     </list>
     <ignored path="jvs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,11 +26,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
               <caret line="15" column="25" lean-forward="false" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="broaden.jade" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/broaden.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="381">
+              <caret line="22" column="41" lean-forward="true" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -175,7 +166,6 @@
         <option value="$PROJECT_DIR$/jv-mngo-tree/index.js" />
         <option value="$PROJECT_DIR$/views/spectralmodel2.jade" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/views/broaden.jade" />
         <option value="$PROJECT_DIR$/public/js/spectralmodl.js" />
         <option value="$PROJECT_DIR$/views/spectmod.js" />
         <option value="$PROJECT_DIR$/views/spectralmodel.jade" />
@@ -191,6 +181,7 @@
         <option value="$PROJECT_DIR$/views/layout.js" />
         <option value="$PROJECT_DIR$/views/index.jade" />
         <option value="$PROJECT_DIR$/views/layout.jade" />
+        <option value="$PROJECT_DIR$/views/broaden.jade" />
       </list>
     </option>
   </component>
@@ -488,7 +479,7 @@
       <workItem from="1492288212439" duration="1181000" />
       <workItem from="1492289872264" duration="2326000" />
       <workItem from="1492330289082" duration="4971000" />
-      <workItem from="1492335294257" duration="16293000" />
+      <workItem from="1492335294257" duration="17242000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -501,7 +492,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2591943000" />
+    <option name="totallyTimeSpent" value="2592892000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -517,7 +508,7 @@
     <frame x="-9" y="-9" width="1384" height="786" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19895288" sideWeight="0.5708333" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26327598" sideWeight="0.5708333" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26040062" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30756843" sideWeight="0.8137621" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -848,14 +839,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/broaden.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="177" column="0" lean-forward="true" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/broadgeneral.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="103">
@@ -946,18 +929,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="499" column="8" lean-forward="false" selection-start-line="499" selection-start-column="0" selection-end-line="500" selection-end-column="34" />
-          <folding>
-            <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
-            <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
-            <element signature="n#table#0;n#div#8;n#div#1;n#block#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/refletrans.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-299">
@@ -966,10 +937,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
+            <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
+            <element signature="n#table#0;n#div#8;n#div#1;n#block#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="15" column="25" lean-forward="false" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/broaden.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="22" column="41" lean-forward="true" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
           <folding />
         </state>
       </provider>
