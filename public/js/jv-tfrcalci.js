@@ -1385,7 +1385,7 @@ $(function() {
         }else {
             //rowIndex = oMatTable.fnGetPosition($(anSelected).closest('tr')[0]);
             rowIndex = oMatTable.row($(anSelected).closest('tr')[0]).index();
-            alert("Cannot remowe row No: " + rowIndex + " !");
+            alert("Cannot remowe row No:" + rowIndex + " !");
         }
         EnDisButt('Disabled', '#btnDelMatRow');
         EnDisButt('Disabled', '#btnAddMatRow');

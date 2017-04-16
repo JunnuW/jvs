@@ -5,7 +5,6 @@
  */
 
 "use strict";
-
 /* Function senData
 * posts using XMLHttpRequest, (i.e. without jquery interactions)
 * but this function is not used, kept here only for future needs
@@ -62,7 +61,7 @@ function respToArr(fileName,resObj) {
     }else{
         laabel=dirUser+"\'s file"
     }
-    setEdiLbl(laabel);//sets label on 'Materials', 'Targets' or 'Stack' tab
+    setEdiLbl(laabel);//sets label  on 'Materials', 'Targets' or 'Stack' tab
     var dataArrs;
     switch (selecTabId) {
         case "Materials":
@@ -242,7 +241,7 @@ function handleFail(errDatas,messag){
             respMessa=messag+' '+" , error in Url?: "+saveUrl;
             break;
         case 413:
-            respMessa=messag+' '+" , too much data? ";
+            respMessa=messag+' '+" ,too much data?";
             break;
         case 204:
             respMessa=messag+' '+' File was not found'
@@ -273,7 +272,7 @@ function toJsonArr(coLLe, filename, arrDat, desc) {
         var unit=arrDat[0][0]; //should be
         if (unit!="nm" && unit!="um" && unit!="eV") {
             throw new Error("Unknown spectral unit "+unit);
-            return;
+            //return;
         }
         resu.Unit = unit; //wavelength unit: nm, um or eV
         var sPoints=[];

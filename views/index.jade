@@ -13,7 +13,7 @@ block content
     | This is my uncommercial effort on
     //- link to cloud computing on new browser tab
     -cloud_url="https://en.wikipedia.org/wiki/Cloud_computing"
-    a(href="#{cloud_url}" target="_blank")      browser based software with cloud storage
+    a(href="#{cloud_url}" target="_blank")      browser based software and cloud storage
     |  targetting on technical and scientific computing.
     | During the effort, a strong positive opinion grew for this concept. All examined calculation
     | and simulation tasks were easily accomplished using javascript on the web browser. This results into very
@@ -27,9 +27,11 @@ block content
     | is reserved only for logged in users. However, the email address stored at signup is merely
     | used to recover your login and password on this site (in case you forget it). Your email will not be sold
     | or used to pollute with commercial messages. If you want to be sure, and don't need the password recovery option,
-    | you can signup with a fake address. On the server side, all passwords will be hashed in saving and without
-    | a real email address there is no easy way for me to recover them for you. For space saving, passive
-    | data will be regularly removed from the server.
+    | you can signup with a fake address. On the server side, all passwords will be
+    -hash_url="https://en.wikipedia.org/wiki/Cryptographic_hash_function"
+    a(href=hash_url target="blank")    hashed
+    |     in the saving and without a real email address there is no easy way for me to recover them for you.
+    | For space saving, passive data will be regularly removed from the server.
 
   script(type='text/javascript').
 
