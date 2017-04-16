@@ -6,7 +6,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/jv-tfrcalci.js" afterPath="$PROJECT_DIR$/public/js/jv-tfrcalci.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/jv-tfrcalci.min.js" afterPath="$PROJECT_DIR$/public/js/jv-tfrcalci.min.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/broaden.jade" afterPath="$PROJECT_DIR$/views/broaden.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/refletrans.jade" afterPath="$PROJECT_DIR$/views/refletrans.jade" />
     </list>
     <ignored path="jvs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,11 +40,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="broaden.jade" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/broaden.jade">
+      <file leaf-file-name="refletrans.jade" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/refletrans.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="381">
-              <caret line="22" column="41" lean-forward="true" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
+            <state relative-caret-position="-240">
+              <caret line="15" column="58" lean-forward="false" selection-start-line="15" selection-start-column="58" selection-end-line="15" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jv-tfrcalci.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/jv-tfrcalci.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="271">
+              <caret line="1387" column="41" lean-forward="false" selection-start-line="1387" selection-start-column="41" selection-end-line="1387" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -176,12 +190,12 @@
         <option value="$PROJECT_DIR$/views/mongoDialForm.jade" />
         <option value="$PROJECT_DIR$/public/js/jv-fileopsit.js" />
         <option value="$PROJECT_DIR$/public/js/jv-tablandplotit.js" />
-        <option value="$PROJECT_DIR$/public/js/jv-tfrcalci.js" />
-        <option value="$PROJECT_DIR$/views/refletrans.jade" />
         <option value="$PROJECT_DIR$/views/layout.js" />
         <option value="$PROJECT_DIR$/views/index.jade" />
         <option value="$PROJECT_DIR$/views/layout.jade" />
         <option value="$PROJECT_DIR$/views/broaden.jade" />
+        <option value="$PROJECT_DIR$/views/refletrans.jade" />
+        <option value="$PROJECT_DIR$/public/js/jv-tfrcalci.js" />
       </list>
     </option>
   </component>
@@ -282,6 +296,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jvs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jvs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bower_components" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -479,7 +507,7 @@
       <workItem from="1492288212439" duration="1181000" />
       <workItem from="1492289872264" duration="2326000" />
       <workItem from="1492330289082" duration="4971000" />
-      <workItem from="1492335294257" duration="17242000" />
+      <workItem from="1492335294257" duration="20689000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -492,7 +520,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2592892000" />
+    <option name="totallyTimeSpent" value="2596339000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -820,14 +848,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/jv-tfrcalci.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="1387" column="40" lean-forward="false" selection-start-line="1387" selection-start-column="40" selection-end-line="1387" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/spectralmodel.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="63">
@@ -929,14 +949,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/refletrans.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-299">
-          <caret line="39" column="67" lean-forward="true" selection-start-line="39" selection-start-column="67" selection-end-line="39" selection-end-column="67" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -949,6 +961,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/views/broaden.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-61">
+          <caret line="7" column="62" lean-forward="true" selection-start-line="7" selection-start-column="62" selection-end-line="7" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -957,10 +977,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/broaden.jade">
+    <entry file="file://$PROJECT_DIR$/public/js/jv-tfrcalci.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="22" column="41" lean-forward="true" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
+        <state relative-caret-position="271">
+          <caret line="1387" column="41" lean-forward="false" selection-start-line="1387" selection-start-column="41" selection-end-line="1387" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/refletrans.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-240">
+          <caret line="15" column="58" lean-forward="false" selection-start-line="15" selection-start-column="58" selection-end-line="15" selection-end-column="58" />
           <folding />
         </state>
       </provider>
