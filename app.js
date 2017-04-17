@@ -26,7 +26,7 @@ var mngoTree=require('./jv-mngo-tree');
 var requestIp = require('request-ip'); //for finding request client's ip
 var jwtSecret='onpas_ovelaa_tämä:_node.js';
 var app = express();
-var robots = require('robots.txt');
+//var robots = require('robots.txt');
 //var pug = require('pug');
 //var compiledFunction = pug.compileFile('views\\broaden.jade');
 //console.log(compiledFunction());
@@ -48,7 +48,7 @@ app.use(express.static(__dirname + '/public')); //tässä muun staattisen sisäl
 app.use(favicon(path.join(__dirname,'public','images','favicon24.ico')));
 
 // Pass in the absolute path to your robots.txt file
-app.use(robots(__dirname + '/robots.txt'));
+//app.use(robots(__dirname + '/robots.txt'));
 
 var url;
 if (process.env.OPENSHIFT_MONGODB_DB_URL) {
