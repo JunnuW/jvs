@@ -26,6 +26,7 @@ var mngoTree=require('./jv-mngo-tree');
 var requestIp = require('request-ip'); //for finding request client's ip
 var jwtSecret='onpas_ovelaa_tämä:_node.js';
 var app = express();
+var robots = require('robots.txt');
 //var pug = require('pug');
 //var compiledFunction = pug.compileFile('views\\broaden.jade');
 //console.log(compiledFunction());
@@ -41,10 +42,13 @@ app.ipaddress=ipAddress;
 app.port=process.env.OPENSHIFT_NODEJS_PORT || 3000;
 console.log('Port: ',app.port);
 
-app.use(express.static(__dirname)); //tämä oltava jotta bower_components hakemisto löytyy
+app.use(express.static(__dirname)); //tämä oltava jotta mm. bower_components hakemisto löytyy
 app.use(express.static(__dirname + '/public')); //tässä muun staattisen sisällön hakemisto
-//seuraava on ovela, muodostaa polun kÃ¤yttÃ¤en OS:n mukaan joko / tai \ merkkiÃ¤:
+//seuraava on ovela, muodostaa polun käyttäen OS:n mukaan joko / tai \ merkkiä:
 app.use(favicon(path.join(__dirname,'public','images','favicon24.ico')));
+
+// Pass in the absolute path to your robots.txt file
+app.use(robots(__dirname + '/robots.txt'));
 
 var url;
 if (process.env.OPENSHIFT_MONGODB_DB_URL) {
