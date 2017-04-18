@@ -1,2 +1,14 @@
 User-agent: *
+Disallow: /.openshift/
+Disallow: /bower_components/
+Disallow: /jv-mngo-tree/
+Disallow: /node_modules/
+Disallow: /public/
+Disallow: /views/
+Disallow: /app.js
+Disallow: /bower.json
+Disallow: /google460fcb1ea928dac6.html
 Disallow: /mongo-ohje.txt
+Disallow: /package.json
+Disallow: /server.js
+Disallow: /Vindex.html
