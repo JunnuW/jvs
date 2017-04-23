@@ -272,7 +272,7 @@ var nRenamed=0;
 var toBeRen=0;
 
 exports.renameDocs=function(req,res,callBfun) {
-    //callBfun takes result back for the response handler in app.js
+    //callBfun takes result back for the response handler in appi.js
     //renames existing mongo db document with new fName
     //pick a mongoose model for renaming update:
     var applModel;

@@ -4,28 +4,28 @@ html
   head
     title=title
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    script(src='/bower_components/jquery/dist/jquery.min.js')
-    script(src='/bower_components/jquery-ui/jquery-ui.min.js')
-    script(src='/bower_components/jstree/dist/jstree.min.js')
-    script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
-    script(src="/bower_components/bootstrap-touchspin/src/jquery.bootstrap-touchspin.js")
+    script(src='/scripts/jquery/dist/jquery.min.js')
+    script(src='/scripts/jquery-ui/jquery-ui.min.js')
+    script(src='/scripts/jstree/dist/jstree.min.js')
+    script(src='/scripts/bootstrap/dist/js/bootstrap.min.js')
+    script(src="/scripts/bootstrap-touchspin/src/jquery.bootstrap-touchspin.js")
     //-script(src='/bower_components/jqnotifybar/jquery.notifyBar.js')
-    script(src='/bower_components/Flot/jquery.flot.js')
+    script(src='/scripts/Flot/jquery.flot.js')
     //-script(src='/bower_components/Flot/jquery.flot.crosshair.js')
     //-script(src='/bower_components/Flot/jquery.flot.selection.js')
-    script(src='/bower_components/Flot/jquery.flot.canvas.js')
-    script(src='/bower_components/jqnotifybar/jquery.notifyBar.js')
-    script(src='/bower_components/flot-axislabels/jquery.flot.axislabels.js')
+    script(src='/scripts/Flot/jquery.flot.canvas.js')
+    script(src='/scripts/jqnotifybar/jquery.notifyBar.js')
+    script(src='/scripts/flot-axislabels/jquery.flot.axislabels.js')
     script(type ='text/x-mathjax-config')
     //MathJax.Hub.Config ({TeX:{equationNumbers:{autoNumber:"AMS"},tex2jax:{inlineMath:[['$','$'], ['\\(','\\)']]}}});
     script(src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML")
-    script(src='/public/js/jv-fileopsit.min.js')
-    script(src='/public/js/fft_libry.js')
-    link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
-    link(rel='stylesheet', href='/bower_components/bootstrap-touchspin/src/jquery.bootstrap-touchspin.css', type='text/css', media='all')
-    link(rel='stylesheet', href='/bower_components/jquery-ui/themes/start/jquery-ui.min.css')
-    link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
-    link(rel='stylesheet', href='/bower_components/jstree/dist/themes/default/style.min.css')
+    script(src='/jvscripts/js/jv-fileopsit.min.js')
+    script(src='/jvscripts/js/fft_libry.js')
+    link(rel='stylesheet', href='/scripts/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/scripts/bootstrap-touchspin/src/jquery.bootstrap-touchspin.css', type='text/css', media='all')
+    link(rel='stylesheet', href='/scripts/jquery-ui/themes/start/jquery-ui.min.css')
+    link(rel='stylesheet', href='/scripts/jqnotifybar/css/jquery.notifyBar.css')
+    link(rel='stylesheet', href='/scripts/jstree/dist/themes/default/style.min.css')
 
   body
     div.navbar-inverse(role='navigation')
@@ -75,7 +75,7 @@ html
               ul.dropdown-menu
                 li
                   a(id='lokoutti2', href='/Logout') Logout
-        //-gets messages from req.flash set in app.js
+        //-gets messages from req.flash set in appi.js
     if messages
       div.container
         if messages && messages.error

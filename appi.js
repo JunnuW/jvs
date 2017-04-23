@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var crypto=require('crypto');
 var favicon = require('serve-favicon');
-var logger = require('morgan');//logs requests to the console to what is happening
+//var logger = require('morgan');//logs requests to the console to what is happening
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');//gets parameters from POST requests
 var urlEncodedParser = bodyParser.urlencoded({extended:true,type:
@@ -16,20 +16,20 @@ var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt-nodejs');
 var async = require('async'); //utility module for waterfall etc.
 var flash = require('express-flash'); //flashing messages on browser page
-var expressValidator = require("express-validator");
-var methodOverride=require("express-method-override");
+//var expressValidator = require("express-validator");
+//var methodOverride=require("express-method-override");
 var jwt = require('jwt-simple');
 var moment = require('moment');
 var session = require('express-session'); //Session cookies
-//var errorHandler = require('express-error-handler');
+var errorHandler = require('express-error-handler');
 var mngoTree=require('./jv-mngo-tree');
 var requestIp = require('request-ip'); //for finding request client's ip
 var jwtSecret='onpas_ovelaa_tämä:_node.js';
 var app = express();
-//var robots = require('robots.txt');
-//var pug = require('pug');
-//var compiledFunction = pug.compileFile('views\\broaden.jade');
-//console.log(compiledFunction());
+var fileSep = path.sep;
+
+//var fs = require('fs');
+var robots = require('robots.txt');
 //  Set the needed environment variables:
 var ipAddress=process.env.OPENSHIFT_NODEJS_IP;
 if (typeof ipAddress === "undefined") {
@@ -40,15 +40,23 @@ if (typeof ipAddress === "undefined") {
 }
 app.ipaddress=ipAddress;
 app.port=process.env.OPENSHIFT_NODEJS_PORT || 3000;
-console.log('Port: ',app.port);
 
-app.use(express.static(__dirname)); //tämä oltava jotta mm. bower_components hakemisto löytyy
-app.use(express.static(__dirname + '/public')); //tässä muun staattisen sisällön hakemisto
+//var reititys=require('./jvsrouter');
+//app.use('*',reititys);
+
+/*app.use(function(req, res, next){
+    console.log('%s %s from %s', req.method, req.url, req.ip);
+    next();
+});*/
+app.use('/scripts', express.static(__dirname + '/bower_components/'));
+app.use('/jvscripts', express.static(__dirname + '/public'));
+//app.use(express.static(__dirname)); //tämä on huono antaa juurihakemiston selailuun
+//app.use(express.static(__dirname + '/public')); //tässä muun staattisen sisällön hakemisto
 //seuraava on ovela, muodostaa polun käyttäen OS:n mukaan joko / tai \ merkkiä:
 app.use(favicon(path.join(__dirname,'public','images','favicon24.ico')));
 
 // Pass in the absolute path to your robots.txt file
-//app.use(robots(__dirname + '/robots.txt'));
+app.use(robots(__dirname + '/robots.txt'));
 
 var url;
 if (process.env.OPENSHIFT_MONGODB_DB_URL) {
@@ -61,6 +69,7 @@ if (process.env.OPENSHIFT_MONGODB_DB_URL) {
 var connect = function () {
     mongoose.connect(url);
 };
+
 connect(); //yhteys tietokantaan
 
 var db = mongoose.connection;
@@ -169,8 +178,9 @@ var User = mongoose.model('User', userSchema);
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
 app.set('SessionSecret', 'onpas_ovelaa_tämä:_node.js');
-app.use(logger('dev')); //in development neighbourhood
+//app.use(logger('dev')); //in development neighbourhood
 
 //nämä kaksi:app.use(bodyParser.json())
 app.use(jsonParser);
@@ -185,7 +195,6 @@ app.use(urlEncodedParser,function(error, req, res, next){
         next ();
     }
 });
-
 //app.use(expressValidator());
 //app.use(methodOverride());
 app.use(cookieParser());
@@ -204,9 +213,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 //kaikki liitettävät .css, .js ym. tiedostot oltava public hakemistossa tai sen lisähakemistoon (__dirname)
 
+
+
 /* GET login page. */
 app.get('/login', function(req, res) {
-    //console.log('req: ',req);
+    console.log('req: ',req.url);
     var n=req.url.lastIndexOf('=');
     var logInfo;
     if (n>0){//re-entered after error in username or password
@@ -297,7 +308,7 @@ function ValidateToken(req,res){
 
 /* GET home page. */
 app.get('/', function(req, res) {
-    //console.log('get/');
+    console.log('home page get /');
     // following line prevents cache usage while rendering /index ;
     // causing menus to update according to login status
     //ValidateToken(req,res);
@@ -310,7 +321,7 @@ app.get('/', function(req, res) {
             user: (req.user)
         });
     } else {
-        //console.log('rendering / with or without user: ');
+        console.log('rendering / with or without user: ');
         res.render('index', {
             title: 'Rock Phys. (no login)',
             user: (req.user)  //false
@@ -320,7 +331,7 @@ app.get('/', function(req, res) {
 
 /* GET index page. */
 app.get('/index', function(req, res) {
-    //console.log('app.get/index');
+    console.log('app.get/index');
     //console.log('/index req.headers: '+JSON.stringify(req.headers));
 });
 
@@ -446,13 +457,6 @@ app.get('/refletrans', function (req, res) {
 app.get('/el_dialog', function(req, res) {
     res.render('el_settndialog',{
         title: 'Simulation settings',
-        user: (req.user)  //false
-    });
-});
-
-app.get('/multi-page', function(req, res) {
-    res.render('multi-page.jade', {
-        //title: 'Testiä',
         user: (req.user)  //false
     });
 });
@@ -852,13 +856,15 @@ app.post('/reset/:token', function(req, res) {
 });
 
 //The 404 Route is the last route if no match found earlier
-/*app.get('*', function(req, res){
-    req.flash('error', 'This address was not found');
+app.get('*', function(req, res,next){
+    //req.flash('error', 'This address was not found');
     res.render('error', {
         message: 'Unknown URL: '+req.url
         //error:
     });
-});*/
+    //console.log('req lopuksi: ',req);
+    //next();
+});
 
 //The 404 Route (ALWAYS Keep this as the last route)
 app.post('*', function(req, res){
@@ -868,7 +874,6 @@ app.post('*', function(req, res){
     });
     //res.send('what???', 404);
 });
-
 
 
 //MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
@@ -910,8 +915,8 @@ if (app.get('env') === 'development') {
             'error.status':"404"
         });
     });
-
 }
+
 /*app.use(function(err,req,res,next){
  if(err){
  console.log('Errori:'+err);
@@ -926,9 +931,9 @@ if (app.get('env') === 'development') {
     res.end();
 });*/
 
-/*if ('development' == app.get('env')) {
+if ('development' == app.get('env')) {
  app.use(errorHandler());
- }*/
+ }
 
 module.exports = app;
 

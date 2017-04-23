@@ -2,10 +2,12 @@
 //  OpenShift sample Node application
 //var express = require('express');
 //var fs      = require('fs'); //joo
-var app = require('./app');
-
+var app = require('./appi');
 
 // Removed 'SIGPIPE' from the list - bugz 852598.
+//from terminal Ctrl+C = SIGINT
+//SIGHUP is generated on Windows when the console window is closed,
+//and on other platforms under various similar conditions
 var signals =     ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
     'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
 ];
@@ -23,11 +25,12 @@ function terminator(sig){
     }
     console.log('%s: Node server stopped.', Date(Date.now()) );
 }
-
-/*var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);*/
-//app.listen(Port, ipAddress, function() {
-app.listen(app.port,app.ipaddress, function() {
+var ipAddress = process.env.OPENSHIFT_NODEJS_IP   || '127.0.0.1';
+var port    = process.env.OPENSHIFT_NODEJS_PORT || '3000';
+//var port = normalizePort(process.env.PORT || '3000');
+//app.set('port', port);
+app.listen(port, ipAddress, function() {
+//app.listen(app.port,app.ipaddress, function() {
     console.log('%s: Node server started on %s:%d ...',
         Date(Date.now() ), app.ipaddress, app.port);
 });

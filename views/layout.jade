@@ -4,13 +4,13 @@ html
     title= title
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
   block scripts
-    link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
-    script(src='/bower_components/jquery/dist/jquery.min.js')
-    script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
-    script(src='/bower_components/jquery-validation/dist/jquery.validate.js')
-    script(src='/bower_components/jqnotifybar/jquery.notifyBar.js')
-    link(rel='stylesheet', href='/bower_components/jqnotifybar/css/jquery.notifyBar.css')
-    link(rel='stylesheet', href='/bower_components/jquery-ui/themes/start/jquery-ui.min.css')
+    link(rel='stylesheet', href='/scripts/bootstrap/dist/css/bootstrap.min.css')
+    script(src='/scripts/jquery/dist/jquery.min.js' type="text/javascript")
+    script(src='/scripts/bootstrap/dist/js/bootstrap.min.js')
+    script(src='/scripts/jquery-validation/dist/jquery.validate.js')
+    script(src='/scripts/jqnotifybar/jquery.notifyBar.js')
+    link(rel='stylesheet', href='/scripts/jqnotifybar/css/jquery.notifyBar.css')
+    link(rel='stylesheet', href='/scripts/jquery-ui/themes/start/jquery-ui.min.css')
   body
     //-.navbar.navbar-static-top(role='navigation')
     .navbar.navbar-inverse.navbar-static-top(role='navigation')
@@ -78,7 +78,7 @@ html
                 li
                   a(id='lokoutti2', href='/Logout') Logout
           //-a.navbar-brand(href='/') Projects
-        //-gets messages from req.flash set in app.js
+        //-gets messages from req.flash set in appi.js
     if messages
       .container
         if messages && messages.error
@@ -104,5 +104,5 @@ html
       background-color: #eee;
     }
 
-  script
+  script(type="text/javascript")
     include layout.min.js
