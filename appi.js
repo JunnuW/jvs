@@ -50,7 +50,7 @@ app.port=process.env.OPENSHIFT_NODEJS_PORT || 3000;
 });*/
 app.use('/scripts', express.static(__dirname + '/bower_components/'));
 app.use('/jvscripts', express.static(__dirname + '/public'));
-//app.use(express.static(__dirname)); //tämä on huono antaa juurihakemiston selailuun
+//app.use(express.static(__dirname)); //ei hyvä mahdollistaa juurihakemiston selailun
 //app.use(express.static(__dirname + '/public')); //tässä muun staattisen sisällön hakemisto
 //seuraava on ovela, muodostaa polun käyttäen OS:n mukaan joko / tai \ merkkiä:
 app.use(favicon(path.join(__dirname,'public','images','favicon24.ico')));
@@ -213,11 +213,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 //kaikki liitettävät .css, .js ym. tiedostot oltava public hakemistossa tai sen lisähakemistoon (__dirname)
 
-
-
 /* GET login page. */
 app.get('/login', function(req, res) {
-    console.log('req: ',req.url);
     var n=req.url.lastIndexOf('=');
     var logInfo;
     if (n>0){//re-entered after error in username or password
@@ -308,37 +305,26 @@ function ValidateToken(req,res){
 
 /* GET home page. */
 app.get('/', function(req, res) {
-    console.log('home page get /');
     // following line prevents cache usage while rendering /index ;
     // causing menus to update according to login status
-    //ValidateToken(req,res);
+    // ValidateToken(req,res);
     res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, ' +
         'post-check=0, pre-check=0');
-    if (req.user) {
-        //console.log('rendering with cookie username:  '+(req.session.user));
-        res.render('index', {
-            title: 'Rock Phys.',
-            user: (req.user)
-        });
-    } else {
-        console.log('rendering / with or without user: ');
-        res.render('index', {
-            title: 'Rock Phys. (no login)',
-            user: (req.user)  //false
-        });
-    }
+    res.render('index', {
+        title: 'Rock Phys. home page'
+    });
 });
 
 /* GET index page. */
 app.get('/index', function(req, res) {
-    console.log('app.get/index');
-    //console.log('/index req.headers: '+JSON.stringify(req.headers));
+    //console.log('app.get/index');
+    res.render('index', {
+        title: 'Rock Phys. home page'
+    });
 });
 
 /* GET contributions page. */
 app.get('/contrbs', function(req, res) {
-    //console.log('app.get/contrbs');
-    //console.log('/contrbs req.headers: '+JSON.stringify(req.headers));
     res.render('contrbs', {
         title: 'Acknowledgements',
         user: (req.user)  //false
@@ -347,8 +333,6 @@ app.get('/contrbs', function(req, res) {
 
 /* GET Broadenin fun page. */
 app.get('/broadmod', function(req, res) {
-    //console.log('app.get/BroadMod');
-    //console.log('/BroadMod: '+JSON.stringify(req.headers));
     res.render('broadgeneral', {
         title: 'Spectral broadening in quantum well LED\'s and LD\'s below laser threshold',
         user: (req.user)  //false
@@ -874,7 +858,6 @@ app.post('*', function(req, res){
     });
     //res.send('what???', 404);
 });
-
 
 //MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 

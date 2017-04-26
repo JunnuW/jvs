@@ -1,13 +1,12 @@
 extends layout
 block content
   h1= title
-  p
+  p(id='loginnif') Home page
     //-if user
       b(id='indUser') #{user.username}
       |  : Welcome to Rock.Phys.
       | #{token}
       //-else
-    | Home page
     br
     h2 Summary
     | This is my uncommercial effort on
@@ -34,4 +33,11 @@ block content
     | For space saving, passive data will be regularly removed from the server.
 
   script(type='text/javascript').
+    //var tokenee = window.sessionStorage.getItem('RTFtoken');
+    var useri = window.sessionStorage.getItem('RTFuser');
+    if (useri == null || useri == 'No login' || useri == 'No Login'){
+      $('#loginnif').text('No login');
+    }else{
+      $('#loginnif').text('For: '+useri);
+    }
 

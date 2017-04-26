@@ -115,7 +115,7 @@ function msgTreeUpdate() {
         })
             .done(function (data, status, xhr) {//
                 if (data) {
-                    console.log('data received: ',data);
+                    //console.log('data received: ',data);
                     if (data.statCode == 200) {
                         bTreeData = JSON.parse(data.resString);
                         //console.log('bTreeData: ',bTreeData);
@@ -128,7 +128,7 @@ function msgTreeUpdate() {
                         });
                     }
                 } else {
-                    console.log('no data received');
+                    //console.log('no data received');
                     $.notifyBar({
                         //-position: "bottom",
                         cssClass: "error",
@@ -137,7 +137,7 @@ function msgTreeUpdate() {
                 }
             })
             .fail(function () {
-                console.log('failed to read user messages ');
+                //console.log('failed to read user messages ');
                 $.notifyBar({
                     //-position: "bottom",
                     cssClass: "warning",
@@ -314,7 +314,7 @@ function countMessages(msgUser){
             if (data) {
                 userNupdate(data);
             } else {
-                console.log('message count could not be obtained from server');
+                //console.log('message count could not be obtained from server');
                 var MessaCount ={'all':false,'inModeration':data.error};
                 $.notifyBar({
                     cssClass: "error",

@@ -1,28 +1,31 @@
 //-Created by Juha on 3/6/2016
 extends broaden
 block levenee
-    h2 Modelling the spectral broadening in semiconductor light emitting diodes
+    h2 Modelling the spectral broadening in light emitting diodes (
+      span(style="color:Brown") LED's
+      |   )
     h4(style='margin-left:50px; color:Indigo;')
-      a(href='#otherHeader' style="font-style:italic;") (Use the simulator with other than semiconductor
-        | emitters, e.g. for plotting various combined broadening functions, like the Voigt profile?)
+      a(href='#otherHeader' style="font-style:italic;") (Use the simulator for non-semiconductor
+        | emitters, e.g. in plotting Voigt profile like combined broadening functions?)
     p(id='otherText') For non-semiconductor emitters, activate only the Boltzman distribution item in the simulator.
       | Set the temperature parameter (T) to zero (0 K) and adjust the transition energy
       | to the desired value. Using both simulation graphs (homogeneous and inhomogeneous) you can examine
       | several different broadening functions and also plot many combined (convolved) broadening profiles.
     h3(style="color:Brown;") Motivation and Purpose:
     p
-    | Light emitting diodes (LED) and laser diodes (LD) have rapidly gained amazing popularity in many applications,
-    | often because of high power efficiency, robustness, reliability and technological flexibility in the tailoring into
+    | Light emitting diodes (LED's) and laser diodes (LD's) have rapidly gained amazing popularity in many applications,
+    | often because of their high power efficiency, robustness, reliability and technological flexibility for tailoring into
     | countless different purposes. Applications ranging from multimedia displays, telecom
     | transmitters, high power lasers and normal LED light bulbs make LED's the most influential light source of our time.
     br
     br
-    b(style="color:Brown;")     Yet, the spectral shape of their light output is not well understood, especially, the
+    b(style="color:Brown;")     Yet, the spectral shape of their light output has not been described in detail, especially, the
       | spectral broadening on both sides of the emission peak.
-    |     For their unbeatable properties LED's are usually constructed with one or more quantum wells in the diode's
+    br
+    | For their unbeatable properties LED's are usually constructed with one or more quantum wells (QW) in the diode's
     -var pn_junction="https://en.wikipedia.org/wiki/P%E2%80%93n_junction"
     a(href=pn_junction target="_blank")   pn-junction.
-    |     In them, the charge carriers concentrate into tightly confined regions, which dramatically increases the
+    |     In the QW, the charge carriers concentrate into tightly confined regions, which dramatically increases the
     -var ehpair_urli="https://en.wikipedia.org/wiki/Electron_hole"
     a(href=ehpair_urli target="_blank")   electron-hole pair
     |     density and their
@@ -71,8 +74,9 @@ block levenee
       |   or
       b
         em   homogeneous.
-      |   With LED's, one description bottleneck exists in the spectral dependency on diode current.
-      | Diode spectrum typically broadens with increasing current (before the onset of
+      br
+      span(style="color:Brown")   With LED's, one description bottleneck has existed in the spectral dependency on diode current.
+      |     Diode spectrum typically broadens with increasing current (before the onset of
       -var stim_em="https://en.wikipedia.org/wiki/Stimulated_emission"
       a(href=stim_em target="_blank")   stimulated emission
       |       ) and this feature has sought for explanations. Because the emitted photons are particles without
@@ -120,10 +124,13 @@ block levenee
     a(href=Latex_urli target="_blank")  Latex
     |       style having numerous supporting web pages.
     br
-    | Instead of the direct evaluation of convolution integrals for the broadening spectra, the
+    | Instead of direct convolution integrals for the broadening spectra,
     -var convtheor_urli="https://en.wikipedia.org/wiki/Convolution_theorem"
     a(href=convtheor_urli target="_blank")   convolution theorem
-    |       approach and the fast Fourier transform (FFT) is used, in order to
+    |       approach with fast Fourier transform (
+    -var fftUrli="https://en.wikipedia.org/wiki/Fast_Fourier_transform"
+    a(href=fftUrli target="_blank")    FFT
+    |       ) is used, in order to
     -var fftconvo_urli="http://www.analog.com/media/en/technical-documentation/dsp-book/dsp_book_Ch18.pdf"
     a(href=fftconvo_urli target="_blank")  speed up the calculations.
     h3(style="color:Brown;") Compared spectral functions:
@@ -132,10 +139,10 @@ block levenee
     br
     | \(L_{ih}(\epsilon)=\frac{1}{2}(1-sgn(E_{f}-\epsilon))\cdot\exp[-(E_{f}-\epsilon)/E_{u}]\quad\),
     br
-    | where \(E_{f}\) is the Urbach focus energy and \(E_{u}\quad\) the broadening width parameter. This
-    | function readily explains the broadening of the absorption spectrum into the material bandgap in bulk
-    | materials, but in emission simulations results into sharply peaked, abnormal spectra, that are
-    | experimentally unrealistic. The function is included anyway for the demonstration.
+    | where \(E_{f}\) is the Urbach focus energy and \(E_{u}\quad\) the width parameter. This
+    | function readily explains the absorption spectrum broadening into the material bandgap,
+    | but in emission spectrum simulations it result into sharply peaked, abnormal spectra, that are
+    | experimentally unrealistic. The function is included here as a demonstration.
     br
     br
     b Symmetric Urbach function:
@@ -207,14 +214,18 @@ block levenee
     |\end{align}
 
     | where n is the refractive index and \(|M_{T}|^{2}\) the transition matrix element. The terms
-    | before the multiplication dot are assumed as constant throughout the broadening evaluation energy range.
+    | before the multiplication dot are assumed as constant throughout the inspected energy range.
     | \(\rho_{r}(E)\) is the reduced density of states (JDOS). \(f_{c}\) and \(f_{v}\) are the energy state
     | occupation Fermi functions for the conduction band electrons and valence band holes,
     | respectively. To include the Coulomb interactions and broadening effects,
     | Eq. (\ref{Rsp1}) is multiplied with the exciton continuum enhancement \(S(\epsilon)\), and convolved with the
     | line broadening function \(L_{t}(E)\). The discrete exciton peaks and the exciton quasi continuum
-    | are neglected because we are interested in excitons inside pn-junctions and in high electric fields.
-    | Approximating \(f_{c}\times (1-f_{v})\) with Boltzmann distribution we get the emission spectrum from the
+    | are neglected because we are interested in excitons inside pn-junctions with high internal electric fields.
+    br
+    | Approximating the Fermi functions
+    -var appr_urli="http://en.citizendium.org/wiki/Fermi_function"
+    a(href=appr_urli target="_blank")   \(f_{c}\times (1-f_{v})\)
+    |        with Boltzmann distribution we get the emission spectrum from the
     | convolution integral:
 
     |\begin{align}
@@ -284,11 +295,11 @@ block levenee
       | This is done by using energy \(E_{qw}\) for the \(E_{g}\) in Eq. (\ref{BulkEnh2}).
       | If \(E_{qw}=E_{t}-E_{0}\), the infinities in exciton enhancement are avoided, since the qw density of states
       | \(\rho_{r}(\epsilon)\) still has the Heaviside step at \(E_{t}\) and the spectral shape in
-      | \(S(\epsilon)\) can be fine tuned with \(E_{0}\), named as shape parameter on the modelling page of
+      | \(S(\epsilon)\) can be fine tuned with \(E_{0}\) (>0), named as shape parameter on the modelling page of
       | this site.
       br
     p(style="text-indent:20px;")
-      | The spectral shape of the exciton enhancement can be graphed, if it is selected alone in the simulators plotting menu.
+      | The spectral shape of the used exciton enhancement can be graphed, if it is selected alone from the plotting menu.
 
     script(type='text/javascript').
       var otherHeader=$('a[href = "#otherHeader"]');

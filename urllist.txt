@@ -1,15 +1,9 @@
 http://jvs-rockphys.rhcloud.com/
-http://jvs-rockphys.rhcloud.com/pwdEdit
-http://jvs-rockphys.rhcloud.com/login
-http://jvs-rockphys.rhcloud.com/signup
 http://jvs-rockphys.rhcloud.com/refletrans
 http://jvs-rockphys.rhcloud.com/broadmod
 http://jvs-rockphys.rhcloud.com/contrbs
-http://jvs-rockphys.rhcloud.com/custmsgs
 http://jvs-rockphys.rhcloud.com/aboutti
-http://jvs-rockphys.rhcloud.com/forgot
 http://jvs-rockphys.rhcloud.com/broadgeneral
 http://jvs-rockphys.rhcloud.com/inhomogen
 http://jvs-rockphys.rhcloud.com/homogen
-http://jvs-rockphys.rhcloud.com/SpectralModel
 http://jvs-rockphys.rhcloud.com/spectralmodel

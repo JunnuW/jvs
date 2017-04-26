@@ -72,7 +72,7 @@ function vanhentunutko() {
     var jokovanha = setTimeout(vanhentunutko, 60000); //minuutin päästä uusi tarkistus
     var userLuser = window.sessionStorage.getItem('RTFuser');
     if (userLuser == null || userLuser == 'No login' || userLuser == 'No Login') {
-        console.log('login ei voimassa, ei tarkisteta voimassa oloa:',aika);
+        //console.log('login ei voimassa, ei tarkisteta voimassa oloa:',aika);
         $('#lokoutti').hide();
         $("#lokoutti2").hide();
         $('#pwdchangi').hide();
