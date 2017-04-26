@@ -283,7 +283,7 @@ function homogSettns_dialog(){
     $("#spSurbach").css('display', 'none');
     $("#spUrbach").css('display', 'none');
     $('#spWhat').css('display', 'block');
-    $('#bConvolOpt').text('Homogeneous broadening options for Lh:');
+    $('#bConvolOpt').text('Homogeneous line shape options for Lh:');
     $('#divEpsilon').css('display', 'block');
     $('#divJdos').css('display', 'block');
     $('#divSommerf').css('display', 'block');

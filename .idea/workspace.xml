@@ -6,19 +6,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sitemap.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/appi.js" afterPath="$PROJECT_DIR$/appi.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/urllist.txt" afterPath="$PROJECT_DIR$/urllist.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/apautti.jade" afterPath="$PROJECT_DIR$/views/apautti.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/broadgeneral.jade" afterPath="$PROJECT_DIR$/views/broadgeneral.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/broadhomo.jade" afterPath="$PROJECT_DIR$/views/broadhomo.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/broadinhomo.jade" afterPath="$PROJECT_DIR$/views/broadinhomo.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/custmesgs.js" afterPath="$PROJECT_DIR$/views/custmesgs.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/custmesgs.min.js" afterPath="$PROJECT_DIR$/views/custmesgs.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.jade" afterPath="$PROJECT_DIR$/views/index.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.js" afterPath="$PROJECT_DIR$/views/layout.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.min.js" afterPath="$PROJECT_DIR$/views/layout.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.jade" afterPath="$PROJECT_DIR$/views/spectralmodel.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.js" afterPath="$PROJECT_DIR$/views/spectralmodel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.min.js" afterPath="$PROJECT_DIR$/views/spectralmodel.min.js" />
     </list>
     <ignored path="jvs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,31 +29,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="server.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server.js">
+      <file leaf-file-name="spectralmodel.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/spectralmodel.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="31" column="40" lean-forward="false" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
+            <state relative-caret-position="182">
+              <caret line="572" column="56" lean-forward="false" selection-start-line="572" selection-start-column="46" selection-end-line="572" selection-end-column="56" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
+                <marker date="1493204637720" expanded="true" signature="38758:38886" ph="..." />
+                <marker date="1493204637720" expanded="true" signature="40725:40854" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jvsrouter.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jvsrouter.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="16" column="3" lean-forward="true" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
-              <folding>
-                <element signature="e#0#40#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="appi.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="appi.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/appi.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="506">
@@ -100,16 +80,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>200</find>
-      <find>port</find>
-      <find>throw</find>
-      <find>expressvalidator</find>
-      <find>methodOverride</find>
-      <find>static</find>
-      <find>req.url</find>
-      <find>app.get</find>
-      <find>errori</find>
-      <find>errorhandler</find>
       <find>dev</find>
       <find>logger</find>
       <find>methodoverride</find>
@@ -129,7 +99,17 @@
       <find>fft</find>
       <find>indent</find>
       <find>voigt</find>
+      <find>homogeneous broa</find>
+      <find>homogeneous broade</find>
+      <find>homogeneos</find>
+      <find>Homogeneous broade</find>
+      <find>homogeneous broadening</find>
       <find>broadmod</find>
+      <find>Homogeneous</find>
+      <find>Lorentzian line</find>
+      <find>homogeneous</find>
+      <find>options</find>
+      <find>Lorentzian</find>
     </findStrings>
     <replaceStrings>
       <replace>simSettn.jdostype</replace>
@@ -170,7 +150,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/views/error.pug" />
         <option value="$PROJECT_DIR$/views/index.pug" />
         <option value="$PROJECT_DIR$/views/forgot.jade" />
         <option value="$PROJECT_DIR$/views/refletrans.html" />
@@ -193,7 +172,6 @@
         <option value="$PROJECT_DIR$/views/spectralmodel2.jade" />
         <option value="$PROJECT_DIR$/public/js/spectralmodl.js" />
         <option value="$PROJECT_DIR$/views/spectmod.js" />
-        <option value="$PROJECT_DIR$/views/spectralmodel.jade" />
         <option value="$PROJECT_DIR$/views/spectralmodl.js" />
         <option value="$PROJECT_DIR$/views/mongoDialForm.js" />
         <option value="$PROJECT_DIR$/public/js/jv-fileopsit.js" />
@@ -218,9 +196,11 @@
         <option value="$PROJECT_DIR$/views/layout.js" />
         <option value="$PROJECT_DIR$/views/apautti.jade" />
         <option value="$PROJECT_DIR$/appi.js" />
-        <option value="$PROJECT_DIR$/views/broadgeneral.jade" />
         <option value="$PROJECT_DIR$/views/broadinhomo.jade" />
         <option value="$PROJECT_DIR$/views/broadhomo.jade" />
+        <option value="$PROJECT_DIR$/views/broadgeneral.jade" />
+        <option value="$PROJECT_DIR$/views/spectralmodel.jade" />
+        <option value="$PROJECT_DIR$/views/spectralmodel.js" />
       </list>
     </option>
   </component>
@@ -275,6 +255,34 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="jvs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jvs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jvs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jvs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jvs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -503,7 +511,7 @@
       <workItem from="1492288212439" duration="1181000" />
       <workItem from="1492289872264" duration="2326000" />
       <workItem from="1492330289082" duration="4971000" />
-      <workItem from="1492335294257" duration="176289000" />
+      <workItem from="1492335294257" duration="179536000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -516,7 +524,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2751939000" />
+    <option name="totallyTimeSpent" value="2755186000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -603,25 +611,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/views/spectralmodel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="909" column="1" lean-forward="false" selection-start-line="909" selection-start-column="1" selection-end-line="909" selection-end-column="1" />
-          <folding>
-            <marker date="1492339281172" expanded="true" signature="38758:38886" ph="..." />
-            <marker date="1492339281172" expanded="true" signature="40725:40854" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/jv-tfrcalci.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="861">
@@ -806,14 +795,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/mongoDialForm.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="12" column="23" lean-forward="true" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/refletrans.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="305">
@@ -835,18 +816,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
-            <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
-            <element signature="n#table#0;n#div#8;n#div#1;n#block#0;n#!!top" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -903,7 +872,7 @@
         <state relative-caret-position="264">
           <caret line="31" column="40" lean-forward="false" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -930,30 +899,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-800">
           <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/broaden.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2103">
-          <caret line="159" column="7" lean-forward="true" selection-start-line="159" selection-start-column="7" selection-end-line="159" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/broadgeneral.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="8" column="42" lean-forward="false" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/broadinhomo.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="81" column="57" lean-forward="true" selection-start-line="81" selection-start-column="57" selection-end-line="81" selection-end-column="57" />
           <folding />
         </state>
       </provider>
@@ -990,14 +935,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/broadhomo.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="232" column="31" lean-forward="true" selection-start-line="232" selection-start-column="31" selection-end-line="232" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/deplist.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
@@ -1013,6 +950,54 @@
           <folding>
             <element signature="e#0#40#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/broaden.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="66" column="52" lean-forward="false" selection-start-line="66" selection-start-column="41" selection-end-line="66" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/broadgeneral.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="155" column="6" lean-forward="true" selection-start-line="155" selection-start-column="6" selection-end-line="155" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/broadhomo.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" column="46" lean-forward="false" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/broadinhomo.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="78" column="68" lean-forward="false" selection-start-line="78" selection-start-column="45" selection-end-line="78" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/mongoDialForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="738" column="42" lean-forward="false" selection-start-line="738" selection-start-column="31" selection-end-line="738" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/mongoDialForm.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="90" column="5" lean-forward="true" selection-start-line="90" selection-start-column="5" selection-end-line="90" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1033,6 +1018,29 @@
             <element signature="n#!!block;n#createToken#0" expanded="false" />
             <element signature="n#!!block;n#ValidateToken#0" expanded="false" />
             <element signature="n#!!block;n#respAllMngo#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="268" column="23" lean-forward="false" selection-start-line="268" selection-start-column="13" selection-end-line="268" selection-end-column="23" />
+          <folding>
+            <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
+            <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
+            <element signature="n#table#0;n#div#8;n#div#1;n#block#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/spectralmodel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="572" column="56" lean-forward="false" selection-start-line="572" selection-start-column="46" selection-end-line="572" selection-end-column="56" />
+          <folding>
+            <marker date="1493204637720" expanded="true" signature="38758:38886" ph="..." />
+            <marker date="1493204637720" expanded="true" signature="40725:40854" ph="..." />
           </folding>
         </state>
       </provider>
