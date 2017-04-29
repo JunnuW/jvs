@@ -1,58 +1,73 @@
 div(id="tabs-1")
+  h3(style="color:Brown") Transmission and reflectance spectra of thin films
+  p(style="font-size:12px") Easily, calculate the reflectance and transmittance of thin films using their optical material constants.
+    | Program applies spectral point wise multiplication of 2x2 complex matrices to obtain the R% and T% spectra of thin
+    | material layers and layer stacks on various materials.
   p
-    b Easy start:
-  div  On:
-  b(style="color:green")  Film Stack Editor
-  |   TAB open a default stack from the Public directory (on server).
+    b(style="color:Brown") Easy start:
+  b  On:
+    span(style="color:green")  Film Stack Editor
+    |  TAB
+  br
+  |   Open a default stack from the Public directory on the server.
   br
   br
-  b Or follow procedure:
+  b(style="color:Brown") Or use the following procedure:
   br
-  p
-    b Step 1:
-  div Using
-    br
-    b(style="color:green")    Calculation Settings
-    |   TAB edit calculation parameter values
   br
-  p
-    b Step 2:
-  div Using
-    br
-    b(style="color:green")   Materials Data Editor
-    |   TAB populate 'materials list' with refractive index data (from local or server files)
+  b Step 1:
+  |   Select
+  span(style="font-weight:bold;color:green;")   Calculation Settings
+  |    TAB
   br
-  p
-    b Step 3:
-  div Using
-    br
-    b(style="color:green")   Spectral Targets Editor
-    |   TAB populate 'Spectral targets list' with spectral data (from local or server files)
+  | To edit the calculation parameter values
   br
-  p
-    b Step 4:
-  div Using
-    br
-    b(style="color:green")   Film Stack Editor
-    |   TAB define/edit the film stack structure and select a target spectrum,
-    br
-    | then perform calculations using either in 'manual-' or 'auto-tuning' mode.
   br
-  p
-    b Step 5:
-  div Using
-    br
-    b(style="color:green") Buttons on the earlier TAB's
-  | save data either to server (upload) or locally (download).
-  | By default, download takes place into a folder defined by your browser settings.
+  b Step 2:
+  |   Use
+  span(style="font-weight:bold;color:green;")    Materials Data Editor
+  |    TAB
+  br
+  |  To populate the 'Materials list' with refractive index data from local or server files.
+  br
+  br
+  b Step 3:
+  |    Use
+  span(style="font-weight:bold;color:green;")    Spectral Targets Editor
+  |    TAB
+  br
+  |  To populate the 'Spectral targets list' with spectral data from local or server files.
+  br
+  br
+  b Step 4:
+  |    Use
+  span(style="font-weight:bold;color:green;")    Film Stack Editor
+  |    TAB
+  br
+  |  To define/edit the film stack structure and to select a target spectrum.
+  br
+  | Then perform calculations using either 'manual-' or 'auto-tuning' mode.
+  br
+  br
+  b Step 5:
+  |    Use
+  span(style="font-weight:bold;color:green;")    Buttons on the earlier
+  |    TAB's
+  br
+  | To save simulation data either to server (upload) or locally (download).
+  br
+  | By default, downloaded files will be saved to a folder defined in your browser settings.
+  br
   br
   | Mozilla-FF provides methods to safety check and inspect the file contents before the saving.
   br
-  | For that, a basic text editor without scripting possibility is recommended. MS-Notepad is OK, but does
+  | For that, a basic text editor without scripting options is recommended. MS-Notepad is OK, but does
   br
   | not show the contents correctly, while it requires CR,LF characters to start a new line.
   br
+  br
   | Google Chrome in turn provides possibility to edit the filename and select the download folder.
+  br
   br
   | Internet Explorer and MS-Edge browsers support HTML5 File Apis through blob objects (binary large object)
   br
@@ -60,10 +75,10 @@ div(id="tabs-1")
   br
   | the MS-browsers are not recommend, if you want local storage. see also http://caniuse.com/#search=file%20api
   br
-  p
-    b Step 6:
-  div Finally:
-    br
-    b(style="color:green") Easy method to use your own data:
+  br
+  b Step 6:
+  |   Finally:
+  span(style="font-weight:bold;color:green;")    A method to use your own data:
+  br
   | Open one public directory file, save it to your local folder,
   | use your preferred editor to modify the contents and rename the file.
