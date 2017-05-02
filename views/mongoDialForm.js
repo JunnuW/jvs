@@ -48,9 +48,11 @@ $("#mongoDialForm").dialog({
                 $('#mongoTree').jstree('close_all');
                 $('#FilTreLege').text('Files available on server:');
                 var otsikko=$(this).dialog('option','title');
+                var openMeas=$('#radioMeas').prop('checked');
                 var dialoogi = $('#settnDial').dialog('option', 'title');
-                if (dialoogi == 'Inhomogeneous spectrum' && otsikko=='Open emission spectrum') {
+                if (dialoogi == 'Inhomogeneous spectrum' && openMeas) {
                     //cancel nappula tyhjentää inhomogeneous experimental spektrin
+                    //jos experimental on valittuna radiobuttoneista
                     inhomSpectr.experPlot = [];
                     inhomSpectr.experArr = [];
                     graphSettn.inhomFileN = '';
@@ -59,8 +61,9 @@ $("#mongoDialForm").dialog({
                     $('#inhDesc').html('');
                     makeExpArrs();
                     inhombr();
-                } else if (dialoogi == 'Homogeneous spectrum' && otsikko=='Open emission spectrum') {
+                } else if (dialoogi == 'Homogeneous spectrum' && openMeas) {
                     //cancel nappula tyhjentää homogeneous experimental spektrin
+                    //jos experimental on valittuna radiobuttoneista
                     homSpectr.experPlot = [];
                     homSpectr.experArr = [];
                     simSettn.fileN = '';
@@ -828,7 +831,7 @@ $('#mongoTree').on("close_node.jstree change.jstree rename_node.jstree delete_no
     switch (e.type) {
         case 'close_node':
             $('#fsFileDesc').css('display', 'none');
-            $(".ui-widget-content").animate({scrollTop:$('#mongoDialForm').get(0).scrollHeight},2000);
+            $(".ui-widget-content").animate({scrollTop:$('#mongoDialForm').get(0).scrollHeight},1000);
             break;
         case 'deselect_all':
             //deselect all is triggered before new selected cell is activated
@@ -870,7 +873,7 @@ $('#mongoTree').on("close_node.jstree change.jstree rename_node.jstree delete_no
             var repl = mongoColle();
             $('#directoName').val(repl.Folder);
             //scroll to bottom of dialog:
-            $(".ui-widget-content").animate({scrollTop:$('#mongoDialForm').get(0).scrollHeight},2000);
+            $(".ui-widget-content").animate({scrollTop:$('#mongoDialForm').get(0).scrollHeight},1000);
             if (selctdNde.icon == 'jstree-file') {
                 $('#mongoFileName').val(repl.longFile);
                 //var usrN=(dirUser=='Publ')? 'Publ':userName;

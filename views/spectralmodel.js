@@ -208,6 +208,7 @@ $('#openFile').click(function(){
     $('#settnDial').dialog('close');
     DFmngo
         .dialog('option','width','700px')
+        .dialog('option','height','auto')
         .dialog('option','title',srvrFileTxt)
         .dialog('open');
     $('#frm-DirSel').show();
