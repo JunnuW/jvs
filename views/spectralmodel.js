@@ -226,7 +226,6 @@ $('#saveFile').click(function () {
     }else{
         $('#numSel').prop('disabled',true);
     }
-
     if ((homSpectr.experArr.length < 1 && otsake == 'Homogeneous spectrum') ||
         (inhomSpectr.experArr.length < 1 && otsake == 'Inhomogeneous spectrum')) {
         $('#chkSaveExper').attr('disabled',true); //no experimental inhom. or homogeneous data
@@ -1922,6 +1921,7 @@ function gotInhomSim(fileCont){
         var headeri = fileCont.substring(indeX1 + 7, (fileCont.length));
         headeri = headeri.trim();
         setSettings(prms);
+        console.log('gotinhomsim, simSettn.eTr: ',simSettn.eTr);
         setSelections(headeri);
         setChkboxes();
         setLegend();       //set graph legend
@@ -2006,6 +2006,7 @@ function setSettings(parSettns) {
     $('#eVstart_touch').val(simSettn.eVstart);
     simSettn.eVstop=objSettns.Estop;
     $("#eVstop_touch").val(simSettn.eVstop);
+    makespArr();
     simSettn.eTr = objSettns.Boltzmann.Epeak_eV;
     $('#Et_touch').val(simSettn.eTr);
     simSettn.jdostype = (objSettns.jdos && objSettns.jdos=='qw')?  'qw' : 'bulk';
@@ -2017,7 +2018,6 @@ function setSettings(parSettns) {
             simSettn.viewDir=objSettns.exiton.viewDir;
             if (objSettns.exiton.viewDir=='parallel'){
                 $('#dirPar').prop('checked',true);
-
             }else{
                 $('#dirPerp').prop('checked',true);
             }
@@ -2036,6 +2036,7 @@ function setSettings(parSettns) {
     if (objSettns.Boltzmann) {
         simSettn.kelvin = objSettns.Boltzmann.Temp_K;
         $('#TemK_touch').val(simSettn.kelvin);
+        $('#Et_touch').val(simSettn.eTr);
     }
     if (objSettns.InhmgBrdng) {
         if (objSettns.InhmgBrdng.type=="SymmUrbach" || objSettns.InhmgBrdng.type=="AsymUrbach") {

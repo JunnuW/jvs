@@ -521,7 +521,7 @@ function simParHeader(){
       Estart:simSettn.eVstart,
       Estop:simSettn.eVstop,
       Etr:simSettn.eTr};
-
+        console.log('Etr: ',parHeader.eTr);
       if (inhomSpectr.inPlot.jdos){//density of states included
         parHeader.jdos=simSettn.jdostype;
       }
