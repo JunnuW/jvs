@@ -152,6 +152,7 @@ function setJdosRadio(){
     if (simSettn.jdostype == "bulk") {
         $('#bulkJDOS').prop("checked", true);
         $('#qwendetls').css('display','none');
+        $('#haideri').css('display','none');
         $('#qwdetails .hideshow').hide();
     } else {
         $('#qwJDOS').prop("checked", true);
@@ -587,6 +588,10 @@ $('input[type=radio][name=jdos]').change(function () {
         simSettn.jdostype='bulk';
         $("#qwendetls").css('display','none');
         $('#qwdetails .hideshow').hide();
+        $('#haideri').hide();
+        $('#enhTE').prop('checked', true);
+        $('#enhTM').prop('checked', false);
+        simSettn.polarizat='TE';
     } else if (this.value == 'qw') {
         simSettn.jdostype='qw';
         $("#qwendetls").css('display','block');
