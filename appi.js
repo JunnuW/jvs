@@ -610,13 +610,13 @@ app.post('/auth/*', function(req,res){
     }
     switch (urli){
         case '/checkAllUserF' :
-            console.log('checking all user files');
+            //console.log('checking all user files');
             mngoTree.checkAllUserFiles(req,res,respAllMngo);
             //Response to user's browser via callback respAllMngo
             //avoiding 'can't set headers after they are sent' error
             break;
         case '/checkOneUserF' :
-            console.log('checking one user files');
+            //console.log('checking one user files');
             mngoTree.checkOneUserFile(req,res,respAllMngo);
             break;
         case '/dbFindOne' :

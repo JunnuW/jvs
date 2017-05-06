@@ -7,10 +7,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/broaden.jade" afterPath="$PROJECT_DIR$/views/broaden.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.jade" afterPath="$PROJECT_DIR$/views/spectralmodel.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.js" afterPath="$PROJECT_DIR$/views/spectralmodel.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.min.js" afterPath="$PROJECT_DIR$/views/spectralmodel.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/appi.js" afterPath="$PROJECT_DIR$/appi.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jv-mngo-tree/index.js" afterPath="$PROJECT_DIR$/jv-mngo-tree/index.js" />
     </list>
     <ignored path="jvs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,13 +31,33 @@
       <file leaf-file-name="spectralmodel.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="444">
-              <caret line="501" column="0" lean-forward="false" selection-start-line="501" selection-start-column="0" selection-end-line="501" selection-end-column="0" />
+            <state relative-caret-position="185">
+              <caret line="299" column="0" lean-forward="true" selection-start-line="299" selection-start-column="0" selection-end-line="299" selection-end-column="0" />
               <folding>
                 <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
                 <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
                 <element signature="n#table#0;n#div#8;n#div#1;n#block#0;n#!!top" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="appi.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/appi.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="122">
+              <caret line="629" column="30" lean-forward="false" selection-start-line="629" selection-start-column="21" selection-end-line="629" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jv-mngo-tree/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="156">
+              <caret line="662" column="34" lean-forward="false" selection-start-line="662" selection-start-column="34" selection-end-line="662" selection-end-column="34" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -122,9 +140,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>read</find>
-      <find>eVTr</find>
-      <find>TemK_touch</find>
       <find>gotHomogsim</find>
       <find>gotinHomsim</find>
       <find>setSettings</find>
@@ -147,11 +162,14 @@
       <find>cancel</find>
       <find>ani</find>
       <find>explode</find>
-      <find>open</find>
       <find>bulkJDOS</find>
       <find>enhTE</find>
       <find>qwdetails</find>
       <find>jdos</find>
+      <find>collection</find>
+      <find>insertdoc</find>
+      <find>saving OK:</find>
+      <find>open</find>
     </findStrings>
     <replaceStrings>
       <replace>simSettn.jdostype</replace>
@@ -209,7 +227,6 @@
         <option value="$PROJECT_DIR$/views/tab2.jade" />
         <option value="$PROJECT_DIR$/public/css/jv-tfrcalcs.css" />
         <option value="$PROJECT_DIR$/views/contrbs.jade" />
-        <option value="$PROJECT_DIR$/jv-mngo-tree/index.js" />
         <option value="$PROJECT_DIR$/views/spectralmodel2.jade" />
         <option value="$PROJECT_DIR$/public/js/spectralmodl.js" />
         <option value="$PROJECT_DIR$/views/spectmod.js" />
@@ -231,7 +248,6 @@
         <option value="$PROJECT_DIR$/views/custmesgs.js" />
         <option value="$PROJECT_DIR$/views/layout.js" />
         <option value="$PROJECT_DIR$/views/apautti.jade" />
-        <option value="$PROJECT_DIR$/appi.js" />
         <option value="$PROJECT_DIR$/views/broadinhomo.jade" />
         <option value="$PROJECT_DIR$/views/broadhomo.jade" />
         <option value="$PROJECT_DIR$/views/broadgeneral.jade" />
@@ -243,6 +259,8 @@
         <option value="$PROJECT_DIR$/views/broaden.jade" />
         <option value="$PROJECT_DIR$/views/spectralmodel.js" />
         <option value="$PROJECT_DIR$/views/spectralmodel.jade" />
+        <option value="$PROJECT_DIR$/appi.js" />
+        <option value="$PROJECT_DIR$/jv-mngo-tree/index.js" />
       </list>
     </option>
   </component>
@@ -288,8 +306,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -312,7 +330,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
+              <option name="myItemId" value="jv-mngo-tree" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -540,7 +558,8 @@
       <workItem from="1492289872264" duration="2326000" />
       <workItem from="1492330289082" duration="4971000" />
       <workItem from="1492335294257" duration="224111000" />
-      <workItem from="1493917816872" duration="636000" />
+      <workItem from="1493917816872" duration="961000" />
+      <workItem from="1493921539829" duration="4977000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -553,7 +572,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2800397000" />
+    <option name="totallyTimeSpent" value="2805699000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -567,13 +586,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1384" height="786" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19670905" sideWeight="0.7701613" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26040062" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30595812" sideWeight="0.8137621" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5112903" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29307568" sideWeight="0.18623784" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21017203" sideWeight="0.22983871" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29307568" sideWeight="0.18623784" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24906507" sideWeight="0.48602152" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37471953" sideWeight="0.5441767" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21465969" sideWeight="0.42916667" order="3" side_tool="true" content_ui="tabs" />
@@ -639,13 +659,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Downloads/google460fcb1ea928dac6.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="51" lean-forward="true" selection-start-line="0" selection-start-column="51" selection-end-line="0" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/google460fcb1ea928dac6.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -921,13 +934,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/appi.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="53" column="43" lean-forward="true" selection-start-line="53" selection-start-column="43" selection-end-line="53" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongo-ohje.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -993,10 +999,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/appi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="629" column="30" lean-forward="false" selection-start-line="629" selection-start-column="21" selection-end-line="629" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jv-mngo-tree/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="662" column="34" lean-forward="false" selection-start-line="662" selection-start-column="34" selection-end-line="662" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
-          <caret line="501" column="0" lean-forward="false" selection-start-line="501" selection-start-column="0" selection-end-line="501" selection-end-column="0" />
+        <state relative-caret-position="185">
+          <caret line="299" column="0" lean-forward="true" selection-start-line="299" selection-start-column="0" selection-end-line="299" selection-end-column="0" />
           <folding>
             <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
             <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />

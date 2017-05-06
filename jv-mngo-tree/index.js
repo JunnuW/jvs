@@ -517,12 +517,12 @@ exports.updateDoc=function(req,res,callBfun) {
 };
 
 exports.insertDoc=function(req,res,callBfun){
-    console.log('insertDoc reg.body: ',req.body);
+    //console.log('insertDoc reg.body: ',req.body);
     //Transfer-Encoding is not a header in 'request' object only in 'responce' object!
     //it can be set to: chunk, but since the related:
     //req.on('data',function(chunk){}), is never triggered here (on res object), we use:
     var dataa=JSON.parse(req.body.data);
-    console.log('dataa: ',dataa);
+    //console.log('dataa: ',dataa);
     //The acceptable data length was already been checked by the urlencoded bodyparser
     //in node modules, which prevents malicious disk dumps
     //var trim = dataa.Filename.replace(/(^\/)|(\/$)/g, ""); //removes leading and trailing '/'
@@ -600,7 +600,7 @@ exports.insertDoc=function(req,res,callBfun){
                 error:err.toString()
             };
         }else{
-            console.log("saving OK: "+trim);
+            //console.log("saving OK: "+trim);
             respOnse={
                 statCode: 200,
                 resString:'saving OK',
