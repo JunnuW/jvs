@@ -302,7 +302,6 @@ function toJsonArr(coLLe, filename, arrDat, desc) {
         resu.absc = sPoints; //wavelength array
         //console.log("res= "+JSON.stringify(resu,null,2));
     }
-    console.log('resu: ',resu);
     return resu;
 }
 /*****************************************************************************************************
@@ -500,7 +499,7 @@ function fleNamer(fileN,dirN) {
     }
     //var dirN=$('#directoName').val();
     dirN = dirN.replace(/(^\/)|(\/$)/g, ""); // remove leading and trailing '/'
-    if (!myRegxp1.test(dirN)) {//only alphanumerics with "-", "_" and "/" are allowed
+    if (!myRegxp1.test(dirN) && dirN.length>0) {//only alphanumerics with "-", "_" and "/" are allowed
         alert("Invalid directory name: " + dirN);
         return fNamed;//undefined
     }

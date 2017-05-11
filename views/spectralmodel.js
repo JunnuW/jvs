@@ -204,8 +204,9 @@ var srvrFileTxt = 'Open emission spectrum';
 var DFmngo = $('#mongoDialForm'); //dialog form
 DFmngo.dialog('option', 'title', srvrFileTxt);
 
-$('#openFile').click(function(){
+$('#openMeasFile').click(function(){
     //PL/EL emission spectrum from emission collection
+    var srvrFileTxt = 'Open emission spectrum';
     $('#settnDial').dialog('close');
     DFmngo
         .dialog('option','width','700px')
@@ -216,27 +217,43 @@ $('#openFile').click(function(){
     $('#openOpti').css('display','inline');
 });
 
-$('#saveFile').click(function () {
+$('#openSimFile').click(function(){
+    //PL/EL emission spectrum from emission collection
+    var srvrFileTxt = 'Open simulated spectrum';
+    $('#settnDial').dialog('close');
+    DFmngo
+        .dialog('option','width','700px')
+        .dialog('option','height','auto')
+        .dialog('option','title',srvrFileTxt)
+        .dialog('open');
+    $('#frm-DirSel').show();
+    $('#openOpti').css('display','inline');
+});
+
+$('#saveMeasFile').click(function () {
     var otsake=$('#settnDial').dialog('option', 'title');
+    $('#saaveSim').hide();
+    $('#settnDial').dialog('close');
+    var srvrFileTxt = 'Save '+otsake;
+    //console.log('srvrFileTxt: ',srvrFileTxt);
+    DFmngo
+        .dialog('option','width','700px')
+        .dialog('option', 'title', srvrFileTxt)  // PL/EL emission spectrum db collection
+        .dialog('open');
+    $('#openOpti').css('display','none');
+});
+
+$('#saveSimFile').click(function () {
+    var otsake=$('#settnDial').dialog('option', 'title');
+
     if (otsake=='Inhomogeneous spectrum'){//simulation settings label adjustment:
         $('#lblsaveSimSpe').text("Inhomogeneous simulation");
     } else {
         $('#lblsaveSimSpe').text("Homogeneous simulation");
     }
-    if ($('#chkSaveSimu').prop('checked')) {//check calculated value saving
-        $('#numSel').prop('disabled',false);//enable datapoint count adjustment
-    }else{
-        $('#numSel').prop('disabled',true);
-    }
-    if ((homSpectr.experArr.length < 1 && otsake == 'Homogeneous spectrum') ||
-        (inhomSpectr.experArr.length < 1 && otsake == 'Inhomogeneous spectrum')) {
-        $('#chkSaveExper').attr('disabled',true); //no experimental inhom. or homogeneous data
-    } else {
-        $('#chkSaveExper').attr('disabled',false);//experimental data exists for saving
-    }
     $('#settnDial').dialog('close');
-    var srvrFileTxt = 'Save emission spectrum';
-
+    var srvrFileTxt = 'Save simulation spectrum';
+    //$('#saaveSim').show();
     DFmngo
         .dialog('option','width','700px')
         .dialog('option', 'title', srvrFileTxt)  // PL/EL emission spectrum db collection
@@ -265,16 +282,17 @@ function inhomSettns_dialog(){
     $('#bPlotSel1').css('display','block');
     $('#bPlotSel2').css('display','none');
     $("#settnDial").dialog("open");
-    if (inhomSpectr.experArr.length > 0) {
-        $('#saveFile').css('display', 'inline');
-    } else {
-        $('#saveFile').css('display', 'inline');
-    }
+
     setJdosRadio();
     setQwRadio();
 }
 
 $('#ph1_inhomog').dblclick(function(){
+    if (inhomSpectr.experArr.length < 1) {
+        $('#saveMeasFile').attr('disabled',true); //no experimental inhom. or homogeneous data
+    } else {
+        $('#saveMeasFile').attr('disabled',false);//experimental data exists for saving
+    }
     inhomSettns_dialog();
 });
 
@@ -310,6 +328,11 @@ function homogSettns_dialog(){
 }
 
 $('#ph2_homog').dblclick(function () {
+    if (homSpectr.experArr.length < 1) {
+        $('#saveMeasFile').attr('disabled',true); //no experimental inhom. or homogeneous data
+    } else {
+        $('#saveMeasFile').attr('disabled',false);//experimental data exists for saving
+    }
     homogSettns_dialog();
 });
 
@@ -1952,12 +1975,12 @@ function gotInhomSim(fileCont){
  * @header {string} receives the selected options
  */
 function setSelections(header){
-    //console.log('header: ',header);
+    console.log('header: ',header);
     //(E)x(qw-jdos)x(exp[(E-Etr)/kT])x(qw-ex.Enh)*(Symm.Urbach-brdng)
     inhomSpectr.inPlot.eV=(header.indexOf('(E)')>=0)? true:false; //photon energy
-    inhomSpectr.inPlot.jdos= (header.indexOf('(qw-jdos)')>=0)? true: false; //density of states
+    inhomSpectr.inPlot.jdos= (header.indexOf('(qw-jdos)')>=0||header.indexOf('(bulk-jdos)')>=0)? true: false; //density of states
     inhomSpectr.inPlot.fcv= (header.indexOf('(exp[(E-Etr)/kT])')>= 0)?  true: false; //state occupancy
-    inhomSpectr.inPlot.Se= (header.indexOf('(qw-ex.Enh)') >= 0)? true: false; //exiton enhancement
+    inhomSpectr.inPlot.Se= (header.indexOf('(qw-ex.Enh)')>= 0||header.indexOf('(bulk-ex.Enh)')>= 0)? true: false; //exiton enhancement
     inhomSpectr.inPlot.convo = false; //inhomog convolution
     inhomSpectr.inPlot.Lurb = false;  //single sided urbach
     inhomSpectr.inPlot.Lsurb = false; //two sided urbach

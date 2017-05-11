@@ -6,7 +6,7 @@ $("#mongoDialForm").dialog({
         //opens different dialogs for 'open file' and 'save file' operations
         var otsikko=$(this).dialog('option','title');
         //console.log('title: ',otsikko);
-        if (otsikko=='Save emission spectrum') {//only 'Save emission spectrum' title opens this fieldset :
+        if (otsikko=='Save simulation spectrum') {//only 'Save emission spectrum' title opens this fieldset :
             $('#saaveSim').css('display','inline');
         } else {
             $('#saaveSim').css('display','none');
@@ -124,21 +124,14 @@ $("#mongoDialForm").dialog({
  * all simulation, every other, every third or every fourth simulation points
  * simulation parameters and experimental data locally and on server
  * */
-$('#chkSaveExper, #chkSavePars, #chkSaveSimu').click(function(){
+$('#chkSavePars, #chkSaveSimu').click(function(){
     $('#btnUserDir').attr("disabled", false);
     $('#btnLocDir').attr("disabled", false);
     if ($(this).attr('id') == 'chkSaveSimu' && $(this).prop('checked')==true) {
-        $('#chkSaveExper').prop('checked',false);
         $('#numSel').prop('disabled',false);
-    }
-    if ($(this).attr('id') == 'chkSaveExper' && $(this).prop('checked')==true) {
-        $('#chkSavePars').prop('checked', false);
-        $('#chkSaveSimu').prop('checked', false);
-        $('#numSel').prop('disabled',true);
     }
     if ($(this).attr('id') == 'chkSavePars' && $(this).prop('checked')==true) {
         $('#numSel').prop('disabled',true);
-        $('#chkSaveExper').prop('checked',false);
     }
     if ($('#chkSaveSimu').prop('checked')==true){
         $('#btnUserDir').attr("disabled", true);
@@ -147,8 +140,7 @@ $('#chkSaveExper, #chkSavePars, #chkSaveSimu').click(function(){
         $('#btnUserDir').attr("disabled", false);
         $('#numSel').prop('disabled',true);
     }
-    if($('#chkSaveSimu').prop('checked')==false && $('#chkSavePars').prop('checked')==false &&
-        $('#chkSaveExper').prop('checked')==false){
+    if($('#chkSaveSimu').prop('checked')==false && $('#chkSavePars').prop('checked')==false){
         $('#btnUserDir').attr("disabled", true);
         $('#btnLocDir').attr("disabled", true);
         $('#numSel').prop('disabled',true);
@@ -245,6 +237,7 @@ function mongoSave(saveUrl, flNme) {
     }
     else {
         var descr = $('#mongFileDesc').val();
+        //console.log('descr: ',descr);
         switch (dialTitle) {
             case ((dialTitle.match(/material/gi)) ? dialTitle : undefined) :
                 //tehdään materiaalitiedostosta JSON:
@@ -255,26 +248,15 @@ function mongoSave(saveUrl, flNme) {
                 //tehdään reflektanssi- tai transmissiotarkettispektristä JSON:
                 dJson = toJsonArr(datColl, flNme, targArr, descr);
                 break;
-            case ((dialTitle.match(/emission/gi)) ? dialTitle : undefined) :
-                if ($('#chkSaveExper').prop('checked') == true) {
-                    //tallennetaan serveriin experimentaalikäyrä
-                    var tyyppi = $('#lblsaveSimSpe').text();
-                    //Inhomogeneous tai Homogeneous simulation kentän
-                    //mitatusta emissiospektristä tehdään JSON:
-                    if (tyyppi == 'Inhomogeneous simulation') {
-                        dJson = toJsonArr(datColl, flNme, inhomSpectr.experArr, descr);
-                    } else if (tyyppi == 'Homogeneous simulation') {
-                        dJson = toJsonArr(datColl, flNme, homSpectr.experArr, descr);
-                    } else {
-                        throw "Data saving error";
-                    }
-                }else {
-                    //tallennetaan serveriin simulointiparametrit
-                    dJson.Filename = flNme;
-                    dJson.Descr = descr;
-                    dJson.Header = makeSimHeader();//string from jv-fileopsit.js
-                    dJson.Params= JSON.stringify(simParHeader()); //object from jv-fileopsit.js
-                }
+            case ((dialTitle.match(/Save Inhomogeneous/gi)) ? dialTitle : undefined) :
+                //tallennetaan serveriin experimentaalikäyrä
+                //Inhomogeneous kentän mitatusta spektristä tehdään JSON:
+                dJson = toJsonArr(datColl, flNme, inhomSpectr.experArr, descr);
+                break;
+            case ((dialTitle.match(/Save Homogeneous/gi)) ? dialTitle : undefined) :
+                //tallennetaan serveriin experimentaalikäyrä
+                //Homogeneous kentän mitatusta spektristä tehdään JSON:
+                dJson = toJsonArr(datColl, flNme, homSpectr.experArr, descr);
                 break;
             case ((dialTitle.match(/stack/gi)) ? dialTitle : undefined) :
                 descr = descr.replace(/(^[\"\']+)|([\"\']+$)/g, ""); //remove leading and trailing single and double quotes
@@ -282,6 +264,29 @@ function mongoSave(saveUrl, flNme) {
                 dJson.Descr = descr;
                 dJson.Stack = stack;
                 break;
+            case ((dialTitle.match(/Save simulation/gi)) ? dialTitle : undefined) :
+                //tallennetaan serveriin simulointiparametrit
+                dJson.Filename = flNme;
+                dJson.Descr = descr;
+                dJson.Header = makeSimHeader();//string from jv-fileopsit.js
+                dJson.Params= JSON.stringify(simParHeader()); //object from jv-fileopsit.js
+                /*var saveHeader = 'Header:' + makeSimHeader(); //string from jv-fileopsit.js
+                var seivString = saveHeader;
+                if ($('#chkSavePars').prop('checked')) {//simulointiparametrit mukaan:
+                    seivString +='\n'+'Parameters:'+ JSON.stringify(simParHeader());
+                }
+                if ($('#chkSaveSimu').prop('checked')) {
+                    seivString = seivString + '\n' + 'Result:' + '\n' + simulSaveDat();
+                }
+                if (dialoogi == 'Inhomogeneous spectrum') {
+                    failneim = graphSettn.inhomFileN;
+                } else {
+                    failneim = graphSettn.homFileN;
+                }
+                failneim = 'Sim-'+failneim;
+                seiv_loucal(failneim, seivString, emisToLocFile);*/
+                break;
+
             default:
                 //console.log('mongoSave error:');
                 throw "No datacollection for " + dialTitle;
@@ -311,8 +316,11 @@ function mongoSave(saveUrl, flNme) {
                         case ((dialTitle.match(/stack/gi)) ? dialTitle : undefined) :
                             $('#descStack').val($('#mongFileDesc').val());
                             break;
-                        case ((dialTitle.match(/emission/gi)) ? dialTitle : undefined) :
-                            //$('#descStack').val($('#mongFileDesc').val());
+                        case ((dialTitle.match(/Save Inhomogeneous/gi)) ? dialTitle : undefined) :
+                            graphSettn.inhomFileN= dJson.Filename;
+                            break;
+                        case ((dialTitle.match(/Save Homogeneous/gi)) ? dialTitle : undefined) :
+                            graphSettn.homFileN= dJson.Filename;
                             break;
                         default:
                             throw "No datacollection for " + dialTitle;
@@ -567,6 +575,7 @@ function mongoDelete(flNme) {
  */
 function pickCollection() {
     var dialTitle = DFmngo.dialog('option', 'title');
+    //console.log('dialTitle: ',dialTitle);
     var mngoColle;
     switch (dialTitle) {
         case ((dialTitle.match(/material/gi)) ? dialTitle : undefined) :
@@ -578,19 +587,44 @@ function pickCollection() {
         case ((dialTitle.match(/stack/gi)) ? dialTitle : undefined) :
             mngoColle = "stacks";
             break;
-        case ((dialTitle.match(/Save emission/gi)) ? dialTitle : undefined) :
-            if ($('#chkSaveExper').prop('checked')){
+        case ((dialTitle.match(/Save Inhomogeneous/gi)) ? dialTitle : undefined) :
+            mngoColle = "emissions";
+            /*if ($('#chkSaveExper').prop('checked')){
                 mngoColle = "emissions";
             }else if($('#chkSavePars').prop('checked')){
                 mngoColle = "simulparams";
-            }
+            }*/
+            break;
+        case ((dialTitle.match(/Save Homogeneous/gi)) ? dialTitle : undefined) :
+            mngoColle = "emissions";
+            break;
+        case ((dialTitle.match(/Save simulated/gi)) ? dialTitle : undefined) :
+            mngoColle = "simulparams";
+            /*if ($('#chkSaveExper').prop('checked')){
+                mngoColle = "emissions";
+            }else if($('#chkSavePars').prop('checked')){
+                mngoColle = "simulparams";
+            }*/
             break;
         case ((dialTitle.match(/Open emission/gi)) ? dialTitle : undefined) :
-            if ($('#radioMeas').prop('checked')) {
+            //console.log('Open emission')
+            mngoColle = "emissions"; //luetaan spektri e.g. mittaustulos
+            /*if ($('#radioMeas').prop('checked')) {
                 mngoColle = "emissions"; //luetaan spektri e.g. mittaustulos
             } else if($('#radioSimu').prop('checked')){
                 mngoColle = "simulparams"; //luetaan simuloinnin parametriasetuksia
-            }
+            }*/
+            break;
+        case ((dialTitle.match(/Open simulated/gi)) ? dialTitle : undefined) :
+            //console.log('Open simulated');
+            mngoColle = "simulparams"; //luetaan simuloinnin parametriasetuksia
+            /*if ($('#radioMeas').prop('checked')) {
+                mngoColle = "emissions"; //luetaan spektri e.g. mittaustulos
+            } else if (){
+
+            } else if($('#radioSimu').prop('checked')){
+                mngoColle = "simulparams"; //luetaan simuloinnin parametriasetuksia
+            }*/
             break;
         default:
             throw "No datacollection for " + dialTitle;
@@ -706,6 +740,7 @@ $('#btnLocDir').click(function () {
     //MongoDialForm button for file saving and opening on local download directory:
     var dialTitle = $("#mongoDialForm").dialog("option", "title"); //gets the options for open or save
     var failneim = '';
+    var seivstring='';
     switch (dialTitle) {
         case 'Open material file from':
             //Lambda -n&k data for Thin film R&T calculations
@@ -733,28 +768,33 @@ $('#btnLocDir').click(function () {
             $("#mongoDialForm").dialog("close");
             $("#emisLocFiles").focus().click();
             break;
-        case 'Save emission spectrum':
-            //eV- spectral intensity data for EL and PL modelling
-            //either experimental or simulation or only simulation parameters
-            var seivString='';
-            var failneim='';
+        case 'Save Inhomogeneous spectrum':
+            //eV- experimental intensity data for EL and PL modelling
+            var failneim=graphSettn.inhomFileN;;
             var dialoogi = $('#settnDial').dialog('option', 'title');
+            seivString=experEmisDat();
+            seiv_loucal(failneim, seivString, emisToLocFile);
+            break;
+        case 'Save Homogeneous spectrum':
+            //eV- experimental intensity data for EL and PL modelling
+            var failneim=graphSettn.homFileN;;
+            var dialoogi = $('#settnDial').dialog('option', 'title');
+            seivString=experEmisDat();
+            seiv_loucal(failneim, seivString, emisToLocFile);
+            break;
+        case 'Save simulation spectrum':
+            var saveHeader = 'Header:' + makeSimHeader(); //string from jv-fileopsit.js
+            seivString = saveHeader;
+            if ($('#chkSavePars').prop('checked')) {//simulointiparametrit mukaan:
+                seivString +='\n'+'Parameters:'+ JSON.stringify(simParHeader());
+            }
+            if ($('#chkSaveSimu').prop('checked')) {
+                seivString = seivString + '\n' + 'Result:' + '\n' + simulSaveDat();
+            }
             if (dialoogi == 'Inhomogeneous spectrum') {
                 failneim = graphSettn.inhomFileN;
             } else {
                 failneim = graphSettn.homFileN;
-            }
-            if ($('#chkSaveExper').prop('checked')){//only 'experimental' graph is saved:
-                seivString=experEmisDat();
-            }else {//Simulation data saved
-                var saveHeader = 'Header:' + makeSimHeader(); //string from jv-fileopsit.js
-                seivString = saveHeader;
-                if ($('#chkSavePars').prop('checked')) {//simulointiparametrit mukaan:
-                    seivString +='\n'+'Parameters:'+ JSON.stringify(simParHeader());
-                }
-                if ($('#chkSaveSimu').prop('checked')) {
-                    seivString = seivString + '\n' + 'Result:' + '\n' + simulSaveDat();
-                }
             }
             failneim = 'Sim-'+failneim;
             seiv_loucal(failneim, seivString, emisToLocFile);
@@ -763,7 +803,7 @@ $('#btnLocDir').click(function () {
             var failneim = $('#ediMater').val();
             failneim = failneim.slice(failneim.lastIndexOf('/') + 1);
             //array first line, quotes around last element help opening in Notepad:
-            var seivString = matrlArr[0][0] + '\t' + matrlArr[0][1] + '\t' + matrlArr[0][2];
+            seivString = matrlArr[0][0] + '\t' + matrlArr[0][1] + '\t' + matrlArr[0][2];
             if (matrlArr[0][3]) seivString += '\t' + '\"' + matrlArr[0][3] + '\"';
             var nRow = '';
             for (var j = 1; j < matrlArr.length; j++) {
@@ -793,7 +833,7 @@ $('#btnLocDir').click(function () {
         case 'Save stack data to':
             var failneim = $('#ediStack').val();
             failneim = failneim.slice(failneim.lastIndexOf('/') + 1);
-            var seivString = JSON.stringify(stack);
+            seivString = JSON.stringify(stack);
             seiv_loucal(failneim, seivString, stackToLocFile);
             break;
     }
