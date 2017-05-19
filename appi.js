@@ -48,6 +48,8 @@ app.port=process.env.OPENSHIFT_NODEJS_PORT || 3000;
     console.log('%s %s from %s', req.method, req.url, req.ip);
     next();
 });*/
+//
+app.use(express.static('public'));
 app.use('/scripts', express.static(__dirname + '/bower_components/'));
 app.use('/jvscripts', express.static(__dirname + '/public'));
 //app.use(express.static(__dirname)); //ei hyvä mahdollistaa juurihakemiston selailun
