@@ -1,9 +1,0 @@
-http://jvs-rockphys.rhcloud.com/
-http://jvs-rockphys.rhcloud.com/refletrans
-http://jvs-rockphys.rhcloud.com/broadmod
-http://jvs-rockphys.rhcloud.com/contrbs
-http://jvs-rockphys.rhcloud.com/aboutti
-http://jvs-rockphys.rhcloud.com/broadgeneral
-http://jvs-rockphys.rhcloud.com/inhomogen
-http://jvs-rockphys.rhcloud.com/homogen
-http://jvs-rockphys.rhcloud.com/spectralmodel
