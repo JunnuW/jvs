@@ -6,8 +6,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.js" afterPath="$PROJECT_DIR$/views/spectralmodel.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.min.js" afterPath="$PROJECT_DIR$/views/spectralmodel.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.jade" afterPath="$PROJECT_DIR$/views/spectralmodel.jade" />
     </list>
     <ignored path="jvs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,11 +26,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="spectralmodel.jade" pinned="false" current-in-tab="false">
+      <file leaf-file-name="spectralmodel.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="308" column="0" lean-forward="true" selection-start-line="308" selection-start-column="0" selection-end-line="308" selection-end-column="0" />
+            <state relative-caret-position="203">
+              <caret line="27" column="26" lean-forward="true" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
               <folding>
                 <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
                 <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
@@ -41,7 +40,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="spectralmodel.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="spectralmodel.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/spectralmodel.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="131">
@@ -129,8 +128,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>saveMeasFile</find>
-      <find>open emission</find>
       <find>pickcolle</find>
       <find>lblsave</find>
       <find>inhom</find>
@@ -159,6 +156,8 @@
       <find>setsettings</find>
       <find>parameters:</find>
       <find>header:</find>
+      <find>objsettns:</find>
+      <find>calculated</find>
     </findStrings>
     <replaceStrings>
       <replace>simSettn.jdostype</replace>
@@ -247,9 +246,9 @@
         <option value="$PROJECT_DIR$/views/broaden.jade" />
         <option value="$PROJECT_DIR$/views/refletrans.jade" />
         <option value="$PROJECT_DIR$/views/tab1.jade" />
-        <option value="$PROJECT_DIR$/views/spectralmodel.jade" />
         <option value="$PROJECT_DIR$/views/mongoDialForm.js" />
         <option value="$PROJECT_DIR$/views/spectralmodel.js" />
+        <option value="$PROJECT_DIR$/views/spectralmodel.jade" />
       </list>
     </option>
   </component>
@@ -551,7 +550,7 @@
       <workItem from="1493921539829" duration="20903000" />
       <workItem from="1494316961204" duration="28198000" />
       <workItem from="1495212274341" duration="2697000" />
-      <workItem from="1495215362403" duration="27946000" />
+      <workItem from="1495215362403" duration="28988000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -564,7 +563,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2880466000" />
+    <option name="totallyTimeSpent" value="2881508000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -980,18 +979,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="308" column="0" lean-forward="true" selection-start-line="308" selection-start-column="0" selection-end-line="308" selection-end-column="0" />
-          <folding>
-            <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
-            <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
-            <element signature="n#table#0;n#div#8;n#div#1;n#block#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/mongoDialForm.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="131">
@@ -1023,6 +1010,18 @@
           <folding>
             <marker date="1496326470548" expanded="true" signature="39711:39839" ph="..." />
             <marker date="1496326470548" expanded="true" signature="41678:41807" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="27" column="26" lean-forward="true" selection-start-line="27" selection-start-column="26" selection-end-line="27" selection-end-column="26" />
+          <folding>
+            <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
+            <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
+            <element signature="n#table#0;n#div#8;n#div#1;n#block#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
