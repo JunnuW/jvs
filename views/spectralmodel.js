@@ -1853,7 +1853,7 @@ $('#hrefSech').click(function () {
 });
 
 
-/* Function for operations after local emission file selection has changed
+/* Function for selecting local emission file
  *  Handler for reading local emission data files
  */
 $("#emisLocFiles").on("change", function () {
@@ -1861,29 +1861,39 @@ $("#emisLocFiles").on("change", function () {
     if (!selected_file) return;
     var dialoogi= $('#settnDial').dialog('option','title');
     if (dialoogi == 'Inhomogeneous spectrum') {
-        if ($('#radioMeas').is(':checked')) {
-            // measured spectrum array read to the inhomog plot
-            // with eV and intensity values , one pair per row
-            // after async read data processed in 'gotInhomFile' callback
-            graphSettn.inhomFileN= selected_file.name;
-            ReadLocFle(selected_file, gotInhomFile);
-        } else {
-            // reads simulation parameters to inhomog plot
-            // after async read data processed in 'gotInhomSim' callback
-            ReadLocFle(selected_file, gotInhomSim);
-        }
+      // reads measured spectrum array to the inhomog plot
+      // with eV and intensity values , one pair per row
+      // after async read data processed in 'gotInhomFile' callback
+      graphSettn.inhomFileN= selected_file.name;
+      ReadLocFle(selected_file, gotInhomFile);
     } else if (dialoogi == 'Homogeneous spectrum') {
-        if ($('#radioMeas').is(':checked')) {
-            // reads measured spectrum array to the homog plot
-            // with eV and intensity values , one pair per row
-            // after async read data processed in 'gotHomogFile' callback
-            graphSettn.homFileN=selected_file.name;
-            ReadLocFle(selected_file, gotHomogFile);
-        } else {
-            //reads simuation parameters to the homog plot
-            // after async read data processed in 'gotHomogSim' callback
-            ReadLocFle(selected_file, gotInhomSim);
-        }
+       // reads measured spectrum array to the homog plot
+       // with eV and intensity values , one pair per row
+       // after async read data processed in 'gotHomogFile' callback
+       graphSettn.homFileN=selected_file.name;
+       ReadLocFle(selected_file, gotHomogFile);
+    }
+});
+
+/* Function for selecting local simulation file
+ *  Handler for reading local  data files
+ */
+$("#simLocFiles").on("change", function () {
+    var selected_file = $('#simLocFiles').get(0).files[0];
+    if (!selected_file) return;
+    var dialoogi= $('#settnDial').dialog('option','title');
+    //console.log('simlocfiles dialoogi: ',dialoogi);
+    if (dialoogi == 'Inhomogeneous spectrum') {
+        // async reads simulation to the inhomog plot
+        // then processes data in 'gotInhomSim' callback
+        graphSettn.inhomFileN = selected_file.name;
+        ReadLocFle(selected_file, gotInhomSim);
+    }
+     else if (dialoogi == 'Homogeneous spectrum') {
+        // async reads simulation to the homog plot
+        // then processes data in 'gotInhomSim' callback
+        graphSettn.homFileN=selected_file.name;
+        ReadLocFle(selected_file, gotInhomSim);
     }
 });
 
@@ -1898,7 +1908,6 @@ function gotInhomFile(fileCont) {
     //callback after successfully reading a local emission file
     //console.log('filecont: ',fileCont);
     try {
-        //console.log('filecont: ',filecont);
         inhomSpectr.experArr = splitToArr(fileCont);
         inhomSpectr.experPlot = splitToArr(fileCont);
         var descr = inhomSpectr.experPlot[0][2];
@@ -1950,7 +1959,6 @@ function gotInhomSim(fileCont){
         var headeri = fileCont.substring(indeX1 + 7, (fileCont.length));
         headeri = headeri.trim();
         setSettings(prms);
-        console.log('gotinhomsim, simSettn.eTr: ',simSettn.eTr);
         setSelections(headeri);
         setChkboxes();
         setLegend();       //set graph legend
@@ -2031,6 +2039,7 @@ function setSettings(parSettns) {
     // "exiton":{"Eb_meV":5,"type":"QW-2D","viewDir":"parallel","polarizat":"TE"},
     // "Boltzmann":{"Epeak_eV":1.4,"Temp_K":293},"InhmgBrdng":{"type":"SymmUrbach","Eu_meV":8}}
     var objSettns=JSON.parse(parSettns);
+    console.log('objSettns:',objSettns);
     simSettn.eVstart=objSettns.Estart;
     $('#eVstart_touch').val(simSettn.eVstart);
     simSettn.eVstop=objSettns.Estop;

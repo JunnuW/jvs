@@ -6,12 +6,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/urllist.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/broaden.jade" afterPath="$PROJECT_DIR$/views/broaden.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/broadgeneral.jade" afterPath="$PROJECT_DIR$/views/broadgeneral.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/refletrans.jade" afterPath="$PROJECT_DIR$/views/refletrans.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/tab1.jade" afterPath="$PROJECT_DIR$/views/tab1.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/mongoDialForm.js" afterPath="$PROJECT_DIR$/views/mongoDialForm.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/mongoDialForm.min.js" afterPath="$PROJECT_DIR$/views/mongoDialForm.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.jade" afterPath="$PROJECT_DIR$/views/spectralmodel.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.js" afterPath="$PROJECT_DIR$/views/spectralmodel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.min.js" afterPath="$PROJECT_DIR$/views/spectralmodel.min.js" />
     </list>
     <ignored path="jvs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,11 +31,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+      <file leaf-file-name="spectralmodel.jade" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="308" column="0" lean-forward="true" selection-start-line="308" selection-start-column="0" selection-end-line="308" selection-end-column="0" />
+              <folding>
+                <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
+                <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
+                <element signature="n#table#0;n#div#8;n#div#1;n#block#0;n#!!top" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="spectralmodel.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/spectralmodel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="288">
+              <caret line="1979" column="3" lean-forward="true" selection-start-line="1979" selection-start-column="3" selection-end-line="1979" selection-end-column="3" />
+              <folding>
+                <marker date="1496325652270" expanded="true" signature="39711:39839" ph="..." />
+                <marker date="1496325652270" expanded="true" signature="41678:41807" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="mongoDialForm.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/mongoDialForm.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="48" column="20" lean-forward="false" selection-start-line="48" selection-start-column="17" selection-end-line="48" selection-end-column="26" />
+            <state relative-caret-position="131">
+              <caret line="69" column="18" lean-forward="false" selection-start-line="69" selection-start-column="17" selection-end-line="69" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -54,18 +81,8 @@
       <file leaf-file-name="refletrans.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/refletrans.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="42">
-              <caret line="2" column="6" lean-forward="true" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tab1.jade" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/tab1.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="4" column="44" lean-forward="false" selection-start-line="4" selection-start-column="44" selection-end-line="4" selection-end-column="44" />
+            <state relative-caret-position="119">
+              <caret line="32" column="56" lean-forward="false" selection-start-line="32" selection-start-column="56" selection-end-line="32" selection-end-column="56" />
               <folding />
             </state>
           </provider>
@@ -74,18 +91,8 @@
       <file leaf-file-name="broaden.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/broaden.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="22" column="6" lean-forward="true" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="appi.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/appi.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="51" column="34" lean-forward="false" selection-start-line="51" selection-start-column="34" selection-end-line="51" selection-end-column="34" />
+            <state relative-caret-position="149">
+              <caret line="9" column="6" lean-forward="true" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -94,8 +101,8 @@
       <file leaf-file-name="mongoDialForm.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/mongoDialForm.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="16338">
-              <caret line="778" column="69" lean-forward="false" selection-start-line="778" selection-start-column="69" selection-end-line="778" selection-end-column="69" />
+            <state relative-caret-position="131">
+              <caret line="150" column="16" lean-forward="false" selection-start-line="150" selection-start-column="16" selection-end-line="150" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -104,8 +111,8 @@
       <file leaf-file-name="jv-fileopsit.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/jv-fileopsit.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1449">
-              <caret line="69" column="58" lean-forward="false" selection-start-line="69" selection-start-column="53" selection-end-line="69" selection-end-column="58" />
+            <state relative-caret-position="21">
+              <caret line="317" column="2" lean-forward="true" selection-start-line="317" selection-start-column="2" selection-end-line="317" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -126,16 +133,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>respToParams</find>
-      <find>setSelections</find>
-      <find>no data</find>
-      <find>save simu</find>
-      <find>save simulation s</find>
-      <find>save simulation spectrum</find>
-      <find>private</find>
-      <find>btnUserDir</find>
-      <find>Save simulation</find>
-      <find>seivstring</find>
       <find>chkSaveExper</find>
       <find>save simul</find>
       <find>saveMeasFile</find>
@@ -152,10 +149,20 @@
       <find>invalid directory</find>
       <find>resu:</find>
       <find>descr:</find>
-      <find>btnLocDir</find>
       <find>savefile</find>
       <find>local</find>
       <find>mathj</find>
+      <find>openMeasFile</find>
+      <find>Open emission spectrum</find>
+      <find>readlocfile</find>
+      <find>emislocfi</find>
+      <find>btnLocDir</find>
+      <find>style=&quot;display:none&quot;</find>
+      <find>emisloc</find>
+      <find>locdir</find>
+      <find>gotInhomFile</find>
+      <find>readloc</find>
+      <find>setsettings</find>
     </findStrings>
     <replaceStrings>
       <replace>simSettn.jdostype</replace>
@@ -236,10 +243,7 @@
         <option value="$PROJECT_DIR$/views/broadhomo.jade" />
         <option value="$PROJECT_DIR$/jv-mngo-tree/index.js" />
         <option value="$PROJECT_DIR$/views/mongoDialForm.jade" />
-        <option value="$PROJECT_DIR$/views/spectralmodel.jade" />
-        <option value="$PROJECT_DIR$/views/spectralmodel.js" />
         <option value="$PROJECT_DIR$/public/js/jv-fileopsit.js" />
-        <option value="$PROJECT_DIR$/views/mongoDialForm.js" />
         <option value="$PROJECT_DIR$/appi.js" />
         <option value="$PROJECT_DIR$/urllist.txt" />
         <option value="$PROJECT_DIR$/robots.txt" />
@@ -247,6 +251,9 @@
         <option value="$PROJECT_DIR$/views/broaden.jade" />
         <option value="$PROJECT_DIR$/views/refletrans.jade" />
         <option value="$PROJECT_DIR$/views/tab1.jade" />
+        <option value="$PROJECT_DIR$/views/spectralmodel.jade" />
+        <option value="$PROJECT_DIR$/views/mongoDialForm.js" />
+        <option value="$PROJECT_DIR$/views/spectralmodel.js" />
       </list>
     </option>
   </component>
@@ -548,7 +555,7 @@
       <workItem from="1493921539829" duration="20903000" />
       <workItem from="1494316961204" duration="28198000" />
       <workItem from="1495212274341" duration="2697000" />
-      <workItem from="1495215362403" duration="7903000" />
+      <workItem from="1495215362403" duration="27247000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -561,7 +568,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2860423000" />
+    <option name="totallyTimeSpent" value="2879767000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -577,12 +584,12 @@
     <frame x="-9" y="-9" width="1384" height="786" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24906507" sideWeight="0.7701613" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21690352" sideWeight="0.7575107" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26040062" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30595812" sideWeight="0.8137621" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5112903" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21017203" sideWeight="0.22983871" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959743" sideWeight="0.18623784" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21690352" sideWeight="0.24248926" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959743" sideWeight="0.18623784" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24906507" sideWeight="0.48602152" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37471953" sideWeight="0.5441767" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21465969" sideWeight="0.42916667" order="3" side_tool="true" content_ui="tabs" />
@@ -866,38 +873,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5628">
-          <caret line="300" column="0" lean-forward="false" selection-start-line="300" selection-start-column="0" selection-end-line="300" selection-end-column="0" />
-          <folding>
-            <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
-            <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
-            <element signature="n#table#0;n#div#8;n#div#1;n#block#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jv-mngo-tree/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="122">
           <caret line="251" column="33" lean-forward="false" selection-start-line="251" selection-start-column="33" selection-end-line="251" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/jv-fileopsit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1449">
-          <caret line="69" column="58" lean-forward="false" selection-start-line="69" selection-start-column="53" selection-end-line="69" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/mongoDialForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16338">
-          <caret line="778" column="69" lean-forward="false" selection-start-line="778" selection-start-column="69" selection-end-line="778" selection-end-column="69" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -973,21 +952,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/spectralmodel.js">
+    <entry file="file://$PROJECT_DIR$/views/tab1.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="974" column="42" lean-forward="false" selection-start-line="974" selection-start-column="42" selection-end-line="974" selection-end-column="42" />
-          <folding>
-            <marker date="1494491482956" expanded="true" signature="39711:39839" ph="..." />
-            <marker date="1494491482956" expanded="true" signature="41678:41807" ph="..." />
-          </folding>
+        <state relative-caret-position="84">
+          <caret line="4" column="44" lean-forward="false" selection-start-line="4" selection-start-column="44" selection-end-line="4" selection-end-column="44" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/mongoDialForm.jade">
+    <entry file="file://$PROJECT_DIR$/views/refletrans.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="48" column="20" lean-forward="false" selection-start-line="48" selection-start-column="17" selection-end-line="48" selection-end-column="26" />
+        <state relative-caret-position="119">
+          <caret line="32" column="56" lean-forward="false" selection-start-line="32" selection-start-column="56" selection-end-line="32" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/broaden.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="9" column="6" lean-forward="true" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
           <folding />
         </state>
       </provider>
@@ -1000,27 +984,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/broaden.jade">
+    <entry file="file://$PROJECT_DIR$/views/spectralmodel.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="22" column="6" lean-forward="true" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
+        <state relative-caret-position="252">
+          <caret line="308" column="0" lean-forward="true" selection-start-line="308" selection-start-column="0" selection-end-line="308" selection-end-column="0" />
+          <folding>
+            <element signature="n#table#0;n#div#6;n#div#1;n#block#0;n#!!top" expanded="false" />
+            <element signature="n#table#0;n#div#7;n#div#1;n#block#0;n#!!top" expanded="false" />
+            <element signature="n#table#0;n#div#8;n#div#1;n#block#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/mongoDialForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="150" column="16" lean-forward="false" selection-start-line="150" selection-start-column="16" selection-end-line="150" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/refletrans.jade">
+    <entry file="file://$PROJECT_DIR$/public/js/jv-fileopsit.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="2" column="6" lean-forward="true" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+        <state relative-caret-position="21">
+          <caret line="317" column="2" lean-forward="true" selection-start-line="317" selection-start-column="2" selection-end-line="317" selection-end-column="2" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/tab1.jade">
+    <entry file="file://$PROJECT_DIR$/views/mongoDialForm.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="4" column="44" lean-forward="false" selection-start-line="4" selection-start-column="44" selection-end-line="4" selection-end-column="44" />
+        <state relative-caret-position="131">
+          <caret line="69" column="18" lean-forward="false" selection-start-line="69" selection-start-column="17" selection-end-line="69" selection-end-column="18" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/spectralmodel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="1979" column="3" lean-forward="true" selection-start-line="1979" selection-start-column="3" selection-end-line="1979" selection-end-column="3" />
+          <folding>
+            <marker date="1496325652270" expanded="true" signature="39711:39839" ph="..." />
+            <marker date="1496325652270" expanded="true" signature="41678:41807" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

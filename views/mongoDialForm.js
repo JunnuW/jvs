@@ -764,9 +764,14 @@ $('#btnLocDir').click(function () {
             $("#stackLocFiles").focus().click();
             break;
         case 'Open emission spectrum':
-            //eV- spectral intensity data for EL and PL modelling target e.g. experimental
+            //eV- spectral intensity data for EL and PL modelling target
             $("#mongoDialForm").dialog("close");
             $("#emisLocFiles").focus().click();
+            break;
+        case 'Open simulated spectrum':
+            //simulations data
+            $("#mongoDialForm").dialog("close");
+            $("#simLocFiles").focus().click();
             break;
         case 'Save Inhomogeneous spectrum':
             //eV- experimental intensity data for EL and PL modelling

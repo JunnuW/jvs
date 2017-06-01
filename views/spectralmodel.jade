@@ -259,7 +259,7 @@ block levenee
         div(id='divSurbach' style='display:none')
           input(id="pltsUrbach" style='margin-left:7px' type="checkbox" value='No')
           //-hidden input for file name to open local file using HTML5 file API
-          input(type="file" id="emisLocFiles" style="display:none" name="emisLocFiles")
+          //input(type="file" id="emisLocFiles" style="display:none" name="emisLocFiles")
           a(href="javascript:void(0)", id="hrefsUrbach", style='padding-left:30px; color:DarkBlue;')
             | Symmetric Urbach distribution
             span(style="color:Brown;")     (set tail parameter \(E_{u}\))
@@ -298,6 +298,11 @@ block levenee
       button(id='saveMeasFile' style="margin:0px 5px") Save meas.
       button(id='openSimFile' style="margin:0px 5px") Open simul.
       button(id='saveSimFile' style="margin:0px 5px") Save simul.
+
+    //hidden input for reading measurement spectra from local files:
+    input(type="file" id="emisLocFiles" style="display:none" name="emisLocFiles")
+    //hidden input for reading simulations spectra/parameters from local files:
+    input(type="file" id="simLocFiles" style="display:none" name="simLocFiles")
 
     include mongoDialForm
     //-correct indenting is required
