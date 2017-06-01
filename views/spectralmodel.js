@@ -1983,7 +1983,7 @@ function gotInhomSim(fileCont){
  * @header {string} receives the selected options
  */
 function setSelections(header){
-    console.log('header: ',header);
+    //console.log('header: ',header);
     //(E)x(qw-jdos)x(exp[(E-Etr)/kT])x(qw-ex.Enh)*(Symm.Urbach-brdng)
     inhomSpectr.inPlot.eV=(header.indexOf('(E)')>=0)? true:false; //photon energy
     inhomSpectr.inPlot.jdos= (header.indexOf('(qw-jdos)')>=0||header.indexOf('(bulk-jdos)')>=0)? true: false; //density of states
@@ -2039,7 +2039,7 @@ function setSettings(parSettns) {
     // "exiton":{"Eb_meV":5,"type":"QW-2D","viewDir":"parallel","polarizat":"TE"},
     // "Boltzmann":{"Epeak_eV":1.4,"Temp_K":293},"InhmgBrdng":{"type":"SymmUrbach","Eu_meV":8}}
     var objSettns=JSON.parse(parSettns);
-    console.log('objSettns:',objSettns);
+    //console.log('objSettns:',objSettns);
     simSettn.eVstart=objSettns.Estart;
     $('#eVstart_touch').val(simSettn.eVstart);
     simSettn.eVstop=objSettns.Estop;

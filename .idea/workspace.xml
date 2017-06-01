@@ -6,10 +6,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/mongoDialForm.js" afterPath="$PROJECT_DIR$/views/mongoDialForm.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/mongoDialForm.min.js" afterPath="$PROJECT_DIR$/views/mongoDialForm.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.jade" afterPath="$PROJECT_DIR$/views/spectralmodel.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.js" afterPath="$PROJECT_DIR$/views/spectralmodel.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/spectralmodel.min.js" afterPath="$PROJECT_DIR$/views/spectralmodel.min.js" />
     </list>
@@ -48,11 +44,11 @@
       <file leaf-file-name="spectralmodel.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/spectralmodel.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="1979" column="3" lean-forward="true" selection-start-line="1979" selection-start-column="3" selection-end-line="1979" selection-end-column="3" />
+            <state relative-caret-position="131">
+              <caret line="2041" column="42" lean-forward="true" selection-start-line="2041" selection-start-column="42" selection-end-line="2041" selection-end-column="42" />
               <folding>
-                <marker date="1496325652270" expanded="true" signature="39711:39839" ph="..." />
-                <marker date="1496325652270" expanded="true" signature="41678:41807" ph="..." />
+                <marker date="1496326470548" expanded="true" signature="39711:39839" ph="..." />
+                <marker date="1496326470548" expanded="true" signature="41678:41807" ph="..." />
               </folding>
             </state>
           </provider>
@@ -133,8 +129,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>chkSaveExper</find>
-      <find>save simul</find>
       <find>saveMeasFile</find>
       <find>open emission</find>
       <find>pickcolle</find>
@@ -163,6 +157,8 @@
       <find>gotInhomFile</find>
       <find>readloc</find>
       <find>setsettings</find>
+      <find>parameters:</find>
+      <find>header:</find>
     </findStrings>
     <replaceStrings>
       <replace>simSettn.jdostype</replace>
@@ -555,7 +551,7 @@
       <workItem from="1493921539829" duration="20903000" />
       <workItem from="1494316961204" duration="28198000" />
       <workItem from="1495212274341" duration="2697000" />
-      <workItem from="1495215362403" duration="27247000" />
+      <workItem from="1495215362403" duration="27946000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -568,7 +564,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2879767000" />
+    <option name="totallyTimeSpent" value="2880466000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -1022,11 +1018,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/spectralmodel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="1979" column="3" lean-forward="true" selection-start-line="1979" selection-start-column="3" selection-end-line="1979" selection-end-column="3" />
+        <state relative-caret-position="131">
+          <caret line="2041" column="42" lean-forward="true" selection-start-line="2041" selection-start-column="42" selection-end-line="2041" selection-end-column="42" />
           <folding>
-            <marker date="1496325652270" expanded="true" signature="39711:39839" ph="..." />
-            <marker date="1496325652270" expanded="true" signature="41678:41807" ph="..." />
+            <marker date="1496326470548" expanded="true" signature="39711:39839" ph="..." />
+            <marker date="1496326470548" expanded="true" signature="41678:41807" ph="..." />
           </folding>
         </state>
       </provider>
