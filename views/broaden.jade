@@ -63,13 +63,13 @@ html
                 b.caret
               ul.dropdown-menu
                 li
-                  a(href='/broadgeneral') General remarks
+                  a(href='/broadgeneral' style='color:Red;') General remarks
                 li
-                  a(href='/inhomogen') Inhomogeneously
+                  a(href='/inhomogen' style='color:Red;') Inhomogeneously
                 li
-                  a(href='/homogen') Homogeneously
+                  a(href='/homogen' style='color:Red;') Homogeneously
                 li
-                  a(href='/SpectralModel' class='huuhaa-text') Spectral modelling
+                  a(href='/SpectralModel' style='color:Red;') Spectral modelling
             li.dropdown
               a(href='#' id='userN' data-toggle='dropdown') No login
                 b.caret
@@ -119,15 +119,18 @@ html
     }
 
     .navbar-inverse {
-      color: darkred;
-      background-color: lavender;
+      background-color: yellow;
       font-weight: bold;
-      font-size: 14px;
-      color: white;
+      font-size: 18px;
+      /*color:green;*/
     }
 
     .navbar-fixed-top {
       min-height: 25px;
+    }
+
+    .huihai {
+      background-color:yellow;
     }
 
     .navbar-nav > li > a {

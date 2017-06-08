@@ -336,35 +336,35 @@ app.get('/contrbs', function(req, res) {
 /* GET Broadenin fun page. */
 app.get('/broadmod', function(req, res) {
     res.render('broadgeneral', {
-        title: 'Spectral broadening in quantum well LED\'s and LD\'s below laser threshold',
+        title: 'Inhomogeneous and homogeneous broadening in semiconductor diodes',
         user: (req.user)  //false
     });
 });
 
 app.get('/broadgeneral', function(req, res) {
     res.render('broadgeneral', {
-        title: 'Spectral broadening in quantum well LED\'s and LD\'s below laser threshold',
+        title: 'Spectral broadening in diodes with quantum wells',
         user: (req.user)  //false
     });
 });
 
 app.get('/inhomogen', function(req, res) {
     res.render('broadinhomo', {
-        title: 'Spectral broadening in quantum well LED\'s and LD\'s below laser threshold',
+        title: 'Inhomogeneous broadening in diodes with quantum well',
         user: (req.user)  //false
     });
 });
 
 app.get('/spectralmodel', function(req, res) {
     res.render('spectralmodel', {
-        title: 'Spectral modelling of quantum well LED\'s and LD\'s below laser threshold',
+        title: 'Spectral broadening simulator',
         user: (req.user)  //false
     });
 });
 
 app.get('/homogen', function(req, res) {
     res.render('broadhomo', {
-        title: 'Spectral broadening in quantum well LED\'s and LD\'s below laser threshold',
+        title: 'Homogeneous broadening in diodes with quantum well',
         user: (req.user)  //false
     });
 });
