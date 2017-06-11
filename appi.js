@@ -436,13 +436,14 @@ app.get('/refletrans', function (req, res) {
     //console.log('app.get/refletrans');
     //without login; req.user==undefined
     res.render('refletrans', {
+        title: 'Optical interference calculation for thin film coated materials',
         user: (req.user)
     });
 });
 
 app.get('/el_dialog', function(req, res) {
     res.render('el_settndialog',{
-        title: 'Simulation settings',
+        title: 'Broadening simulator settings',
         user: (req.user)  //false
     });
 });

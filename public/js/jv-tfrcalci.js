@@ -374,8 +374,17 @@ $(function() {
 
 //Tabs-6: tehd�� piirtomoodin muuttamisen event handler:
     $("input[name=graphMode]:radio").change(function () {
-        updRTspArra();
-        updNKspArra();
+        if ($('#setStack').prop('checked'))
+        {
+            //$("#adjustThs").css( "border", "3px solid red" );
+            $('#adjustThs').css('display','block');
+            $('#advice').hide();
+            updRTspArra();
+        }else {
+            $('#adjustThs').css('display','none');
+            $('#advice').show();
+            updNKspArra();
+        }
         updGraph();
     });
 
@@ -566,6 +575,7 @@ $(function() {
 //Tabs-6 Tuning is by default not available:
     $("#adjustThs").css( "border", "3px solid red" );
     $("#adjustThs").hide();
+    $('#advice').show();
 
 //Tabs-6: tehd��n nelj�s sarake editoitavaksi checkboxin kanssa:
     oStackTable.on('dblclick', 'td:nth-child(4)', function (evt) {
@@ -605,9 +615,12 @@ $(function() {
                     if (stackArr[j][3]==="Yes") tuneds=true;
                     }
                     if (tuneds) {
+                        //$("#adjustThs").css( "border", "3px solid red" );
                         $("#adjustThs").show(); //show tuning toolbox
+                        $('#advice').hide();
                     }else{
                         $("#adjustThs").hide();
+                        $('#advice').show();
                     }
             }
         });
@@ -750,13 +763,13 @@ $(function() {
     $('#reveTune').click(function(){
         revertTune();
         $("#adjustThs").hide();
+        $('#advice').show();
     });
 
 //Tabs-6: Event handler for autoTune button
     $('#autoTune').click(function(){
         var buttone=$(this).children('.ui-button-text','span'); //returns button span for button text
-        buttone.text((buttone.text()=='AutoTune')? 'StopTune':'AutoTune'); //toggle: AutoTune, StopTune
-        //console.log(buttone.text());
+        buttone.text((buttone.text()=='AutoTune')? 'StopTune':'AutoTune'); //toggle: AutoTune, StopTunconsole.log(buttone.text());
         if (buttone.text()=='StopTune') {
             if (iter1()=='Stop') return; // no tuned films selected, some layer with zero thickness?
             var tunePrcnt=10; //multiply thicknesses with ratio 1.1*
