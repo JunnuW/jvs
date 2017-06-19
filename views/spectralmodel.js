@@ -107,7 +107,7 @@ graphSettn={
 
 simSettn.eTr=1.4; //starting value for transition energy
 var optiot = {//initial plotting options
-    xaxes: [{position: 'bottom', axisLabel: 'Energy eV'}],
+    xaxes: [{position: 'bottom', axisLabel: 'Energy eV (axis-click to edit graph)'}],
     yaxes: [{position: 'left', axisLabel: 'Relative Intensity'}],
     legend: {position: "ne"},
     grid: {//This one set can be hovered:
