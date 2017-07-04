@@ -5,7 +5,6 @@ $("#mongoDialForm").dialog({
     open: function () {
         //opens different dialogs for 'open file' and 'save file' operations
         var otsikko=$(this).dialog('option','title');
-        //console.log('title: ',otsikko);
         if (otsikko=='Save simulation spectrum') {//only 'Save emission spectrum' title opens this fieldset :
             $('#saaveSim').css('display','inline');
         } else {
@@ -43,7 +42,6 @@ $("#mongoDialForm").dialog({
             text: "Cancel",
             "class": 'medium-btn',
             click: function () {
-                //console.log('cancel clicked');
                 $('#mongoTree').jstree('deselect_all');
                 $('#mongoTree').jstree('close_all');
                 $('#FilTreLege').text('Files available on server:');
@@ -111,7 +109,6 @@ $("#mongoDialForm").dialog({
         }//All dialog buttons defined
     ]
 });
-//console.log('dialogi tehty:');
 /*MathJax.Hub.Config({
  TeX: {
  equationNumbers: {autoNumber: "AMS"},
@@ -159,7 +156,6 @@ function mongoReadDesc(fileName, callsback) {
     if (userName != 'No login') {
         tokene = window.sessionStorage.getItem('RTFtoken');
     }
-    //console.log('mongoReadDesc: ',fileName);
     var getDoc = $.post('/auth/dbFindOne', {
         userNme: dirUser,
         fileName: fileName,
@@ -172,7 +168,6 @@ function mongoReadDesc(fileName, callsback) {
         .done(function (datas) {
             //successful reading responds "reading OK" otherwise an error message
             if (datas && datas.statCode == 200) {
-                //console.log('Document reading response: '+datas);
                 if (datas.resString.indexOf("DocumentOK") == 0) {//gives -1 if not found
                     var resText = datas.resString.slice(datas.resString.indexOf(':') + 1);
                     //cut out 'documentOK' from the beginning
@@ -200,12 +195,10 @@ function mongoReadDesc(fileName, callsback) {
  * @function
  */
 /*function FileDescOk(tryThis){
- console.log('FileDescOk: ',tryThis);
  var rege=new RegExp("^[a-zA-Z0-9_-]*$");
  //var rege=new RegExp("\w");
  // var resu = rege.test(tryThis);
  var resu = rege.exec(tryThis);
- console.log('resu: ',resu);
  return resu;
  }*/
 
@@ -237,7 +230,6 @@ function mongoSave(saveUrl, flNme) {
     }
     else {
         var descr = $('#mongFileDesc').val();
-        //console.log('descr: ',descr);
         switch (dialTitle) {
             case ((dialTitle.match(/material/gi)) ? dialTitle : undefined) :
                 //tehdään materiaalitiedostosta JSON:
@@ -288,7 +280,6 @@ function mongoSave(saveUrl, flNme) {
                 break;
 
             default:
-                //console.log('mongoSave error:');
                 throw "No datacollection for " + dialTitle;
         }
     }
@@ -301,7 +292,6 @@ function mongoSave(saveUrl, flNme) {
         .done(function (datas) {
             //successfull saving responds "saving OK" otherwise an error message
             if (datas && datas.statCode == 200) {
-                //console.log('saving response: ' + datas);
                 if (datas.resString.indexOf("saving OK") > -1 || datas.resString.indexOf('Updated') > -1) {
                     $('#btn-mngOpenSave').text("Save file");//return original caption
                     switch (dialTitle) {
@@ -380,7 +370,6 @@ function saveToMngoDb(mngFileN) {
                         break;
                 }
             } else {//no relevant response from server to existence query:
-                //console.log('File existence check failed on server');
                 var errme = (data) ? data.error
                     : "Could not check if already file exists on server!";
                 $.notifyBar({
@@ -392,7 +381,6 @@ function saveToMngoDb(mngFileN) {
             }
         })
         .fail(function () {//Failed to get any response from server
-            //console.log('failed check connections');
             $.notifyBar({
                 cssClass: "error",
                 html: "(Connection or database error in server)"
@@ -408,7 +396,6 @@ function saveToMngoDb(mngFileN) {
  * @function
  */
 function mongoGetOne(fileName) {
-    //console.log('get one called: ');
     var datColl = pickCollection();
     var tokene;
     if (userName != 'No login') {
@@ -423,7 +410,6 @@ function mongoGetOne(fileName) {
     })
         .done(function (datas, textStatus) {
             if (textStatus == 'nocontent') {//responsed with status 204 'nocontent
-                //console.log('no content 204');
                 $.notifyBar({
                     cssClass: "warning",
                     html: "Data could not be obtained from server: "
@@ -437,7 +423,6 @@ function mongoGetOne(fileName) {
                             //cut out 'documentOK' text from the response string beginning
                             //and convert back to object
                             var resObj = JSON.parse(datas.resString.slice(datas.resString.indexOf('{')));
-                            //console.log('datColl: ',datColl);
                             if (datColl == 'simulparams') {
                                 respToParams(fileName, resObj);
                             } else if (datColl == 'emissions'){
@@ -451,7 +436,6 @@ function mongoGetOne(fileName) {
                         break;
                     case 202:
                         //database responds with not found
-                        //console.log('202:Data could not be obtained:  '+datas.error)
                         $.notifyBar({
                             cssClass: "warning",
                             html: "Data could not be obtained: " + datas.error
@@ -459,11 +443,9 @@ function mongoGetOne(fileName) {
                         break;
                 }
             }
-            //console.log('reading done: ',datas,' ',textStatus);
             //successful reading responds "reading OK" otherwise an error message
         })
         .fail(function (datas) {
-            //console.log('data reading failed: ', datas);
             handleFail(datas.responseText, 'Data was not obtainable');
         });
     DFmngo.dialog("close");
@@ -477,13 +459,9 @@ function mongoGetOne(fileName) {
  * @function
  */
 function mongoRename(oldFile, newFile, icon) {
-    //console.log('rename oldfile: ' + oldFile + ' newFile: ' + newFile);
     var datColl = pickCollection();
     var tokene;
-    //console.log('userName: ',userName);
     //userName=window.sessionStorage.getItem('RTFuser');
-    //console.log('sessionStorage userName: ',window.sessionStorage.getItem('RTFuser'));
-    //console.log('dirUser: ',dirUser);
     if (userName != 'No login') {
         tokene = window.sessionStorage.getItem('RTFtoken');
     }
@@ -501,7 +479,6 @@ function mongoRename(oldFile, newFile, icon) {
         .done(function (datas) {
             //successful renaming responds "renaming OK" otherwise an error message
             if (datas) {
-                //console.log('Renaming response: ' + datas);
                 if (datas.resString.indexOf("renaming OK") > -1) {
                     $('#btn-mngOpenSave').text("Save data");//return original caption
                     $.notifyBar({
@@ -545,7 +522,6 @@ function mongoDelete(flNme) {
         .done(function (datas) {
             //successful deleting responds "deleting OK" otherwise an error message
             if (datas && datas.statCode == 200) {
-                //console.log('Deleting response: ' + datas.resString);
                 if (datas.resString.indexOf('deleting OK') > -1) {
                     $('#btn-mngOpenSave').text("Save data");//return original caption
                     $.notifyBar({
@@ -575,7 +551,6 @@ function mongoDelete(flNme) {
  */
 function pickCollection() {
     var dialTitle = DFmngo.dialog('option', 'title');
-    //console.log('dialTitle: ',dialTitle);
     var mngoColle;
     switch (dialTitle) {
         case ((dialTitle.match(/material/gi)) ? dialTitle : undefined) :
@@ -598,7 +573,7 @@ function pickCollection() {
         case ((dialTitle.match(/Save Homogeneous/gi)) ? dialTitle : undefined) :
             mngoColle = "emissions";
             break;
-        case ((dialTitle.match(/Save simulated/gi)) ? dialTitle : undefined) :
+        case ((dialTitle.match(/Save simulation/gi)) ? dialTitle : undefined) :
             mngoColle = "simulparams";
             /*if ($('#chkSaveExper').prop('checked')){
                 mngoColle = "emissions";
@@ -607,7 +582,6 @@ function pickCollection() {
             }*/
             break;
         case ((dialTitle.match(/Open emission/gi)) ? dialTitle : undefined) :
-            //console.log('Open emission')
             mngoColle = "emissions"; //luetaan spektri e.g. mittaustulos
             /*if ($('#radioMeas').prop('checked')) {
                 mngoColle = "emissions"; //luetaan spektri e.g. mittaustulos
@@ -616,7 +590,6 @@ function pickCollection() {
             }*/
             break;
         case ((dialTitle.match(/Open simulated/gi)) ? dialTitle : undefined) :
-            //console.log('Open simulated');
             mngoColle = "simulparams"; //luetaan simuloinnin parametriasetuksia
             /*if ($('#radioMeas').prop('checked')) {
                 mngoColle = "emissions"; //luetaan spektri e.g. mittaustulos
@@ -648,31 +621,30 @@ function treeUpdate() {
     }
     //fetches all user's file titles with their paths from server:
     var checkUserFiles = $.post('/auth/checkAllUserF', {
-            userNme: dirUser,
-            rtftoken: tokene,
-            //uses either materials, targets or stacks data collection:
-            Collection: collec
+        userNme: dirUser,
+        rtftoken: tokene,
+        //uses either materials, targets or stacks data collection:
+        Collection: collec
         })
-            .done(function (data, status, xhr) {//
-                if (data) {
-                    if (data.token == 'invalid') {//invalid token, Otherwice data.token==undefined
-                        userName = 'No login';
-                        window.sessionStorage.setItem('RTFuser', userName);
-                        window.sessionStorage.setItem('RTFtoken', null);
-                        $.notifyBar({//alert reason for token failure is in data
-                            //position: "bottom",
-                            cssClass: "error",
-                            html: data.response
-                        });
-                        $('#frm-Login').show();
-                        $('#frm-FileTree').hide();
-                        $('#btn-mngOpenSave').hide();
-                        $('#btnLogMeOff').hide();
-                        //setEdiLbl("Public file:")
-                        return;
-                    }
-                    //console.log('data received: ',data);
-                    if (data.statCode == 200) {
+        .done(function (data, status, xhr) {//
+            if (data) {
+                if (data.token == 'invalid') {//invalid token, Otherwice data.token==undefined
+                    userName = 'No login';
+                    window.sessionStorage.setItem('RTFuser', userName);
+                    window.sessionStorage.setItem('RTFtoken', null);
+                    $.notifyBar({//alert reason for token failure is in data
+                    //position: "bottom",
+                        cssClass: "error",
+                        html: data.response
+                    });
+                    $('#frm-Login').show();
+                    $('#frm-FileTree').hide();
+                    $('#btn-mngOpenSave').hide();
+                    $('#btnLogMeOff').hide();
+                    //setEdiLbl("Public file:")
+                    return;
+                }
+                if (data.statCode == 200) {
                         $('#mongoTree').jstree(true).settings.core.data = JSON.parse(data.resString);
                         $('#mongoTree').jstree(true).refresh();
                         var dialTitle = $("#mongoDialForm").dialog("option", "title");
@@ -686,7 +658,6 @@ function treeUpdate() {
                             });
                         }else {
                             //save operaatio
-                            //console.log('treeUpdate: ',$('#settnDial').dialog('option', 'title'));
                             $("#fsFileDesc").css('display','inline');
                             var homInhom=$('#settnDial').dialog('option', 'title');
                             var teksti='';
@@ -704,7 +675,6 @@ function treeUpdate() {
                         });
                     }
                 } else {
-                    //console.log('no data received');
                     $.notifyBar({
                         //position: "bottom",
                         cssClass: "error",
@@ -713,7 +683,6 @@ function treeUpdate() {
                 }
             })
             .fail(function () {
-                //console.log('failed to read user collection for ' + pickCollection());
                 $.notifyBar({
                     //position: "bottom",
                     cssClass: "warning",
@@ -820,10 +789,8 @@ $('#btnLocDir').click(function () {
         case 'Save target data to':
             var failneim = $('#ediTarge').val();
             failneim = failneim.slice(failneim.lastIndexOf('/') + 1);
-            //console.log('save target data to ',failneim);
             //targArr[0][0] : wavelength unit, [0][1] : 'R' or 'T', [0][2]: '%' or 'abs', [0][3]: description
             var seivString = targArr[0][0] + '\t' + targArr[0][1];
-            //console.log('targArr[0][2]: '+targArr[0][2]);
             if (targArr[0][2]) {
                 var desc = targArr[0][2].replace(/(^[\"\']+)|([\"\']+$)/g, ""); //remove single and double quotes
                 desc = '\"' + desc + '\"'; //add double quotes for notepad opening
@@ -870,7 +837,6 @@ $('#btnUserDir').click(function () {
 //aTree.on("change.jstree rename_node.jstree delete_node.jstree " +
 $('#mongoTree').on("close_node.jstree change.jstree rename_node.jstree delete_node.jstree " +
     "deselect_all.jstree select_node.jstree", function (e, data) {
-    //console.log("jstree-changed: "+Object.keys(data));
     //responds: action,node,selected,event,instance copy_node.jstree move_node.jstree
     var selctdNde;
     switch (e.type) {
@@ -904,7 +870,6 @@ $('#mongoTree').on("close_node.jstree change.jstree rename_node.jstree delete_no
             //enable input boxes:
             $('#mongoFileName').prop("disabled", false);
             $('#directoName').prop("disabled", false);
-            //console.log('scrollHeight1: ', $('#mongoDialForm').get(0).scrollHeight);
             //get the open or save option:
             var dialTitle = $("#mongoDialForm").dialog("option", "title");
             if (dialTitle.indexOf('Open') > -1) {
@@ -914,7 +879,6 @@ $('#mongoTree').on("close_node.jstree change.jstree rename_node.jstree delete_no
                 $('#btn-mngOpenSave').text('Save data');
                 $('#fsFileDesc').css('display', 'inline');
             }
-            //console.log('node was selected OK: '+selctdNde.id);
             var repl = mongoColle();
             $('#directoName').val(repl.Folder);
             //scroll to bottom of dialog:
@@ -953,14 +917,12 @@ $('#mongoTree').on("close_node.jstree change.jstree rename_node.jstree delete_no
             }
             break;
         case 'delete_node':
-            //console.log('in delete case');
             $('#mongoFileName').prop("disabled", true);
             $('#directoName').prop("disabled", true);
             var teksti = ($('#mongoFileName').val().length < 1) ? 'Confirm folder delete' : 'Confirm file delete';
             $('#btn-mngOpenSave').text(teksti);
             break;
         default:
-            //console.log('default ');
             break;
     }
 }); //a tree on.change ready
@@ -1035,15 +997,12 @@ function operDispatcher(operatSel) {
             //saves an empty folder:
             saveToMngoDb(mngFileN);
         case 'Confirm file delete':
-            //console.log('deleting file: '+mngFileN);
             mongoDelete(mngFileN);
             break;
         case 'Confirm folder delete':
-            //console.log('deleting folder: '+mngFileN);
             mongoDelete(mngFileN);
             break;
         case 'Confirm file rename' :
-            //console.log('file rename');
             var mongoPuu = $('#mongoTree').jstree(true); //get this jstree-instance
             var mongoPuuData = mongoPuu.settings.core.data; //get the tree data
             var selctdNde = mongoPuu.get_selected(true)[0];//get the selected node
@@ -1058,7 +1017,6 @@ function operDispatcher(operatSel) {
             //$('#directoName').disabled=false;
             break;
         case 'Confirm folder rename':
-            //console.log('folder rename');
             var newFile = $('#directoName').val();
             newFile = newFile.replace(/(^\/)|(\/$)/g, ""); //remove leading and trailing '/'
             var slashPos = newFile.lastIndexOf('/');
@@ -1071,9 +1029,7 @@ function operDispatcher(operatSel) {
             break;
         case 'Confirm moving':
             var oldfile = $.jstree.reference('#mongoTree').node;
-            //console.log('moving node: '+JSON.stringify(oldfile));
             //var selctdNde=$.jstree.reference('#mongoTree').get_selected(true)[0];
-            //console.log('moving: '+selctdNde.id);
             var newFile = selctdNde.text;
             var oldName = selctdNde.original.text;
             var ikoni = selctdNde.original.icon;
@@ -1081,7 +1037,6 @@ function operDispatcher(operatSel) {
             break;
         case 'Confirm copying':
             var v = $('#mongoTree').jstree(true).get_json('#', {'flat': true});
-            //console.log('v. '+JSON.stringify(v));
             var oldfile = '';
             break;
         default:
@@ -1098,7 +1053,6 @@ $('#btnLogInni').click(function () {//btnLogInni
     var usrMesg = {username: mngUsr, password: mngPwd};
     var checkUser = $.post('/login', usrMesg)
         .done(function (data) {
-            //console.log('saatiin:'+ data+' userName: '+usrMesg.username);
             if (data.responseStr == 'Login successfull') {
                 userName = usrMesg.username;
                 var accessToken = data.token;
@@ -1119,7 +1073,6 @@ $('#btnLogInni').click(function () {//btnLogInni
                 $('#FilTreLege').text('Files on server in ' + userName + '\'s directory');
                 //setEdiLbl(userName+"\'s file:");
             } else {
-                //console.log('saatiin:'+ data+' userName: '+usrMesg.username);
                 userName = 'No login';
                 dirUser = 'Publ';
                 //setEdiLbl("Public file:");
@@ -1131,7 +1084,6 @@ $('#btnLogInni').click(function () {//btnLogInni
             }
         })
         .fail(function () {
-            //console.log('saatiin:'+ data+' userName: '+usrMesg.username);
             userName = 'No login';
             dirUser = 'Publ';
             $.notifyBar({
@@ -1155,7 +1107,6 @@ var aTree = $('#mongoTree').jstree({
         "items": function (node) {
             var menIts = $.jstree.defaults.contextmenu.items();
             //var action= $.jstree.defaults.contextmenu.items.rename();
-            //console.log('items: '+JSON.stringify(menIts));
             menIts.create._disabled = true; // (node.icon=="jstree-file")? true: false;
             delete menIts.create;
             delete menIts.ccp;
