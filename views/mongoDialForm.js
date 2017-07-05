@@ -893,10 +893,18 @@ $('#mongoTree').on("close_node.jstree change.jstree rename_node.jstree delete_no
                     });
                 }
             } else {//click was on folder item on the js-tree
-                $('#mongoFileName').val('');
-                $('#fsFileDesc').css('display', 'none');
+                if (dialTitle.indexOf('Open') > -1){
+                    //console.log('avataan tiedosto');
+                    $('#mongoFileName').val('');
+                    $('#fsFileDesc').css('display', 'none');
+                    $('#frm-FileTree').hide();
+                    $('#frm-FileTree').show();
+                }else{
+                    //console.log('tallennetaan tiedosto');
+                    $('#mongoFileName').val('');
+                    $('#fsFileDesc').css('display', 'inline');
+                }
             }
-
             break;
         case 'rename_node':
             selctdNde=data.instance.get_selected(true)[0];
