@@ -219,13 +219,14 @@ block levenee
 
     div(id="settnDial" title="Graphing details")
       fieldset(id='spWhat' style='display:none;')
-        b(id='bPlotSel1' style='font-size:16px;') Plotting selector for: \(\int_0^\infty \epsilon\rho_{r}
+        b(id='bPlotSel1' style='font-size:16px;') Plotting selector for: \(R_{ih}(E)=\int_0^\infty \epsilon\rho_{r}
           |(\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)\times L_{ih}(E-\epsilon)d\epsilon\)
-        b(id='bPlotSel2' style='font-size:16px; display:none;') Plotting selector for: \(\int_0^\infty \epsilon\rho_{r}
-          | (\epsilon)S(\epsilon)exp(-\epsilon/k_{B}T)\times L_{h}(E-\epsilon)d\epsilon\)
-        br
+        b(id='bPlotSel2' style='font-size:16px; display:none;') Plotting selector for: \(R_{sp}(E)=\int_0^\infty R_{ih}
+          |(\epsilon)\times L_{h}(E-\epsilon)d\epsilon\)
         //i(style='float:right')    (click selection titles to edit parameters)
-        i(style='float:left')    (click selector titles to edit parameters)
+        //i(style='float:left') (click on titles to edit \(R_{ih}\) parameters)
+        i(style="color:Brown;") (click on titles to edit parameters in \(R_{ih}(E)\))
+        //p //vaaditaan jotta tulee  carriage return
         br
         //-legend(style="font-size:100%") Plotting selector
         div(id='divEpsilon' style='display:none')
