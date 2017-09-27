@@ -6,10 +6,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b575d04f-af0a-4c43-b8aa-b3cf52b9c74e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jv-mngo-tree/index.js" afterPath="$PROJECT_DIR$/jv-mngo-tree/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/mongoDialForm.js" afterPath="$PROJECT_DIR$/views/mongoDialForm.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/mongoDialForm.min.js" afterPath="$PROJECT_DIR$/views/mongoDialForm.min.js" />
     </list>
     <ignored path="jvs.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -71,8 +68,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jv-mngo-tree/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="1036" column="61" lean-forward="true" selection-start-line="1036" selection-start-column="61" selection-end-line="1036" selection-end-column="61" />
+            <state relative-caret-position="218">
+              <caret line="1038" column="65" lean-forward="true" selection-start-line="1038" selection-start-column="65" selection-end-line="1038" selection-end-column="65" />
               <folding />
             </state>
           </provider>
@@ -113,7 +110,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>setfilm</find>
       <find>updRTspArra</find>
       <find>display</find>
       <find>red</find>
@@ -143,6 +139,7 @@
       <find>cancel</find>
       <find>radioMeas</find>
       <find>&gt;</find>
+      <find>.sort</find>
     </findStrings>
     <replaceStrings>
       <replace>simSettn.jdostype</replace>
@@ -544,7 +541,7 @@
       <workItem from="1499351090615" duration="723000" />
       <workItem from="1499446414240" duration="8189000" />
       <workItem from="1499528690324" duration="3159000" />
-      <workItem from="1506514918764" duration="5609000" />
+      <workItem from="1506514918764" duration="6796000" />
     </task>
     <task id="LOCAL-00001" summary="refletran edit">
       <created>1446804617733</created>
@@ -557,7 +554,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2930576000" />
+    <option name="totallyTimeSpent" value="2931763000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -992,8 +989,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jv-mngo-tree/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="1036" column="61" lean-forward="true" selection-start-line="1036" selection-start-column="61" selection-end-line="1036" selection-end-column="61" />
+        <state relative-caret-position="218">
+          <caret line="1038" column="65" lean-forward="true" selection-start-line="1038" selection-start-column="65" selection-end-line="1038" selection-end-column="65" />
           <folding />
         </state>
       </provider>
