@@ -37,8 +37,7 @@ $("#mongoDialForm").dialog({
     modal: false,
     buttons: [
         //Button1: this button is always available for cancelling file operations (Open or Save)
-        {
-            id: 'btnMngoCancel',
+        {   id: 'btnMngoCancel',
             text: "Cancel",
             "class": 'medium-btn',
             click: function () {
@@ -46,20 +45,24 @@ $("#mongoDialForm").dialog({
                 $('#mongoTree').jstree('close_all');
                 $('#FilTreLege').text('Files available on server:');
                 var otsikko=$(this).dialog('option','title');
-                var openMeas=$('#radioMeas').prop('checked');
+                //var openMeas=$('#radioMeas').prop('checked');
                 var dialoogi = $('#settnDial').dialog('option', 'title');
-                if (dialoogi == 'Inhomogeneous spectrum' && openMeas) {
+                console.log('dialoogi:',dialoogi);
+                if (dialoogi == 'Inhomogeneous spectrum') {
                     //cancel nappula tyhjentää inhomogeneous experimental spektrin
                     //jos experimental on valittuna radiobuttoneista
-                    inhomSpectr.experPlot = [];
-                    inhomSpectr.experArr = [];
-                    graphSettn.inhomFileN = '';
-                    $('#inhDescLbl').css('display', 'none');
-                    $('#inhDesc').css('display', 'none');
-                    $('#inhDesc').html('');
-                    makeExpArrs();
-                    inhombr();
-                } else if (dialoogi == 'Homogeneous spectrum' && openMeas) {
+                    var txt;
+                    if (confirm("Clear inhomog. graph!") == true) {
+                        inhomSpectr.experPlot = [];
+                        inhomSpectr.experArr = [];
+                        graphSettn.inhomFileN = '';
+                        $('#inhDescLbl').css('display', 'none');
+                        $('#inhDesc').css('display', 'none');
+                        $('#inhDesc').html('');
+                        makeExpArrs();
+                        inhombr();
+                    }
+                else if (dialoogi == 'Homogeneous spectrum' && openMeas) {
                     //cancel nappula tyhjentää homogeneous experimental spektrin
                     //jos experimental on valittuna radiobuttoneista
                     homSpectr.experPlot = [];
@@ -71,7 +74,8 @@ $("#mongoDialForm").dialog({
                     makeExpArrs();
                     hombr();
                 }
-                $(this).dialog("close");
+                    $(this).dialog("close");
+                }
             }
         },
         //Button2: this button is available if user has logged in, providing logg off and re-login

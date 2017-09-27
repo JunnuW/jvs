@@ -1035,7 +1035,7 @@ exports.checkAllMessa=function(req,res,callBfun){
                         parnts.sort(function (a, b) {
                             if (a.fName > b.fName) return 1;
                             if (a.fName < b.fName) return -1;
-                            (a.dateRec > b.dateRec); //identical names sorted by recording date
+                            if (a.dateRec > b.dateRec) return -1; //identical names sorted by recording date
                         });
                         var parnt = parnts[0]._id; //select the first candidate
                         drTree.push({
